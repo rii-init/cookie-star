@@ -1,2 +1,2 @@
 # ultr7a.com
-WIP Personal Website
+WIP CV + Multimedia Journal Website

@@ -1,0 +1,39 @@
+{
+  "name": "ultr7a.com",
+  "version": "1.0.0",
+  "description": "CV + multimedia journal website for ultr7a.com",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ultr7A/ultr7A.com.git"
+  },
+  "keywords": [
+    "vr",
+    "cv",
+    "multimedia",
+    "journal",
+    "website",
+    "ultr7a"
+  ],
+  "author": "ultr7a.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ultr7A/ultr7A.com/issues"
+  },
+  "homepage": "https://github.com/ultr7A/ultr7A.com#readme",
+  "dependencies": {
+    "@react-three/drei": "^9.38.1",
+    "react": "^18.2.0",
+    "react-spring": "^9.5.5",
+    "react-three-fiber": "^6.0.13"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "sass": "^1.55.0"
+  }
+}
