@@ -2,6 +2,7 @@
   "name": "ultr7a.com",
   "version": "1.0.0",
   "description": "CV + multimedia journal website for ultr7a.com",
+  "private": true,
   "main": "dist/index.js",
   "scripts": {
     "test": "jest"
@@ -25,7 +26,10 @@
   },
   "homepage": "https://github.com/ultr7A/ultr7A.com#readme",
   "dependencies": {
+    "@react-three/cannon": "^6.4.0",
     "@react-three/drei": "^9.38.1",
+    "@react-three/xr": "^5.0.4",
+    "@use-gesture/vanilla": "^10.2.20",
     "react": "^18.2.0",
     "react-spring": "^9.5.5",
     "react-three-fiber": "^6.0.13"
@@ -34,6 +38,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/three": "^0.144.0",
     "sass": "^1.55.0"
   }
 }

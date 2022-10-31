@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@react-three/fiber": "^8.8.10",
+    "web-vitals": "^3.0.4"
+  }
+}
