@@ -8,9 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Yas!")
-
-	fmt.Println("I am using the internet!")
+	fmt.Println("Starting ultr7a.com on port 8080")
 
 	r := setupRouter()
 	_ = r.Run(":8080")
