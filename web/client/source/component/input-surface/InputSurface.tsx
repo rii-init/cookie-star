@@ -9,7 +9,7 @@ export function InputSurface(props: InputProps) {
             <div className="input-surface">
                 <input id={surface_uuid} 
                      type={props?.variant} 
-                 onChange={(evt) => props.onChange(evt) } 
+                 onChange={(evt) => props.onChange(evt.target.value) } 
                 />
                 <label htmlFor={surface_uuid}>
                     {props.label}
