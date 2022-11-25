@@ -1,14 +1,17 @@
 package ctl
 
+// "gorm-test/database"
+// "gorm-test/model"
 import (
 	"errors"
-	"gorm-test/database"
-	"gorm-test/models"
+
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	database "ultr7a.com/db"
+	model "ultr7a.com/model"
 )
 
 type UserRepo struct {
@@ -17,15 +20,15 @@ type UserRepo struct {
 
 func New() *UserRepo {
 	db := database.InitDb()
-	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&model.User{})
 	return &UserRepo{Db: db}
 }
 
 //create user
 func (repository *UserRepo) CreateUser(c *gin.Context) {
-	var user models.User
+	var user model.User
 	c.BindJSON(&user)
-	err := models.CreateUser(repository.Db, &user)
+	err := model.CreateUser(repository.Db, &user)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
@@ -35,8 +38,8 @@ func (repository *UserRepo) CreateUser(c *gin.Context) {
 
 //get users
 func (repository *UserRepo) GetUsers(c *gin.Context) {
-	var user []models.User
-	err := models.GetUsers(repository.Db, &user)
+	var user []model.User
+	err := model.GetUsers(repository.Db, &user)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
@@ -47,8 +50,8 @@ func (repository *UserRepo) GetUsers(c *gin.Context) {
 //get user by id
 func (repository *UserRepo) GetUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	var user models.User
-	err := models.GetUser(repository.Db, &user, id)
+	var user model.User
+	err := model.GetUser(repository.Db, &user, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -63,9 +66,9 @@ func (repository *UserRepo) GetUser(c *gin.Context) {
 
 // update user
 func (repository *UserRepo) UpdateUser(c *gin.Context) {
-	var user models.User
+	var user model.User
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := models.GetUser(repository.Db, &user, id)
+	err := model.GetUser(repository.Db, &user, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -76,7 +79,7 @@ func (repository *UserRepo) UpdateUser(c *gin.Context) {
 		return
 	}
 	c.BindJSON(&user)
-	err = models.UpdateUser(repository.Db, &user)
+	err = model.UpdateUser(repository.Db, &user)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
@@ -86,9 +89,9 @@ func (repository *UserRepo) UpdateUser(c *gin.Context) {
 
 // delete user
 func (repository *UserRepo) DeleteUser(c *gin.Context) {
-	var user models.User
+	var user model.User
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := models.DeleteUser(repository.Db, &user, id)
+	err := model.DeleteUser(repository.Db, &user, id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return

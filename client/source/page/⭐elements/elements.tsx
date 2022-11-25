@@ -1,10 +1,10 @@
 import React from "react"
 
 
-export const design_system = () => {
+export const elements = () => {
     return (
         <div>
-            <h1>Design System</h1>
+            <h1>Elements</h1>
         </div>
     )
 }
