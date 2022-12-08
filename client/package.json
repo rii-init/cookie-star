@@ -1,44 +1,47 @@
 {
   "name": "ultr7a.com",
-  "version": "1.0.0",
-  "description": "CV + multimedia journal website for ultr7a.com",
+  "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ultr7A/ultr7A.com.git"
-  },
-  "keywords": [
-    "vr",
-    "cv",
-    "multimedia",
-    "journal",
-    "website",
-    "ultr7a"
-  ],
-  "author": "ultr7a.com",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ultr7A/ultr7A.com/issues"
-  },
-  "homepage": "https://github.com/ultr7A/ultr7A.com#readme",
   "dependencies": {
-    "@react-three/cannon": "^6.4.0",
-    "@react-three/drei": "^9.38.1",
-    "@react-three/xr": "^5.0.4",
-    "@use-gesture/vanilla": "^10.2.20",
-    "react": "^18.2.0",
-    "react-spring": "^9.5.5",
-    "react-three-fiber": "^6.0.13"
-  },
-  "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@types/three": "^0.144.0",
-    "sass": "^1.55.0"
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.3",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.3",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@react-three/test-renderer": "^8.0.17",
+    "@types/three": "^0.146.0"
   }
 }
