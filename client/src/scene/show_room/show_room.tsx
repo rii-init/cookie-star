@@ -1,7 +1,7 @@
 import React from "react"
 
 
-export const cv = () => {
+export const show_room = () => {
     return (
         <div>
             <h1>CV</h1>

@@ -1,10 +1,10 @@
 import React from "react"
 
 
-export const elements = () => {
+export const nature = () => {
     return (
         <div>
-            <h1>Elements</h1>
+            <h1>Nature</h1>
         </div>
     )
 }
