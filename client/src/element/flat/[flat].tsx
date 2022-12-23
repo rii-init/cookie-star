@@ -14,10 +14,13 @@ export interface FlatProps {
 export let Flat = (props: FlatProps) => {
         
         return (
-            <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, 1]}>
+            <mesh position={[0, 0, 0]          } 
+                  rotation={[Math.PI / 2, 0, 0]} 
+                     scale={[1, 1, 1]          }>
       
                 <planeBufferGeometry />            
-                <meshBasicMaterial color="green" side={DoubleSide} />
+                <meshBasicMaterial color="green" 
+                                   side={DoubleSide} />
             </mesh>
         );
     
