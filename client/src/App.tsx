@@ -2,11 +2,11 @@ import React from 'react';
 import { Link, Route } from "wouter";
 
 import './App.css';
-import { conference_centre } from './scene/conference_centre/conference_centre';
-import { main } from './scene/home/main';
-import { tools } from './scene/lab/lab';
-import { nature } from './scene/nature/nature';
-import { show_room } from './scene/show_room/show_room';
+import { conference_centre } from './400_scene/conference_centre/conference_centre';
+import { main }              from './400_scene/home/main';
+import { tools }             from './400_scene/lab/lab';
+import { nature }            from './400_scene/nature/nature';
+import { show_room }         from './400_scene/show_room/show_room';
 
 function App() {
   return (

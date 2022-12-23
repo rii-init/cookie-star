@@ -1,5 +1,5 @@
 import React from "react";
-import { Flat } from "../[flat]";
+import { Flat } from "../../../100_element/flat/[flat]";
 import { ContentProps } from "./ContentSurface.props";
 
 

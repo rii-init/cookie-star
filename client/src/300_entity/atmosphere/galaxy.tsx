@@ -1,4 +1,4 @@
-import { Star } from "../../element/circle/sphere/manifold/star"
+import { Star } from "../../100_element/circle/sphere/manifold/star"
 
 export let galaxy = () => {
     return (

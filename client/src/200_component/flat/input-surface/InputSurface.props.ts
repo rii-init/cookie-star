@@ -1,4 +1,4 @@
-import { IOSurface } from "../../../idea/io+surface";
+import { IOSurface } from "../../../000_concept/io+surface";
 
 export interface InputProps<V = string> extends IOSurface {
     onChange: (value: V) => void;
