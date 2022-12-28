@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <Link href="/">
-        <a className="nav-item">🐈</a>
+        <a className="nav-item">🐈 {/**   Oh my!! LogOwO Here!!! UwU   **/}</a>
       </Link>
       <Link href="/elements">
         <a className="nav-item">Elements</a>
