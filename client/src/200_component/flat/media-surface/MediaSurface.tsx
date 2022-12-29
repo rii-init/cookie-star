@@ -1,4 +1,4 @@
-import { Flat } from "../[flat]";
+import { Flat } from "../../../100_element/flat/[flat]";
 
 export interface MediaProps {
     image: string;
