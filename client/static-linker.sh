@@ -1,10 +1,15 @@
 
-echo "Linking static files...";
+# echo "Linking static files...";
 
-pages="$(find . | grep -E "dist/.*/index.htm")"
+# pages="$(find . | grep -E "build/.*/index.htm")"
 
 
-# Modify Main Page:
+function get_bundle_src() {
+      echo "$(cat build/index.html | grep -E -o "/static/$1/main.*\.$1")"
+}
+
+
+# # Modify Main Page:
       
 # Get    Element of Main JS Bundle: 
 main_js=$(cat build/index.html | grep -E -o  '<script.*src="(.*main.*)"></script>')
@@ -23,14 +28,14 @@ sed -i  "s|<link css_async rel=\"stylesheet\">|<link href=\"$main_css\" rel=\"st
 
 for page in $pages
 do
+      
       echo "Linking page: [ $page ]";
       
-
       # link JS bundle:
-      sed -i "s|/static/js/main.js|$(cat build/index.html | grep -E -o '/static/js/main.*\.js')|"  "$page";
+      sed -i "s|/static/js/main.js|$(get_bundle_src js)|"  "$page";
 
       # Link CSS bundle:
-      sed -i "s|/static/css/main.css|$(cat build/index.html | grep -E -o '/static/css/main.*\.css')|"  "$page";
+      sed -i "s|/static/css/main.css|$(get_bundle_src css)|"  "$page";
 
 done
 
