@@ -1,7 +1,7 @@
 
 # echo "Linking static files...";
 
-# pages="$(find . | grep -E "build/.*/index.htm")"
+pages="$(find . | grep -E "build/.*/index.htm")"
 
 
 function get_bundle_src() {
@@ -32,7 +32,7 @@ do
       echo "Linking page: [ $page ]";
       
       # link JS bundle:
-      sed -i "s|/static/js/main.js|$(get_bundle_src js)|"  "$page";
+      sed -i "s|/static/js/main.js|$(get_bundle_src js)|"     "$page";
 
       # Link CSS bundle:
       sed -i "s|/static/css/main.css|$(get_bundle_src css)|"  "$page";
