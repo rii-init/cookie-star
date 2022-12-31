@@ -1,11 +1,5 @@
 #!/bin/bash
 
-function get_bundle_src() {
-      echo `cat build/index.html | grep -E -o "/static/$1/main.*\.$1"`
-}
-
-# Identify pages to static link:
-pages="$(find . | grep -E "build/.*/index.htm")"
 
 
 # Move Minimal CSS Bundle:
@@ -32,3 +26,22 @@ echo "Linking: Main Page: main_css== $main_css";
 sed -i  "s|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">||" build/index.html;
 ## Add    Element of Main CSS Bundle to   <body>:
 sed -i  "s|<css_async/>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"                  build/index.html;
+
+
+
+# Identify pages to static link:
+pages="$(find . | grep -E "build/.*/index.htm")"
+
+
+for page in $pages
+do
+      
+      echo "Linking page: [ $page ]";
+      
+      # Link JS bundle:
+      sed -i "s|/static/js/main.js|/static/js/$main_js|" $page
+
+      # Link CSS bundle:
+      sed -i "s|/static/css/main.css|/static/css/$main_css|"  "$page";
+
+done
