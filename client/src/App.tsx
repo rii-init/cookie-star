@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route } from "wouter";
+import { useLocation, Link, Route } from "wouter";
 
 import './App.css';
 import { conference_centre } from './400_scene/conference_centre/conference_centre';
@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <Link href="/">
-        <a className="nav-item">🐈 {/**   Oh my!! LogOwO Here!!! UwU   **/}</a>
+        <a className="nav-item">🐈 </a>
       </Link>
       <Link href="/elements">
         <a className="nav-item">Elements</a>
