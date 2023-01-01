@@ -41,6 +41,9 @@ section div.ds_combinations {
     vertical-align: top;
 }
 
+p {
+ padding: 1em;   
+}
 
 h1 {
     text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
