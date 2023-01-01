@@ -1,3 +1,7 @@
+html{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 body {
 
     padding: 0;
@@ -19,7 +23,46 @@ main {
     min-height: 320px;
 }
 
+section {
+    display: inline-block;
+}
+
+section div.ds_combinations {
+    display: inline-block;
+    width: 33%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.shape {
+    display: inline-block;
+    padding: 1em;
+    vertical-align: top;
+}
+
+
 h1 {
     text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
 }
-  
+
+.fw-page h1 {
+    padding-left: 1em;
+    color: white;
+}
+
+h2 {
+    color: #b2b2b2;
+    padding-left: 1.3em;
+    text-shadow: 0px 1px 1px #00000000;
+    background: white;
+    box-shadow: inset -1px 1px 4px 2px #00000036;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.shape h3 {
+    color: #ff6acf;
+    background: white;
+    padding: 0.5em;
+}  
