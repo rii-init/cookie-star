@@ -1,6 +1,3 @@
-#!/bin/bash
-
-
 
 # Move Minimal CSS Bundle:
 mv build/minimal.css build/static/css/minimal.css; 

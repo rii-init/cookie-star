@@ -1,8 +1,8 @@
 
-export const main = () => {
+export const tools = () => {
     return (
         <>
-        <h1>Ultr7A</h1>
+        <h1>Tool</h1>
         <main>
             
         </main>
