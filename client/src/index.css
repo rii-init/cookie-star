@@ -22,9 +22,32 @@ code {
 
 header div a {
   padding: 1em;
+  cursor: pointer;
+}
+
+header div a:hover {
+  color: #ff21d640;
+  padding: 1em;
 }
 
 header div a.active {
-  background: #fff0f4;
+  color: #ff21d620;
   padding: 1em;
+}
+
+::selection {
+  background: #ff21d620;
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 0em;
+  background: #0000;
+}
+
+::-webkit-scrollbar-track {
+  background: #0000
+}
+::-webkit-scrollbar-button {
+  background: #0000
 }
