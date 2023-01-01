@@ -1,10 +1,10 @@
-import React from "react"
+import { LoadContent } from "../../load_content"
 
 
 export const nature = () => {
     return (
-        <div>
-            <h1>Nature</h1>
-        </div>
+        <main>
+            { LoadContent.getMain() }
+        </main>
     )
 }
