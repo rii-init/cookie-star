@@ -1,10 +1,10 @@
-import React from "react"
+import { LoadContent } from "../../load_content"
 
 
 export const tools = () => {
     return (
-        <div>
-            <h1>Tool[]</h1>
-        </div>
+        <main>
+            { LoadContent.getMain() }
+        </main>
     )
 }

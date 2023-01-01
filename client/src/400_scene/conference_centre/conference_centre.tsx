@@ -1,9 +1,9 @@
-import React from 'react';
+import { LoadContent } from "../../load_content";
 
 export let conference_centre = () => {
     return (
-        <div className="contact">
-            <h1>Contact</h1>
-        </div>
+        <main>
+            { LoadContent.getMain() }
+        </main>
     );
 }
