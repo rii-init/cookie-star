@@ -8,19 +8,27 @@ import { tools }             from './400_scene/lab/lab';
 import { nature }            from './400_scene/nature/nature';
 import { show_room }         from './400_scene/show_room/show_room';
 
+
+const CurrentLocation = () => {
+  const [location, setLocation] = useLocation();
+
+  return (
+    <div className="navigation">
+      <a className={ location == "/"         ? "active" : "" } onClick={() => setLocation("/")}>🐈</a>
+      <a className={ location == "/cv"       ? "active" : "" } onClick={() => setLocation("/cv")}>CV</a>
+      <a className={ location == "/tools"    ? "active" : "" } onClick={() => setLocation("/tools")}>Tools</a>
+      <a className={ location == "/contact"  ? "active" : "" } onClick={() => setLocation("/contact")}>Contact</a>
+      <a className={ location == "/elements" ? "active" : "" } onClick={() => setLocation("/elements")}>Elements</a>
+    </div>
+  );
+};
+
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <Link href="/">
-        <a className="nav-item">🐈 </a>
-      </Link>
-      <Link href="/elements">
-        <a className="nav-item">Elements</a>
-      </Link>
-      <Link href="/">
-        <a className="nav-item">Tools</a>
-      </Link>
+        <CurrentLocation />
       </header>
       <article>
         <Route      path="/"         component={main}   />
