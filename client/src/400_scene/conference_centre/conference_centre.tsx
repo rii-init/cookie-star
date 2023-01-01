@@ -1,9 +1,9 @@
-import { LoadContent } from "../../load_content";
+import { Transport } from "../../content_transport";
 
 export let conference_centre = () => {
     return (
         <main>
-            { LoadContent.getMain() }
+            { Transport.getMain() }
         </main>
     );
 }

@@ -1,10 +1,10 @@
-import { LoadContent } from "../../load_content"
+import { Transport } from "../../content_transport"
 
 
 export const main = () => {
     return (
         <main>
-            { LoadContent.getMain() }
+            { Transport.getMain() }
         </main>
     )
 }
