@@ -31,7 +31,7 @@ do
     
     echo "HTML_PATH == $HTML_PATH";
 
-    #sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|"  "$HTML_PATH"
+    sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|"  "$HTML_PATH"
 
     echo "MAIN_TEXT == $main_text";
     #echo "$main_text" > "MAIN_TEXT_FILE"
