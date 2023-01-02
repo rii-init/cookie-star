@@ -25,10 +25,10 @@ do
     # # Copy [[JSX content] heading] into [[static page] heading]:
     # # Copy [[JSX content] main]    into [[static page] main]:
     
-    HTML_PATH="$CLIENT_PATH/public/$HTML_NAME/index.html";
+    HTML_PATH="$CLIENT_PATH/build/$HTML_NAME/index.html";
 
     if [ "home" == "$HTML_NAME" ]; then
-        HTML_PATH="$CLIENT_PATH/public/index.html";
+        HTML_PATH="$CLIENT_PATH/build/index.html";
     fi
 
     
@@ -36,10 +36,11 @@ do
 
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|"  "$HTML_PATH"
 
+
+    echo "The bottom of the sandwich is... $bottom_bread";
+
     echo "$main_text"    >> "$HTML_PATH";
-    echo "$bottom_bread" >> "$HTML_PATH;
-    
-    #sed -i "s|<div data-jsx-main></div>|$main_text|" "$HTML_PATH"
+    echo "$bottom_bread" >> "$HTML_PATH";
     
 done
 
