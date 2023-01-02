@@ -1,5 +1,8 @@
 #!/bin/bash
 CLIENT_PATH="$PWD";
+
+bottom_bread="$(cat template/sandwich/bottom.html)";
+
 cd src/400_scene;
 
 # Identify static pages to copy jsx content into:
@@ -33,11 +36,9 @@ do
 
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|"  "$HTML_PATH"
 
-    echo "MAIN_TEXT == $main_text";
-    #echo "$main_text" > "MAIN_TEXT_FILE"
-
-   
-
+    echo "$main_text"    >> "$HTML_PATH";
+    echo "$bottom_bread" >> "$HTML_PATH;
+    
     #sed -i "s|<div data-jsx-main></div>|$main_text|" "$HTML_PATH"
     
 done
