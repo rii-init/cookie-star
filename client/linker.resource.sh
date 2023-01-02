@@ -5,7 +5,6 @@ mv build/minimal.css build/static/css/minimal.css;
 
 # # Modify Main Page:      
 echo "Linking RESOURCES:"
-echo "🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆"
 # Get    Element of Main JS Bundle: 
 main_js=$(cat build/index.html | grep -Eo "main\..*\.js");
 echo "Linking: Main Page: main_js== $main_js";
@@ -16,7 +15,6 @@ sed -i  "s|<script defer=\"defer\" src=\"/static/js/$main_js\"></script>||" buil
 sed -i  "s|<js_async/>|<script src=\"/static/js/$main_js\"></script>|"  build/index.html;
 
 echo "Linking RESOURCES:"
-echo "🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆"
 # Get    Element of Main CSS Bundle:
 main_css=$(cat build/index.html | grep -Eo  'main\..*\.css');
 echo "Linking: Main Page: main_css== $main_css";
@@ -32,7 +30,6 @@ sed -i  "s|<css_async/>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">
 pages="$(find . | grep -E "build/.*/index.htm")"
 
 echo "Linking RESOURCES:"
-echo "🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆🦆"
 for page in $pages
 do
       
