@@ -25,3 +25,20 @@ sed -i  "s|<js_async/>|<script src=\"/static/js/$main_js\"></script>|"  build/in
 sed -i  "s|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">||" build/index.html;
 ## Add    Element of Main CSS Bundle to   <body>:
 sed -i  "s|<css_async/>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"                  build/index.html;
+
+# Identify pages to static link:
+pages="$(find . | grep -E "build/.*/index.htm")"
+
+echo "Linking RESOURCES:"
+for page in $pages
+do
+      
+      echo "Linking page: [ $page ]";
+      
+      #Link JS bundle:
+      sed -i "s|<js_async/>|<script src=\"/static/js/$main_js\"></script>|" $page
+
+      #Link CSS bundle:
+      sed -i "s|<css_async/>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"  "$page";
+
+done
