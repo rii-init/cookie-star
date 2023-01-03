@@ -18,9 +18,17 @@ do
     HTML_NAME=$(echo $page | grep -Eo "([a-zA-Z0-9_]+)" | head -n 1);
     JSX_NAME=$(echo $page  | grep -Eo "([a-zA-Z0-9_]+)" | tail -n 2 | head -n 1);
 
+    echo "-------------------------------"
+    echo "HTML_NAME: $HTML_NAME";
+    echo "JSX_NAME:  $JSX_NAME";
+
     # Get JSX content:
     heading_text="$(cat "$HTML_NAME/$JSX_NAME.tsx" | grep -Eo "<h1>.*</h1>" )" 
     main_text="$(awk '/<main>/,/<\/main>/' "$HTML_NAME/$JSX_NAME.tsx" )"    
+
+    echo "heading_text: $heading_text";
+    echo "main_text: $main_text";
+    echo "-------------------------------"
 
  
     HTML_PATH="$CLIENT_PATH/build/$HTML_NAME/index.html";
