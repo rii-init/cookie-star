@@ -25,7 +25,7 @@ sed -i  "s|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">||" build/ind
 sed -i  "s|<css_async/>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"                  build/index.html;
 
 
-Identify pages to static link:
+# Identify pages to static link:
 pages="$(find . | grep -E "build/.*/index.htm")"
 
 echo "Linking RESOURCES:"
