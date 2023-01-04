@@ -11,5 +11,5 @@ export interface Living {
     velocity:        THREE.Vector3,
     angularVelocity: THREE.Quaternion,
         
-    form:            JSX.IntrinsicElements["mesh"]
+    embodyment:      JSX.IntrinsicElements["mesh"]
 }

@@ -25,6 +25,6 @@ export class LivingOwO implements Living {
     public velocity:        THREE.Vector3;
     public angularVelocity: THREE.Quaternion;
         
-    public embodyment:      THREE.Object3D;
+    public embodyment:      JSX.IntrinsicElements["mesh"]
 
 }
