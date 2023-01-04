@@ -1,9 +1,9 @@
-import { ColorScheme } from "../color-scheme";
+import { ColorScheme, VisualTheme } from "../color-scheme";
 
-export const LightHighContrast: ColorScheme = {
-    foreground: "#2aa9fd",
-    background: "#f7faff",
-    accent:     "#fcbbff",
-    accent2:    "#910094",
-    accent3:    "#ffd261",
-}
+export const LightHighContrast = new VisualTheme({
+    _foreground: "#2aa9fd",
+    _background: "#f7faff",
+    _accent:     "#fcbbff",
+    _accent2:    "#910094",
+    _accent3:    "#ffd261",
+})

@@ -21,8 +21,7 @@ func setupRouter() *gin.Engine {
 		c.JSON(http.StatusOK, "pong")
 	})
 
-	r.Static("/static", "../client/build/static")
-	r.StaticFile("/", "../client/build/index.html")
+	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
 
 	return r
 }

@@ -3,7 +3,7 @@ CLIENT_PATH="$PWD";
 
 bottom_bread="$(cat template/sandwich/bottom.html)";
 
-cd src/400_scene;
+cd src/0400_scene;
 
 # Identify static pages to copy jsx content into:
 pages="$(find . | grep -E ".*/.*.tsx")"

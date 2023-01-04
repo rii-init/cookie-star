@@ -1,5 +1,5 @@
-import { ColorScheme }      from "../1000_aesthetic/color-scheme";
-import { DarkHighContrast } from "../1000_aesthetic/scheme/dark-high-contrast";
+import { ColorScheme, VisualTheme } from "../1000_aesthetic/color-scheme";
+import { DarkHighContrast }         from "../1000_aesthetic/scheme/dark-high-contrast";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -10,11 +10,10 @@ export class Universe {
 
     // Love <3
 
-    public static colors: ColorScheme = DarkHighContrast;
+    public static colors: VisualTheme = DarkHighContrast;
 
     public static net_transport: any = null;
     public static ctx_three:     any = null;
 
     public static user_controls: any = null;
-
 }
