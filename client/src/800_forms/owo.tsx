@@ -1,3 +1,4 @@
+import { Mesh } from "three";
 
 /****
  * 
