@@ -66,3 +66,12 @@ h2 {
     background: white;
     padding: 0.5em;
 }  
+
+
+.fullScreen {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }

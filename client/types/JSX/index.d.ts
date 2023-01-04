@@ -7,5 +7,6 @@ declare module JSX {
         "planeBufferGeometry": any,
         "octahedronGeometry": any,
         "meshBasicMaterial": any,
+        "Canvas": any,
     }
 }

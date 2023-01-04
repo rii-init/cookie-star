@@ -50,9 +50,15 @@
 
 }
 
-
-
-
 h1 {
   text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
+}
+
+
+.fullScreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
