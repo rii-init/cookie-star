@@ -1,14 +1,10 @@
-import { Mesh } from "three";
-
-/****
+/***
  * 
- *  OwO - an UwU's best friend
- * 
- *  Example:  <OwO/>\<UwU/>\<OwO/>
- *  
+ * I fight for the UwU/
  * 
  */
-export const OwO = function() {
+
+export const UwU = function() {
 
     return (
         <mesh>
@@ -16,7 +12,7 @@ export const OwO = function() {
                                  args={[3, 3, 3]} 
             />
             <meshBasicMaterial attach="material"
-                                color="#c3aaff" 
+                                color="#f0a0ff" 
             />
         </mesh>
     );
