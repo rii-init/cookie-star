@@ -4,7 +4,7 @@
  * Such is Life.
  * 
  */
-export interface Living {
+export interface Living<Ego> {
     name:             string,
     biography: Record<string, any>,
 
@@ -12,4 +12,6 @@ export interface Living {
     angularVelocity: THREE.Quaternion,
         
     embodyment:      JSX.IntrinsicElements["mesh"]
+    
+    setEgo(ego: Ego): void;
 }

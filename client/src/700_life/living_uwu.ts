@@ -1,6 +1,7 @@
 
 import THREE from "three";
 import { UwUid } from "../000/util";
+import { Self } from "../000_concept/self";
 import { Living } from "./living";
 
 /**
@@ -8,11 +9,15 @@ import { Living } from "./living";
  * UwU
  * 
  */
-export class LivingUwU implements Living {
+export class LivingUwU implements Living<Self<any>> {
     
+    public setEgo(ego: Self<any>) {
+        ego.register(this); 
+    }
+
     constructor(
         id:     string = UwUid(),
-        living: Living
+        living: Living<Self<any>>
     ) { 
         this.name            = living.name;  
         this.biography       = living.biography; 
@@ -21,11 +26,10 @@ export class LivingUwU implements Living {
         this.embodyment      = living.embodyment; 
     }
 
-    public name:             string;
-    public biography: Record<string, any>;
-
-    public velocity:        THREE.Vector3;
-    public angularVelocity: THREE.Quaternion;       
-    public embodyment:      JSX.IntrinsicElements["mesh"]
-
+    private ego:             Self<any> | null = null;
+    public  velocity:        THREE.Vector3;
+    public  angularVelocity: THREE.Quaternion;       
+    public  embodyment:      JSX.IntrinsicElements["mesh"]
+    public  name:             string;
+    public  biography: Record<string, any>;
 }

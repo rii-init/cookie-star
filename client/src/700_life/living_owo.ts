@@ -1,5 +1,6 @@
 import THREE from "three";
 import { UwUid } from "../000/util";
+import { Ego } from "../000_concept/ego";
 import { Living } from "./living";
 
 /**
@@ -7,16 +8,20 @@ import { Living } from "./living";
  *  OwO ..what's dis? 
  * 
  */
-export class LivingOwO implements Living {
+export class LivingOwO implements Living<Ego> {
     
     constructor(
-        living: Living
+        living: Living<Ego>
     ) { 
         this.name            = living.name;  
         this.biography       = living.biography; 
         this.velocity        = living.velocity; 
         this.angularVelocity = living.angularVelocity; 
         this.embodyment      = living.embodyment; 
+    }
+
+    setEgo(ego: Ego): void {
+        ego.register(this);
     }
 
     public name:             string;
