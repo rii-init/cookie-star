@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { KeyboardState, onKeyDown, onKeyUp } from "./keyboard.control";
+import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 
 export interface UserControlsProps {
@@ -16,16 +16,14 @@ export let UserControls = function(props: UserControlsProps) {
 
     useEffect(()=>{
 
-        document.addEventListener("keydown", (evt) => onKeyDown(evt))
-        document.addEventListener("keyup",   (evt) => onKeyUp(evt))
+        MotorCortex.keys.init();
+        MotorCortex.mouse.init();
     
-        
-
     }, [])
     
-    useFrame(() => {
+    useFrame((ctx3) => {
     
-        
+            console.log("useFrame()", ctx3);
 
     })
 
