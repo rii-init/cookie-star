@@ -17,13 +17,10 @@ import { Canvas } from '@react-three/fiber';
 import { LilacBox } from './0300_entity/lilac-box';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
-import { DarkHighContrast } from './1000_aesthetic/scheme/dark-high-contrast';
+
 
 let ctx3: any = null;
 const R3FCanvas = Canvas as any;
-
-debugger;
-const darkTheme = DarkHighContrast;
 
 
 function App() {
@@ -50,7 +47,6 @@ function App() {
                 (ctx)=> { 
                     ctx3 = ctx;
                     ctx3.gl.setPixelRatio(window.devicePixelRatio || 1)
-                    //console.log("ThreeJSContext: ", ctx);
                 }} 
             />
 

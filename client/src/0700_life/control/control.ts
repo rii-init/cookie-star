@@ -1,7 +1,6 @@
-import { PointerLockControls } from "@react-three/drei";
-import { Universe } from "../0000_concept/universe";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { KeyboardState, onKeyDown, onKeyUp } from "./keyboard.control";
 
 export interface UserControlsProps {
     callback: (ctx: any) => void;
@@ -10,19 +9,17 @@ export interface UserControlsProps {
 export class MotorCortex {
     
     public static isLocked: boolean = false;
-    public static keys = {
-        w: false,
-        a: false,
-        s: false,
-        d: false,
-        space: false,
-        shift: false,
-        ctrl: false
-    }
+    public static keys = new KeyboardState();
     
 }
 
 export let UserControls = function(props: UserControlsProps) {
+
+    useEffect(()=>{
+        document.addEventListener("keydown", (evt) => onKeyDown(evt))
+        document.addEventListener("keyup", (evt)   => onKeyUp(evt))
+    }, [])
+    
 
     const controlsRef = useRef();
     const isLocked = useRef(false);
@@ -30,7 +27,7 @@ export let UserControls = function(props: UserControlsProps) {
     useFrame(() => {
     
         
-    
+        
     })
 
 }
