@@ -45,8 +45,9 @@ function App() {
 
             <ThreeJSContext callback={
                 (ctx)=> { 
-                    ctx3 = ctx;
-                    ctx3.gl.setPixelRatio(window.devicePixelRatio || 1)
+                    Universe.ctx3 = ctx;
+                    
+                    ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
                 }} 
             />
 

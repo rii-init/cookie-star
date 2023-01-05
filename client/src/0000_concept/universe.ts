@@ -1,6 +1,8 @@
+import { PerspectiveCamera } from "three";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/color-scheme";
 import { DarkHighContrast } from "../1000_aesthetic/scheme/dark-high-contrast";
+import { LightHighContrast } from "../1000_aesthetic/scheme/light-high-contrast";
 import { Ego } from "./ego";
 
 /***    ⭐       🪐✨
@@ -10,12 +12,15 @@ import { Ego } from "./ego";
  */ 
 export class Universe { 
 
-    // Love <3
+    public static Love() {
 
-    public static colors: VisualTheme = DarkHighContrast;
+    }
+
+    public static colors: VisualTheme = LightHighContrast;
 
     public static net_transport: any; // TODO
-    public static ctx_three:     any;
+    public static ctx3:          any;
+    public static camera:        PerspectiveCamera;
 
     public static user_controls: Ego;
     public static user:          LivingUwU;
