@@ -30,7 +30,6 @@ function App() {
   useEffect(() => {
       ProgressiveEnhance.LoadHeading();
       ProgressiveEnhance.LoadMain();
-      
   }, []);
 
   useFrame((state, delta) => {
