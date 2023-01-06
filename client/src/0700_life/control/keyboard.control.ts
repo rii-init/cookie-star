@@ -1,7 +1,5 @@
 import { MotorCortex } from "./control";
 
-const keys = MotorCortex.keys;
-
 export class KeyboardState {
     public w:     boolean = false;
     public a:     boolean = false;
@@ -24,39 +22,39 @@ export class KeyboardState {
 
     onKeyDown(evt: KeyboardEvent) {
         switch (evt.key) {
-            case "w":       keys.w     = true; break;
-            case "a":       keys.a     = true; break;
-            case "s":       keys.s     = true; break;
-            case "d":       keys.d     = true; break;
+            case "w":       this.w     = true; break;
+            case "a":       this.a     = true; break;
+            case "s":       this.s     = true; break;
+            case "d":       this.d     = true; break;
 
-            case "r":       keys.r     = true; break;
-            case "f":       keys.f     = true; break;
+            case "r":       this.r     = true; break;
+            case "f":       this.f     = true; break;
             
-            case "q":       keys.q     = true; break;
-            case "e":       keys.e     = true; break;
+            case "q":       this.q     = true; break;
+            case "e":       this.e     = true; break;
 
-            case " ":       keys.space = true; break;
-            case "Shift":   keys.shift = true; break;
-            case "Control": keys.ctrl  = true; break;
+            case " ":       this.space = true; break;
+            case "Shift":   this.shift = true; break;
+            case "Control": this.ctrl  = true; break;
         }   
     }
     
     onKeyUp(evt: KeyboardEvent) {
         switch (evt.key) {
-            case "w":       keys.w     = false; break;
-            case "a":       keys.a     = false; break;
-            case "s":       keys.s     = false; break;
-            case "d":       keys.d     = false; break;
+            case "w":       this.w     = false; break;
+            case "a":       this.a     = false; break;
+            case "s":       this.s     = false; break;
+            case "d":       this.d     = false; break;
 
-            case "r":       keys.r     = false; break;
-            case "f":       keys.f     = false; break;
+            case "r":       this.r     = false; break;
+            case "f":       this.f     = false; break;
 
-            case "q":       keys.q     = false; break;
-            case "e":       keys.e     = false; break;
+            case "q":       this.q     = false; break;
+            case "e":       this.e     = false; break;
 
-            case " ":       keys.space = false; break;
-            case "Shift":   keys.shift = false; break;
-            case "Control": keys.ctrl  = false; break;
+            case " ":       this.space = false; break;
+            case "Shift":   this.shift = false; break;
+            case "Control": this.ctrl  = false; break;
         }   
     }
 }

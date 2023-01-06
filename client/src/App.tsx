@@ -21,7 +21,6 @@ import { Universe } from './0000_concept/universe';
 import { UserCTL } from './0700_life/control/control';
 
 
-let ctx3: any = null;
 const R3FCanvas = Canvas as any;
 
 
@@ -32,20 +31,12 @@ function App() {
       ProgressiveEnhance.LoadMain();
   }, []);
 
-  useFrame((state, delta) => {
-      if (Universe.user_controls) {
-          Universe.user_controls.update(delta);
-      }
-  })
-
-
   return (
     <>
       <div className="fullScreen">
         <VRButton />
         <R3FCanvas className="fullScreen"
-                  pixelRatio={window.devicePixelRatio}
-                         
+                  pixelRatio={window.devicePixelRatio}    
         >
           <color attach="background" 
                    args={Universe.colors.background} />
@@ -57,7 +48,13 @@ function App() {
                     Universe.ctx3 = ctx;
                     
                     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
-                    Universe.user_controls = new UserCTL(ctx3) 
+                    Universe.user_controls = new UserCTL(Universe.ctx3) 
+
+                    useFrame((state, delta, xrFrame) => {
+                      if (Universe.user_controls) {
+                        Universe.user_controls.update(delta);
+                      }
+                    })
                 }} 
             />
 

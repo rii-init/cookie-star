@@ -16,7 +16,6 @@ export class UserCTL {
     private movement = new Matrix4();
 
     constructor(ctx3: CTX3) {
-        console.log("UserCTL constructor")
         MotorCortex.keys.init();
         MotorCortex.mouse.init();
         this.ctx3 = ctx3; 
@@ -31,11 +30,11 @@ export class UserCTL {
     private calculatePosition(delta: number) {
         const camera   = this.ctx3.camera;
         const position = camera.position;
-// 
+ 
         this.movement.identity();
         this.movement.makeTranslation(position.x, position.y, position.z);
-        this.movement.multiplyScalar(delta/1000);
-// 
+        this.movement.multiplyScalar(delta);
+ 
         camera.matrix.multiply(this.movement);
         camera.updateMatrix();
     }
