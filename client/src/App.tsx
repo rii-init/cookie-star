@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { PointerLockControls } from '@react-three/drei'
 import { Route } from "wouter";
 
 import './App.css';
@@ -17,6 +18,7 @@ import { Canvas } from '@react-three/fiber';
 import { LilacBox } from './0300_entity/lilac-box';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
+import { UserControls } from './0700_life/control/control';
 
 
 let ctx3: any = null;
@@ -24,7 +26,7 @@ const R3FCanvas = Canvas as any;
 
 
 function App() {
-
+  
   useEffect(() => {
       ProgressiveEnhance.LoadHeading();
       ProgressiveEnhance.LoadMain();
@@ -37,10 +39,12 @@ function App() {
       <div className="fullScreen">
         <VRButton />
         <R3FCanvas className="fullScreen"
-                pixelRatio={window.devicePixelRatio}
+                  pixelRatio={window.devicePixelRatio}
+                         
         >
           <color attach="background" 
                    args={Universe.colors.background} />
+          <PointerLockControls />
           <XR>
 
             <ThreeJSContext callback={
@@ -48,6 +52,7 @@ function App() {
                     Universe.ctx3 = ctx;
                     
                     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
+                    Universe.user_controls = new UserControls(ctx3) 
                 }} 
             />
 
