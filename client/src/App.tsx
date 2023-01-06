@@ -13,12 +13,12 @@ import { RouterNavigationSurface } from './0200_component/flat/navigation-surfac
 import { ProgressiveEnhance } from './progressive-enhance';
 
 import { Controllers, Hands, VRButton, XR } from '@react-three/xr';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 
 import { LilacBox } from './0300_entity/lilac-box';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
-import { UserControls } from './0700_life/control/control';
+import { UserCTL } from './0700_life/control/control';
 
 
 let ctx3: any = null;
@@ -32,6 +32,12 @@ function App() {
       ProgressiveEnhance.LoadMain();
       
   }, []);
+
+  useFrame((state, delta) => {
+      if (Universe.user_controls) {
+          Universe.user_controls.update(delta);
+      }
+  })
 
 
   return (
@@ -52,7 +58,7 @@ function App() {
                     Universe.ctx3 = ctx;
                     
                     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
-                    Universe.user_controls = new UserControls(ctx3) 
+                    Universe.user_controls = new UserCTL(ctx3) 
                 }} 
             />
 

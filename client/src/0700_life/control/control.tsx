@@ -1,4 +1,5 @@
-import { Vector3 } from "three";
+import { Matrix4, Vector3 } from "three";
+import { CTX3 } from "../../0000_api/three-ctx";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 
@@ -6,19 +7,36 @@ import { MouseState } from "./mouse.control";
 export class MotorCortex {
     public static mouse = new MouseState();
     public static keys  = new KeyboardState();
-    public moveVector   = new Vector3(0,0,0)
+    public moveVector   = new Vector3(0,0,0);
 }
 
-export class UserControls {
-    constructor(ctx3: any) {
+export class UserCTL {
+    
+    private ctx3: CTX3;
+    private movement = new Matrix4();
+
+    constructor(ctx3: CTX3) {
         MotorCortex.keys.init();
         MotorCortex.mouse.init();
+        this.ctx3 = ctx3; 
     }
 
-
-    public update() {
+    public update(delta: number) {
         this.calculateMoveVector();
         this.calculateRotationVector();
+        this.calculatePosition(delta);
+    }
+
+    private calculatePosition(delta: number) {
+        const camera = this.ctx3.camera;
+        const position = camera.position;
+
+        this.movement.identity();
+        this.movement.makeTranslation(position.x, position.y, position.z);
+        this.movement.multiplyScalar(delta/1000);
+
+        camera.matrix.multiply(this.movement);
+        camera.updateMatrix();
     }
 
     private calculateMoveVector() {
