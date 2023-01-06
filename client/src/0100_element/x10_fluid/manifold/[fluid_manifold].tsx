@@ -1,4 +1,4 @@
-import { Manifold } from "../../manifold/[manifold]";
+import { Manifold } from "../../300_manifold/[manifold]";
 import { Fluid } from "../[fluid]";
 
 export let FluidManifold = () => {

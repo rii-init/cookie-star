@@ -1,4 +1,4 @@
-import { Flat } from "../../../0100_element/flat/[flat]";
+import { Flat } from "../../../0100_element/x00_flat/[flat]";
 import { LabelSurfaceProps } from "../label-surface/LabelSurface.props";
 
 export interface TitleSurfaceProps extends LabelSurfaceProps {

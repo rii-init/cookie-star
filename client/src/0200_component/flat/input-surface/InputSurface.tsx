@@ -1,4 +1,4 @@
-import { Flat } from "../../../0100_element/flat/[flat]";
+import { Flat } from "../../../0100_element/x00_flat/[flat]";
 import { InputProps } from "./InputSurface.props";
 
 export function InputSurface(props: InputProps) {
