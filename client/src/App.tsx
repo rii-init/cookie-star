@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { PointerLockControls } from '@react-three/drei'
+import {  PointerLockControls,
+          PerspectiveCamera
+} from '@react-three/drei'
+
 import { Route } from "wouter";
 
 import './App.css';
@@ -13,6 +16,7 @@ import { RouterNavigationSurface } from './0200_component/flat/navigation-surfac
 import { ProgressiveEnhance } from './progressive-enhance';
 
 import { Controllers, Hands, VRButton, XR } from '@react-three/xr';
+
 import { Canvas, useFrame } from '@react-three/fiber';
 
 import { LilacBox } from './0300_entity/lilac-box';
@@ -40,7 +44,10 @@ function App() {
         >
           <color attach="background" 
                    args={Universe.colors.background} />
+          
+          <PerspectiveCamera makeDefault manual />
           <PointerLockControls />
+          
           <XR>
 
             <ThreeJSContext callback={
