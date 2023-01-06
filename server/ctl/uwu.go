@@ -14,44 +14,44 @@ import (
 	model "ultr7a.com/model"
 )
 
-type UserRepo struct {
+type UwURepo struct {
 	Db *gorm.DB
 }
 
-func New() *UserRepo {
+func New() *UwURepo {
 	db := database.InitDb()
-	db.AutoMigrate(&model.User{})
-	return &UserRepo{Db: db}
+	db.AutoMigrate(&model.UwU{})
+	return &UwURepo{Db: db}
 }
 
-//create user
-func (repository *UserRepo) CreateUser(c *gin.Context) {
-	var user model.User
-	c.BindJSON(&user)
-	err := model.CreateUser(repository.Db, &user)
+// create UwU
+func (repository *UwURepo) CreateUwU(c *gin.Context) {
+	var UwU model.UwU
+	c.BindJSON(&UwU)
+	err := model.CreateUwU(repository.Db, &UwU)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, UwU)
 }
 
-//get users
-func (repository *UserRepo) GetUsers(c *gin.Context) {
-	var user []model.User
-	err := model.GetUsers(repository.Db, &user)
+// get UwUs
+func (repository *UwURepo) GetUwUs(c *gin.Context) {
+	var UwU []model.UwU
+	err := model.GetUwUs(repository.Db, &UwU)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, UwU)
 }
 
-//get user by id
-func (repository *UserRepo) GetUser(c *gin.Context) {
+// get UwU by id
+func (repository *UwURepo) GetUwU(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	var user model.User
-	err := model.GetUser(repository.Db, &user, id)
+	var UwU model.UwU
+	err := model.GetUwU(repository.Db, &UwU, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -61,14 +61,14 @@ func (repository *UserRepo) GetUser(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, UwU)
 }
 
-// update user
-func (repository *UserRepo) UpdateUser(c *gin.Context) {
-	var user model.User
+// update UwU
+func (repository *UwURepo) UpdateUwU(c *gin.Context) {
+	var UwU model.UwU
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := model.GetUser(repository.Db, &user, id)
+	err := model.GetUwU(repository.Db, &UwU, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -78,23 +78,23 @@ func (repository *UserRepo) UpdateUser(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.BindJSON(&user)
-	err = model.UpdateUser(repository.Db, &user)
+	c.BindJSON(&UwU)
+	err = model.UpdateUwU(repository.Db, &UwU)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, UwU)
 }
 
-// delete user
-func (repository *UserRepo) DeleteUser(c *gin.Context) {
-	var user model.User
+// delete UwU
+func (repository *UwURepo) DeleteUwU(c *gin.Context) {
+	var UwU model.UwU
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := model.DeleteUser(repository.Db, &user, id)
+	err := model.DeleteUwU(repository.Db, &UwU, id)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "UwU deleted successfully"})
 }
