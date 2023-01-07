@@ -15,12 +15,12 @@ export class Universe {
 
     public static Love() { }
 
-    public static colors: VisualTheme = LightHighContrast;
-
-    public static net_transport: any; // TODO
+    public static colors: VisualTheme = DarkHighContrast;
+    
     public static ctx3:          any; 
-    public static camera:        PerspectiveCamera;
+    public static canvas:        any;
 
+    public static net_transport: any;
     public static user_controls: UserCTL;
     public static user:          LivingUwU;
 }

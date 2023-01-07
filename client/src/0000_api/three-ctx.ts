@@ -3,8 +3,8 @@ import { Canvas } from '@react-three/fiber';
 import { Camera, Scene } from "three";
 
 export type CTX3 = { 
-    canvas: typeof Canvas, 
-    scene: Scene, 
+    canvas: HTMLCanvasElement, 
+    scene:  Scene, 
     camera: Camera 
 } & { [key: string]: any };
 

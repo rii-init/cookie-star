@@ -1,5 +1,6 @@
-import { Matrix4, Vector3 } from "three";
+import { Euler, Matrix4, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
+import { Universe } from "../../0000_concept/universe";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 
@@ -12,7 +13,7 @@ export class UserCTL {
     public  moveVector = new Vector3(0,0,0);
 
     public mouse = new MouseState();
-    public keys  = new KeyboardState();
+    public keys  = new KeyboardState( );
 
     constructor(ctx3: CTX3) {
         this.keys.init();
@@ -21,6 +22,8 @@ export class UserCTL {
         this.ctx3 = ctx3;
         ctx3.camera.matrixAutoUpdate = false; 
         ctx3.camera.position.set(0,1,0);
+        
+        this.mouse.setCanvas(Universe.canvas);
     }
 
     public update(delta: number) {
@@ -34,8 +37,14 @@ export class UserCTL {
         const position = this.moveVector.multiplyScalar(delta);
         
         this.movement.identity();
-        this.movement.makeTranslation(position.x, position.y, position.z);
         
+        this.movement.makeTranslation(position.x, position.y, position.z);
+
+        const rotationMatrix = new Matrix4();
+        rotationMatrix.identity(); 
+        rotationMatrix.makeRotationFromEuler(new Euler(this.mouse.dy/-110, this.mouse.dx/-110))
+
+        camera.matrix.multiply(rotationMatrix);
         camera.matrix.multiply(this.movement);
         camera.updateMatrixWorld(true);
     }

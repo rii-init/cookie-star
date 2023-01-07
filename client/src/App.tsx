@@ -40,12 +40,12 @@ function App() {
     <>
       <div className="fullScreen">
         <VRButton />
-        <R3FCanvas className="fullScreen"
+        <R3FCanvas        id="r3f-canvas"
+                   className="fullScreen"
                   pixelRatio={window.devicePixelRatio}    
         >
           <color attach="background" 
                    args={Universe.colors.background} />
-          <PointerLockControls />
           <XR>
 
             <ThreeJSContext callback={
@@ -53,6 +53,7 @@ function App() {
                     Universe.ctx3 = ctx;
                     
                     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
+                    Universe.canvas = document.querySelector("#r3f-canvas");
                     Universe.user_controls = new UserCTL(Universe.ctx3) 
 
                     useFrame((state, delta, xrFrame) => {
