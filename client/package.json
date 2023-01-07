@@ -24,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && ./linker.sh",
+    "serve": "react-scripts build && ./linker.sh && cd ../server && go build && ./ultr7a.com && cd ../client",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -77,9 +77,6 @@ export class UserCTL {
               elements[13] += this.velocity.y;
               elements[14] += this.velocity.z;
 
-
-
-
         camera.updateMatrixWorld(true);
     }
 
