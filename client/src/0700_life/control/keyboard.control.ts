@@ -13,9 +13,20 @@ export class KeyboardState {
     public shift: boolean = false;
     public ctrl:  boolean = false;
 
+    private keyUpCallbacks: ((evt: KeyboardEvent) => void)[]   = [];
+    private keyDownCallbacks: ((evt: KeyboardEvent) => void)[] = [];
+
     init() {
         document.addEventListener("keydown", (evt) => this.onKeyDown(evt))
         document.addEventListener("keyup",   (evt) => this.onKeyUp(evt))
+    }
+
+    public addKeyUpHandler(callback: (evt: KeyboardEvent) => void) {
+        this.keyUpCallbacks.push(callback);
+    }
+
+    public addKeyDownHandler(callback: (evt: KeyboardEvent) => void) {
+        this.keyDownCallbacks.push(callback);
     }
 
     onKeyDown(evt: KeyboardEvent) {
@@ -34,7 +45,9 @@ export class KeyboardState {
             case " ":       this.space = true; break;
             case "Shift":   this.shift = true; break;
             case "Control": this.ctrl  = true; break;
-        }   
+        }
+        
+        this.keyDownCallbacks.forEach((callback) => callback(evt));
     }
     
     onKeyUp(evt: KeyboardEvent) {
@@ -53,7 +66,9 @@ export class KeyboardState {
             case " ":       this.space = false; break;
             case "Shift":   this.shift = false; break;
             case "Control": this.ctrl  = false; break;
-        }   
+        }
+        
+        this.keyUpCallbacks.forEach((callback) => callback(evt));
     }
 }
 

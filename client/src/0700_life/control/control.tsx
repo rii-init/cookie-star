@@ -27,7 +27,15 @@ export class UserCTL {
         ctx3.camera.matrixAutoUpdate = false; 
         ctx3.camera.position.set(0,1,0);
         
+        this.keys.addKeyUpHandler((key) => {
+            if (key.key === "Escape") {
+                this.mouse.isLocked = false;
+            }
+        })
+
         this.mouse.setCanvas(Universe.canvas);
+
+        
     }
 
     public update(delta: number) {
@@ -41,10 +49,10 @@ export class UserCTL {
 
     private calculatePosition(delta: number) {
         const camera   = this.ctx3.camera;
-        const position = this.moveVector.multiplyScalar(delta);
+        const move = this.moveVector.multiplyScalar(delta);
         
         this.movement.identity();        
-        this.movement.makeTranslation(position.x, position.y, position.z);
+        this.movement.makeTranslation(move.x, move.y, move.z);
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
