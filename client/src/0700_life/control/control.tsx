@@ -31,19 +31,18 @@ export class UserCTL {
 
     private calculatePosition(delta: number) {
         const camera   = this.ctx3.camera;
-        const position = this.moveVector;
+        const position = this.moveVector.multiplyScalar(delta);
         
         this.movement.identity();
         this.movement.makeTranslation(position.x, position.y, position.z);
-        this.movement.multiplyScalar(delta);
         
-        console.log(this.movement.elements);
-
-        camera.matrix.multiply(this.movement.multiplyScalar(200));
-        camera.updateMatrix();
+        camera.matrix.multiply(this.movement);
+        camera.updateMatrixWorld(true);
     }
 
     private calculateMoveVector() {
+        this.moveVector.set(0,0,0);
+
         if (this.keys.w) {
             this.moveVector.z = -1;
         }
