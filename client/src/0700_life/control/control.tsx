@@ -20,6 +20,7 @@ export class UserCTL {
         MotorCortex.mouse.init();
         this.ctx3 = ctx3; 
         console.log("userCTL: ", ctx3.camera);
+        ctx3.camera.position.set(0,1,0);
     }
 
     public update(delta: number) {

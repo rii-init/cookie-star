@@ -30,11 +30,7 @@ const R3FCanvas = Canvas as any;
 
 
 function App() {
-  const camera = useRef(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000));
-  // const controls = useRef(new ObjectControls(camera.current));
-  console.log("App.tsx ", camera);
-  camera.current.position.set(0, 1.6, 0);
-
+  
   useEffect(() => {
       ProgressiveEnhance.LoadHeading();
       ProgressiveEnhance.LoadMain();
@@ -49,9 +45,6 @@ function App() {
         >
           <color attach="background" 
                    args={Universe.colors.background} />
-          <perspectiveCamera ref={camera}
-                             makeDefault 
-                             manual />
           <PointerLockControls />
           
           <XR>
