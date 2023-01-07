@@ -10,7 +10,9 @@ export class UserCTL {
     private ctx3: CTX3;
     
     private movement   = new Matrix4();
-    public  moveVector = new Vector3(0,0,0);
+    public  moveVector = new Vector3(0, 0, 0);
+    public  velocity   = new Vector3(0, 0, 0);
+
 
     public mouse = new MouseState();
     public keys  = new KeyboardState( );
@@ -27,6 +29,9 @@ export class UserCTL {
     }
 
     public update(delta: number) {
+        this.mouse.dx /= 1.15;
+        this.mouse.dy /= 1.15;
+
         this.calculateMoveVector();
         this.calculateRotationVector();
         this.calculatePosition(delta);
@@ -42,7 +47,7 @@ export class UserCTL {
 
         const rotationMatrix = new Matrix4();
         rotationMatrix.identity(); 
-        rotationMatrix.makeRotationFromEuler(new Euler(this.mouse.dy/-110, this.mouse.dx/-110))
+        rotationMatrix.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310))
 
         camera.matrix.multiply(rotationMatrix);
         camera.matrix.multiply(this.movement);
@@ -79,11 +84,17 @@ export class UserCTL {
     }
 
     private calculateRotationVector() {
-        // if (this.keys.q) {
-            
-        // }
-        // if (this.keys.e) {
-            
-        // }
+        let roll = 0;
+
+        if (this.keys.q) {
+            roll = -1;        
+        }
+        if (this.keys.e) {
+            roll = 1;
+        }
+
+        if (roll) {
+
+        }
     }
 }

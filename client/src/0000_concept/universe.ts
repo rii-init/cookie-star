@@ -15,7 +15,7 @@ export class Universe {
 
     public static Love() { }
 
-    public static colors: VisualTheme = DarkHighContrast;
+    public static colors: VisualTheme = LightHighContrast;
     
     public static ctx3:          any; 
     public static canvas:        any;
