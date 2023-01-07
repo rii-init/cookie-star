@@ -51,6 +51,8 @@ export class UserCTL {
         const camera   = this.ctx3.camera;
         const move = this.moveVector.multiplyScalar(delta);
         
+        const    m1T = camera.matrix.elements.slice(12,15);
+
         this.movement.identity();        
         this.movement.makeTranslation(move.x, move.y, move.z);
 
@@ -59,6 +61,25 @@ export class UserCTL {
         
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
+
+        const     m2T = camera.matrix.elements.slice(12,15);
+        const deltaMT = new Vector3(m2T[0]-m1T[0], m2T[1]-m1T[1], m2T[2]-m1T[2]);
+
+        this.velocity.add(deltaMT.multiplyScalar(0.1));
+
+        const elements = camera.matrix.elements 
+              
+              elements[12] -= deltaMT.x;
+              elements[13] -= deltaMT.y;
+              elements[14] -= deltaMT.z;
+
+              elements[12] += this.velocity.x;
+              elements[13] += this.velocity.y;
+              elements[14] += this.velocity.z;
+
+
+
+
         camera.updateMatrixWorld(true);
     }
 
