@@ -1,8 +1,12 @@
 import { Universe } from "../0000_concept/universe"
 
-export const LilacBox = function() {
+export interface TallBoxProps {
+    position?: [number, number, number]
+}
+
+export const TallBox = function(props: TallBoxProps) {
     return (
-        <mesh position={[0, 2, 0]}>
+        <mesh position={props.position || [0, 2, 0]}>
             <boxGeometry       attach="geometry" 
                                  args={[0.5, 1.8, 0.3]} 
             />

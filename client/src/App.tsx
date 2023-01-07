@@ -20,7 +20,7 @@ import { Controllers, Hands, VRButton, XR } from '@react-three/xr';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 
-import { LilacBox } from './0300_entity/lilac-box';
+import { TallBox } from './0300_entity/lilac-box';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { UserCTL } from './0700_life/control/control';
@@ -46,7 +46,6 @@ function App() {
           <color attach="background" 
                    args={Universe.colors.background} />
           <PointerLockControls />
-          
           <XR>
 
             <ThreeJSContext callback={
@@ -73,7 +72,7 @@ function App() {
             <pointLight   intensity={1.0} position={[5, 5, 5]} />
             <ambientLight intensity={0.5} />
 
-            <LilacBox />
+            <TallBox position={[0, 1.6, 4.5]} />
           
           </XR>
         </R3FCanvas>
