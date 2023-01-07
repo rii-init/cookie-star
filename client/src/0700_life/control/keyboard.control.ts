@@ -20,16 +20,16 @@ export class KeyboardState {
 
     onKeyDown(evt: KeyboardEvent) {
         switch (evt.key) {
-            case "w":       this.w     = true; break;
-            case "a":       this.a     = true; break;
-            case "s":       this.s     = true; break;
-            case "d":       this.d     = true; break;
+            case "w": case "W": this.w = true; break;
+            case "a": case "A": this.a = true; break;
+            case "s": case "S": this.s = true; break;
+            case "d": case "D": this.d = true; break;
 
-            case "r":       this.r     = true; break;
-            case "f":       this.f     = true; break;
+            case "r": case "R": this.r = true; break;
+            case "f": case "F": this.f = true; break;
             
-            case "q":       this.q     = true; break;
-            case "e":       this.e     = true; break;
+            case "q": case "Q": this.q = true; break;
+            case "e": case "E": this.e = true; break;
 
             case " ":       this.space = true; break;
             case "Shift":   this.shift = true; break;
@@ -39,16 +39,16 @@ export class KeyboardState {
     
     onKeyUp(evt: KeyboardEvent) {
         switch (evt.key) {
-            case "w":       this.w     = false; break;
-            case "a":       this.a     = false; break;
-            case "s":       this.s     = false; break;
-            case "d":       this.d     = false; break;
+            case "w": case "W": this.w = false; break;
+            case "a": case "A": this.a = false; break;
+            case "s": case "S": this.s = false; break;
+            case "d": case "D": this.d = false; break;
 
-            case "r":       this.r     = false; break;
-            case "f":       this.f     = false; break;
-
-            case "q":       this.q     = false; break;
-            case "e":       this.e     = false; break;
+            case "r": case "R": this.r = false; break;
+            case "f": case "F": this.f = false; break;
+            
+            case "q": case "Q": this.q = false; break;
+            case "e": case "E": this.e = false; break;
 
             case " ":       this.space = false; break;
             case "Shift":   this.shift = false; break;
