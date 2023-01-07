@@ -4,22 +4,22 @@ import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 
 
-export class MotorCortex {
-    public static mouse = new MouseState();
-    public static keys  = new KeyboardState();
-    public moveVector   = new Vector3(0,0,0);
-}
-
 export class UserCTL {
     
     private ctx3: CTX3;
-    private movement = new Matrix4();
+    
+    private movement   = new Matrix4();
+    public  moveVector = new Vector3(0,0,0);
+
+    public mouse = new MouseState();
+    public keys  = new KeyboardState();
 
     constructor(ctx3: CTX3) {
-        MotorCortex.keys.init();
-        MotorCortex.mouse.init();
-        this.ctx3 = ctx3; 
-        console.log("userCTL: ", ctx3.camera);
+        this.keys.init();
+        this.mouse.init();
+        
+        this.ctx3 = ctx3;
+        ctx3.camera.matrixAutoUpdate = false; 
         ctx3.camera.position.set(0,1,0);
     }
 
@@ -31,51 +31,50 @@ export class UserCTL {
 
     private calculatePosition(delta: number) {
         const camera   = this.ctx3.camera;
-        const position = camera.position;
- 
+        const position = this.moveVector;
+        
         this.movement.identity();
         this.movement.makeTranslation(position.x, position.y, position.z);
         this.movement.multiplyScalar(delta);
- 
-        camera.matrix.multiply(this.movement);
+        
+        console.log(this.movement.elements);
+
+        camera.matrix.multiply(this.movement.multiplyScalar(200));
         camera.updateMatrix();
     }
 
     private calculateMoveVector() {
-        let moveVector = new Vector3(0,0,0);
-        if (MotorCortex.keys.w) {
-            moveVector.z = -1;
+        if (this.keys.w) {
+            this.moveVector.z = -1;
         }
-        if (MotorCortex.keys.s) {
-            moveVector.z = 1;
+        if (this.keys.s) {
+            this.moveVector.z = 1;
         }
-        if (MotorCortex.keys.a) {
-            moveVector.x = -1;
+        if (this.keys.a) {
+            this.moveVector.x = -1;
         }
-        if (MotorCortex.keys.d) {
-            moveVector.x = 1;
+        if (this.keys.d) {
+            this.moveVector.x = 1;
         }
-        if (MotorCortex.keys.r) {
-            moveVector.y = 1;
+        if (this.keys.r) {
+            this.moveVector.y = 1;
         }
-        if (MotorCortex.keys.f) {
-            moveVector.y = -1;
+        if (this.keys.f) {
+            this.moveVector.y = -1;
         }
-        if (MotorCortex.keys.shift) {
-            moveVector.multiplyScalar(3);
+        if (this.keys.shift) {
+            this.moveVector.multiplyScalar(3);
         }
-        if (MotorCortex.keys.space) {
-            moveVector.y = 1;
+        if (this.keys.space) {
+            this.moveVector.y = 1;
         }
-
-        return moveVector;
     }
 
     private calculateRotationVector() {
-        // if (MotorCortex.keys.q) {
+        // if (this.keys.q) {
             
         // }
-        // if (MotorCortex.keys.e) {
+        // if (this.keys.e) {
             
         // }
     }

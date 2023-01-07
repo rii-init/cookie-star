@@ -1,5 +1,3 @@
-import { MotorCortex } from "./control";
-
 export class KeyboardState {
     public w:     boolean = false;
     public a:     boolean = false;
