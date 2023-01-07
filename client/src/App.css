@@ -19,8 +19,7 @@
   
   display: inline-block;
   position: absolute;
-  
-  top: 2.75em;
+
   left: 0;
 
   width: 100vw;
@@ -42,12 +41,11 @@
 
 .navigation {
   display: inline-block;
-  position: absolute;
+  position: relative;
   top: 0;
   margin: auto;
   width: 60vw;
   height: 2.75em;
-  background-color: #7f7f7f24;
   color: #7b7b7b; 
 }
 

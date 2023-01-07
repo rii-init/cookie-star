@@ -19,6 +19,7 @@ export class UserCTL {
         MotorCortex.keys.init();
         MotorCortex.mouse.init();
         this.ctx3 = ctx3; 
+        console.log("userCTL: ", ctx3.camera);
     }
 
     public update(delta: number) {

@@ -7,6 +7,8 @@ declare module JSX {
         "planeBufferGeometry": any,
         "octahedronGeometry": any,
         "meshBasicMaterial": any,
+        "perspectiveCamera": any,
         "Canvas": any,
     }
 }
+
