@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting ultr7a.com on port 8080")
+	fmt.Println("Starting ultr7a.com on port 3080")
 
 	r := setupRouter()
-	_ = r.Run(":8080")
+	_ = r.Run(":3080")
 }
 
 func setupRouter() *gin.Engine {
@@ -20,6 +20,8 @@ func setupRouter() *gin.Engine {
 	r.GET("ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
+
+	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
 
 	return r
 }

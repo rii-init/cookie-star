@@ -15,13 +15,61 @@ body {
 }
 
 main {
-
-    max-width: 100vh;
+    max-width: 66vw;
     min-width: 320px;
-    
     height: 75vh;
     min-height: 320px;
+    margin: auto;
 }
+
+.App {
+    pointer-events: none;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.vr {
+    display: none;
+} 
+
+.App-header {
+  
+    display: inline-block;
+    position: absolute;
+  
+    left: 0;
+  
+    width: 100vw;
+    height: 1.75em;
+  
+    margin-top: 0;
+    padding-top: 0.5em;
+  
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+  
+    border-radius: 0.55em;
+  
+    background-color: #7f7f7f24;
+    color: #7b7b7b; 
+  
+  }
+  
+  .navigation {
+    height: 2.75em;
+    margin: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: inline-block;
+    color: #7b7b7b; 
+  }
+  
+
 
 section {
     display: inline-block;
@@ -47,11 +95,10 @@ p {
 
 h1 {
     text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
-}
-
-.fw-page h1 {
     padding-left: 1em;
     color: white;
+    margin-top: 3em;
+    font-size: 2em;
 }
 
 h2 {
@@ -69,3 +116,12 @@ h2 {
     background: white;
     padding: 0.5em;
 }  
+
+
+.fullScreen {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
