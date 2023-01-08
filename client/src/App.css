@@ -12,6 +12,10 @@
   top: 0;
 }
 
+.vr {
+  display: none;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

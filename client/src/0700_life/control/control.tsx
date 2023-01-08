@@ -27,9 +27,12 @@ export class UserCTL {
         ctx3.camera.matrixAutoUpdate = false; 
         ctx3.camera.position.set(0,1,0);
         
+        
+
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
                 this.mouse.isLocked = false;
+                document.querySelector(".App")?.setAttribute("class", "App");
             }
         })
 

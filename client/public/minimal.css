@@ -31,6 +31,10 @@ main {
     left: 0;
 }
 
+.vr {
+    display: none;
+} 
+
 .App-header {
   
     display: inline-block;

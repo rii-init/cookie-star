@@ -31,17 +31,27 @@ export class MouseState {
         this.canvas = canvas;
         canvas.addEventListener("click", () => {
             canvas.requestPointerLock();
-            this.isLocked = true;
+            this.setLocked(true);
         })
     }
 
     private onLockChangeAlert() {
         if (document.pointerLockElement === this.canvas ||
             (document as any).mozPointerLockElement === this.canvas) {
-            this.isLocked = true;
+            this.setLocked(true);
         } else {
-            this.isLocked = false;
+            this.setLocked(false)
         } 
+    }
+
+    private setLocked(isLocked: boolean) {
+        this.isLocked = isLocked;
+
+        if (isLocked) {
+            document.querySelector(".App")?.setAttribute("class", "App vr");
+        } else {
+            document.querySelector(".App")?.setAttribute("class", "App");
+        }
     }
 
     private onMouseMove(evt: MouseEvent) {
