@@ -15,7 +15,7 @@ body {
 }
 
 main {
-    max-width: 100vh;
+    max-width: 66vw;
     min-width: 320px;
     height: 75vh;
     min-height: 320px;
@@ -23,9 +23,12 @@ main {
 }
 
 .App {
+    pointer-events: none;
     text-align: center;
+    width: 100%;
     position: absolute;
     top: 0;
+    left: 0;
 }
 
 .App-header {
@@ -90,6 +93,8 @@ h1 {
     text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
     padding-left: 1em;
     color: white;
+    margin-top: 3em;
+    font-size: 2em;
 }
 
 h2 {

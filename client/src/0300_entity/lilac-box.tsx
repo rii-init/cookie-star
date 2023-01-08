@@ -10,8 +10,8 @@ export const TallBox = function(props: TallBoxProps) {
             <boxGeometry       attach="geometry" 
                                  args={[0.5, 1.8, 0.3]} 
             />
-            <meshBasicMaterial attach="material" 
-                                color={Universe.colors.accent2 as any} 
+            <meshLambertMaterial attach="material" 
+                                 color={Universe.colors.accent2 as any} 
                                 
             />
         </mesh>

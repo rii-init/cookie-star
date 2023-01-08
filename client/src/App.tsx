@@ -24,6 +24,7 @@ import { TallBox } from './0300_entity/lilac-box';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { UserCTL } from './0700_life/control/control';
+import { ResizeCanvas } from './0000_concept/resize-canvas';
 
 
 const R3FCanvas = Canvas as any;
@@ -63,7 +64,8 @@ function App() {
                     })
                 }} 
             />
-
+            <ResizeCanvas />
+            
             <Controllers />
             <Hands />
             
