@@ -47,4 +47,5 @@ export class VisualTheme implements ColorScheme {
     get accent3(): [number, number, number] {
         return this.getRGB(this._accent3)
     }
+    
 }

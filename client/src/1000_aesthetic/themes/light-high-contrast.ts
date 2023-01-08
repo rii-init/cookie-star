@@ -1,4 +1,4 @@
-import { ColorScheme, VisualTheme } from "../color-scheme";
+import { ColorScheme, VisualTheme } from "../visual-theme";
 
 export const LightHighContrast = new VisualTheme({
     _foreground: "#2aa9fd",

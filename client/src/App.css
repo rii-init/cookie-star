@@ -58,6 +58,7 @@
   top: 0;
   margin: auto;
   width: 60vw;
+  min-width: 22em;
   height: 2.75em;
   color: #7b7b7b; 
 }

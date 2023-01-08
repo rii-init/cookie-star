@@ -1,4 +1,4 @@
-import { VisualTheme } from "../color-scheme";
+import { VisualTheme } from "../visual-theme";
 
 
 export const DarkHighContrast = new VisualTheme({ 
