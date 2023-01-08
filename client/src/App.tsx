@@ -4,7 +4,7 @@ import {  PointerLockControls,
           PerspectiveCamera
 } from '@react-three/drei'
 
-import { Route } from "wouter";
+import { Route, Router, Switch } from "wouter";
 
 import './App.css';
 
@@ -79,18 +79,22 @@ function App() {
           
           </XR>
         </R3FCanvas>
-        <div className="App">  
-          <header className="App-header">
+      </div>
+      <div className="App">  
+        <Router>
+            <header className="App-header">
             <RouterNavigationSurface />
           </header>
           <article>
-            <Route      path="/"         component={main}   />
-            <Route      path="/elements" component={nature} />
-            <Route      path="/tools"    component={tools}  />
-            <Route      path="/chat"     component={conference_centre} />
-            <Route      path="/cv"       component={show_room}         />
+            <Switch>
+              <Route      path="/"         component={main}   />
+              <Route      path="/elements" component={nature} />
+              <Route      path="/tools"    component={tools}  />
+              <Route      path="/chat"     component={conference_centre} />
+              <Route      path="/cv"       component={show_room}         />
+            </Switch>
           </article>
-        </div>
+        </Router>
       </div>
     </>
   );
