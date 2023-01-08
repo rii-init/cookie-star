@@ -25,6 +25,7 @@ import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { UserCTL } from './0700_life/control/control';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
+import { VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
 
 const R3FCanvas = Canvas as any;
@@ -40,7 +41,10 @@ function App() {
   return (
     <>
       <div className="fullScreen">
-        <VRButton />
+        
+        <VRButton id="vr-button" />
+        <VisualThemeManager />
+
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                   pixelRatio={window.devicePixelRatio}    
@@ -49,21 +53,7 @@ function App() {
                    args={Universe.colors.background} />
           <XR>
 
-            <ThreeJSContext callback={
-                (ctx)=> { 
-                    Universe.ctx3 = ctx;
-                    
-                    ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
-                    Universe.canvas = document.querySelector("#r3f-canvas");
-                    Universe.user_controls = new UserCTL(Universe.ctx3) 
-
-                    useFrame((state, delta, xrFrame) => {
-                      if (Universe.user_controls) {
-                        Universe.user_controls.update(delta);
-                      }
-                    })
-                }} 
-            />
+            <ThreeJSContext />
             <ResizeCanvas />
             
             <Controllers />
@@ -72,10 +62,10 @@ function App() {
             <gridHelper />
             <axesHelper />
             
-            <pointLight   intensity={1.0} position={[5, 5, 5]} />
+            <pointLight   intensity={1.0} position={[2, 5, 2]} />
             <ambientLight intensity={0.5} />
 
-            <TallBox position={[0, 1.6, 4.5]} />
+            <TallBox position={[0, 1.6, -4.0]} />
           
           </XR>
         </R3FCanvas>

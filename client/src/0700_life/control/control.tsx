@@ -20,14 +20,15 @@ export class UserCTL {
     public keys  = new KeyboardState( );
 
     constructor(ctx3: CTX3) {
+        this.ctx3 = ctx3;
+
         this.keys.init();
         this.mouse.init();
         
-        this.ctx3 = ctx3;
-        ctx3.camera.matrixAutoUpdate = false; 
-        ctx3.camera.position.set(0,1,0);
+        ctx3.camera.matrix.elements[13]  = 1.6;
+        ctx3.camera.matrix.elements[14]  = 1.5;
         
-        
+        ctx3.camera.matrixAutoUpdate = false;
 
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
