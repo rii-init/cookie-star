@@ -1,10 +1,10 @@
 import { Cloud } from "../../0100_element/x10_fluid/manifold/cloud"
 
-export let cloud_formation = () => {
+export let CloudFormation = () => {
     return (
         <>
            {
-                new Array(5).fill(0).map((_, i) => {
+                new Array(7).fill(0).map((_, i) => {
                     return (
                         <Cloud key={i}></Cloud>
                     )
