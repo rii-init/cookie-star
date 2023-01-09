@@ -114,6 +114,15 @@ p {
 }
 
 #ui_2d__button_container .ui_2d__button {
-  z-index:   9999;
-  font-size: 18pt;
+  z-index: 9999 !important;
+    font-size: 3vw !important;
+    position: relative !important;
+    transform: none !important;
+    margin-right: 1em;
+    left: 0 !important;
+    top: 0 !important;
+    background-color: #eeeeee !important;
+    color: #444 !important;
+    border: 0.07em solid #ccc !important;
+    border-radius: 0.2em !important;
 }
