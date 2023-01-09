@@ -47,7 +47,6 @@
 
   border-radius: 0.55em;
 
-  background-color: #7f7f7f24;
   color: #7b7b7b; 
 
 }
@@ -59,8 +58,9 @@
   margin: auto;
   width: 60vw;
   min-width: 22em;
-  height: 2.75em;
-  color: #7b7b7b; 
+  height: 1.75em;
+  color: #7b7b7b;
+  font-size: 3.5vw !important; 
 }
 
 @keyframes App-logo-spin {
