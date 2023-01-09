@@ -1,2 +1,2 @@
 # ultr7a.com
-WIP CV + Multimedia Journal Website
+Personal metasite, CV, and playground, using react-three/fiber.
