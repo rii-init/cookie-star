@@ -61,9 +61,9 @@ function App() {
             <Hands />
             
             <BasicElectromagnetism />
-            <gridHelper args={[8,  8,  0xffffff, "white"]} scale={[32,32,32]} />
-            <gridHelper args={[16, 16, 0xffffff, "white"]} scale={[4,4,4]} />
-            <gridHelper args={[16, 16, 0xffffff, "white"]} scale={[1,1,1]} />
+            <gridHelper args={[8,  8,  0xf0f0f0, "#f0f0f0"]} scale={[16,16,16]} />
+            <gridHelper args={[8,  8,  0xf0f0f0, "#f0f0f0"]} scale={[8,8,8]} />
+            <gridHelper args={[16, 16, 0xf0f0f0, "#f0f0f0"]} scale={[1,1,1]} />
             
             <axesHelper />
             
