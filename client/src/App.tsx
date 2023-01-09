@@ -43,8 +43,10 @@ function App() {
     <>
       <div className="fullScreen">
         
-        <VRButton id="vr-button" />
-        <VisualThemeManager />
+        <div id="ui_2d__button_container">
+          <VisualThemeManager />  
+          <VRButton className="ui_2d__button" />
+        </div>
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
@@ -65,8 +67,6 @@ function App() {
             <gridHelper args={[8,  8,  0xe0e0e0, "#e0e0e0"]} scale={[16, 16, 16]} />
             <gridHelper args={[8,  8,  0xe0e0e0, "#e0e0e0"]} scale={[8,  8,  8]} />
             <gridHelper args={[8,  8,  0xe0e0e0, "#e0e0e0"]} scale={[4,  4,  4]} />
-            
-            <axesHelper />
             
             <pointLight   intensity={1.0} position={[0, 5, 0]} />
             <ambientLight intensity={0.5} />

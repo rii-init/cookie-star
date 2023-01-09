@@ -104,3 +104,16 @@ p {
   top: 0;
   left: 0;
 }
+
+#ui_2d__button_container {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  display: inline-block;
+  margin-left: 1em;
+}
+
+#ui_2d__button_container .ui_2d__button {
+  z-index:   9999;
+  font-size: 18pt;
+}

@@ -26,7 +26,7 @@ export function VisualThemeManager() {
     }
 
     return (
-        <input  type='button' className={'visual-theme theme'+theme}
+        <input  type='button' className={'ui_2d__button visual-theme theme'+theme}
                 onClick={() => nextTheme()} 
                 value={"theme "+theme}
         />
