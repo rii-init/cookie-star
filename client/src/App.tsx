@@ -59,7 +59,7 @@ function App() {
             <Controllers />
             <Hands />
             
-            <gridHelper />
+            <gridHelper args={[20, 20, 0xffffff, "white"]} />
             <axesHelper />
             
             <pointLight   intensity={1.0} position={[2, 5, 2]} />
