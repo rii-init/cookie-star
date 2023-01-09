@@ -81,6 +81,12 @@ export class UserCTL {
               elements[13] += this.velocity.y;
               elements[14] += this.velocity.z;
 
+        // Handle basic collision with the ground
+        if (camera.matrix.elements[13] < 0) {
+            camera.matrix.elements[13] = 0;
+            this.velocity.y *= -0.75;
+        }
+
         camera.updateMatrixWorld(true);
     }
 

@@ -26,6 +26,7 @@ import { Universe } from './0000_concept/universe';
 import { UserCTL } from './0700_life/control/control';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
 import { VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
+import { BasicElectromagnetism } from './0700_life/control/basic-electromagnetism';
 
 
 const R3FCanvas = Canvas as any;
@@ -59,10 +60,14 @@ function App() {
             <Controllers />
             <Hands />
             
-            <gridHelper args={[20, 20, 0xffffff, "white"]} />
+            <BasicElectromagnetism />
+            <gridHelper args={[8,  8,  0xffffff, "white"]} scale={[32,32,32]} />
+            <gridHelper args={[16, 16, 0xffffff, "white"]} scale={[4,4,4]} />
+            <gridHelper args={[16, 16, 0xffffff, "white"]} scale={[1,1,1]} />
+            
             <axesHelper />
             
-            <pointLight   intensity={1.0} position={[2, 5, 2]} />
+            <pointLight   intensity={1.0} position={[0, 5, 0]} />
             <ambientLight intensity={0.5} />
 
             <TallBox position={[0, 1.6, -4.0]} />
