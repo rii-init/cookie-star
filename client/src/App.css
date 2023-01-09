@@ -93,6 +93,9 @@ h1 {
   text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
 }
 
+p {
+  margin-bottom: 1em;
+}
 
 .fullScreen {
   width: 100vw;

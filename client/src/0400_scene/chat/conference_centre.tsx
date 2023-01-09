@@ -4,10 +4,12 @@ export let conference_centre = () => {
         <>
         <h1>Chat</h1>
         <main>
-            Hi. My name is Ultr7A.com 
+            <p>
+                Hi. My name is ultr7a.com 
+                <br />
+                Let's chat!
+            </p>
             
-            Let's chat!
-
             Send funny questions to ultr7a@gmail.com
         </main>
         </>

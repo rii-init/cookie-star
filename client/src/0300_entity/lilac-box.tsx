@@ -8,7 +8,7 @@ export const TallBox = function(props: TallBoxProps) {
     return (
         <mesh position={props.position || [0, 2, 0]}>
             <boxGeometry       attach="geometry" 
-                                 args={[0.5, 1.8, 0.3]} 
+                                 args={[0.7, 1.8, 0.3]} 
             />
             <meshLambertMaterial attach="material" 
                                  color={Universe.colors.accent2 as any} 

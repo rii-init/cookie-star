@@ -49,8 +49,10 @@ export class MouseState {
 
         if (isLocked) {
             document.querySelector(".App")?.setAttribute("class", "App vr");
+            document.querySelector(".vr-button")?.setAttribute("class", "vr-button vr");
         } else {
             document.querySelector(".App")?.setAttribute("class", "App");
+            document.querySelector(".vr-button")?.setAttribute("class", "vr-button");
         }
     }
 
