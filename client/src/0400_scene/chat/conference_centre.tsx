@@ -7,6 +7,8 @@ export let conference_centre = () => {
             Hi. My name is Ultr7A.com 
             
             Let's chat!
+
+            Send funny questions to ultr7a@gmail.com
         </main>
         </>
     );
