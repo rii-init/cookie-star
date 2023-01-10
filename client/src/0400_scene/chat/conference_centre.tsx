@@ -2,10 +2,10 @@
 export let conference_centre = () => {
     return (
         <>
-        <h1>Chat</h1>
+        <h1>Hi</h1>
         <main>
             <p>
-                Hi. My name is ultr7a.com 
+                My name is ultr7a.com 
                 <br />
                 Let's chat!
             </p>

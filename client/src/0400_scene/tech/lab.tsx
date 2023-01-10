@@ -4,7 +4,7 @@ import { LabelSurface } from "../../0200_component/flat/label-surface/LabelSurfa
 export const lab = () => {
     return (
         <>
-            <h1>Tech</h1>
+            <h1>Lab</h1>
             <main>
                 <Sequence direction={"x"}>
                     <LabelSurface>N0TE8  </LabelSurface>
