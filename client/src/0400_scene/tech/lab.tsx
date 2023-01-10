@@ -8,9 +8,9 @@ export const lab = () => {
             <main>
                 <Sequence direction={"x"}>
                     <LabelSurface>N0TE8  </LabelSurface>
-                    <LabelSurface>5HTDDR </LabelSurface>
+                    <LabelSurface>5HTDR </LabelSurface>
                     <LabelSurface>RETRO  </LabelSurface>
-                    <LabelSurface>MIXTAPE</LabelSurface>
+                    <LabelSurface>MXT8P</LabelSurface>
                 </Sequence>
             </main>
         </>
