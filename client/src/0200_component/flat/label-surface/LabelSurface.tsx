@@ -3,7 +3,7 @@ import { LabelSurfaceProps } from "./LabelSurface.props";
 
 export let LabelSurface = (props: LabelSurfaceProps) => {
     return (
-        <Flat>
+        <Flat position={props.position}>
             { props.text 
                     ? <span>{props.text}</span> 
                     : null 

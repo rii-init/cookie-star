@@ -7,9 +7,9 @@ export const lab = () => {
             <h1>Lab</h1>
             <main>
                 <Sequence direction={"x"}>
-                    <LabelSurface>N0TE8  </LabelSurface>
-                    <LabelSurface>5HTDR </LabelSurface>
-                    <LabelSurface>RETRO  </LabelSurface>
+                    <LabelSurface>N0TE8</LabelSurface>
+                    <LabelSurface>5HDDR</LabelSurface>
+                    <LabelSurface>RETRO</LabelSurface>
                     <LabelSurface>MXT8P</LabelSurface>
                 </Sequence>
             </main>

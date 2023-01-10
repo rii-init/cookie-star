@@ -29,9 +29,11 @@ function positionForDirection(direction: "x" | "y" | "z", index: number) {
     }
 }
 
+export const SequenceContext = React.createContext({});
 
 export const Sequence = (props: SequenceProps) => {
     return (
+        <SequenceContext.Provider value={{direction: props.direction}}>
         <group>
             {React.Children.map(props.children, (child, index) => {
                 return (
@@ -61,5 +63,6 @@ export const Sequence = (props: SequenceProps) => {
                 <meshBasicMaterial color={SyntaxHighlight.Sequence} />
             </mesh>
         </group>
+        </SequenceContext.Provider>
     )
 }
