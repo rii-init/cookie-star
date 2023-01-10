@@ -1,3 +1,4 @@
 export interface LabelSurfaceProps {
-    text: string;
+    text?: string;
+    children: React.ReactNode;
 }
