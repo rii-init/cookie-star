@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DoubleSide } from "three";
+import { FrontSide } from "three";
 import { Universe } from '../../0000_concept/universe';
 import { SequenceContext } from '../200_sequence/sequence';
 
@@ -22,10 +22,11 @@ export let Flat = (props: FlatProps) => {
                   rotation={props.rotation 
                                 ? props.rotation 
                                 : [Math.PI/2, 0, 0]} 
+                    matrix={props.matrix}
             >
                 <planeBufferGeometry args={props.size} />            
-                <meshBasicMaterial  color={Universe.colors.accent} 
-                                     side={DoubleSide} />
+                <meshLambertMaterial color={Universe.colors.accent} 
+                                     side={FrontSide} />
             </mesh>
         );
     
