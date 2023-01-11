@@ -41,8 +41,6 @@ export class UserCTL {
         })
 
         this.mouse.setCanvas(Universe.canvas);
-
-        
     }
 
     public update(delta: number) {
@@ -55,8 +53,8 @@ export class UserCTL {
     }
 
     private calculatePosition(delta: number) {
-        const camera   = this.ctx3.camera;
-        const move = this.moveVector.multiplyScalar(delta);
+        const camera = this.ctx3.camera;
+        const move   = this.moveVector.multiplyScalar(delta);
         
         const    m1T = camera.matrix.elements.slice(12,15);
 
@@ -125,6 +123,9 @@ export class UserCTL {
         if (this.keys.space) {
             this.moveVector.y = 1;
         }
+
+        this.moveVector.x += this.touch.dx;
+        this.moveVector.y += this.touch.dy;
     }
 
     private calculateRotationVector() {
