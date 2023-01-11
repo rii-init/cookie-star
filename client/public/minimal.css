@@ -15,6 +15,7 @@ body {
 }
 
 main {
+    font-size: 22pt;
     max-width: 66vw;
     min-width: 320px;
     height: 75vh;
@@ -106,7 +107,7 @@ h2 {
     padding-left: 1.3em;
     text-shadow: 0px 1px 1px #00000000;
     background: white;
-    box-shadow: inset -1px 1px 4px 2px #00000036;
+    box-shadow: 7px 20px 47px 21px #00000022;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }

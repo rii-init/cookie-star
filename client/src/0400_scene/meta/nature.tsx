@@ -2,11 +2,11 @@
 export const nature = () => {
     return (
         <>
-            <h1>Elements</h1>
+            <h1>Design Language</h1>
             <main>
-                <p>A Design System helps you build a consistent user experience across your product.</p>
+                <p>Simple, orthogonal, composable elements.</p>
 
-                <h2>Shapes</h2>
+                <h2>Visual Elements</h2>
 
                 <section>
                     <div className="shape">
