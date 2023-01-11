@@ -5,7 +5,6 @@
 #                       |
 #                  [something functionally equivalent].
 
-
 function progressiveEnhancement() {
     sed -i 's|<Sequence|<ul|' $0
     sed -i 's|</Sequence|</ul|' $0
@@ -15,7 +14,6 @@ function progressiveEnhancement() {
 
 # Identify pages to make responsive:
 pages="$(find . | grep -E "build/.*/index.htm")"
-
 echo "** Creating [[static site] HTML components] **"
 
 progressiveEnhancement "build/index.html"
