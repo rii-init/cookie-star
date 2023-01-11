@@ -1,8 +1,10 @@
 import { Euler, Matrix4, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
+import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
+import { TouchControl } from "./touch.control";
 
 
 export class UserCTL {
@@ -15,9 +17,10 @@ export class UserCTL {
     public  moveVector = new Vector3(0, 0, 0);
     public  velocity   = new Vector3(0, 0, 0);
 
-
-    public mouse = new MouseState();
-    public keys  = new KeyboardState( );
+    public gamepad = new GamepadControl();
+    public touch   = new TouchControl();
+    public mouse   = new MouseState();
+    public keys    = new KeyboardState( );
 
     constructor(ctx3: CTX3) {
         this.ctx3 = ctx3;
