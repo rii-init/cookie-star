@@ -7,7 +7,7 @@ import { MouseState } from "./mouse.control";
 import { TouchControl } from "./touch.control";
 
 
-export class UserCTL {
+export class UserControls {
     
     private ctx3: CTX3;
     
@@ -17,10 +17,12 @@ export class UserCTL {
     public  moveVector = new Vector3(0, 0, 0);
     public  velocity   = new Vector3(0, 0, 0);
 
-    public gamepad = new GamepadControl();
+    public gamepad = new GamepadControl(this);
     public touch   = new TouchControl();
     public mouse   = new MouseState();
     public keys    = new KeyboardState( );
+
+    public controllersAttached = false;
 
     constructor(ctx3: CTX3) {
         this.ctx3 = ctx3;

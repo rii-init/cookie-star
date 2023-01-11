@@ -1,4 +1,4 @@
-import { UserCTL } from "../0700_life/control/control";
+import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
@@ -18,6 +18,6 @@ export class Universe {
     public static canvas:        any;
 
     public static net_transport: any;
-    public static user_controls: UserCTL;
+    public static user_controls: UserControls;
     public static user:          LivingUwU;
 }

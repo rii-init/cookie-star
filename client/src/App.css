@@ -2,6 +2,10 @@ main {
   font-size: 22pt !important;
 }
 
+.visual-theme._0 {
+  padding-right: 0.3em;
+}
+
 #r3f-canvas canvas {
   position: fixed;
   width:  100%;
@@ -114,7 +118,7 @@ p {
 #ui_2d__button_container {
   position: absolute;
   bottom: 1em;
-  right: 1em;
+  right: 0;
   display: inline-block;
   margin-left: 1em;
 }
@@ -124,7 +128,7 @@ p {
     font-size: 3vw !important;
     position: relative !important;
     transform: none !important;
-    margin-right: 1em;
+    margin-right: 0.3em;
     left: 0 !important;
     top: 0 !important;
     background-color: #eeeeee !important;

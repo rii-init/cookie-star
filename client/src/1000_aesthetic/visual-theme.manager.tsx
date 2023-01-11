@@ -37,7 +37,7 @@ export function VisualThemeManager() {
     }
 
     return (
-        <input  type='button' className={'ui_2d__button visual-theme '}
+        <input  type='button' className={'ui_2d__button visual-theme _'+theme}
                 onClick={nextTheme} 
                 value={icons[nextIcon]}
         />

@@ -3,9 +3,9 @@ import { VisualTheme } from "../visual-theme";
 
 export const DarkHighContrast = new VisualTheme({ 
     _foreground: "#ffffff",
-    _background: "#b085ff",
-    _accent:     "#af00c0",
-    _accent2:    "#d0d0d0",
-    _accent3:    "#ffc21b",
+    _background: "#1e006a",
+    _accent:     "#8a42ff",
+    _accent2:    "#faa0ff",
+    _accent3:    "#ffcb9a",
 });
 
