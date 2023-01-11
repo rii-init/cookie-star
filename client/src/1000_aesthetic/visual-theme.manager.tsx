@@ -1,40 +1,39 @@
-import { Universe } from "../0000_concept/universe";
 import { DarkHighContrast } from "./themes/dark-high-contrast";
 import { LightHighContrast } from "./themes/light-high-contrast";
-import { VisualTheme } from "./visual-theme";
 
-export let theme = 0;
-export let nextIcon = 1;
+const themes = [ 
+    LightHighContrast,
+    DarkHighContrast
+];
 
+
+let theme = parseInt(
+        localStorage.getItem("visualTheme") || "0");
+
+export function currentTheme() {
+    return themes[theme];
+}
+
+
+function wrapNext(index: number, length: number): number {
+    return (index + 1) % length;
+}
+
+let nextIcon = wrapNext(theme, themes.length);
+ 
 export function VisualThemeManager() {
     
-    const themes = [ 
-        LightHighContrast,
-        DarkHighContrast
-    ];
     
     const icons = ['☀','☽']
     
 
-    function switchTheme(visualTheme: VisualTheme): void {
-        Universe.colors = visualTheme;
+    function switchTheme(visualTheme: number): void {
+        localStorage.setItem("visualTheme", visualTheme.toString());
+        window.location.href=window.location.href;
     }
 
     function nextTheme() {
-        console.log("nextTheme");
-        theme = themes.indexOf(Universe.colors) + 1;
-        console.log("theme")
-        nextIcon = theme + 1
-
-        if (nextIcon >= icons.length) {
-            nextIcon = 0;
-        }
-
-        if (theme >= themes.length) {
-            theme = 0;
-        }
-
-        switchTheme(themes[theme]);
+        switchTheme(wrapNext(theme, themes.length));
     }
 
     return (

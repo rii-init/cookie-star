@@ -1,10 +1,7 @@
-import { PerspectiveCamera } from "three";
 import { UserCTL } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
-import { DarkHighContrast } from "../1000_aesthetic/themes/dark-high-contrast";
-import { LightHighContrast } from "../1000_aesthetic/themes/light-high-contrast";
-import { Ego } from "./ego";
+import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -15,7 +12,7 @@ export class Universe {
 
     public static Love() { }
 
-    public static colors: VisualTheme = LightHighContrast;
+    public static colors: VisualTheme = currentTheme();
     
     public static ctx3:          any; 
     public static canvas:        any;
