@@ -24,10 +24,8 @@ do
 
     # Get JSX content:
     heading_text="$(cat "$HTML_NAME/$JSX_NAME.tsx" | grep -Eo "<h1>.*</h1>" )" 
-    main_text="$(awk '/<main>/,/<\/main>/' "$HTML_NAME/$JSX_NAME.tsx" )"    
-
+    
     echo "heading_text: $heading_text";
-    echo "main_text: $main_text";
     echo "-------------------------------"
 
     HTML_PATH="$CLIENT_PATH/build/$HTML_NAME/index.html";
@@ -37,7 +35,8 @@ do
     fi
 
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|" "$HTML_PATH"
-
+    echo "$main_text" >> "$HTML_PATH.tmp";
+    node "$CLIENT_PATH/client/linker.content.js" "$HTML_PATH.tmp" "$HTML_PATH";
 #    sed -i "s|<!-- jsx -->|$main_text|" "$HTML_PATH"
     sed -i "s|className|class|"         "$HTML_PATH";
     
