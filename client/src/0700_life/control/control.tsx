@@ -11,16 +11,18 @@ export class UserControls {
     
     private ctx3: CTX3;
     
-    private movement   = new Matrix4();
-    private rotation   = new Matrix4();
-    public  roll       = new Vector3(0, 0, 0);
-    public  moveVector = new Vector3(0, 0, 0);
-    public  velocity   = new Vector3(0, 0, 0);
+    private movement     = new Matrix4();
+    private rotation     = new Matrix4();
+    private rollVelocity = 0;
+    public  roll         = new Vector3(0, 0, 0);
+    
+    public  moveVector   = new Vector3(0, 0, 0);
+    public  velocity     = new Vector3(0, 0, 0);
 
-    public gamepad = new GamepadControl(this);
-    public touch   = new TouchControl();
-    public mouse   = new MouseState();
-    public keys    = new KeyboardState( );
+    public gamepad  = new GamepadControl(this);
+    public touch    = new TouchControl();
+    public mouse    = new MouseState();
+    public keys     = new KeyboardState( );
 
     public controllersAttached = false;
 
@@ -134,10 +136,17 @@ export class UserControls {
         this.roll.z = 0;
 
         if (this.keys.q) {
-            this.roll.z = 1;        
+            this.rollVelocity += 0.05;        
         }
         if (this.keys.e) {
-            this.roll.z = -1;
+            this.rollVelocity -= 0.05;
         }
+
+
+        // this.rollVelocity -= this.mouse.dx / 1000;
+        this.rollVelocity *= 0.95;
+
+
+        this.roll.z += this.rollVelocity
     }
 }

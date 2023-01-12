@@ -13,7 +13,7 @@ function progressiveEnhancement() {
 }
 
 # Identify pages to make responsive:
-pages="$(find . | grep -E "build/.*/index.htm")"
+pages="$(find . | grep -E "build/.*/index.html")"
 echo "** Creating [[static site] HTML components] **"
 
 progressiveEnhancement "build/index.html"

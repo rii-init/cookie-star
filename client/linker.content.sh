@@ -30,7 +30,6 @@ do
     echo "main_text: $main_text";
     echo "-------------------------------"
 
- 
     HTML_PATH="$CLIENT_PATH/build/$HTML_NAME/index.html";
 
     if [ "home" == "$HTML_NAME" ]; then
@@ -40,7 +39,7 @@ do
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|" "$HTML_PATH"
 
     sed -i "s|<!-- jsx -->|$main_text|" "$HTML_PATH"
-    sed -i "s|className|class|" "$HTML_PATH";
+    sed -i "s|className|class|"         "$HTML_PATH";
     
 done
 
