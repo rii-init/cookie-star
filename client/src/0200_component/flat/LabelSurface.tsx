@@ -1,6 +1,11 @@
-import { Flat } from "../../../0100_element/x00_flat/[flat]";
-import { LabelSurfaceProps } from "./LabelSurface.props";
+import { Flat } from "../../0100_element/x00_flat/[flat]";
 import { Html, Stats } from "@react-three/drei";
+
+export interface LabelSurfaceProps {
+    text?: string;
+    position?: [number, number, number];
+    children: React.ReactNode;
+}
 
 export let LabelSurface = (props: LabelSurfaceProps) => {
     return (

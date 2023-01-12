@@ -1,5 +1,15 @@
-import { Flat } from "../../../0100_element/x00_flat/[flat]";
-import { InputProps } from "./InputSurface.props";
+import { Flat } from "../../0100_element/x00_flat/[flat]";
+
+import { IOSurface } from "../../0000_concept/io+surface";
+
+export interface InputProps<V = string> extends IOSurface {
+    onChange: (value: V) => void;
+    variant:  "text" | "number" | "boolean";
+    label?:      string;
+    value?:           V;
+    channelId?:  string;
+}
+
 
 export function InputSurface(props: InputProps) {
     const surface_uuid = props?.channelID || ""+Math.random(); // || newUID();

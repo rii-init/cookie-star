@@ -99,7 +99,7 @@ export class UserControls {
         // Terresterial movement
         if (!this.enableFlying) {
             // Gravity
-            this.velocity.y -= 0.0015;
+            this.velocity.y -= 0.0025;
         }
         
         camera.updateMatrixWorld(true);
@@ -154,7 +154,6 @@ export class UserControls {
 
         // this.rollVelocity -= this.mouse.dx / 1000;
         this.rollVelocity *= 0.95;
-
 
         this.roll.z += this.rollVelocity
     }

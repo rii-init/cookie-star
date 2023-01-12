@@ -1,5 +1,5 @@
 import { Sequence } from "../../0100_element/200_sequence/sequence"
-import { LabelSurface } from "../../0200_component/flat/label-surface/LabelSurface"
+import { LabelSurface } from "../../0200_component/flat/LabelSurface"
 
 export const lab = () => {
     return (

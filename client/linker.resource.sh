@@ -36,9 +36,9 @@ do
       echo "Linking page: [ $page ]";
       
       #Link JS bundle:
-      sed -i "s|<js_async></js_async>|<script src=\"/static/js/$main_js\"></script>|" $page
+      # sed -i "s|<js_async></js_async>|<script src=\"/static/js/$main_js\"></script>|" $page
 
       #Link CSS bundle:
-      sed -i "s|<css_async></css_async>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"  "$page";
+      # sed -i "s|<css_async></css_async>|<link href=\"/static/css/$main_css\" rel=\"stylesheet\">|"  "$page";
 
 done
