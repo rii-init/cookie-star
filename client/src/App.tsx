@@ -18,7 +18,7 @@ import { Canvas } from '@react-three/fiber';
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
-import { VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
+import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
 import { TallBox } from './0300_entity/lilac-box';
 import { GridOctaves } from './0300_entity/grid-octaves';
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <div className="fullScreen">
+      <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
           <VisualThemeManager />  
@@ -75,18 +75,18 @@ function App() {
           </XR>
         </R3FCanvas>
       </div>
-      <div className="App">  
+      <div className={"App theme _"+themeIdx}>  
         <Router>
             <header className="App-header">
             <RouterNavigationSurface />
           </header>
           <article>
             <Switch>
-              <Route      path="/"     component={main}   />
-              <Route      path="/meta" component={nature} />
-              <Route      path="/tech" component={lab}  />
-              <Route      path="/chat" component={conference_centre} />
-              <Route      path="/cv"   component={show_room}         />
+              <Route path="/"     component={main}   />
+              <Route path="/meta" component={nature} />
+              <Route path="/tech" component={lab}  />
+              <Route path="/chat" component={conference_centre} />
+              <Route path="/cv"   component={show_room}         />
             </Switch>
           </article>
         </Router>

@@ -38,7 +38,7 @@ do
 
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|" "$HTML_PATH"
 
-    sed -i "s|<!-- jsx -->|$main_text|" "$HTML_PATH"
+#    sed -i "s|<!-- jsx -->|$main_text|" "$HTML_PATH"
     sed -i "s|className|class|"         "$HTML_PATH";
     
 done

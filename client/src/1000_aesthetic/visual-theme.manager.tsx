@@ -7,11 +7,11 @@ const themes = [
 ];
 
 
-let theme = parseInt(
+export const themeIdx = parseInt(
         localStorage.getItem("visualTheme") || "0");
 
 export function currentTheme() {
-    return themes[theme];
+    return themes[themeIdx];
 }
 
 
@@ -19,7 +19,7 @@ function wrapNext(index: number, length: number): number {
     return (index + 1) % length;
 }
 
-let nextIcon = wrapNext(theme, themes.length);
+let nextIcon = wrapNext(themeIdx, themes.length);
  
 export function VisualThemeManager() {
     
@@ -33,11 +33,11 @@ export function VisualThemeManager() {
     }
 
     function nextTheme() {
-        switchTheme(wrapNext(theme, themes.length));
+        switchTheme(wrapNext(themeIdx, themes.length));
     }
 
     return (
-        <input  type='button' className={'ui_2d__button visual-theme _'+theme}
+        <input  type='button' className={'ui_2d__button visual-theme _'+themeIdx}
                 onClick={nextTheme} 
                 value={icons[nextIcon]}
         />
