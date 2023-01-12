@@ -2,10 +2,10 @@ main {
   font-size: 22pt !important;
 }
 
-.theme._0 h4, h5, p, span, main, article, section {
+.theme._0 main {
   color: #000000;
 }
-.theme._1 h4, h5, p, span, main, article, section {
+.theme._1 main {
   color: #ffffff;
 }
 .visual-theme._0 {
