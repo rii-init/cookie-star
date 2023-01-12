@@ -6,10 +6,11 @@
 #                  [something functionally equivalent].
 
 function progressiveEnhancement() {
-    sed -i 's|<Sequence|<ul|' $0
-    sed -i 's|</Sequence|</ul|' $0
-    sed -i 's|<LabelSurface|<li|' $0
-    sed -i 's|</LabelSurface|</li|' $0
+    echo "progressive enhance of $1"
+    sed -i 's|<Sequence|<ul|'       $1
+    sed -i 's|</Sequence|</ul|'     $1
+    sed -i 's|<LabelSurface|<li|'   $1
+    sed -i 's|</LabelSurface|</li|' $1
 }
 
 # Identify pages to make responsive:
