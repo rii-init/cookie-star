@@ -1,6 +1,8 @@
 import React from "react";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 
+// Structural Sequence:
+
 export interface SequenceProps {
     direction: "x" | "y" | "z",
     elements?: string[]
@@ -28,10 +30,10 @@ function positionForDirection(direction: "x" | "y" | "z", index: number) {
             return [0,0,index];
     }
 }
-
 export const SequenceContext = React.createContext({});
 
 export const Sequence = (props: SequenceProps) => {
+
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group>
