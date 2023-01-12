@@ -1,6 +1,7 @@
 import { Euler, Matrix4, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
+import { StaticGeometries } from "../static.geometries";
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
@@ -18,13 +19,18 @@ export class UserControls {
     
     public  moveVector   = new Vector3(0, 0, 0);
     public  velocity     = new Vector3(0, 0, 0);
-
+  
+    public enableFlying        = false;
+    public controllersAttached = false;
+  
     public gamepad  = new GamepadControl(this);
     public touch    = new TouchControl();
     public mouse    = new MouseState();
     public keys     = new KeyboardState( );
 
-    public controllersAttached = false;
+    public staticGeom = new StaticGeometries();
+
+
 
     constructor(ctx3: CTX3) {
         this.ctx3 = ctx3;
@@ -86,17 +92,16 @@ export class UserControls {
               elements[13] += this.velocity.y;
               elements[14] += this.velocity.z;
 
-        // Handle basic collision with the ground
-        if (camera.matrix.elements[13] < 0.75) {
-            camera.matrix.elements[13] = 0.75;
-            this.velocity.y *= -0.75;
-            this.velocity.z *= 0.97;
-            this.velocity.x *= 0.97;
+
+            this.staticGeom.collision(this, camera, this.velocity, delta)
+        
+
+        // Terresterial movement
+        if (!this.enableFlying) {
+            // Gravity
+            this.velocity.y -= 0.0015;
         }
-
-        // Gravity
-        this.velocity.y -= 0.0015;
-
+        
         camera.updateMatrixWorld(true);
     }
 
@@ -125,7 +130,11 @@ export class UserControls {
             this.moveVector.multiplyScalar(3);
         }
         if (this.keys.space) {
-            this.moveVector.y = 1;
+            this.moveVector.y = 3;
+
+            if (this.moveVector.y > -0.5) {
+                this.enableFlying = true;
+            }
         }
 
         this.moveVector.x += this.touch.dx;
