@@ -1,13 +1,14 @@
 import { ReactNode } from "react"
 
 export interface DemoVolumeProps {
+    name: string;
     children: ReactNode
 }
 
 export const DemoVolume = (props: DemoVolumeProps) => {
     return (
-        <DemoVolume>
+        <group>
             {props.children}
-        </DemoVolume>
+        </group>
     )   
 }

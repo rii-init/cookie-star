@@ -9,8 +9,17 @@ function progressiveEnhancement() {
     echo "progressive enhance of $1"
     sed -i 's|<Sequence|<ul|'       $1
     sed -i 's|</Sequence|</ul|'     $1
+    
     sed -i 's|<LabelSurface|<li|'   $1
     sed -i 's|</LabelSurface|</li|' $1
+
+    sed -i 's|<DemoVolume|<article class="demo-volume"|' $1
+    sed -i 's|</DemoVolume|</article|'                   $1
+
+    sed -i 's|<TableOfContentsSurface|<aside|'   $1
+    sed -i 's|</TableOfContentsSurface|</aside|' $1
+
+    sed -i 's|<fallbackImage |<img |'  $1
 }
 
 # Identify pages to make responsive:
