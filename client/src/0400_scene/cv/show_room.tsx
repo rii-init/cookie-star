@@ -6,8 +6,11 @@ export const show_room = () => {
         <Html>
             <h1>Timeline</h1>
             <main>
-                Everyone has a story.
-                This is mine.
+                <p>
+                    Everyone has a story. <br/>
+                    This is mine.
+                </p>
+                
             </main>
         </Html>
     )
