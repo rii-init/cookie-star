@@ -1,3 +1,4 @@
+import { Html } from "@react-three/drei"
 import { Sequence } from "../../0100_element/200_sequence/sequence"
 import { DemoVolume } from "../../0200_component/flat/DemoVolume"
 import { LabelSurface } from "../../0200_component/flat/LabelSurface"
@@ -6,8 +7,8 @@ import { TableOfContentsSurface } from "../../0200_component/flat/TableOfContent
 export const lab = () => {
     return (
         <>
-            <h1>Lab</h1>
-            <main>
+            <Html><h1>Lab</h1></Html>
+            <group>
                 <TableOfContentsSurface>
                     <LabelSurface>N0TE8</LabelSurface>
                     <LabelSurface>MXT8P</LabelSurface>
@@ -17,29 +18,34 @@ export const lab = () => {
                     <LabelSurface>OVRWRLD</LabelSurface>
                     <LabelSurface>ECSLANG</LabelSurface>
                 </TableOfContentsSurface>
-                <DemoVolume name="N0TE8">
+                <group>
+                    <Sequence direction="y">
+                        <DemoVolume name="N0TE8">
 
-                </DemoVolume>
-                <DemoVolume name="MXT8P">
-                    
-                </DemoVolume>
-                <DemoVolume name="NCODE">
-                    
-                </DemoVolume>
-                <DemoVolume name="5HDDR">
-                    
-                </DemoVolume>
-                <DemoVolume name="RETRO">
-                    
-                </DemoVolume>
-                <DemoVolume name="OVRWRLD">
-                    
-                </DemoVolume>
-                <DemoVolume name="ECSLANG">
-                    
-                </DemoVolume>
-                
-            </main>
+                        </DemoVolume>
+                        <DemoVolume name="MXT8P">
+                            
+                        </DemoVolume>
+                        <DemoVolume name="NCODE">
+                            
+                        </DemoVolume>
+                        <DemoVolume name="5HDDR">
+                            
+                        </DemoVolume>
+                        <DemoVolume name="RETRO">
+                            
+                        </DemoVolume>
+                        <DemoVolume name="OVRWRLD">
+                            
+                        </DemoVolume>
+                        <DemoVolume name="ECSLANG">
+                            
+                        </DemoVolume>
+
+                    </Sequence>
+                </group>
+                               
+            </group>
         </>
     )
 }

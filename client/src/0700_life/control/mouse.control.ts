@@ -21,7 +21,7 @@ export class MouseState {
         document.addEventListener("mousemove", (evt) => this.onMouseMove(evt));
     
         if ("onpointerlockchange" in document) {
-            document.addEventListener('pointerlockchange', this.onLockChangeAlert, false);
+            document.addEventListener('pointerlockchange', () => this.onLockChangeAlert(), false);
         } else if ("onmozpointerlockchange" in document) {
             (document as any).addEventListener('mozpointerlockchange', this.onLockChangeAlert, false);
         }

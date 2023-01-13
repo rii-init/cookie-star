@@ -1,7 +1,8 @@
+import { Html } from "@react-three/drei"
 
 export const nature = () => {
     return (
-        <>
+        <Html>
             <h1>Design Language</h1>
             <main>
                 <p>Simple, orthogonal, composable elements.</p>
@@ -177,6 +178,6 @@ export const nature = () => {
                     </div>
                 </section>
             </main>
-        </>
+        </Html>
     )
 }

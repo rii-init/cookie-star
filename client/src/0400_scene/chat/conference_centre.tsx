@@ -1,7 +1,8 @@
+import { Html } from "@react-three/drei";
 
 export let conference_centre = () => {
     return (
-        <>
+        <Html>
         <h1>Hi</h1>
         <main>
             <p>
@@ -12,6 +13,6 @@ export let conference_centre = () => {
             
             Send funny questions to ultr7a@gmail.com
         </main>
-        </>
+        </Html>
     );
 }

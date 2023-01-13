@@ -1,15 +1,26 @@
+import { Html } from "@react-three/drei";
 import { useLocation, Link } from "wouter";
 
 export const RouterNavigationSurface = () => {
     const [location, setLocation] = useLocation();
   
     return (
-      <div className="navigation">
-        <a className={ location == "/"     ? "active" : "" } onClick={() => setLocation("/")}>🐈</a>
-        <a className={ location == "/cv"   ? "active" : "" } onClick={() => setLocation("/cv")}>CV</a>
-        <a className={ location == "/tech"  ? "active" : "" } onClick={() => setLocation("/tech")}>Tech</a>
-        <a className={ location == "/chat" ? "active" : "" } onClick={() => setLocation("/chat")}>Chat</a>
-        <a className={ location == "/meta" ? "active" : "" } onClick={() => setLocation("/meta")}>Meta</a>
-      </div>
+      <group className="navigation">
+        <Html onClick={() => setLocation("/")}>
+          <a className={ location == "/"     ? "active" : "" }>🐈</a>
+        </Html>
+        <Html onClick={() => setLocation("/cv")}>
+          <a className={ location == "/cv"   ? "active" : "" }>CV</a>
+        </Html>
+        <Html onClick={() => setLocation("/tech")}>
+          <a className={ location == "/tech"  ? "active" : "" }>Tech</a>
+        </Html>
+        <Html onClick={() => setLocation("/chat")}>
+          <a className={ location == "/chat" ? "active" : "" }>Chat</a>
+        </Html>
+        <Html onClick={() => setLocation("/meta")}>
+          <a className={ location == "/meta" ? "active" : "" }>Meta</a>
+        </Html>
+      </group>
     );
   };

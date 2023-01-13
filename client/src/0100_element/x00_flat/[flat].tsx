@@ -18,16 +18,19 @@ export let Flat = (props: FlatProps) => {
         const value = React.useContext(SequenceContext);
 
         return (
-            <mesh position={props.position}
-                  rotation={props.rotation 
-                                ? props.rotation 
-                                : [Math.PI/2, 0, 0]} 
-                    matrix={props.matrix}
-            >
-                <planeBufferGeometry args={props.size} />            
-                <meshLambertMaterial color={Universe.colors.accent} 
-                                     side={FrontSide} />
-            </mesh>
+            <group>
+                { props.children }
+                <mesh position={props.position}
+                    rotation={props.rotation 
+                                    ? props.rotation 
+                                    : [Math.PI/2, 0, 0]} 
+                        matrix={props.matrix}
+                >
+                    <planeBufferGeometry args={props.size} />            
+                    <meshLambertMaterial color={Universe.colors.accent} 
+                                        side={FrontSide} />
+                </mesh>
+            </group>
         );
     
     };

@@ -1,3 +1,4 @@
+import { Html } from "@react-three/drei";
 import { ReactNode } from "react"
 
 export interface DemoVolumeProps {
