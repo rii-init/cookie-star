@@ -85,10 +85,10 @@ function App() {
               </group>
               <Switch>
                 <Route path="/"     component={main}   />
-                {/* <Route path="/meta" component={nature} />
+                <Route path="/meta" component={nature} />
                 <Route path="/tech" component={lab}  />
                 <Route path="/chat" component={conference_centre} />
-                <Route path="/cv"   component={show_room}         /> */}
+                <Route path="/cv"   component={show_room}         />
               </Switch>
           </Router>
           

@@ -1,6 +1,6 @@
-import { Flat } from "../../0100_element/x00_flat/[flat]";
+import { Flat } from "../../../0100_element/x00_flat/[flat]";
 
-import { IOSurface } from "../../0000_concept/io+surface";
+import { IOSurface } from "../../../0000_concept/io+surface";
 
 export interface InputProps<V = string> extends IOSurface {
     onChange: (value: V) => void;

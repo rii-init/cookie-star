@@ -1,4 +1,4 @@
-import { Flat } from "../../0100_element/x00_flat/[flat]";
+import { Flat } from "../../../0100_element/x00_flat/[flat]";
 import { Html } from "@react-three/drei";
 
 export interface LabelSurfaceProps {

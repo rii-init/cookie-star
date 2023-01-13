@@ -1,8 +1,8 @@
 import { Html } from "@react-three/drei"
 import { Sequence } from "../../0100_element/200_sequence/sequence"
-import { DemoVolume } from "../../0200_component/flat/DemoVolume"
-import { LabelSurface } from "../../0200_component/flat/LabelSurface"
-import { TableOfContentsSurface } from "../../0200_component/flat/TableOfContentsSurface"
+import { DemoVolume }   from "../../0200_component/flat/vector/DemoVolume"
+import { LabelSurface } from "../../0200_component/flat/scalar/LabelSurface"
+import { TableOfContentsSurface } from "../../0200_component/flat/vector/TableOfContentsSurface"
 
 export const lab = () => {
     return (

@@ -1,6 +1,6 @@
 import { Html } from "@react-three/drei";
 import React from "react";
-import { Flat } from "../../0100_element/x00_flat/[flat]";
+import { Flat } from "../../../0100_element/x00_flat/[flat]";
 
 export interface ContentProps {
     children?: React.ReactNode;

@@ -46,7 +46,7 @@ export class UserControls {
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
                 this.mouse.isLocked = false;
-                document.querySelector(".App")?.setAttribute("class", "App");
+                //document.querySelector(".App")?.setAttribute("class", "App");
             }
         })
 
@@ -132,7 +132,7 @@ export class UserControls {
         if (this.keys.space) {
             this.moveVector.y = 3;
 
-            if (this.moveVector.y > -0.5) {
+            if (this.ctx3.camera.matrix.elements[13] > 2) {
                 this.enableFlying = true;
             }
         }
