@@ -40,6 +40,15 @@ func GetPage(db *gorm.DB, Page *Page, id int) (err error) {
 	return nil
 }
 
+// get Page by id
+func GetPageByUrl(db *gorm.DB, Page *Page, url string) (err error) {
+	err = db.Where("url = ?", url).First(Page).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // update Page
 func UpdatePage(db *gorm.DB, Page *Page) (err error) {
 	db.Save(Page)
