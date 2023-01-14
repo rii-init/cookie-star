@@ -42,21 +42,7 @@ export const Sequence = (props: SequenceProps) => {
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group position={props.position || [0,0,0]}>
             {
-                props.border 
-                ? React.Children.map(props.children, (child, index) => {
-                return (
-                    <mesh key={index} 
-                     position={positionForDirection(
-                            props.direction, 
-                            props.itemPadding || 0, 
-                            index)}>
-                        <boxBufferGeometry args={shapeForDirection(props.direction)} />
-                        <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
-                        {child}
-                    </mesh>
-                )
-                })
-                : React.Children.map(props.children, (child, index) => {
+                React.Children.map(props.children, (child, index) => {
                     return (
                         <group key={index} 
                          position={positionForDirection(props.direction, 

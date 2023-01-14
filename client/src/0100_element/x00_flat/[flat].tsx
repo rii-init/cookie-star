@@ -27,7 +27,7 @@ export let Flat = (props: FlatProps) => {
                         matrix={props.matrix}
                 >
                     <planeBufferGeometry  args={props.size} />            
-                    <meshLambertMaterial color={Universe.colors.accent} 
+                    <meshLambertMaterial color={Universe.colors.background} 
                                           side={FrontSide} />
                 </mesh>
             </group>
