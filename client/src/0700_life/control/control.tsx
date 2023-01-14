@@ -1,4 +1,4 @@
-import { Euler, Matrix4, Vector3 } from "three";
+import { Euler, Matrix4, Mesh, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../static.geometries";
@@ -54,6 +54,14 @@ export class UserControls {
         })
 
         this.mouse.setCanvas(Universe.canvas);
+    }
+
+    public handlePointerOver(mesh: Mesh) {
+        this.cursorActivated = 0.0;
+    }
+
+    public handleOverOut(mesh: Mesh) {
+        this.cursorActivated = 0.1;
     }
 
     public update(delta: number) {
