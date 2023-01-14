@@ -8,10 +8,9 @@ export interface ParagraphSurfaceProps {
 
 export const ParagraphSurface = (props: ParagraphSurfaceProps) => {
     return (
-        <Flat>
-            <Html>
-                { props.children }    
-            </Html>
-        </Flat>
+        <Html>
+            { props.children }    
+        </Html>
+        
     )
 }

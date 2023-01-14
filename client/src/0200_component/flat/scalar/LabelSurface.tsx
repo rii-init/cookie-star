@@ -1,4 +1,3 @@
-import { Flat } from "../../../0100_element/x00_flat/[flat]";
 import { Html } from "@react-three/drei";
 
 export interface LabelSurfaceProps {
@@ -9,14 +8,12 @@ export interface LabelSurfaceProps {
 
 export let LabelSurface = (props: LabelSurfaceProps) => {
     return (
-        <Flat position={props.position}>
-            <Html>            
+        <Html>            
             { props.text 
                     ? <span>{props.text}</span> 
                     : null 
             }
             { props.children }
-            </Html>
-        </Flat>
+        </Html>
     );
 }
