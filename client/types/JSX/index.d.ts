@@ -8,6 +8,7 @@ declare module JSX {
         "octahedronGeometry": any,
         "meshBasicMaterial": any,
         "perspectiveCamera": any,
+        "boxGeometry": any,
         "Canvas": any,
     }
 }

@@ -30,6 +30,9 @@ export class UserControls {
 
     public staticGeom = new StaticGeometries();
 
+    public cursorHidden = false;
+    public cursorActivated = 0;
+
 
 
     constructor(ctx3: CTX3) {

@@ -25,6 +25,8 @@ import { GridOctaves } from './0300_entity/grid-octaves';
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 import { Enter3DButton }    from './0200_component/flat/2d/enter-3d-button';
 import { InfiniteUniverse } from './0200_component/infinite-universe';
+import { Cursor } from './0200_component/hud/cursor';
+import { UwUCam } from './0200_component/uwu-cam';
 
 
 const R3FCanvas = Canvas as any;
@@ -63,7 +65,10 @@ function App() {
 
             <ThreeJSContext />
             <ResizeCanvas />
-            
+            <Cursor hide={false} 
+               activated={0.1}
+               position={[0,0,-2]}
+            />  
             <Controllers />
             <Hands />
             
