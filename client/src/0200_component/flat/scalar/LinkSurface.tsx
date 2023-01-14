@@ -19,10 +19,6 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     {props.children}
                 </a>
             </Html>
-            <mesh>
-                <boxBufferGeometry args={[1, 1, 1]} />
-                <meshBasicMaterial color={Universe.colors.foreground} />
-            </mesh>
         </group>
     );
 }
