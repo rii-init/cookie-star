@@ -21,7 +21,7 @@ export const lab = () => {
                 <group>
                     <Sequence direction="y">
                         <DemoVolume name="N0TE8">
-
+                            
                         </DemoVolume>
                         <DemoVolume name="MXT8P">
                             

@@ -21,14 +21,14 @@ export let Flat = (props: FlatProps) => {
             <group>
                 { props.children }
                 <mesh position={props.position}
-                    rotation={props.rotation 
+                      rotation={props.rotation 
                                     ? props.rotation 
                                     : [Math.PI/2, 0, 0]} 
                         matrix={props.matrix}
                 >
-                    <planeBufferGeometry args={props.size} />            
+                    <planeBufferGeometry  args={props.size} />            
                     <meshLambertMaterial color={Universe.colors.accent} 
-                                        side={FrontSide} />
+                                          side={FrontSide} />
                 </mesh>
             </group>
         );
