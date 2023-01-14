@@ -3,7 +3,7 @@ export class SocketClient {
     private handlers: { [key: string]: (event: MessageEvent) => void } = {};
 
     constructor() {
-        this.socket = new WebSocket("ws://ultr7a.com/api");
+        this.socket = new WebSocket("ws://ultr7a.com/socket");
 
         this.socket.onopen = (event) => {
             console.log("WebSocket connection opened.", event);
