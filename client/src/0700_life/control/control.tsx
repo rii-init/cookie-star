@@ -1,4 +1,4 @@
-import { Euler, Matrix4, Mesh, Raycaster, Vector3 } from "three";
+import { Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../static.geometries";
@@ -15,6 +15,7 @@ export class UserControls {
     private movement     = new Matrix4();
     private rotation     = new Matrix4();
     private rollVelocity = 0;
+    private keyRotationVelocity = new Vector2(0,0);
     public  roll         = new Vector3(0, 0, 0);
     
     public  moveVector   = new Vector3(0, 0, 0);
@@ -85,15 +86,20 @@ export class UserControls {
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-        if (this.keys.ArrowDown || this.keys.ArrowUp 
-         || this.keys.ArrowLeft || this.keys.ArrowRight) {
-            this.rotation.makeRotationFromEuler(
-                new Euler(this.keys.ArrowDown
-                        ? -0.05 : this.keys.ArrowUp?0.05:0, 
-                        this.keys.ArrowLeft
-                        ? 0.05 : this.keys.ArrowRight?-0.05:0,
-                        this.roll.z/35))
-        }
+        
+        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.01 :0 - (this.keys.ArrowUp ? 0.01 : 0);
+
+        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.01 :0 - (this.keys.ArrowLeft ? 0.01 : 0);
+
+        this.keyRotationVelocity.x = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.x*0.92));
+
+        this.keyRotationVelocity.y = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.y*0.92));
+
+        this.rotation.makeRotationFromEuler(
+            new Euler(this.keyRotationVelocity.x, 
+                      this.keyRotationVelocity.y, this.roll.z/35))
+
+
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
