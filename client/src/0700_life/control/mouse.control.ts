@@ -1,6 +1,8 @@
 export class MouseState {
     public leftButton  = false;
     public rightButton = false;
+    private x = 0;
+    private y = 0;
     public dx = 0;
     public dy = 0;
     public isLocked    = false;
@@ -30,8 +32,16 @@ export class MouseState {
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         canvas.addEventListener("click", () => {
-            canvas.requestPointerLock();
-            this.setLocked(true);
+            if (Math.abs(this.x - (window.innerWidth / 2))
+                  < (window.innerWidth / 10)
+             && Math.abs(this.y - (window.innerHeight / 2))
+                  < (window.innerHeight / 10)
+                ) {
+            
+                canvas.requestPointerLock();
+                this.setLocked(true );
+            }
+
         })
     }
 
@@ -46,18 +56,12 @@ export class MouseState {
 
     private setLocked(isLocked: boolean) {
         this.isLocked = isLocked;
-
-        if (isLocked) {
-            // document.querySelector(".App")?.setAttribute("class", "App vr");
-            // document.querySelector(".vr-button")?.setAttribute("class", "vr-button vr");
-        } else {
-            // document.querySelector(".App")?.setAttribute("class", "App");
-            // document.querySelector(".vr-button")?.setAttribute("class", "vr-button");
-        }
     }
 
     private onMouseMove(evt: MouseEvent) {
         if (this.isLocked) {
+            this.x = evt.clientX;
+            this.y = evt.clientY;
             this.dx = evt.movementX;
             this.dy = evt.movementY;
         }

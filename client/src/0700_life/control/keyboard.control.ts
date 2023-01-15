@@ -9,6 +9,11 @@ export class KeyboardState {
     public q:     boolean = false;
     public e:     boolean = false;
     
+    public ArrowUp:    boolean = false;
+    public ArrowDown:  boolean = false;
+    public ArrowLeft:  boolean = false;
+    public ArrowRight: boolean = false;
+
     public space: boolean = false;
     public shift: boolean = false;
     public ctrl:  boolean = false;
@@ -42,6 +47,11 @@ export class KeyboardState {
             case "q": case "Q": this.q = true; break;
             case "e": case "E": this.e = true; break;
 
+            case "ArrowUp":    this.ArrowUp    = true; break;
+            case "ArrowDown":  this.ArrowDown  = true; break;
+            case "ArrowLeft":  this.ArrowLeft  = true; break;
+            case "ArrowRight": this.ArrowRight = true; break;
+
             case " ":       this.space = true; break;
             case "Shift":   this.shift = true; break;
             case "Control": this.ctrl  = true; break;
@@ -62,6 +72,11 @@ export class KeyboardState {
             
             case "q": case "Q": this.q = false; break;
             case "e": case "E": this.e = false; break;
+
+            case "ArrowUp":    this.ArrowUp    = false; break;
+            case "ArrowDown":  this.ArrowDown  = false; break;
+            case "ArrowLeft":  this.ArrowLeft  = false; break;
+            case "ArrowRight": this.ArrowRight = false; break;
 
             case " ":       this.space = false; break;
             case "Shift":   this.shift = false; break;

@@ -1,4 +1,4 @@
-import { Euler, Matrix4, Mesh, Vector3 } from "three";
+import { Euler, Matrix4, Mesh, Raycaster, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../static.geometries";
@@ -33,6 +33,7 @@ export class UserControls {
     public cursorHidden = false;
     public cursorActivated = 0;
 
+    public oldRaycaster: Raycaster | undefined;
 
 
     constructor(ctx3: CTX3) {
@@ -84,7 +85,15 @@ export class UserControls {
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-        
+        if (this.keys.ArrowDown || this.keys.ArrowUp 
+         || this.keys.ArrowLeft || this.keys.ArrowRight) {
+            this.rotation.makeRotationFromEuler(
+                new Euler(this.keys.ArrowDown
+                        ? -0.05 : this.keys.ArrowUp?0.05:0, 
+                        this.keys.ArrowLeft
+                        ? 0.05 : this.keys.ArrowRight?-0.05:0,
+                        this.roll.z/35))
+        }
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 

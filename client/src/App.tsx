@@ -44,19 +44,13 @@ function App() {
         
         <div id="ui_2d__button_container">
           <VisualThemeManager />  
-          <Enter3DButton className="ui_2d__button" 
-               controllersAttached={Universe.user_controls?.controllersAttached} />
-          
-          <VRButton className="ui_2d__button" 
-                        style={{
-                          display: Universe.user_controls?.controllersAttached ? "inline-block" : "none"
-                        }}
-          />
+          <VRButton className="ui_2d__button" />
         </div>
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
-                  pixelRatio={window.devicePixelRatio}    
+                  pixelRatio={window.devicePixelRatio} 
+                  gl={{ alpha: false }}
         >
           <color attach="background" 
                    args={Universe.colors.background} />

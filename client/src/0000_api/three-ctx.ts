@@ -1,6 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Canvas } from '@react-three/fiber';
-import { Camera, Scene } from "three";
+import { Camera, Raycaster, Scene, Vector2 } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 
@@ -27,6 +27,7 @@ export let ThreeJSContext = function() {
       if (Universe.user_controls) {
         Universe.user_controls.update(delta);
       }
+      state.raycaster.setFromCamera(new Vector2(0,0), state.camera);
     })
     
     return null;
