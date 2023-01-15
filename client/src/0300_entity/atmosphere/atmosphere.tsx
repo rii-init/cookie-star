@@ -1,19 +1,21 @@
-import THREE from "three"
+import { BackSide } from "three"
+import { Universe } from "../../0000_concept/universe"
 import { CloudFormation } from "./cloud.formation"
 import { Galaxy } from "./galaxy"
 
 export interface AtmosphereProps {
-    texture: string
+    texture?: string
 }
 
-export const atmosphere = (props: AtmosphereProps) => {
+export const Atmosphere = (props: AtmosphereProps) => {
     return (
         <group>
-            <Galaxy />
-            <CloudFormation />
+            
+            {/* <Galaxy />
+            <CloudFormation /> */}
             <mesh>
-                <sphereGeometry attach="geometry" args={[100, 100, 100]} />
-                <meshBasicMaterial attach="material" map={props.texture} side={THREE.BackSide} />
+                <boxBufferGeometry attach="geometry" args={[100, 100, 100]} />
+                <meshBasicMaterial attach="material" map={props.texture} color={Universe.skyColor} side={BackSide} />
             </mesh>
         </group>
     )

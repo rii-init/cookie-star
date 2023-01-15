@@ -66,7 +66,7 @@ function App() {
             <ResizeCanvas />
             <Cursor hide={false} 
                activated={0.1 || Universe?.user_controls?.cursorActivated}
-               position={[0,0,-3]}
+               position={[0,0,-1]}
             />  
             <Controllers />
             <Hands />
@@ -74,8 +74,6 @@ function App() {
             <pointLight   intensity={1.0} position={[0, 5, 0]} />
             <ambientLight intensity={0.5} />
 
-            <GridOctaves />
-            <TallBox position={[0, 1.6, -4.0]} />
             
             <InfiniteUniverse>
 

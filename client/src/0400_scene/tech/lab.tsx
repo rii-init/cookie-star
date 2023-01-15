@@ -3,6 +3,8 @@ import { Sequence } from "../../0100_element/200_sequence/sequence"
 import { DemoVolume }   from "../../0200_component/flat/vector/DemoVolume"
 import { LabelSurface } from "../../0200_component/flat/scalar/LabelSurface"
 import { TableOfContentsSurface } from "../../0200_component/flat/vector/TableOfContentsSurface"
+import { GridOctaves } from "../../0300_entity/grid-octaves"
+import { TallBox } from "../../0300_entity/lilac-box"
 
 export const lab = () => {
     return (
@@ -46,6 +48,9 @@ export const lab = () => {
                 </group>
                                
             </group>
+            <GridOctaves />
+            <TallBox position={[0, 1.6, -4.0]} />
+            
         </>
     )
 }
