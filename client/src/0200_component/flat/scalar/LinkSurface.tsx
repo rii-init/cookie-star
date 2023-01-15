@@ -27,7 +27,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                         ? Universe.colors.accent2 
                         : Universe.colors.background} />
             </mesh>
-            <Html>
+            <Html className="navigation-link">
                 <a className={ props.current == props.location ? "active" : "" }>
                     {props.children}
                 </a>

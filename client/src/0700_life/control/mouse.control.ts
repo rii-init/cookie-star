@@ -31,8 +31,6 @@ export class MouseState {
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         canvas.addEventListener("click", (e: MouseEvent) => {
-            // console.log("distance_x from center ", Math.abs(e.clientX - (window.innerWidth / 2)));
-            // console.log("distance_y from center ", Math.abs(e.clientY - (window.innerHeight / 2)))
 
             const deltaX = Math.abs(e.clientX - (window.innerWidth / 2));
 

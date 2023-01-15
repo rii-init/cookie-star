@@ -72,18 +72,14 @@ main {
   margin: auto;
   width: 60vw;
   min-width: 22em;
-  height: 1.75em;
-  color: #7b7b7b;
-  font-size: 3.5vw !important; 
+  height: 1.75em; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navigation-link{ 
+  font-size: 3.5vw !important;
+  color: #7b7b7b;
+  position: relative !important;
+  right: 2.5vw;
 }
 
 .horizon { 
@@ -106,7 +102,6 @@ main {
 h1 {
   text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
   font-size: 3.5vw;
-  margin-top:2em;
 }
 
 p {
