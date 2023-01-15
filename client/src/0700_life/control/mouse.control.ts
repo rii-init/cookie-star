@@ -1,8 +1,7 @@
 export class MouseState {
     public leftButton  = false;
     public rightButton = false;
-    private x = 0;
-    private y = 0;
+
     public dx = 0;
     public dy = 0;
     public isLocked    = false;
@@ -31,15 +30,22 @@ export class MouseState {
 
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        canvas.addEventListener("click", () => {
-            if (Math.abs(this.x - (window.innerWidth / 2))
-                  < (window.innerWidth / 10)
-             && Math.abs(this.y - (window.innerHeight / 2))
-                  < (window.innerHeight / 10)
-                ) {
-            
-                canvas.requestPointerLock();
-                this.setLocked(true );
+        canvas.addEventListener("click", (e: MouseEvent) => {
+            // console.log("distance_x from center ", Math.abs(e.clientX - (window.innerWidth / 2)));
+            // console.log("distance_y from center ", Math.abs(e.clientY - (window.innerHeight / 2)))
+
+            const deltaX = Math.abs(e.clientX - (window.innerWidth / 2));
+
+            if (deltaX < (window.innerWidth / 10)) {
+                
+                const deltaY = Math.abs(e.clientY - (window.innerHeight / 2));
+
+                if (deltaY < (window.innerHeight / 10) ) {
+                    
+                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 100))
+                    canvas.requestPointerLock();
+                    this.setLocked(true );
+                }
             }
 
         })
@@ -60,8 +66,6 @@ export class MouseState {
 
     private onMouseMove(evt: MouseEvent) {
         if (this.isLocked) {
-            this.x = evt.clientX;
-            this.y = evt.clientY;
             this.dx = evt.movementX;
             this.dy = evt.movementY;
         }

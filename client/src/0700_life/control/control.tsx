@@ -86,9 +86,11 @@ export class UserControls {
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-        
-        this.handleKeyboardCameraRotation();
+        camera.matrix.multiply(this.rotation);
 
+        this.rotation.identity();
+        this.handleKeyboardCameraRotation();
+        camera.matrix.multiply(this.rotation);
 
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
@@ -109,7 +111,7 @@ export class UserControls {
               elements[14] += this.velocity.z;
 
 
-            this.staticGeom.collision(this, camera, this.velocity, delta)
+        this.staticGeom.collision(this, camera, this.velocity, delta)
         
 
         // Terresterial movement
@@ -122,13 +124,13 @@ export class UserControls {
     }
 
     private handleKeyboardCameraRotation() {
-        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.01 :0 - (this.keys.ArrowUp ? 0.01 : 0);
+        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.0025 :0 - (this.keys.ArrowUp ? 0.0025 : 0);
 
-        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.01 :0 - (this.keys.ArrowLeft ? 0.01 : 0);
+        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.0025 :0 - (this.keys.ArrowLeft ? 0.0025 : 0);
 
-        this.keyRotationVelocity.x = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.x*0.92));
+        this.keyRotationVelocity.x = Math.max(-0.025, Math.min(0.025, this.keyRotationVelocity.x*0.92));
 
-        this.keyRotationVelocity.y = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.y*0.92));
+        this.keyRotationVelocity.y = Math.max(-0.025, Math.min(0.025, this.keyRotationVelocity.y*0.92));
 
         this.rotation.makeRotationFromEuler(
             new Euler(this.keyRotationVelocity.x, 

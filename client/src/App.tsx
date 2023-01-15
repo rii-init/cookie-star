@@ -50,7 +50,7 @@ function App() {
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                   pixelRatio={window.devicePixelRatio} 
-                  gl={{ alpha: false }}
+                          gl={{ alpha: false }}
         >
           <color attach="background" 
                    args={Universe.colors.background} />
@@ -60,7 +60,7 @@ function App() {
             <ResizeCanvas />
             <Cursor hide={false} 
                activated={0.1 || Universe?.user_controls?.cursorActivated}
-               position={[0,0,-1]}
+                position={[0,0,-1]}
             />  
             <Controllers />
             <Hands />
