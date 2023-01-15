@@ -59,7 +59,7 @@ function App() {
             <ThreeJSContext />
             <ResizeCanvas />
             <Cursor hide={false} 
-               activated={0.1 || Universe?.user_controls?.cursorActivated}
+               activated={0.05 || Universe?.user_controls?.cursorActivated}
                 position={[0,0,-1]}
             />  
             <Controllers />

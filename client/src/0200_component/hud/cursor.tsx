@@ -7,7 +7,7 @@ const WhiteSquare = (p: {
         position: [number,number,number], children: React.ReactNode;
     }) => (
     <mesh position={p.position}>
-        <boxBufferGeometry args={[0.05, 0.05, 0.05]} />
+        <boxBufferGeometry args={[0.025, 0.025, 0.025]} />
         <meshLambertMaterial color="white" />
     </mesh>
 );
@@ -32,13 +32,13 @@ export const Cursor = (p: CursorProps) => {
 
     return (
         <group ref={meshRef} rotation={[Math.PI / 2, 0, 0]} position={p.position}>
-            <WhiteSquare position={[-0.05-p.activated, 0,  0]}>
+            <WhiteSquare position={[-0.025-p.activated, 0,  0]}>
             </WhiteSquare>
-            <WhiteSquare position={[0.05+p.activated,  0,  0]} >
+            <WhiteSquare position={[0.025+p.activated,  0,  0]} >
             </WhiteSquare>       
-            <WhiteSquare position={[0.0,  0,  0.05+p.activated]} >
+            <WhiteSquare position={[0.0,  0,  0.025+p.activated]} >
             </WhiteSquare>       
-            <WhiteSquare position={[0.0,  0, -0.05-p.activated]} >
+            <WhiteSquare position={[0.0,  0, -0.025-p.activated]} >
             </WhiteSquare>
         </group>    
     );
