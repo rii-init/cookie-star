@@ -87,17 +87,7 @@ export class UserControls {
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
         
-        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.01 :0 - (this.keys.ArrowUp ? 0.01 : 0);
-
-        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.01 :0 - (this.keys.ArrowLeft ? 0.01 : 0);
-
-        this.keyRotationVelocity.x = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.x*0.92));
-
-        this.keyRotationVelocity.y = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.y*0.92));
-
-        this.rotation.makeRotationFromEuler(
-            new Euler(this.keyRotationVelocity.x, 
-                      this.keyRotationVelocity.y, this.roll.z/35))
+        this.handleKeyboardCameraRotation();
 
 
         camera.matrix.multiply(this.rotation);
@@ -129,6 +119,20 @@ export class UserControls {
         }
         
         camera.updateMatrixWorld(true);
+    }
+
+    private handleKeyboardCameraRotation() {
+        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.01 :0 - (this.keys.ArrowUp ? 0.01 : 0);
+
+        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.01 :0 - (this.keys.ArrowLeft ? 0.01 : 0);
+
+        this.keyRotationVelocity.x = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.x*0.92));
+
+        this.keyRotationVelocity.y = Math.max(-0.1, Math.min(0.1, this.keyRotationVelocity.y*0.92));
+
+        this.rotation.makeRotationFromEuler(
+            new Euler(this.keyRotationVelocity.x, 
+                      this.keyRotationVelocity.y, this.roll.z/35))
     }
 
     private calculateMoveVector() {
