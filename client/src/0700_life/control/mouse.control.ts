@@ -1,6 +1,7 @@
 export class MouseState {
     public leftButton  = false;
     public rightButton = false;
+
     public dx = 0;
     public dy = 0;
     public isLocked    = false;
@@ -21,7 +22,7 @@ export class MouseState {
         document.addEventListener("mousemove", (evt) => this.onMouseMove(evt));
     
         if ("onpointerlockchange" in document) {
-            document.addEventListener('pointerlockchange', this.onLockChangeAlert, false);
+            document.addEventListener('pointerlockchange', () => this.onLockChangeAlert(), false);
         } else if ("onmozpointerlockchange" in document) {
             (document as any).addEventListener('mozpointerlockchange', this.onLockChangeAlert, false);
         }
@@ -29,9 +30,24 @@ export class MouseState {
 
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        canvas.addEventListener("click", () => {
-            canvas.requestPointerLock();
-            this.setLocked(true);
+        canvas.addEventListener("click", (e: MouseEvent) => {
+            // console.log("distance_x from center ", Math.abs(e.clientX - (window.innerWidth / 2)));
+            // console.log("distance_y from center ", Math.abs(e.clientY - (window.innerHeight / 2)))
+
+            const deltaX = Math.abs(e.clientX - (window.innerWidth / 2));
+
+            if (deltaX < (window.innerWidth / 10)) {
+                
+                const deltaY = Math.abs(e.clientY - (window.innerHeight / 2));
+
+                if (deltaY < (window.innerHeight / 10) ) {
+                    
+                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 150))
+                    canvas.requestPointerLock();
+                    this.setLocked(true );
+                }
+            }
+
         })
     }
 
@@ -46,12 +62,6 @@ export class MouseState {
 
     private setLocked(isLocked: boolean) {
         this.isLocked = isLocked;
-
-        if (isLocked) {
-            document.querySelector(".App")?.setAttribute("class", "App vr");
-        } else {
-            document.querySelector(".App")?.setAttribute("class", "App");
-        }
     }
 
     private onMouseMove(evt: MouseEvent) {

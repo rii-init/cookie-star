@@ -24,28 +24,23 @@ do
 
     # Get JSX content:
     heading_text="$(cat "$HTML_NAME/$JSX_NAME.tsx" | grep -Eo "<h1>.*</h1>" )" 
-    main_text="$(awk '/<main>/,/<\/main>/' "$HTML_NAME/$JSX_NAME.tsx" )"    
-
-    echo "heading_text: $heading_text";
-    echo "main_text: $main_text";
-    echo "-------------------------------"
-
- 
+    main_text="$(awk '/<main>/,/<\/main>/' "$HTML_NAME/$JSX_NAME.tsx" )"
+    
     HTML_PATH="$CLIENT_PATH/build/$HTML_NAME/index.html";
 
     if [ "home" == "$HTML_NAME" ]; then
         HTML_PATH="$CLIENT_PATH/build/index.html";
-        # sed -i "s|</body>||" "$HTML_PATH";
-        # sed -i "s|</html>||" "$HTML_PATH";
     fi
-
-    sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|"  "$HTML_PATH"
-
-    # echo "$main_text"    >> "$HTML_PATH";
-    # echo "$bottom_bread" >> "$HTML_PATH";
     
-    sed -i "s|className|class|" "$HTML_PATH";
+    sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|" "$HTML_PATH"
     
+    echo "$main_text" >> "$HTML_PATH.tmp";
+    node "$CLIENT_PATH/linker.content.js" "$HTML_PATH.tmp" "$HTML_PATH";
+    
+    sed -i "s|className|class|"                            "$HTML_PATH";
+    
+    # clean up:
+    rm "$HTML_PATH.tmp";
 done
 
 cd ../../;

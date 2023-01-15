@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@react-three/test-renderer": "^8.0.17",
-    "@types/three": "^0.146.0"
+    "@types/three": "^0.146.0",
+    "cypress": "^12.3.0"
   }
 }

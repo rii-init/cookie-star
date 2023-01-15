@@ -1,3 +1,17 @@
+main {
+  font-size: 22pt !important;
+}
+
+.theme._0 main {
+  color: #000000;
+}
+.theme._1 main {
+  color: #ffffff;
+}
+.visual-theme._0 {
+  padding-right: 0.3em;
+}
+
 #r3f-canvas canvas {
   position: fixed;
   width:  100%;
@@ -47,7 +61,6 @@
 
   border-radius: 0.55em;
 
-  background-color: #7f7f7f24;
   color: #7b7b7b; 
 
 }
@@ -58,8 +71,10 @@
   top: 0;
   margin: auto;
   width: 60vw;
-  height: 2.75em;
-  color: #7b7b7b; 
+  min-width: 22em;
+  height: 1.75em;
+  color: #7b7b7b;
+  font-size: 3.5vw !important; 
 }
 
 @keyframes App-logo-spin {
@@ -90,8 +105,13 @@
 
 h1 {
   text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
+  font-size: 3.5vw;
+  margin-top:2em;
 }
 
+p {
+  margin-bottom: 1em;
+}
 
 .fullScreen {
   width: 100vw;
@@ -99,4 +119,26 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+#ui_2d__button_container {
+  position: absolute;
+  bottom: 1em;
+  right: 0;
+  display: inline-block;
+  margin-left: 1em;
+}
+
+#ui_2d__button_container .ui_2d__button {
+  z-index: 9999 !important;
+    font-size: 3vw !important;
+    position: relative !important;
+    transform: none !important;
+    margin-right: 0.3em;
+    left: 0 !important;
+    top: 0 !important;
+    background-color: #eeeeee !important;
+    color: #444 !important;
+    border: 0.07em solid #ccc !important;
+    border-radius: 0.2em !important;
 }

@@ -15,6 +15,7 @@ body {
 }
 
 main {
+    font-size: 22pt;
     max-width: 66vw;
     min-width: 320px;
     height: 75vh;
@@ -23,7 +24,6 @@ main {
 }
 
 .App {
-    pointer-events: none;
     text-align: center;
     width: 100%;
     position: absolute;
@@ -53,8 +53,7 @@ main {
     font-size: calc(10px + 2vmin);
   
     border-radius: 0.55em;
-  
-    background-color: #7f7f7f24;
+
     color: #7b7b7b; 
   
   }
@@ -67,6 +66,7 @@ main {
     width: 100%;
     display: inline-block;
     color: #7b7b7b; 
+    font-size: 3.5vw !important;
   }
   
 
@@ -97,8 +97,8 @@ h1 {
     text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
     padding-left: 1em;
     color: white;
-    margin-top: 3em;
-    font-size: 2em;
+    margin-top: 2em;
+    font-size: 3.5vw;
 }
 
 h2 {
@@ -106,7 +106,7 @@ h2 {
     padding-left: 1.3em;
     text-shadow: 0px 1px 1px #00000000;
     background: white;
-    box-shadow: inset -1px 1px 4px 2px #00000036;
+    box-shadow: 7px 20px 47px 21px #00000022;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }

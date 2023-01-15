@@ -2,4 +2,6 @@
 
 source linker.content.sh;
 source linker.resource.sh;
-echo "Done Linking Resources and Content."
+source linker.responsive.sh;
+
+echo "Done Linking Resources and Content, and generating responsive content."

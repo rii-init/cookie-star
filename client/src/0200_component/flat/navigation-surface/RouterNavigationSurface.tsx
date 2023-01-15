@@ -1,15 +1,22 @@
+import { Html } from "@react-three/drei";
 import { useLocation, Link } from "wouter";
+import { Sequence } from "../../../0100_element/200_sequence/sequence";
+import { LinkSurface } from "../scalar/LinkSurface";
 
 export const RouterNavigationSurface = () => {
     const [location, setLocation] = useLocation();
   
     return (
-      <div className="navigation">
-        <a className={ location == "/"         ? "active" : "" } onClick={() => setLocation("/")}>🐈</a>
-        <a className={ location == "/cv"       ? "active" : "" } onClick={() => setLocation("/cv")}>CV</a>
-        <a className={ location == "/tools"    ? "active" : "" } onClick={() => setLocation("/tools")}>Tools</a>
-        <a className={ location == "/chat"     ? "active" : "" } onClick={() => setLocation("/chat")}>Chat</a>
-        <a className={ location == "/elements" ? "active" : "" } onClick={() => setLocation("/elements")}>Elements</a>
-      </div>
+      <group className="navigation">
+
+        <Sequence direction="x" position={[-1.32,2.2,-1]} color={[250,250,250]} itemPadding={-0.333}>
+          <LinkSurface location="/"     current={location}>🐈</LinkSurface>
+          <LinkSurface location="/cv"   current={location}>CV</LinkSurface>
+          <LinkSurface location="/tech" current={location}>Tech</LinkSurface>
+          <LinkSurface location="/chat" current={location}>Chat</LinkSurface>
+          <LinkSurface location="/meta" current={location}>Meta</LinkSurface>
+        </Sequence>
+
+      </group>
     );
   };

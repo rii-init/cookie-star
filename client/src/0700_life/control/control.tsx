@@ -1,44 +1,69 @@
-import { Euler, Matrix4, Vector3 } from "three";
+import { Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
+import { StaticGeometries } from "../static.geometries";
+import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
+import { TouchControl } from "./touch.control";
 
 
-export class UserCTL {
+export class UserControls {
     
     private ctx3: CTX3;
     
-    private movement   = new Matrix4();
-    private rotation   = new Matrix4();
-    public  roll       = new Vector3(0, 0, 0);
-    public  moveVector = new Vector3(0, 0, 0);
-    public  velocity   = new Vector3(0, 0, 0);
+    private movement     = new Matrix4();
+    private rotation     = new Matrix4();
+    private rollVelocity = 0;
+    private keyRotationVelocity = new Vector2(0,0);
+    public  roll         = new Vector3(0, 0, 0);
+    
+    public  moveVector   = new Vector3(0, 0, 0);
+    public  velocity     = new Vector3(0, 0, 0);
+  
+    public enableFlying        = false;
+    public controllersAttached = false;
+  
+    public gamepad  = new GamepadControl(this);
+    public touch    = new TouchControl();
+    public mouse    = new MouseState();
+    public keys     = new KeyboardState( );
 
+    public staticGeom = new StaticGeometries();
 
-    public mouse = new MouseState();
-    public keys  = new KeyboardState( );
+    public cursorHidden = false;
+    public cursorActivated = 0;
+
+    public oldRaycaster: Raycaster | undefined;
+
 
     constructor(ctx3: CTX3) {
+        this.ctx3 = ctx3;
+
         this.keys.init();
         this.mouse.init();
         
-        this.ctx3 = ctx3;
-        ctx3.camera.matrixAutoUpdate = false; 
-        ctx3.camera.position.set(0,1,0);
+        ctx3.camera.matrix.elements[13]  = 1.6;
+        ctx3.camera.matrix.elements[14]  = 1.5;
         
-        
+        ctx3.camera.matrixAutoUpdate = false;
 
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
                 this.mouse.isLocked = false;
-                document.querySelector(".App")?.setAttribute("class", "App");
+                //document.querySelector(".App")?.setAttribute("class", "App");
             }
         })
 
         this.mouse.setCanvas(Universe.canvas);
+    }
 
-        
+    public handlePointerOver(mesh: Mesh) {
+        this.cursorActivated = 0.0;
+    }
+
+    public handleOverOut(mesh: Mesh) {
+        this.cursorActivated = 0.1;
     }
 
     public update(delta: number) {
@@ -51,8 +76,8 @@ export class UserCTL {
     }
 
     private calculatePosition(delta: number) {
-        const camera   = this.ctx3.camera;
-        const move = this.moveVector.multiplyScalar(delta);
+        const camera = this.ctx3.camera;
+        const move   = this.moveVector.multiplyScalar(delta);
         
         const    m1T = camera.matrix.elements.slice(12,15);
 
@@ -61,7 +86,12 @@ export class UserCTL {
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-        
+        camera.matrix.multiply(this.rotation);
+
+        this.rotation.identity();
+        this.handleKeyboardCameraRotation();
+        camera.matrix.multiply(this.rotation);
+
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
@@ -80,7 +110,31 @@ export class UserCTL {
               elements[13] += this.velocity.y;
               elements[14] += this.velocity.z;
 
+
+        this.staticGeom.collision(this, camera, this.velocity, delta)
+        
+
+        // Terresterial movement
+        if (!this.enableFlying) {
+            // Gravity
+            this.velocity.y -= 0.0025;
+        }
+        
         camera.updateMatrixWorld(true);
+    }
+
+    private handleKeyboardCameraRotation() {
+        this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.0025 :0 - (this.keys.ArrowUp ? 0.0025 : 0);
+
+        this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.0025 :0 - (this.keys.ArrowLeft ? 0.0025 : 0);
+
+        this.keyRotationVelocity.x = Math.max(-0.025, Math.min(0.025, this.keyRotationVelocity.x*0.92));
+
+        this.keyRotationVelocity.y = Math.max(-0.025, Math.min(0.025, this.keyRotationVelocity.y*0.92));
+
+        this.rotation.makeRotationFromEuler(
+            new Euler(this.keyRotationVelocity.x, 
+                      this.keyRotationVelocity.y, this.roll.z/35))
     }
 
     private calculateMoveVector() {
@@ -108,18 +162,31 @@ export class UserCTL {
             this.moveVector.multiplyScalar(3);
         }
         if (this.keys.space) {
-            this.moveVector.y = 1;
+            this.moveVector.y = 3;
+
+            if (this.ctx3.camera.matrix.elements[13] > 2) {
+                this.enableFlying = true;
+            }
         }
+
+        this.moveVector.x += this.touch.dx;
+        this.moveVector.y += this.touch.dy;
     }
 
     private calculateRotationVector() {
         this.roll.z = 0;
 
         if (this.keys.q) {
-            this.roll.z = 1;        
+            this.rollVelocity += 0.05;        
         }
         if (this.keys.e) {
-            this.roll.z = -1;
+            this.rollVelocity -= 0.05;
         }
+
+
+        // this.rollVelocity -= this.mouse.dx / 1000;
+        this.rollVelocity *= 0.95;
+
+        this.roll.z += this.rollVelocity
     }
 }
