@@ -1,15 +1,17 @@
-import { Html } from "@react-three/drei"
 import { Sequence } from "../../0100_element/200_sequence/sequence"
 import { DemoVolume }   from "../../0200_component/flat/vector/DemoVolume"
 import { LabelSurface } from "../../0200_component/flat/scalar/LabelSurface"
 import { TableOfContentsSurface } from "../../0200_component/flat/vector/TableOfContentsSurface"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 import { TallBox } from "../../0300_entity/lilac-box"
+import { DocumentScene } from "../document.scene"
 
 export const lab = () => {
     return (
         <>
-            <Html><h1>Lab</h1></Html>
+            <DocumentScene>
+                <h1>Lab</h1>
+            </DocumentScene>
             <group>
                 <TableOfContentsSurface>
                     <LabelSurface>N0TE8</LabelSurface>

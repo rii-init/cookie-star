@@ -1,9 +1,8 @@
-import { Html } from "@react-three/drei"
-
+import { DocumentScene } from "../document.scene"
 
 export const show_room = () => {
     return (
-        <Html>
+        <DocumentScene>
             <h1>Timeline</h1>
             <main>
                 <p>
@@ -12,6 +11,6 @@ export const show_room = () => {
                 </p>
                 
             </main>
-        </Html>
+        </DocumentScene>
     )
 }

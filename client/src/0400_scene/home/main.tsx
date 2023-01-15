@@ -1,4 +1,3 @@
-import { Html } from "@react-three/drei"
 import { useEffect } from "react"
 import { Universe } from "../../0000_concept/universe"
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
@@ -9,6 +8,7 @@ import { WaterFall } from "../../0300_entity/sky-island/water.fall"
 import { WaterStream } from "../../0300_entity/sky-island/water.stream"
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight"
 import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
+import { DocumentScene } from "../document.scene"
 
 export const main = () => {
     useEffect(() => {
@@ -16,7 +16,7 @@ export const main = () => {
     }, [])
     
     return (
-        <Html>
+        <DocumentScene>
             <div className={"App theme _"+themeIdx}> 
             <h1>Ultr7A</h1>
             <main>
@@ -29,6 +29,6 @@ export const main = () => {
                 </SkyIsland>
             </main>
             </div>
-        </Html>
+        </DocumentScene>
     )
 }

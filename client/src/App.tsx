@@ -39,7 +39,6 @@ function App() {
   }, []);
 
   return (
-    <>
       <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
@@ -90,7 +89,6 @@ function App() {
           
         </R3FCanvas>
       </div>
-    </>
   );
 }
 

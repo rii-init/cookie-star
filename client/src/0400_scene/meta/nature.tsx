@@ -1,8 +1,8 @@
-import { Html } from "@react-three/drei"
+import { DocumentScene } from "../document.scene"
 
 export const nature = () => {
     return (
-        <Html>
+        <DocumentScene>
             <h1>Design Language</h1>
             <main>
                 <p>Simple, orthogonal, composable elements.</p>
@@ -178,6 +178,6 @@ export const nature = () => {
                     </div>
                 </section>
             </main>
-        </Html>
+        </DocumentScene>
     )
 }

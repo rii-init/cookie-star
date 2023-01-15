@@ -17,28 +17,31 @@ export class TouchControl {
     }
 
     private initTouchStart() {
-        document.addEventListener('touchstart', (event) => {
-            this.x1 = event.touches[0].clientX
-            this.y1 = event.touches[0].clientY
+        document.querySelector("#r3f-canvas")?.addEventListener('touchstart', (event) => {
+            this.x1 = (event as TouchEvent).touches[0].clientX
+            this.y1 = (event as TouchEvent).touches[0].clientY
         })
     }
 
     private initTouchMove() {
-        document.addEventListener('touchmove', (event) => {
-            const x2 = event.touches[0].clientX
-            const y2 = event.touches[0].clientY
-            this.x1 = x2;
-            this.y1 = y2;
-
+        document.querySelector("#r3f-canvas")?.addEventListener('touchmove', (event) => {
+            const x2 = (event as TouchEvent).touches[0].clientX
+            const y2 = (event as TouchEvent).touches[0].clientY
+            
             this.dx = x2 - this.x1;
             this.dy = y2 - this.y1;
+            this.x1 = x2;
+            this.y1 = y2;
+            
         })
     }
 
     private initTouchEnd() {
-        document.addEventListener('touchend', () => {
-            this.x1 = 0
-            this.y1 = 0
+        document.querySelector("#r3f-canvas")?.addEventListener('touchend', () => {
+            this.x1 = 0;
+            this.y1 = 0;
+            this.dx = 0;
+            this.dy = 0;
         })
     }
 

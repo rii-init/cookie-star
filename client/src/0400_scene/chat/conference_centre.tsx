@@ -1,8 +1,8 @@
-import { Html } from "@react-three/drei";
+import { DocumentScene } from "../document.scene";
 
 export let conference_centre = () => {
     return (
-        <Html>
+        <DocumentScene>
         <h1>Hi</h1>
         <main>
             <p>
@@ -25,6 +25,6 @@ export let conference_centre = () => {
             </p>
 
         </main>
-        </Html>
+        </DocumentScene>
     );
 }

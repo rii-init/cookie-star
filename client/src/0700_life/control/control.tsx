@@ -169,8 +169,8 @@ export class UserControls {
             }
         }
 
-        this.moveVector.x += this.touch.dx;
-        this.moveVector.y += this.touch.dy;
+        this.moveVector.x = -this.touch.dx / 2.0;
+        this.moveVector.z = -this.touch.dy / 2.0;
     }
 
     private calculateRotationVector() {
