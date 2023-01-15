@@ -42,9 +42,10 @@ export class MouseState {
 
                 if (deltaY < (window.innerHeight / 10) ) {
                     
-                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 150))
-                    canvas.requestPointerLock();
-                    this.setLocked(true );
+                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 200)) {
+                        canvas.requestPointerLock();
+                        this.setLocked(true );
+                    }
                 }
             }
 

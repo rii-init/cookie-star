@@ -48,8 +48,8 @@ export const lab = () => {
                 </group>
                                
             </group>
+            
             <GridOctaves />
-            <TallBox position={[0, 1.6, -4.0]} />
             
         </>
     )
