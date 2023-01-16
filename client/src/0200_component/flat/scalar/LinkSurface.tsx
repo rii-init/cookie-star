@@ -17,31 +17,21 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     const meshRef = React.useRef<Mesh>(null);
     
     return (
-        <group className="navigation" >
-            <mesh ref={meshRef}
-                  onClick={() => setLocation(props.location)}
-                  onPointerOver={() => Universe.user_controls.handlePointerOver(meshRef.current as any)}
-                  onPointerOut={ () => Universe.user_controls.handleOverOut(meshRef.current as any)}
-                >
+        <group className="navigation" 
+                 onClick={() => setLocation(props.location)}
+           onPointerOver={() => Universe.user_controls.handlePointerOver(meshRef.current as any)}
+            onPointerOut={() => Universe.user_controls.handleOverOut(meshRef.current as any)}
+      
+        >
+            <mesh ref={meshRef}>
                 <boxBufferGeometry args={[0.5,0.5,0.5]} />
                 <meshLambertMaterial color={props.current == props.location 
                         ? Universe.colors.accent2 
                         : Universe.colors.background} />
             </mesh>
-            <TextH3>
+            <TextH3 position={[0,-0.1,0.4]} >
                 {props.children}
             </TextH3>
-            {/* <Html className="navigation-link"
-                  occlude
-                  style={{
-                    transition: 'all 0.2s',
-                  }}
-                    position={[-0.1,0,0.45]}
-            >
-                <a className={ props.current == props.location ? "active" : "" }>
-                    
-                </a>
-            </Html> */}
         </group>
     );
 }

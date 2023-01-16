@@ -4,15 +4,16 @@ export interface TextH4Props {
     children: React.ReactNode;
     color?: string;
     scaling?: number;
+    position?: [number, number, number];
 }
 
 export const TextH4 = (p: TextH4Props) => {
     return (
-        <Text
-                scale={[0.5 * (p.scaling || 1), 0.5 * (p.scaling || 1), 0.5 * (p.scaling || 1)]}
-                color={p.color || "black"} // default
-                anchorX="center" // default
-                anchorY="middle" // default
+        <Text position={p.position || [0, 0, 0]}
+                 scale={[0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1)]}
+                 color={p.color || "black"} // default
+               anchorX="center" // default
+               anchorY="middle" // default
             >
             {p.children}    
         </Text>
