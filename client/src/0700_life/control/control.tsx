@@ -5,7 +5,10 @@ import { StaticGeometries } from "../static.geometries";
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
+import { MouseScrollControl } from "./mouse.scroll.control";
+import { ScrollControl } from "./scroll.control";
 import { TouchControl } from "./touch.control";
+import { TouchScrollControl } from "./touch.scroll.control";
 
 
 export class UserControls {
@@ -34,7 +37,17 @@ export class UserControls {
     public cursorHidden = false;
     public cursorActivated = 0;
 
-    public oldRaycaster: Raycaster | undefined;
+
+    private onScroll = (delta: number) => {
+        console.log("on scroll, delta: ", delta);
+    }
+
+    public scrollControl = new ScrollControl(
+        this.onScroll, 
+        this.touch,
+        new MouseScrollControl(),
+        new TouchScrollControl(this.touch)
+    )
 
 
     constructor(ctx3: CTX3) {
@@ -58,11 +71,11 @@ export class UserControls {
         this.mouse.setCanvas(Universe.canvas);
     }
 
-    public handlePointerOver(mesh: Mesh) {
+    public handlePointerOver = (mesh: Mesh) => {
         this.cursorActivated = 0.0;
     }
 
-    public handleOverOut(mesh: Mesh) {
+    public handleOverOut = (mesh: Mesh) => {
         this.cursorActivated = 0.1;
     }
 
@@ -169,8 +182,8 @@ export class UserControls {
             }
         }
 
-        this.moveVector.x = -this.touch.dx / 2.0;
-        this.moveVector.z = -this.touch.dy / 2.0;
+        this.moveVector.x -= this.touch.dx / 2.0;
+        this.moveVector.z -= this.touch.dy / 2.0;
     }
 
     private calculateRotationVector() {
