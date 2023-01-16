@@ -9,7 +9,7 @@ export interface DocumentSceneProps {
 export const DocumentScene = (props: DocumentSceneProps) => {
     
     return (
-        <Html position={[0,3,-2]} style={{pointerEvents: "none"}} >
+        <Html position={[0,1.6,-2]} style={{pointerEvents: "none"}} >
             {   props.children   }
         </Html>
     )

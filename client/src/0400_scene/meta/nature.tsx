@@ -1,9 +1,11 @@
+import { TextH1 } from "../../0200_component/flat/typography/h1"
 import { DocumentScene } from "../document.scene"
 
 export const nature = () => {
     return (
+        <>
+        <TextH1 position={[0,2.4,-1.5]} >Design Language</TextH1>
         <DocumentScene>
-            <h1>Design Language</h1>
             <main>
                 <p>Simple, orthogonal, composable elements.</p>
 
@@ -179,5 +181,6 @@ export const nature = () => {
                 </section>
             </main>
         </DocumentScene>
+        </>
     )
 }

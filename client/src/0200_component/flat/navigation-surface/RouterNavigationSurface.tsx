@@ -9,7 +9,7 @@ export const RouterNavigationSurface = () => {
     return (
       <group className="navigation">
 
-        <Sequence direction="x" position={[-1.32,2.0,-1]} color={[250,250,250]} itemPadding={-0.333}>
+        <Sequence direction="x" position={[-1.32,1.4,-1]} color={[250,250,250]} itemPadding={-0.333}>
           <LinkSurface location="/"     current={location}><Html style={{fontSize: "52pt", marginTop:"-0.65em"}} >🐈</Html></LinkSurface>
           <LinkSurface location="/cv"   current={location}>CV</LinkSurface>
           <LinkSurface location="/tech" current={location}>Tech</LinkSurface>

@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { Universe } from "../../0000_concept/universe"
+import { TextH1 } from "../../0200_component/flat/typography/h1"
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 import { SkyIsland } from "../../0300_entity/sky-island/sky-island"
@@ -11,16 +12,14 @@ import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
 import { DocumentScene } from "../document.scene"
 
 export const main = () => {
-    // useEffect(() => {
-    //     Universe.skyColor = SyntaxHighlight.Sequence;
-    // }, [])
     
     return (
+        <>
+        <TextH1 position={[0,2.4,-1.5]} >Ultr7A</TextH1>
         <DocumentScene>
             <div className={"App theme _"+themeIdx}> 
-            <h1>Ultr7A</h1>
             <main>
-                <GridOctaves></GridOctaves>
+                {/* <GridOctaves></GridOctaves> */}
                 <Atmosphere />
                 <SkyIsland position={[0,-1.5,0]}>
                     {/* <WaterStream position={[0, 0.1, 0]} />
@@ -30,5 +29,6 @@ export const main = () => {
             </main>
             </div>
         </DocumentScene>
+        </>
     )
 }
