@@ -9,7 +9,7 @@ export class TouchScrollControl {
 
     public setOnTouchScroll(onTouchScroll: (delta: number) => void) {
         this.control.setOnTouchMove((x, y) => {
-            onTouchScroll(y);
+            onTouchScroll(y/200);
         });
     }
 }

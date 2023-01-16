@@ -12,6 +12,6 @@ export class MouseScrollControl {
         document.addEventListener('wheel', (e) => {
             e.preventDefault();
             this.onMouseScroll(e.deltaY);
-        }, false);
+        }, true);
     }
 }

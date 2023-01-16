@@ -1,4 +1,4 @@
-import { Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
+import { Camera, Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../static.geometries";
@@ -6,6 +6,7 @@ import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 import { MouseScrollControl } from "./mouse.scroll.control";
+import { PageControl } from "./page-control";
 import { ScrollControl } from "./scroll.control";
 import { TouchControl } from "./touch.control";
 import { TouchScrollControl } from "./touch.scroll.control";
@@ -37,9 +38,12 @@ export class UserControls {
     public cursorHidden = false;
     public cursorActivated = 0;
 
+    public page = PageControl;
 
     private onScroll = (delta: number) => {
-        console.log("on scroll, delta: ", delta);
+        PageControl.lastScroll = PageControl.scroll;
+        PageControl.scroll = delta;
+        //this.moveVector.z += ((PageControl.scroll - PageControl.lastScroll) / 20000);    
     }
 
     public scrollControl = new ScrollControl(
@@ -101,10 +105,8 @@ export class UserControls {
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
         camera.matrix.multiply(this.rotation);
 
-        this.rotation.identity();
-        this.handleKeyboardCameraRotation();
-        camera.matrix.multiply(this.rotation);
-
+        this.handleKeyboardCameraRotation(camera);
+        
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
@@ -121,8 +123,7 @@ export class UserControls {
 
               elements[12] += this.velocity.x;
               elements[13] += this.velocity.y;
-              elements[14] += this.velocity.z;
-
+              elements[14] += this.velocity.z + PageControl.scroll-PageControl.lastScroll;
 
         this.staticGeom.collision(this, camera, this.velocity, delta)
         
@@ -136,7 +137,9 @@ export class UserControls {
         camera.updateMatrixWorld(true);
     }
 
-    private handleKeyboardCameraRotation() {
+    private handleKeyboardCameraRotation(camera: Camera) {
+        this.rotation.identity();
+
         this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.0025 :0 - (this.keys.ArrowUp ? 0.0025 : 0);
 
         this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.0025 :0 - (this.keys.ArrowLeft ? 0.0025 : 0);
@@ -148,6 +151,8 @@ export class UserControls {
         this.rotation.makeRotationFromEuler(
             new Euler(this.keyRotationVelocity.x, 
                       this.keyRotationVelocity.y, this.roll.z/35))
+
+        camera.matrix.multiply(this.rotation);
     }
 
     private calculateMoveVector() {

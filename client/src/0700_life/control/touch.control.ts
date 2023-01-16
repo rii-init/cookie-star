@@ -64,6 +64,7 @@ export class TouchControl {
 
             if (touches.length == 1) {
                 this.onTouchMove(touches[0].clientX, touches[0].clientY);
+                return;
             }
 
             for (var i = 0; i < Math.min(2, touches.length); i++) {
