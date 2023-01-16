@@ -47,7 +47,6 @@ export class UserControls {
     }
 
     public scrollControl = new ScrollControl(
-        this.onScroll, 
         this.touch,
         new MouseScrollControl(),
         new TouchScrollControl(this.touch)
@@ -73,6 +72,12 @@ export class UserControls {
         })
 
         this.mouse.setCanvas(Universe.canvas);
+
+        this.scrollControl.addOnScrollHandler((y: number) => {
+            this.velocity.y = y/500;
+            this.enableFlying = true;
+        });
+
     }
 
     public handlePointerOver = (mesh: Mesh) => {
