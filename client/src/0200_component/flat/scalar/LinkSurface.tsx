@@ -1,8 +1,9 @@
-import { Html } from "@react-three/drei";
+import { Html, Text } from "@react-three/drei";
 import React, { useState } from "react";
 import { Mesh } from "three";
 import { useLocation, Link } from "wouter";
 import { Universe } from "../../../0000_concept/universe";
+import { TextH3 } from "../typography/h3";
 
 
 export interface LinkSurfaceProps {
@@ -27,7 +28,10 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                         ? Universe.colors.accent2 
                         : Universe.colors.background} />
             </mesh>
-            <Html className="navigation-link"
+            <TextH3>
+                {props.children}
+            </TextH3>
+            {/* <Html className="navigation-link"
                   occlude
                   style={{
                     transition: 'all 0.2s',
@@ -35,9 +39,9 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     position={[-0.1,0,0.45]}
             >
                 <a className={ props.current == props.location ? "active" : "" }>
-                    {props.children}
+                    
                 </a>
-            </Html>
+            </Html> */}
         </group>
     );
 }

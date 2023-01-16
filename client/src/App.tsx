@@ -64,7 +64,7 @@ function App() {
             <Controllers />
             <Hands />
             
-            <pointLight   intensity={1.0} position={[0, 5, 0]} />
+            <pointLight   intensity={1.4} position={[0, 5, 0]} />
             <ambientLight intensity={0.5} />
 
             
