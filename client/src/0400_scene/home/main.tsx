@@ -11,9 +11,9 @@ import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
 import { DocumentScene } from "../document.scene"
 
 export const main = () => {
-    useEffect(() => {
-        Universe.skyColor = SyntaxHighlight.Sequence;
-    }, [])
+    // useEffect(() => {
+    //     Universe.skyColor = SyntaxHighlight.Sequence;
+    // }, [])
     
     return (
         <DocumentScene>
