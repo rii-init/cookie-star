@@ -29,7 +29,24 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 			log.Println("read:", err)
 			break
 		}
-		log.Printf("recv: %s", message)
+
+		// get message type:
+		messageTypeLen := int(message[0])
+		messageType := string(message[1 : messageTypeLen+1])
+		log.Printf("recv type: %s", messageType)
+		switch messageType {
+		case "chat":
+			// get message content:
+			messageContent := string(message[messageTypeLen+1:])
+			log.Printf("chat message: %s", messageContent)
+
+		case "telemetry":
+			// get telemetry data:
+			telemetryData := string(message[messageTypeLen+1:])
+			log.Printf("telemetry data: %s", telemetryData)
+
+		}
+
 		err = c.WriteMessage(mt, message)
 		if err != nil {
 			log.Println("write:", err)
