@@ -1,7 +1,7 @@
 import { Camera, Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
-import { StaticGeometries } from "../static.geometries";
+import { StaticGeometries } from "../physical/static.geometries";
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";

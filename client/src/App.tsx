@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { createContext, useEffect, useRef } from 'react';
 
 import { Route, Router, Switch } from "wouter";
 
@@ -20,15 +20,14 @@ import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
 import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
-import { GridOctaves } from './0300_entity/grid-octaves';
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
-import { Enter3DButton }    from './0200_component/flat/2d/enter-3d-button';
 import { InfiniteUniverse } from './0200_component/infinite-universe';
 import { Cursor } from './0200_component/hud/cursor';
 
 
 const R3FCanvas = Canvas as any;
 
+export const UniverseContext = createContext(Universe);
 
 function App() {
   
@@ -72,7 +71,7 @@ function App() {
             </InfiniteUniverse>
           
           </XR>
-          
+          <UniverseContext.Provider value={Universe}>
           <Router>
               <group className="App-header">
                 <RouterNavigationSurface />
@@ -85,6 +84,7 @@ function App() {
                 <Route path="/cv"   component={show_room}         />
               </Switch>
           </Router>
+          </UniverseContext.Provider>
           
         </R3FCanvas>
       </div>

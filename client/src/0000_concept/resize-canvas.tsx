@@ -3,7 +3,7 @@ import THREE from "three";
 import { Universe } from "./universe";
 
 function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
-    const canvas = renderer.domElement;
+    const canvas = document.querySelector("#r3f-canvas canvas") as HTMLCanvasElement;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     const needResize = canvas.width !== width || canvas.height !== height;

@@ -1,5 +1,5 @@
 import THREE from "three";
-import { UserControls } from "./control/control";
+import { UserControls } from "../control/control";
 
 export class StaticGeometries {
     
