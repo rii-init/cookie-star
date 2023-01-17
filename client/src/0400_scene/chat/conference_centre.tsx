@@ -31,11 +31,14 @@ export let conference_centre = () => {
                     </TextDiv>
                     
                     <TextDiv>        
-                        I like to make sounds <Html><a href="https://soundcloud.com/ultr7a">here</a>.</Html>
-                        I love attaching <Html><a href="https://github.com/ultr7A">things</a></Html> to stuff.
+                        I like to make sounds here.
+                        I love attaching things to stuff.
                     </TextDiv>    
                 </Sequence>
             </GroupMain>
         </group>       
     );
 }
+
+/* <Html><a href="https://github.com/ultr7A">things</a></Html> */
+/* <Html><a href="https://soundcloud.com/ultr7a">here</a></Html> */

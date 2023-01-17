@@ -9,19 +9,27 @@ export interface SkyIslandProps {
 export const SkyIsland = (p: SkyIslandProps) => {
     return (
         <group position={p.position}>
+
+            { p.children }
+
+            <mesh position={[5, 2, 5]}>
+                <boxBufferGeometry attach="geometry" args={[3,2,3]} />
+                <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
+            </mesh>
+            
             <mesh>
-                <sphereGeometry  attach="geometry" args={[10,2,10]} />
+                <boxBufferGeometry  attach="geometry" args={[10,2,10]} />
                 <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
             </mesh>
             <mesh position={[-3, 0, -7]}>
-                <sphereGeometry attach="geometry" args={[3,2,3]} />
+                <boxBufferGeometry attach="geometry" args={[3,2,3]} />
                 <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
             </mesh>
             <mesh position={[3, 0, 7]}>
-                <sphereGeometry attach="geometry" args={[3,2,3]} />
+                <boxBufferGeometry attach="geometry" args={[3,2,3]} />
                 <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
             </mesh>
-            { p.children }
+
         </group>
     )
 }

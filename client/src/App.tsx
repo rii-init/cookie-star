@@ -20,7 +20,6 @@ import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
 import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
-import { TallBox }     from './0300_entity/lilac-box';
 import { GridOctaves } from './0300_entity/grid-octaves';
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 import { Enter3DButton }    from './0200_component/flat/2d/enter-3d-button';
@@ -64,8 +63,8 @@ function App() {
             <Controllers />
             <Hands />
             
-            <pointLight   intensity={1.4} position={[0, 5, 0]} />
-            <ambientLight intensity={0.5} />
+            <pointLight   intensity={1.3} position={[0, 5, 0]} />
+            <ambientLight intensity={0.6} />
 
             
             <InfiniteUniverse>

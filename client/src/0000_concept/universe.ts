@@ -1,5 +1,6 @@
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
+import { SyntaxHighlight } from "../1000_aesthetic/syntax-highlight";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 

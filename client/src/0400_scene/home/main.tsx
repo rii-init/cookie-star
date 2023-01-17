@@ -17,11 +17,11 @@ export const main = () => {
         <group>
             <GroupMain className={"App theme _"+themeIdx}>
                 {/* <GridOctaves></GridOctaves> */}
-                <Atmosphere />
+                {/* <Atmosphere /> */}
                 <SkyIsland position={[0,-1.5,0]}>
-                    {/* <WaterStream position={[0, 0.1, 0]} />
+                    <WaterStream position={[0, 0.1, 0]} />
                     <WaterFall position={[5, 0.1, 5]} />
-                    <Tree position={[-3, 0.1, 5]} /> */}
+                    <Tree rotation={[0, -2/3*Math.PI, 0]} position={[-3, 0.5, -5]} /> 
                 </SkyIsland>
             </GroupMain>
         </group>

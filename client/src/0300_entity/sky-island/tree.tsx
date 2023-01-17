@@ -3,32 +3,25 @@ import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 
 export interface TreeProps {
     children?: ReactNode
-    position: [number, number, number]
+    position: [number, number, number],
+    rotation: [number, number, number]
 }
 
 export const Tree = (props: TreeProps) => {
     
     return (
-        <group position={props.position}>
+        <group position={props.position} rotation={props.rotation}>
             {/* tree trunk */}
             <mesh>
-                <boxBufferGeometry args={[1,3,1]} />
+                <boxBufferGeometry args={[1,7,1]} />
                 <meshLambertMaterial color={SyntaxHighlight.Manifold} />
             </mesh>
             {/* tree top */}
             <group>
-                <mesh position={[0,3,0]} rotation={[Math.PI/3, 0,0]}>
+                {/* <mesh position={[0,4,0]} rotation={[Math.PI/3, Math.PI/3,0]}>
                     <boxBufferGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh>
-                <mesh position={[0,3,0]} rotation={[Math.PI/-3, 0,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh>
-                <mesh position={[0,4,0]} rotation={[Math.PI/3, Math.PI/3,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh>
+                </mesh> */}
                 <mesh position={[0,4,0]} rotation={[Math.PI/-3, Math.PI/-3,0]}>
                     <boxBufferGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />

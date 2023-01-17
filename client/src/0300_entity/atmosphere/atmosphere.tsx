@@ -15,7 +15,7 @@ export const Atmosphere = (props: AtmosphereProps) => {
             <CloudFormation /> */}
             <mesh>
                 <boxBufferGeometry attach="geometry" args={[100, 100, 100]} />
-                <meshBasicMaterial attach="material" map={props.texture} color={Universe.skyColor} side={BackSide} />
+                <meshBasicMaterial attach="material" color={Universe.skyColor} side={BackSide} />
             </mesh>
         </group>
     )

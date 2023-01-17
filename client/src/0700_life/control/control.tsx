@@ -74,7 +74,7 @@ export class UserControls {
         this.mouse.setCanvas(Universe.canvas);
 
         this.scrollControl.addOnScrollHandler((y: number) => {
-            this.velocity.y = y/500;
+            this.velocity.z = y/-500;
             this.enableFlying = true;
         });
 
