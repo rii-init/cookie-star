@@ -4,7 +4,7 @@ import { LabelSurface } from "../../0200_component/flat/scalar/LabelSurface"
 import { TableOfContentsSurface } from "../../0200_component/flat/vector/TableOfContentsSurface"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 import { TallBox } from "../../0300_entity/lilac-box"
-import { DocumentScene } from "../document.scene"
+import { DocumentScene } from "../../0300_entity/document.scene"
 import { TextH1 } from "../../0200_component/flat/typography/h1"
 
 export const lab = () => {

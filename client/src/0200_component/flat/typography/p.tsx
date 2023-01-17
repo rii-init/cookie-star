@@ -1,4 +1,5 @@
 import { Text } from "@react-three/drei";
+import { Universe } from "../../../0000_concept/universe";
 
 export interface TextPProps {
     children: React.ReactNode;
@@ -8,22 +9,23 @@ export interface TextPProps {
 }
 
 export const TextP = (p: TextPProps) => {
-    if (!(typeof p.children === "string")) {
-        throw new Error("TextP: props.children must be a string");
-    }
-    const paragraph = (p.children as string)
-             .match(/(.{1,32})(?:\s|$)/g);;
+
+    // const paragraph = (p.children as string)
+    //          .match(/(.{1,32})(?:\s|$)/g);;
 
     return (
-        paragraph?.map(lineContent => (
+        <group>
+        
             <Text
                 scale={[0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1)]}
-                color={p.color || "black"} // default
+                color={p.color || Universe.colors._foreground} // default
                 anchorX="center" // default
                 anchorY="middle" // default
             >
-                { lineContent }   
+            {p.children}   
             </Text>
         ))
+        
+        </group>
     );
 }

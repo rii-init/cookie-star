@@ -8,6 +8,9 @@
 function progressiveEnhancement() {
     echo "progressive enhance of $1"
 
+    sed -i 's|{/*<main>*/}<group>|<main>|'    $1 
+    sed -i 's|{/*</main>*/}<group>|</main>|'    $1 
+
     sed -i 's|<TextH1|<h1|'    $1
     sed -i 's|</TextH1|</h1|'  $1
 

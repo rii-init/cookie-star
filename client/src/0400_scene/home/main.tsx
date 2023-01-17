@@ -1,24 +1,21 @@
-import { useEffect } from "react"
-import { Universe } from "../../0000_concept/universe"
 import { TextH1 } from "../../0200_component/flat/typography/h1"
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
-import { GridOctaves } from "../../0300_entity/grid-octaves"
 import { SkyIsland } from "../../0300_entity/sky-island/sky-island"
 import { Tree } from "../../0300_entity/sky-island/tree"
 import { WaterFall } from "../../0300_entity/sky-island/water.fall"
 import { WaterStream } from "../../0300_entity/sky-island/water.stream"
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight"
 import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
-import { DocumentScene } from "../document.scene"
+
+import { GroupMain } from "../../0200_component/flat/typography/main"
 
 export const main = () => {
     
     return (
         <>
         <TextH1 position={[0,2.4,-1.5]} >Ultr7A</TextH1>
-        <DocumentScene>
-            <div className={"App theme _"+themeIdx}> 
-            <main>
+        <group>
+            <GroupMain className={"App theme _"+themeIdx}>
                 {/* <GridOctaves></GridOctaves> */}
                 <Atmosphere />
                 <SkyIsland position={[0,-1.5,0]}>
@@ -26,9 +23,8 @@ export const main = () => {
                     <WaterFall position={[5, 0.1, 5]} />
                     <Tree position={[-3, 0.1, 5]} /> */}
                 </SkyIsland>
-            </main>
-            </div>
-        </DocumentScene>
+            </GroupMain>
+        </group>
         </>
     )
 }
