@@ -6,7 +6,7 @@ export let CloudFormation = () => {
            {
                 new Array(7).fill(0).map((_, i) => {
                     return (
-                        <Cloud key={i}></Cloud>
+                        <Cloud key={i} position={[-10+Math.random()*20, 10, Math.random()*-20]}></Cloud>
                     )
 
                 })

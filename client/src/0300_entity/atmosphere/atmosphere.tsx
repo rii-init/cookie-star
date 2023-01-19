@@ -11,12 +11,8 @@ export const Atmosphere = (props: AtmosphereProps) => {
     return (
         <group>
             
-            <Galaxy />
+            {/* <Galaxy /> */}
             <CloudFormation />
-            {/* <mesh>
-                <boxBufferGeometry attach="geometry" args={[100, 100, 100]} />
-                <meshBasicMaterial attach="material" color={Universe.skyColor} side={BackSide} />
-            </mesh> */}
         </group>
     )
 }
