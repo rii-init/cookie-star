@@ -1,4 +1,5 @@
 import { Html, Text } from "@react-three/drei";
+import { Interactive, XRInteractionEvent } from "@react-three/xr";
 import React, { useState } from "react";
 import { Mesh } from "three";
 import { useLocation, Link } from "wouter";
@@ -15,8 +16,19 @@ export interface LinkSurfaceProps {
 export const LinkSurface = (props: LinkSurfaceProps) => {
     const [location, setLocation] = useLocation();
     const meshRef = React.useRef<Mesh>(null);
-    
+    const [hovered, setHovered] = useState(false);
+
     return (
+        <Interactive onSelect={(event: XRInteractionEvent) => {
+                                setLocation(props.location);  
+                              }}
+                     onHover={(event: XRInteractionEvent) => {
+                        setHovered(true);                    
+                     }}
+                     onBlur={(event: XRInteractionEvent) => {
+                        setHovered(false);
+                     }}
+        >
         <group className="navigation" 
                  onClick={() => setLocation(props.location)}
            onPointerOver={() => Universe.user_controls.handlePointerOver(meshRef.current as any)}
@@ -27,11 +39,14 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                 <boxBufferGeometry args={[0.5,0.5,0.5]} />
                 <meshLambertMaterial color={props.current == props.location 
                         ? Universe.colors.accent2 
-                        : Universe.colors.background} />
+                        : hovered 
+                            ? Universe.colors.accent
+                            : Universe.colors.background} />
             </mesh>
             <TextH3 position={[0,-0.1,0.4]} >
                 {props.children}
             </TextH3>
         </group>
+        </Interactive>
     );
 }

@@ -10,9 +10,7 @@ import { lab }               from './0400_scene/tech/lab';
 import { nature }            from './0400_scene/meta/nature';
 import { show_room }         from './0400_scene/cv/show_room';
 
-import { ProgressiveEnhance } from './progressive-enhance';
-
-import { Controllers, Hands, VRButton, XR } from '@react-three/xr';
+import { Controllers, Hands, useXR, VRButton, XR, XREvent } from '@react-three/xr';
 import { Canvas } from '@react-three/fiber';
 
 import { ThreeJSContext } from './0000_api/three-ctx';
@@ -23,6 +21,7 @@ import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.mana
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 import { InfiniteUniverse } from './0200_component/infinite-universe';
 import { Cursor } from './0200_component/hud/cursor';
+import { R3FDebug } from './0000/r3f-debug';
 
 
 const R3FCanvas = Canvas as any;
@@ -31,11 +30,6 @@ export const UniverseContext = createContext(Universe);
 
 function App() {
   
-  useEffect(() => {
-      ProgressiveEnhance.LoadHeading();
-      ProgressiveEnhance.LoadMain();
-  }, []);
-
   return (
       <div className={"fullScreen theme _"+themeIdx}>
         
@@ -51,14 +45,24 @@ function App() {
         >
           <color attach="background" 
                    args={Universe.colors.background} />
-          <XR>
+          <XR
+            onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
+              console.log("onInputSourcesChange", event);
+            }}
+
+            onSessionStart={(event) => {
+              console.log("onSessionStart", event);
+            }}
+          >
 
             <ThreeJSContext />
             <ResizeCanvas />
+            
             <Cursor hide={false} 
                activated={0.05 || Universe?.user_controls?.cursorActivated}
                 position={[0,0,-1]}
             />  
+            
             <Controllers />
             <Hands />
             
@@ -70,21 +74,22 @@ function App() {
 
             </InfiniteUniverse>
           
+
+            <UniverseContext.Provider value={Universe}>
+            <Router>
+                <group className="App-header">
+                  <RouterNavigationSurface />
+                </group>
+                <Switch>
+                  <Route path="/"     component={main}   />
+                  <Route path="/meta" component={nature} />
+                  <Route path="/tech" component={lab}  />
+                  <Route path="/chat" component={conference_centre} />
+                  <Route path="/cv"   component={show_room}         />
+                </Switch>
+            </Router>
+            </UniverseContext.Provider>
           </XR>
-          <UniverseContext.Provider value={Universe}>
-          <Router>
-              <group className="App-header">
-                <RouterNavigationSurface />
-              </group>
-              <Switch>
-                <Route path="/"     component={main}   />
-                <Route path="/meta" component={nature} />
-                <Route path="/tech" component={lab}  />
-                <Route path="/chat" component={conference_centre} />
-                <Route path="/cv"   component={show_room}         />
-              </Switch>
-          </Router>
-          </UniverseContext.Provider>
           
         </R3FCanvas>
       </div>

@@ -1,5 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Canvas } from '@react-three/fiber';
+import { useXR } from "@react-three/xr";
 import { Camera, Raycaster, Scene, Vector2 } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
@@ -8,6 +9,7 @@ export type CTX3 = {
     canvas: HTMLCanvasElement, 
     scene:  Scene, 
     camera: Camera 
+    xr: any,
 } & { [key: string]: any };
 
 export interface ThreeCTXProps {
@@ -16,7 +18,6 @@ export interface ThreeCTXProps {
 
 export let ThreeJSContext = function() {
     const ctx = useThree() as CTX3;
-    
     Universe.ctx3 = ctx;
                     
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)

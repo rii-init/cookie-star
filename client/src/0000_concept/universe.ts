@@ -16,6 +16,7 @@ export class Universe {
     public static colors: VisualTheme = currentTheme();
     public static skyColor = Universe.colors.background;
 
+    public static xr:            any;
     public static ctx3:          any; 
     public static canvas:        any;
 

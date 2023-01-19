@@ -1,6 +1,9 @@
 import THREE from "three";
 import { UserControls } from "../control/control";
 
+/**
+ * DEPRECATED in favour of MagneticField (the primal physics engine)
+ */
 export class StaticGeometries {
     
     public collision(controls: UserControls, camera: THREE.Camera, velocity: THREE.Vector3, delta: number) {
