@@ -22,6 +22,7 @@ import { RouterNavigationSurface } from './0200_component/flat/navigation-surfac
 import { InfiniteUniverse } from './0200_component/infinite-universe';
 import { Cursor } from './0200_component/hud/cursor';
 import { R3FDebug } from './0000/r3f-debug';
+import { NoToneMapping } from 'three';
 
 
 const R3FCanvas = Canvas as any;
@@ -41,7 +42,7 @@ function App() {
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                   pixelRatio={window.devicePixelRatio} 
-                          gl={{ alpha: false }}
+                          gl={{ alpha: false, toneMapping: NoToneMapping }}
         >
           <color attach="background" 
                    args={Universe.colors.background} />
@@ -66,12 +67,14 @@ function App() {
             <Controllers />
             <Hands />
             
-            <pointLight   intensity={1.3} position={[0, 5, 0]} />
-            <ambientLight intensity={0.6} />
+            <pointLight   position={[2, 10, 0]} 
+                          intensity={Universe.colors.celestialLight.intensity} 
+                          color={Universe.colors.celestialLight.color} />
+            <ambientLight intensity={Universe.colors.ambientLight.intensity} 
+                          color={Universe.colors.ambientLight.color} />
 
             
             <InfiniteUniverse>
-
             </InfiniteUniverse>
           
 

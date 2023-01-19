@@ -40,8 +40,8 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                 <meshLambertMaterial color={props.current == props.location 
                         ? Universe.colors.accent2 
                         : hovered 
-                            ? Universe.colors.accent
-                            : Universe.colors.background} />
+                            ? Universe.colors.accent3
+                            : Universe.colors.background2} />
             </mesh>
             <TextH3 position={[0,-0.1,0.4]} >
                 {props.children}
