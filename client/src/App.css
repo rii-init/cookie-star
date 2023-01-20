@@ -8,6 +8,11 @@ main {
 .theme._1 main {
   color: #ffffff;
 }
+
+.visual-theme {
+  font-size: 1.85em !important;
+  vertical-align: bottom;
+}
 .visual-theme._0 {
   padding-right: 0.3em;
 }
@@ -121,12 +126,11 @@ p {
   bottom: 1em;
   right: 0;
   display: inline-block;
-  margin-left: 1em;
+  margin-right: 1em;
 }
 
 #ui_2d__button_container .ui_2d__button {
   z-index: 9999 !important;
-    font-size: 3vw !important;
     position: relative !important;
     transform: none !important;
     margin-right: 0.3em;

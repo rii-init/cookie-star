@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { Entity } from ".."
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight"
 
 export interface WaterFallProps {
@@ -8,7 +9,7 @@ export interface WaterFallProps {
 
 export const WaterFall = (p: WaterFallProps) => {
     return (
-        <group position={p.position}>
+        <Entity position={p.position} editMode={true}>
             <mesh>
                 <sphereGeometry args={[1,4,5]} />
                 <meshLambertMaterial color={SyntaxHighlight.Sequence} />
@@ -22,6 +23,6 @@ export const WaterFall = (p: WaterFallProps) => {
                 <meshLambertMaterial color={SyntaxHighlight.Sequence} />
             </mesh>
             {p.children}
-        </group>
+        </Entity>
     )
 }

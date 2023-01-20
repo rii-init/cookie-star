@@ -1,4 +1,6 @@
+import { RayGrab } from "@react-three/xr";
 import { ReactNode } from "react";
+import { Entity } from "..";
 import { MagneticField } from "../../0700_life/physical/magnetic-field";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 
@@ -14,10 +16,12 @@ export const SkyIsland = (p: SkyIslandProps) => {
             { p.children }
 
             <MagneticField>
-                <mesh position={[5, 2, 5]}>
-                    <boxBufferGeometry attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
-                </mesh>
+                <Entity editMode={true}>
+                    <mesh position={[5, 2, 5]}>
+                        <boxBufferGeometry attach="geometry" args={[3,2,3]} />
+                        <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
+                    </mesh>
+                </Entity>
             </MagneticField>
 
             <MagneticField>
@@ -27,16 +31,20 @@ export const SkyIsland = (p: SkyIslandProps) => {
                 </mesh>
             </MagneticField>
             <MagneticField>
-                <mesh position={[-3, 0, -7]}>
-                    <boxBufferGeometry attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
-                </mesh>
+                <Entity editMode={true}>
+                    <mesh position={[-3, 0, -7]}>
+                        <boxBufferGeometry attach="geometry" args={[3,2,3]} />
+                        <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
+                    </mesh>
+                </Entity>
             </MagneticField>
             <MagneticField>
-                <mesh position={[3, 0, 7]}>
-                    <boxBufferGeometry attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
-                </mesh>
+                <Entity editMode={true}>
+                    <mesh position={[3, 0, 7]}>
+                        <boxBufferGeometry attach="geometry" args={[3,2,3]} />
+                        <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
+                    </mesh>
+                </Entity>
             </MagneticField>
         </group>
     )

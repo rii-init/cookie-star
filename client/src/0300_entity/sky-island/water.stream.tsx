@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { Entity } from ".."
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight"
 
 export interface WaterStreamProps {
@@ -8,11 +9,11 @@ export interface WaterStreamProps {
 
 export const WaterStream = (p: WaterStreamProps) => {
     return (
-        <group position={p.position}>
+        <Entity position={p.position} editMode={true}>
             <mesh>
                 <boxBufferGeometry args={[1,1,3]} />
                 <meshLambertMaterial color={SyntaxHighlight.Sequence} />
             </mesh>
-        </group>
+        </Entity>
     )
 }
