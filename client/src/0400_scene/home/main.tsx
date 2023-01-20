@@ -18,8 +18,8 @@ export const main = () => {
             <GroupMain className={"App theme _"+themeIdx}>
                 <Atmosphere />
                 <SkyIsland position={[0,-1.5,0]}>
-                    <WaterStream position={[0, 0.2, 0]} />
-                    <WaterFall position={[5, 0.2, 5]} />
+                    <WaterStream position={[0, 1.1, 2.5]} />
+                    <WaterFall position={[0, 1.1, 5]} />
                     <Tree rotation={[0, -2/3*Math.PI, 0]} position={[-3, 0.5, -5]} /> 
                 </SkyIsland>
             </GroupMain>

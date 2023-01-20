@@ -10,7 +10,7 @@ import { lab }               from './0400_scene/tech/lab';
 import { nature }            from './0400_scene/meta/nature';
 import { show_room }         from './0400_scene/cv/show_room';
 
-import { Controllers, Hands, useXR, VRButton, XR, XREvent } from '@react-three/xr';
+import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
 import { Canvas } from '@react-three/fiber';
 
 import { ThreeJSContext } from './0000_api/three-ctx';
@@ -53,6 +53,12 @@ function App() {
 
             onSessionStart={(event) => {
               console.log("onSessionStart", event);
+              Universe.xrMode = true;
+
+            }}
+            onSessionEnd={(event: XREvent<XRManagerEvent>) => {
+              console.log("onSessionEnd", event);
+              Universe.xrMode = false;
             }}
           >
 
@@ -64,7 +70,9 @@ function App() {
                 position={[0,0,-1]}
             />  
             
-            <Controllers />
+            <Controllers 
+              hideRaysOnBlur={true}
+            />
             <Hands />
             
             <pointLight   position={[2, 10, 10]} 

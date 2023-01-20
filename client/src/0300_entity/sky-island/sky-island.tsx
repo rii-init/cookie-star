@@ -15,14 +15,16 @@ export const SkyIsland = (p: SkyIslandProps) => {
 
             { p.children }
 
-            <MagneticField>
+            
                 <Entity editMode={true}>
+                    <MagneticField>
                     <mesh position={[5, 2, 5]}>
                         <boxBufferGeometry attach="geometry" args={[3,2,3]} />
                         <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                     </mesh>
+                    </MagneticField>
                 </Entity>
-            </MagneticField>
+            
 
             <MagneticField>
                 <mesh>

@@ -10,7 +10,11 @@ export interface WaterFallProps {
 export const WaterFall = (p: WaterFallProps) => {
     return (
         <Entity position={p.position} editMode={true}>
-            <mesh>
+            <mesh position={[0,-50,0]}>
+                <boxBufferGeometry args={[2,100,0.5]} />
+                <meshLambertMaterial color={SyntaxHighlight.Sequence} />
+            </mesh>
+            {/* <mesh>
                 <sphereGeometry args={[1,4,5]} />
                 <meshLambertMaterial color={SyntaxHighlight.Sequence} />
             </mesh>
@@ -21,7 +25,7 @@ export const WaterFall = (p: WaterFallProps) => {
             <mesh position={[1,0,2]}>
                 <sphereGeometry args={[1.7,4,4]} />
                 <meshLambertMaterial color={SyntaxHighlight.Sequence} />
-            </mesh>
+            </mesh> */}
             {p.children}
         </Entity>
     )

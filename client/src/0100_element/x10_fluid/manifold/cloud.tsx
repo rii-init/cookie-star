@@ -9,14 +9,14 @@ export interface CloudProps {
 
 export let Cloud = (p: CloudProps) => {
         
-        return (
-            <Entity editMode={true}>                
-                <mesh position={p.position}>
-                    <sphereBufferGeometry args={[p.radius, 3, 4]} />
-                    <meshLambertMaterial color="white" transparent={true} opacity={0.5} />
+    return (
+        <Entity editMode={true}>                
+            <mesh position={p.position}
+            >
+                <sphereBufferGeometry args={[p.radius, 3, 4]} />
+                <meshLambertMaterial color="white" transparent={true} opacity={0.6} />
                 </mesh>
-            </Entity>
-            // <FluidManifold />
+        </Entity>
         );
     
     };
