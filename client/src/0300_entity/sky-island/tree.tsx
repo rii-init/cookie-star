@@ -11,7 +11,7 @@ export interface TreeProps {
 export const Tree = (props: TreeProps) => {
     
     return (
-        <Entity position={props.position} rotation={props.rotation}>
+        <Entity position={props.position} rotation={props.rotation} editMode={true}>
             {/* tree trunk */}
             <mesh>
                 <boxBufferGeometry args={[1,7,1]} />
