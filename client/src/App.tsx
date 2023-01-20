@@ -23,6 +23,7 @@ import { InfiniteUniverse } from './0200_component/infinite-universe';
 import { Cursor } from './0200_component/hud/cursor';
 import { R3FDebug } from './0000/r3f-debug';
 import { NoToneMapping } from 'three';
+import { GenderExpressionButton } from './0200_component/flat/2d/gender-expression-button';
 
 
 const R3FCanvas = Canvas as any;
@@ -35,6 +36,7 @@ function App() {
       <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
+          <GenderExpressionButton />
           <VisualThemeManager />  
           <VRButton className="ui_2d__button" />
         </div>
