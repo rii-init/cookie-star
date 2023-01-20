@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "'JetBrains Mono', 'Source Code Pro', monospace"
+    "editor.fontFamily": "'Jetbrains Mono', 'Source Code Pro', monospace",
+    "editor.fontWeight": "400"
 }
