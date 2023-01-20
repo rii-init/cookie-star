@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Entity } from "..";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 
 export interface TreeProps {
@@ -10,7 +11,7 @@ export interface TreeProps {
 export const Tree = (props: TreeProps) => {
     
     return (
-        <group position={props.position} rotation={props.rotation}>
+        <Entity position={props.position} rotation={props.rotation}>
             {/* tree trunk */}
             <mesh>
                 <boxBufferGeometry args={[1,7,1]} />
@@ -18,10 +19,6 @@ export const Tree = (props: TreeProps) => {
             </mesh>
             {/* tree top */}
             <group>
-                {/* <mesh position={[0,4,0]} rotation={[Math.PI/3, Math.PI/3,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh> */}
                 <mesh position={[0,4,0]} rotation={[Math.PI/-3, Math.PI/-3,0]}>
                     <boxBufferGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />
@@ -60,6 +57,6 @@ export const Tree = (props: TreeProps) => {
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
             </group>
-        </group>
+        </Entity>
     )
 }
