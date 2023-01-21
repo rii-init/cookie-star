@@ -57,12 +57,12 @@ function App() {
             onSessionStart={(event) => {
               console.log("onSessionStart", event);
               Universe.xrMode = true;
-              Universe.removeCursorFromCamera ? Universe.removeCursorFromCamera() : null;
+              if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
 
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
               console.log("onSessionEnd", event);
-              Universe.attachCursorToCamera ? Universe.attachCursorToCamera() : null;
+              if (Universe.attachCursorToCamera) { Universe.attachCursorToCamera() }
               Universe.xrMode = false;
             }}
           >
