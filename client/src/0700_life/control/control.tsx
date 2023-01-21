@@ -110,14 +110,18 @@ export class UserControls {
         this.movement.identity();        
         this.movement.makeTranslation(move.x, move.y, move.z);
 
-        this.rotation.identity(); 
-        this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-        camera.matrix.multiply(this.rotation);
+        if (!this.gyro.isAvailable) {
+            this.rotation.identity(); 
+            this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
+            camera.matrix.multiply(this.rotation);
 
-        this.handleKeyboardCameraRotation(camera);
+            this.handleKeyboardCameraRotation(camera);
+        
+            camera.matrix.multiply(this.rotation);
+        }
+
         this.handleGyroRotation(camera);
 
-        camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
         const     m2T = camera.matrix.elements.slice(12,15);
@@ -149,7 +153,9 @@ export class UserControls {
 
     private handleGyroRotation(camera: Camera) {
         if (this.gyro.isAvailable) {
-            camera.matrix.makeRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
+            
+            camera.setRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
+            //camera.matrix.makeRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
         }
     }
 
