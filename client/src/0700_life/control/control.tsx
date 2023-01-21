@@ -143,9 +143,8 @@ export class UserControls {
             // Gravity
             this.velocity.y -= 0.0025;
         }
-        this.gyro?.update();
+    
         camera.updateMatrixWorld(true);
-        this.gyro?.update();
     }
 
 

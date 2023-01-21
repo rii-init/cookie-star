@@ -1,6 +1,7 @@
 
+import { useXR, useXREvent, XR } from "@react-three/xr";
 import { useEffect, useRef } from "react";
-import { Group } from "three";
+import { Group, Object3D } from "three";
 import { Universe } from "../../0000_concept/universe";
 
 const WhiteSquare = (p: {
@@ -17,14 +18,33 @@ export interface CursorProps {
     position: [number, number, number];
 }
 
+let parent: Object3D | null = null;
+
 export const Cursor = (p: CursorProps) => {
     const meshRef = useRef<Group>(null);
   
-    useEffect(() => {
+    function attachCursorToCamera() {
         if (meshRef.current) {
+            if (meshRef.current) {
+                parent = meshRef.current.parent;
+            }
             meshRef.current?.removeFromParent();
             Universe.ctx3.camera.add(meshRef.current);            
         }
+    }
+
+    function removeCursorFromCamera() {
+        if (meshRef.current) {
+            meshRef.current?.removeFromParent();
+            parent?.add(meshRef.current);
+        }
+    }
+
+    Universe.attachCursorToCamera = attachCursorToCamera;
+    Universe.removeCursorFromCamera = removeCursorFromCamera;
+
+    useEffect(() => {
+        attachCursorToCamera();
     }, [meshRef.current])
 
 

@@ -16,6 +16,8 @@ export class Universe {
     public static colors: VisualTheme = currentTheme();
     public static skyColor = Universe.colors.background;
 
+    public static attachCursorToCamera?: Function;
+    public static removeCursorFromCamera?: Function;
     public static xrMode: boolean = false;
     public static xr:            any;
     public static ctx3:          any; 
