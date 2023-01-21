@@ -11,10 +11,10 @@ export const TeleportControls = (props: TeleportControlsProps) => {
 
     return (
         <group>
-            <mesh>
+            {/* <mesh>
                 <boxBufferGeometry args={[1, 1, 1]} />
                 <meshBasicMaterial color="red" />
-            </mesh>
+            </mesh> */}
         </group>
     );
 };
