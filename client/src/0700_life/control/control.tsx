@@ -154,7 +154,13 @@ export class UserControls {
     private handleGyroRotation(camera: Camera) {
         if (this.gyro.isAvailable) {
             
-            camera.setRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
+
+            camera.rotation.set(
+                this.gyro.x * (Math.PI / 180),
+                this.gyro.y * (Math.PI / 180),
+                this.gyro.z * (Math.PI / 180)
+              );
+            
             //camera.matrix.makeRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
         }
     }
