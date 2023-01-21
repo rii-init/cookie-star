@@ -61,7 +61,7 @@ export class UserControls {
         this.keys.init();
         this.mouse.init();
         this.gyro = new DeviceOrientationControls( ctx3.camera );
-        this.gyro.connect();
+        //this.gyro.connect();
 
         ctx3.camera.matrix.elements[13]  = 1.6;
         ctx3.camera.matrix.elements[14]  = 1.5;
@@ -99,7 +99,7 @@ export class UserControls {
         if (!Universe.xrMode) {
             this.calculateMoveVector();
             this.calculateRotationVector();
-            this.gyro?.update();
+            // this.gyro?.update();
             this.calculatePosition(delta);
         }
     }

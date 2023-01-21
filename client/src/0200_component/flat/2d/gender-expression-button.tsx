@@ -25,7 +25,7 @@ export const GenderExpressionButton = (p: GenderExpressionButtonProps) => {
     return (
         <div className="ui_2d__button gender-expression"
              onClick={()=>{ next() }}>
-            {options[nextIdx]}
+            <span>{options[nextIdx]}</span>
         </div>
     );
 }

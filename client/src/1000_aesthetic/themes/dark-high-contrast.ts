@@ -4,20 +4,20 @@ import { VisualTheme } from "../visual-theme";
 export const DarkHighContrast = new VisualTheme(
     { 
         _foreground:  "#ffffff",
-        _background:  "#000017",
+        _background:  "#120024",
         _background2: "#1f002f",
-        _accent:      "#32004c",
-        _accent2:     "#500054",
-        _accent3:     "#ffc400",
+        _accent:      "#ffd727",
+        _accent2:     "#aa60ff",
+        _accent3:     "#ae00ff",
     },
     {
         ambientLight:   { 
                 intensity: 0.5, 
-                color: "#e5ceff" 
+                color: "#5010ff" 
         },
         celestialLight: { 
-                intensity: 0.8, 
-                color: "#ffffbb" 
+                intensity: 1.2, 
+                color: "#c94bff" 
         }   
     }
 );
