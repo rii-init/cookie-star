@@ -15,16 +15,6 @@ export class GyroscopeControl {
             this.y = event.beta  || 0;
             this.z = event.gamma || 0;
 
-             // create a new Euler rotation using the device's orientation data
-            var euler = new Euler(this.y, this.x, this.z, 'YXZ');
-
-            // create a quaternion from the euler angles
-            var quaternion = new Quaternion();
-            quaternion.setFromEuler(euler);
-
-            // set the camera's quaternion to the calculated quaternion
-            camera.quaternion.copy(quaternion);
-
         })
     }
 
