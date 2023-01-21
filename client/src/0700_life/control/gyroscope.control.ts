@@ -7,14 +7,12 @@ export class GyroscopeControl {
     public isAvailable = false;
 
     constructor() {
-        this.isAvailable = 'DeviceOrientationEvent' in window;
-        if (this.isAvailable) {
-            this.initDeviceOrientation();
-        }
+        this.initDeviceOrientation();
     }
 
     private initDeviceOrientation() {
         window.addEventListener('deviceorientation', (event) => {
+            this.isAvailable = !!event.alpha || !!event.beta || !!event.gamma;
             this.x = event.alpha || 0;
             this.y = event.beta  || 0;
             this.z = event.gamma || 0;
