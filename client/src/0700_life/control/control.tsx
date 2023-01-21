@@ -3,6 +3,7 @@ import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../physical/static.geometries";
 import { GamepadControl } from "./gamepad.control";
+import { GyroscopeControl } from "./gyroscope.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 import { MouseScrollControl } from "./mouse.scroll.control";
@@ -31,7 +32,8 @@ export class UserControls {
     public gamepad  = new GamepadControl(this);
     public touch    = new TouchControl();
     public mouse    = new MouseState();
-    public keys     = new KeyboardState( );
+    public keys     = new KeyboardState();
+    public gyro     = new GyroscopeControl();
 
     public staticGeom = new StaticGeometries();
 
@@ -92,9 +94,11 @@ export class UserControls {
         this.mouse.dx /= 1.15;
         this.mouse.dy /= 1.15;
 
-        this.calculateMoveVector();
-        this.calculateRotationVector();
-        this.calculatePosition(delta);
+        if (!Universe.xrMode) {
+            this.calculateMoveVector();
+            this.calculateRotationVector();
+            this.calculatePosition(delta);
+        }
     }
 
     private calculatePosition(delta: number) {
@@ -111,7 +115,8 @@ export class UserControls {
         camera.matrix.multiply(this.rotation);
 
         this.handleKeyboardCameraRotation(camera);
-        
+        this.handleGyroRotation(camera);
+
         camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
@@ -140,6 +145,14 @@ export class UserControls {
         }
         
         camera.updateMatrixWorld(true);
+    }
+
+    private handleGyroRotation(camera: Camera) {
+        if (this.gyro.isAvailable) {
+            this.rotation.identity();
+            this.rotation.makeRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
+            camera.matrix.multiply(this.rotation);
+        }
     }
 
     private handleKeyboardCameraRotation(camera: Camera) {

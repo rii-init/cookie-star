@@ -3,9 +3,14 @@ export class GyroscopeControl {
     public x = 0;
     public y = 0;
     public z = 0;
+    
+    public isAvailable = false;
 
     constructor() {
-        this.initDeviceOrientation();
+        this.isAvailable = 'DeviceOrientationEvent' in window;
+        if (this.isAvailable) {
+            this.initDeviceOrientation();
+        }
     }
 
     private initDeviceOrientation() {

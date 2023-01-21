@@ -77,6 +77,7 @@ function App() {
             />
             <Hands />
             
+
             <pointLight   position={[2, 10, 10]} 
                           intensity={Universe.colors.celestialLight.intensity} 
                           color={Universe.colors.celestialLight.color} />
