@@ -60,6 +60,7 @@ export class UserControls {
 
         this.keys.init();
         this.mouse.init();
+        this.gyro.init(ctx3.camera);
         
         ctx3.camera.matrix.elements[13]  = 1.6;
         ctx3.camera.matrix.elements[14]  = 1.5;
@@ -155,12 +156,12 @@ export class UserControls {
         if (this.gyro.isAvailable) {
             
 
-            camera.rotation.set(
-                this.gyro.x * (Math.PI / 180),
-                this.gyro.y * (Math.PI / 180),
-                this.gyro.z * (Math.PI / 180)
-              );
-            
+            // camera.rotation.set(
+            //     this.gyro.x * (Math.PI / 180),
+            //     this.gyro.y * (Math.PI / 180),
+            //     this.gyro.z * (Math.PI / 180)
+            //   );
+            // camera.updateMatrixWorld();
             //camera.matrix.makeRotationFromEuler(new Euler(this.gyro.x, this.gyro.y, this.gyro.z));
         }
     }
