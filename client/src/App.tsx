@@ -24,6 +24,7 @@ import { Cursor } from './0200_component/hud/cursor';
 import { R3FDebug } from './0000/r3f-debug';
 import { NoToneMapping } from 'three';
 import { GenderExpressionButton } from './0200_component/flat/2d/gender-expression-button';
+import { TeleportControls } from './0700_life/control/teleport-controls';
 
 
 const R3FCanvas = Canvas as any;
@@ -67,11 +68,16 @@ function App() {
             <ThreeJSContext />
             <ResizeCanvas />
             
-            <Cursor hide={false} 
-               activated={0.05 || Universe?.user_controls?.cursorActivated}
-                position={[0,0,-1]}
-            />  
-            
+            { !Universe.xrMode 
+              ? (
+                  <Cursor hide={false} 
+                     activated={0.05 || Universe?.user_controls?.cursorActivated}
+                      position={[0,0,-1]}
+                  />
+                ) 
+              : null
+            }  
+            <TeleportControls />
             <Controllers 
               hideRaysOnBlur={true}
             />

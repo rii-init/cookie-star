@@ -11,7 +11,7 @@ import { PageControl } from "./page-control";
 import { ScrollControl } from "./scroll.control";
 import { TouchControl } from "./touch.control";
 import { TouchScrollControl } from "./touch.scroll.control";
-
+import { DeviceOrientationControls } from './device-orientation.control'
 
 export class UserControls {
     
@@ -33,7 +33,7 @@ export class UserControls {
     public touch    = new TouchControl();
     public mouse    = new MouseState();
     public keys     = new KeyboardState();
-    public gyro     = new GyroscopeControl();
+    public gyro?:  DeviceOrientationControls;
 
     public staticGeom = new StaticGeometries();
 
@@ -60,7 +60,7 @@ export class UserControls {
 
         this.keys.init();
         this.mouse.init();
-        this.gyro.init(ctx3.camera);
+        this.gyro = new DeviceOrientationControls( ctx3.camera );
         
         ctx3.camera.matrix.elements[13]  = 1.6;
         ctx3.camera.matrix.elements[14]  = 1.5;
@@ -111,18 +111,13 @@ export class UserControls {
         this.movement.identity();        
         this.movement.makeTranslation(move.x, move.y, move.z);
 
-        if (!this.gyro.isAvailable) {
-            this.rotation.identity(); 
-            this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
-            camera.matrix.multiply(this.rotation);
+        this.rotation.identity(); 
+        this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
+        camera.matrix.multiply(this.rotation);
 
-            this.handleKeyboardCameraRotation(camera);
+        this.handleKeyboardCameraRotation(camera);
         
-            camera.matrix.multiply(this.rotation);
-        }
-
-        
-
+        camera.matrix.multiply(this.rotation);
         camera.matrix.multiply(this.movement);
 
         const     m2T = camera.matrix.elements.slice(12,15);
@@ -149,22 +144,9 @@ export class UserControls {
             this.velocity.y -= 0.0025;
         }
         
-        this.handleGyroRotation(camera);
-
         camera.updateMatrixWorld(true);
     }
 
-    private handleGyroRotation(camera: Camera) {
-        if (this.gyro.isAvailable) {
-            
-            // set the camera's rotation based on the euler rotation
-            camera.rotation.set(this.gyro.y * Math.PI  / 180, 
-                                this.gyro.x * Math.PI  / 180, 
-                                this.gyro.z * Math.PI  / 180, 'YXZ');
-                                // var euler = new Euler( 0.4, 0.5, 0.6, 'XYZ' );
-                                // camera.rotation.setFromEuler( euler );
-        }
-    }
 
     private handleKeyboardCameraRotation(camera: Camera) {
         this.rotation.identity();
