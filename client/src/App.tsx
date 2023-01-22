@@ -25,6 +25,7 @@ import { R3FDebug } from './0000/r3f-debug';
 import { NoToneMapping } from 'three';
 import { GenderExpressionButton } from './0200_component/flat/2d/gender-expression-button';
 import { TeleportControls } from './0700_life/control/teleport-controls';
+import { DevConsole } from './0000_api/dev-console';
 
 
 const R3FCanvas = Canvas as any;
@@ -52,17 +53,17 @@ function App() {
                    args={Universe.colors.background} />
           <XR
             onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
-              console.log("onInputSourcesChange", event);
+              DevConsole.log("onInputSourcesChange", JSON.stringify(event, null, 2));
             }}
 
             onSessionStart={(event) => {
-              console.log("onSessionStart", event);
+              DevConsole.log("onSessionStart", JSON.stringify(event, null, 2));
               Universe.xrMode = true;
               if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
 
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
-              console.log("onSessionEnd", event);
+              DevConsole.log("onSessionEnd", JSON.stringify(event, null, 2));
               if (Universe.attachCursorToCamera) { Universe.attachCursorToCamera() }
               Universe.xrMode = false;
             }}

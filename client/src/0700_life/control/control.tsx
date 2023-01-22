@@ -3,7 +3,6 @@ import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../physical/static.geometries";
 import { GamepadControl } from "./gamepad.control";
-import { GyroscopeControl } from "./gyroscope.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
 import { MouseScrollControl } from "./mouse.scroll.control";
