@@ -100,9 +100,9 @@ func setupRouter() *gin.Engine {
 		// print out the request body:
 		log.Println(c.Request.Body)
 		// write the response into a file in append mode
-		f, err := os.OpenFile("dev-console.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		f, err := os.OpenFile("journal/owo.pages", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
-			log.Println(err)
+			log.Println(err) // 0w0 ..What's dis?
 		}
 		defer f.Close()
 
