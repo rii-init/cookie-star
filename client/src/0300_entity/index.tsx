@@ -19,13 +19,13 @@ export const Entity = (p: EntityProps) => {
 
     if (p.editMode) {
         return (
-            <mesh position={p.position}>
+            <mesh position={p.position} rotation={p.rotation}>
               {Children.map(p.children, child => {
                 if (! isValidElement(child)) return child
-                if (child.type === 'mesh') {
+                //if (child.type === 'mesh') {
                   return <RayGrab>{child}</RayGrab>
-                }
-                return child
+                //}
+                //return child
               })}
             </mesh>
           )

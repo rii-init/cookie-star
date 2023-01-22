@@ -9,7 +9,7 @@ const WhiteSquare = (p: {
     }) => (
     <mesh position={p.position}>
         <boxBufferGeometry args={[0.025, 0.025, 0.025]} />
-        <meshLambertMaterial color="white" />
+        <meshStandardMaterial color="white" opacity={0.45} transparent={true} />
     </mesh>
 );
 

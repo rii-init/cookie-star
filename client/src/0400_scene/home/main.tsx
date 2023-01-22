@@ -20,7 +20,7 @@ export const main = () => {
                 <SkyIsland position={[0,-1.5,0]}>
                     <WaterStream position={[0, 1.1, 2.5]} />
                     <WaterFall position={[0, 1.1, 5]} />
-                    <Tree rotation={[0, -2/3*Math.PI, 0]} position={[-3, 0.5, -5]} /> 
+                    <Tree rotation={[0, -2/3*Math.PI, 0]} position={[-3, 1.5, -7]} /> 
                 </SkyIsland>
             </GroupMain>
         </group>

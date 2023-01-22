@@ -34,7 +34,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
             </MagneticField>
             <MagneticField>
                 <Entity editMode={true}>
-                    <mesh position={[-3, 0, -7]}>
+                    <mesh position={[-3, 0, -6.8]}>
                         <boxBufferGeometry attach="geometry" args={[3,2,3]} />
                         <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                     </mesh>
@@ -42,7 +42,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
             </MagneticField>
             <MagneticField>
                 <Entity editMode={true}>
-                    <mesh position={[3, 0, 7]}>
+                    <mesh position={[3, 0, 6.8]}>
                         <boxBufferGeometry attach="geometry" args={[3,2,3]} />
                         <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                     </mesh>

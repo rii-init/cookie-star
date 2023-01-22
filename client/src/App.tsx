@@ -44,6 +44,7 @@ function App() {
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
+                   colorManagement={true}
                   pixelRatio={window.devicePixelRatio} 
                           gl={{ alpha: false, toneMapping: NoToneMapping }}
         >
@@ -86,8 +87,9 @@ function App() {
             <Hands />
             
 
-            <pointLight   position={[2, 10, 10]} 
-                          intensity={Universe.colors.celestialLight.intensity} 
+            <pointLight   position={[0, 15, 10]} 
+                          intensity={Universe.colors.celestialLight.intensity}
+                          distance={100000} 
                           color={Universe.colors.celestialLight.color} />
             <ambientLight intensity={Universe.colors.ambientLight.intensity} 
                           color={Universe.colors.ambientLight.color} />

@@ -1,8 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { InstancedMesh, Object3D, Quaternion, Vector3 } from "three";
 import { Universe } from "../../0000_concept/universe";
-import { Star } from "../../0100_element/100_circle/cylinder/manifold/star"
-
 
 
 export let Galaxy = () => {

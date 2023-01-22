@@ -18,6 +18,7 @@ export class Universe {
 
     public static attachCursorToCamera?: Function;
     public static removeCursorFromCamera?: Function;
+    public static xrControllers?: any[];
     public static xrMode: boolean = false;
     public static xr:            any;
     public static ctx3:          any; 
