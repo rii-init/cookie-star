@@ -35,11 +35,9 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
             onPointerOut={() => Universe.user_controls.handleOverOut(meshRef.current as any)}
       
         >
-            <mesh ref={meshRef}>
+            <mesh ref={meshRef} visible={props.current == props.location || hovered} >
                 <boxBufferGeometry args={[0.5,0.5,0.5]} />
-                <meshLambertMaterial color={props.current == props.location 
-                        ? Universe.colors.accent2 
-                        : hovered 
+                <meshLambertMaterial color={hovered 
                             ? Universe.colors.accent3
                             : Universe.colors.background2} />
             </mesh>
