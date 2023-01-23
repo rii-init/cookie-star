@@ -7,7 +7,7 @@ describe("SocketClient", ()=> {
         onmessage: Function
     }
 
-    const client = new SocketClient(Mocket as any as WebSocket);
+    const client = new SocketClient(Mocket as any);
 
     let payload = "";
     let meta = "";
@@ -22,7 +22,6 @@ describe("SocketClient", ()=> {
     Mocket.onmessage({ data: "7messageB x=1,y=2,z=3{ message: 'hello!' }"} as any)
 
     it("should handle and parse an incoming message", ()=>{
-        console.log("Testing message metadata: ");
         if (meta === expectedMeta) {
             console.log("ro-ro-Roll Dat -_-/ ")
         } else {
@@ -31,7 +30,6 @@ describe("SocketClient", ()=> {
         }
         expect(meta).toBe(expectedMeta);
 
-        console.log("Testing message payload: ");
         if (payload === expected) {
             console.log("We keep on rockin'! \\UwU_");
         } else {

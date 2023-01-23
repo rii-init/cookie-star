@@ -13,8 +13,8 @@ export class SocketClient {
 
         this.socket.onmessage = (event) => {
             const eventTypeLength = parseInt(event.data[0], 16);
-            const eventType  = event.data.substring(0, eventTypeLength);
-            
+            const eventType  = event.data.substring(1, eventTypeLength+1);
+
             const metaLength = parseInt(
                                 event.data.substring(eventTypeLength+1, eventTypeLength+3),
                                 16
