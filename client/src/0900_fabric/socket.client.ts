@@ -1,30 +1,45 @@
-export class SocketClient {
-    private socket: WebSocket;
-    private handlers: { [key: string]: (event: MessageEvent) => void } = {};
 
-    constructor() {
-        this.socket = new WebSocket("ws://ultr7a.com/api/socket");
+
+export class SocketClient {
+    private handlers: { [key: string]: (meta: any, event: any) => void } = {};
+
+    constructor(
+        private socket = new WebSocket("ws://ultr7a.com/api/socket")
+    ) {
 
         this.socket.onopen = (event) => {
-            console.log("WebSocket connection opened.", event);
+            console.log("WebSocket Connection <3 \\OwO_X_UwU/.", event);
         }
 
         this.socket.onmessage = (event) => {
             const eventTypeLength = parseInt(event.data[0], 16);
-            const eventType = event.data.substring(0, eventTypeLength);
+            const eventType  = event.data.substring(0, eventTypeLength);
             
+            const metaLength = parseInt(
+                                event.data.substring(eventTypeLength+1, eventTypeLength+3),
+                                16
+                               );
+
+            const metaData   = event.data.substring(
+                                eventTypeLength+3, 
+                                eventTypeLength+3+metaLength
+                               );
+
             const handler = this.handlers[eventType];
             if (handler) {
-                handler(event.data.substring(eventTypeLength, 999999));
+                handler(
+                    metaData, 
+                    event.data.substring(eventTypeLength+3+metaLength, 999999));
             }
         }
     }
 
-    public send(msg: string) {
+    public send(type: string, meta: string, payload: string) {
+        const msg = `${type.length.toString(16)}${type}${meta.length.toString(16)}${meta}${payload}`;
         this.socket.send(msg);
     }
 
-    public setOnMessageHandler(event: string, handler: (event: MessageEvent) => void) {
+    public setOnMessageHandler(event: string, handler: (meta: any, event: any) => void) {
         this.handlers[event] = handler;
     }
 

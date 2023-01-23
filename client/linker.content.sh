@@ -35,7 +35,7 @@ do
     sed -i "s|<h1 data-jsx-h1></h1>|$heading_text|" "$HTML_PATH"
     
     echo "$main_text" >> "$HTML_PATH.tmp";
-    node "$CLIENT_PATH/linker.content.js" "$HTML_PATH.tmp" "$HTML_PATH";
+    node "$CLIENT_PATH/linker.content.jsx" "$HTML_PATH.tmp" "$HTML_PATH";
     
     sed -i "s|className|class|"                            "$HTML_PATH";
     

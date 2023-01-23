@@ -7,7 +7,7 @@ import { useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import { Object3D } from "three"
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import { VRM, VRMUtils } from '@pixiv/three-vrm'
+// import { VRM, VRMUtils } from '@pixiv/three-vrm'
 
 const VRMAvatar = () => {
   

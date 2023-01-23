@@ -44,8 +44,12 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 
 		case "telemetry":
 			// get telemetry data:
-			telemetryData := string(message[messageTypeLen+1:])
-			log.Printf("telemetry data: %s", telemetryData)
+			// telemetryData := string(message[messageTypeLen+1:])
+		case "save_entity":
+			// get entity data:
+			entityData := string(message[messageTypeLen+1:])
+			// save entity data to database:
+			model.SaveEntity(db, entityData)
 
 		}
 
@@ -109,7 +113,7 @@ func setupRouter() *gin.Engine {
 		buf := new(bytes.Buffer)
 		buf.ReadFrom(c.Request.Body)
 
-		if _, err := f.WriteString(buf.String()); err != nil {
+		if _, err := f.WriteString(buf.String() + ",\n"); err != nil {
 			log.Println(err)
 		}
 		c.JSON(http.StatusOK, gin.H{
