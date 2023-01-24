@@ -1,3 +1,4 @@
+import { Mesh } from "three";
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { SyntaxHighlight } from "../1000_aesthetic/syntax-highlight";
@@ -15,6 +16,7 @@ export class Universe {
 
     public static colors: VisualTheme = currentTheme();
     public static skyColor = Universe.colors.background;
+    public static sky: Mesh | null = null;
 
     public static attachCursorToCamera?: Function;
     public static removeCursorFromCamera?: Function;

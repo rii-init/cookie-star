@@ -18,17 +18,20 @@ export interface ThreeCTXProps {
 
 export let ThreeJSContext = function() {
     const ctx = useThree() as CTX3;
-    Universe.ctx3 = ctx;
-                    
+    Universe.ctx3 = ctx;              
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
     Universe.user_controls = new UserControls(Universe.ctx3) 
 
+
     useFrame((state, delta, xrFrame) => {
       if (Universe.user_controls) {
         Universe.user_controls.update(delta);
+        Universe.sky?.position.set(state.camera.position.x, state.camera.position.y, state.camera.position.z);
+        Universe.sky?.updateMatrix();
+        (window as any).sky = Universe.sky;
       }
-      state.raycaster.setFromCamera(new Vector2(0,0), state.camera);
+      
     })
     
     return null;
