@@ -47,9 +47,9 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 			// telemetryData := string(message[messageTypeLen+1:])
 		case "save_entity":
 			// get entity data:
-			entityData := string(message[messageTypeLen+1:])
+			// entityData := string(message[messageTypeLen+1:])
 			// save entity data to database:
-			model.SaveEntity(db, entityData)
+			// model.SaveEntity(db, entityData)
 
 		}
 
