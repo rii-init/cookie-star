@@ -10,7 +10,7 @@ export class MouseScrollControl {
     public init() {
         document.addEventListener('wheel', (e) => {
         //e.preventDefault();
-            this.onMouseScroll(-1 * e.deltaY);
+            this.onMouseScroll(e.deltaY);
         }, true);
     }
 }
