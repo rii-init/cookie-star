@@ -8,7 +8,7 @@ export class ScrollControl {
     private onScrollHandlers = [] as ((delta: number) => void)[];
 
     private onScroll = (delta: number) => {
-        this.onScrollHandlers.forEach(handler => handler(-delta));
+        this.onScrollHandlers.forEach(handler => handler(delta));
     }
 
     constructor(
