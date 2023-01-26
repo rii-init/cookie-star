@@ -3,6 +3,7 @@ import { TextH1 } from "../../0200_component/flat/typography/h1"
 import { GroupMain } from "../../0200_component/flat/typography/main"
 import { TextP } from "../../0200_component/flat/typography/p"
 import { TextSpan } from "../../0200_component/flat/typography/span"
+import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
 
 export const show_room = () => {
     return (
@@ -10,7 +11,8 @@ export const show_room = () => {
             <TextH1 position={[0,2.4,-1.5]} >Timeline</TextH1>
         
                 <GroupMain>
-                    <Sequence direction="z">
+		<Atmosphere />
+         	<Sequence direction="z" polarity={-1}>
 
                     <TextSpan>
                         Everyone has a story. 
@@ -22,7 +24,7 @@ export const show_room = () => {
                     </TextSpan>
                     <TextSpan>Ultr7A.com was born at some point.</TextSpan>
                     <TextSpan> </TextSpan> 
-
+			
                     <TextSpan>From a young age, they were fascinated</TextSpan> 
                     <TextSpan>with water, pipes, electricity and wires.</TextSpan>
                     <TextSpan> </TextSpan>
@@ -35,8 +37,9 @@ export const show_room = () => {
                     <TextSpan>including Redeam and Mindbridge AI.</TextSpan>
 
                     <TextSpan>** Singularity **</TextSpan>
-                </Sequence>
-                </GroupMain>               
+                
+		</Sequence>
+		</GroupMain>
         </>
     )
 }

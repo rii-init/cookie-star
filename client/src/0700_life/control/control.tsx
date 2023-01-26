@@ -38,6 +38,7 @@ export class UserControls {
 
     public cursorHidden = false;
     public cursorActivated = 0;
+    public cursorPosition: [number, number, number] | null = null;
 
     public page = PageControl;
 

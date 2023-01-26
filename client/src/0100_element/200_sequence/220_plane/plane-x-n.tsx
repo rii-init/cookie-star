@@ -9,7 +9,7 @@ export interface PlaneXN {
 export const PlaneXN = (props: PlaneXN) => {
     
     return (
-        <Sequence direction="x">
+        <Sequence direction="x" polarity={1}>
             { props.children }
         </Sequence>
     )

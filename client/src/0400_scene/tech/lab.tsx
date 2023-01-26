@@ -3,16 +3,17 @@ import { DemoVolume }   from "../../0200_component/flat/vector/DemoVolume"
 import { LabelSurface } from "../../0200_component/flat/scalar/LabelSurface"
 import { TableOfContentsSurface } from "../../0200_component/flat/vector/TableOfContentsSurface"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
+import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
 import { DocumentScene } from "../../0300_entity/document.scene"
 import { TextH1 } from "../../0200_component/flat/typography/h1"
+import { GroupMain } from "../../0200_component/flat/typography/main"
 
 export const lab = () => {
     return (
         <>
             <TextH1 position={[0,2.4,-1.5]}>Lab</TextH1>
-            <DocumentScene>
-            </DocumentScene>
-            <group>
+	    <GroupMain>
+		<group>
                 <TableOfContentsSurface>
                     <LabelSurface>N0TE8</LabelSurface>
                     <LabelSurface>MXT8P</LabelSurface>
@@ -23,7 +24,7 @@ export const lab = () => {
                     <LabelSurface>ECSLANG</LabelSurface>
                 </TableOfContentsSurface>
                 <group>
-                    <Sequence direction="y">
+                    <Sequence direction="z" polarity={-1}>
                         <DemoVolume name="N0TE8">
                             
                         </DemoVolume>
@@ -50,9 +51,9 @@ export const lab = () => {
                 </group>
                                
             </group>
-            
+            <Atmosphere />
             <GridOctaves />
-            
+           </GroupMain>
         </>
     )
 }

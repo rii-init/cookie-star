@@ -3,13 +3,14 @@ import { Sequence } from "../../0100_element/200_sequence/sequence";
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextH1 } from "../../0200_component/flat/typography/h1";
 import { GroupMain } from "../../0200_component/flat/typography/main";
+import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere";
 
 export let conference_centre = () => {
     return (
         <group>
             <TextH1 position={[0,2.4,-1.5]}>Hi</TextH1>
             <GroupMain>
-                <Sequence direction="z">
+                <Sequence direction="z" polarity={-1}>
                     <TextDiv>
                         My name is ultr7a.com 
                     </TextDiv>
@@ -36,6 +37,7 @@ export let conference_centre = () => {
                     </TextDiv>    
                 </Sequence>
             </GroupMain>
+	    <Atmosphere />
         </group>       
     );
 }

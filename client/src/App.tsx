@@ -53,17 +53,14 @@ function App() {
                    args={Universe.colors.background} />
           <XR
             onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
-              DevConsole.log("onInputSourcesChange", JSON.stringify(event, null, 2));
             }}
 
             onSessionStart={(event) => {
-              DevConsole.log("onSessionStart", JSON.stringify(event, null, 2));
               Universe.xrMode = true;
               if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
 
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
-              DevConsole.log("onSessionEnd", JSON.stringify(event, null, 2));
               if (Universe.attachCursorToCamera) { Universe.attachCursorToCamera() }
               Universe.xrMode = false;
             }}
@@ -76,7 +73,7 @@ function App() {
               ? (
                   <Cursor hide={false} 
                      activated={0.05 || Universe?.user_controls?.cursorActivated}
-                      position={[0,0,-1]}
+                      position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
                   />
                 ) 
               : null
