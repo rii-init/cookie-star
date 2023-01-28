@@ -19,18 +19,18 @@ import { ResizeCanvas } from './0000_concept/resize-canvas';
 import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
-import { InfiniteUniverse } from './0200_component/infinite-universe';
+
 import { Cursor } from './0200_component/hud/cursor';
-import { R3FDebug } from './0000/r3f-debug';
+
 import { NoToneMapping } from 'three';
 import { GenderExpressionButton } from './0200_component/flat/2d/gender-expression-button';
 import { TeleportControls } from './0700_life/control/teleport-controls';
-import { DevConsole } from './0000_api/dev-console';
 
 
 const R3FCanvas = Canvas as any;
 
 export const UniverseContext = createContext(Universe);
+export const MagnetismContext = createContext(Universe.magnetism);
 
 function App() {
   
@@ -84,7 +84,6 @@ function App() {
             />
             <Hands />
             
-
             <pointLight   position={[0, 15, 10]} 
                           intensity={Universe.colors.celestialLight.intensity}
                           distance={100000} 
@@ -92,24 +91,21 @@ function App() {
             <ambientLight intensity={Universe.colors.ambientLight.intensity} 
                           color={Universe.colors.ambientLight.color} />
 
-            
-            <InfiniteUniverse>
-            </InfiniteUniverse>
-          
-
             <UniverseContext.Provider value={Universe}>
-            <Router>
-                <group className="App-header">
-                  <RouterNavigationSurface />
-                </group>
-                <Switch>
-                  <Route path="/"     component={main}   />
-                  <Route path="/meta" component={nature} />
-                  <Route path="/tech" component={lab}  />
-                  <Route path="/chat" component={conference_centre} />
-                  <Route path="/cv"   component={show_room}         />
-                </Switch>
-            </Router>
+	        <MagnetismContext.Provider value={Universe.magnetism}>
+                    <Router>
+                        <group className="App-header">
+                            <RouterNavigationSurface />
+                        </group>
+                        <Switch>
+                          <Route path="/"     component={main}   />
+                          <Route path="/meta" component={nature} />
+                          <Route path="/tech" component={lab}  />
+                          <Route path="/chat" component={conference_centre} />
+                          <Route path="/cv"   component={show_room}         />
+                        </Switch>
+                    </Router>
+	    	</MagnetismContext.Provider>
             </UniverseContext.Provider>
           </XR>
           

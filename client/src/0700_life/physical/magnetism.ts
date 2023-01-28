@@ -1,16 +1,22 @@
 import { Vector3 } from "three";
 import { Magnet } from "./magnet";
 
-export class MagnetismContext {
+export class Magnetism {
 
-    private camera: THREE.Camera;
+    private camera?: THREE.Camera;
+    private xrCamera?: THREE.Camera;
     private magnets: Magnet[] = [];
 
-    constructor(camera: THREE.Camera) {
+    public setCamera(camera: THREE.Camera) {
         this.camera = camera;
     }
 
+    public setXRCamera(camera: THREE.Camera) {
+    	this.xrCamera = camera;
+    }
+
     public registerMagnet(magnet: Magnet) {
+        console.log("register magnet", magnet);
         this.magnets.push(magnet);
     }
 
@@ -26,12 +32,12 @@ export class MagnetismContext {
     } 
 
     private handleCollision(magnet: Magnet): void {
-        if (magnet.shape == "box") {
+        if (!this.camera) return;
+
+	if (magnet.shape == "box") {
             if (magnet.rotation) {
                 // take rotation into account
                 // get local camera coordinates
-                
-
                 
             } else {
                 this.handleBoxTopCollision([
@@ -46,7 +52,9 @@ export class MagnetismContext {
     }
 
     private handleSphereCollision(distance: number, magnet: Magnet) {
-        if (distance < magnet.dimensions[0]) {
+        if (!this.camera) return;
+
+	if (distance < magnet.dimensions[0]) {
             // handle collision
             const bounceDirection = this.camera.position.clone().sub(new Vector3(...magnet.position)).normalize();
             this.camera.position.add(bounceDirection.multiplyScalar(0.1));
@@ -54,7 +62,9 @@ export class MagnetismContext {
     }
 
     private handleBoxTopCollision(localCameraCoordinates: [number, number], boxDimensions: number[]) {
-        if (localCameraCoordinates[0] > 0 && localCameraCoordinates[0] < boxDimensions[0]
+        if (!this.camera) return;
+
+	if (localCameraCoordinates[0] > 0 && localCameraCoordinates[0] < boxDimensions[0]
             && localCameraCoordinates[1] > 0 && localCameraCoordinates[1] < boxDimensions[1]) {
             // handle vertical collision
             this.camera.position.y = boxDimensions[1] + 0.5;

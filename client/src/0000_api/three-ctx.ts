@@ -1,9 +1,10 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { Canvas } from '@react-three/fiber';
-import { useXR } from "@react-three/xr";
+
+
 import { Camera, Raycaster, Scene, Vector2 } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
+
 
 export type CTX3 = { 
     canvas: HTMLCanvasElement, 
@@ -22,7 +23,7 @@ export let ThreeJSContext = function() {
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
     Universe.user_controls = new UserControls(Universe.ctx3) 
-
+    Universe.magnetism.setCamera(Universe.ctx3.camera);
 
     useFrame((state, delta, xrFrame) => {
       if (Universe.user_controls) {

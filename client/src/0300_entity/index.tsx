@@ -1,5 +1,6 @@
 import { RayGrab } from "@react-three/xr";
 import { Children, cloneElement, isValidElement, ReactNode } from "react";
+import { MagneticField } from "../0700_life/physical/magnetic-field";
 
 export interface EntityProps {
     id?:   string;
@@ -12,28 +13,34 @@ export interface EntityProps {
     children: ReactNode;
 
     editMode?: boolean;
+    magnetic?: boolean;
+}
+
+const EditableEntiy = (p: EntityProps) => {
+
+    return (
+        <RayGrab>
+        <mesh position={p.position} rotation={p.rotation}>
+          { p.children }
+        </mesh>
+        </RayGrab>
+    )
 }
 
 
 export const Entity = (p: EntityProps) => {
-
+    
     if (p.editMode) {
         return (
-            <mesh position={p.position} rotation={p.rotation}>
-              {Children.map(p.children, child => {
-                if (! isValidElement(child)) return child
-                //if (child.type === 'mesh') {
-                  return <RayGrab>{child}</RayGrab>
-                //}
-                //return child
-              })}
-            </mesh>
+            <EditableEntiy position={p.position} rotation={p.rotation}>
+                { p.children }
+            </EditableEntiy>
           )
     }
 
     return (
-        <>
+        <mesh position={p.position} rotation={p.rotation}>
             { p.children }
-        </>
+        </mesh>
     )
 }
