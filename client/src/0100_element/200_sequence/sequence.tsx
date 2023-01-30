@@ -6,6 +6,9 @@ import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 export interface SequenceProps {
     direction: "x" | "y" | "z",
     polarity: 1  | -1,
+    xFunction?: (d: number) => number,
+    yFunction?: (d: number) => number,
+    zFunction?: (d: number) => number,
     itemPadding?: number,
     elements?: string[]
     children?: React.ReactNode,
@@ -25,14 +28,15 @@ function shapeForDirection(direction: "x" | "y" | "z") {
     }
 }
 
-function positionForDirection(direction: "x" | "y" | "z", polarity: 1 | -1, padding: number, index: number) {
+function positionForDirection(xFunction = (x: number)=>0, yFunction=(y: number)=>0, zFunction = (z: number)=>0,
+	                      direction: "x" | "y" | "z", polarity: 1 | -1, padding: number, index: number) {
     switch (direction) {
         case "x":
-            return [polarity * index * (1+padding), 0,  0];
+            return [polarity * index * (1+padding), yFunction(index),  zFunction(index)];
         case "y":
-            return [0, polarity * index * (1+padding),  0];
+            return [xFunction(index), polarity * index * (1+padding),  zFunction(index)];
         case "z":
-            return [0, 0,  polarity * index * (1+padding)];
+            return [xFunction(index), yFunction(index), polarity * index * (1+padding)];
     }
 }
 export const SequenceContext = React.createContext({});
@@ -46,7 +50,8 @@ export const Sequence = (props: SequenceProps) => {
                 React.Children.map(props.children, (child, index) => {
 		   return (
                         <group key={index} 
-                         position={positionForDirection(props.direction,
+                         position={positionForDirection(props.xFunction, props.yFunction, props.zFunction,
+				                        props.direction,
                                                         props.polarity,
 				                        props.itemPadding || 0, 
                                                         index)}>
@@ -56,7 +61,7 @@ export const Sequence = (props: SequenceProps) => {
                 })
             }
             { props.border ? 
-                <mesh position={positionForDirection(props.direction, 
+                <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
 			                             props.polarity,
 			                             props.itemPadding || 0, 0)}>
                     <boxBufferGeometry args={[0.1,1,1]} />
@@ -65,7 +70,7 @@ export const Sequence = (props: SequenceProps) => {
                 : null 
             }
             { props.border ?
-                <mesh position={positionForDirection(props.direction, 
+                <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
 						     props.polarity,
 			                             props.itemPadding || 0,
                                                      props.elements 

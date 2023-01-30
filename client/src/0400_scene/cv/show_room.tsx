@@ -12,31 +12,43 @@ export const show_room = () => {
         
                 <GroupMain>
 		<Atmosphere />
-         	<Sequence direction="z" polarity={-1}>
+			<Sequence direction="z" polarity={-1} 
+	                          yFunction={(d: number) => {
+					        return 0;
+				            } 
+			                    }   
+			>
+				{/** <Sequence direction="y" polarity={-1}>**/}
+                                <TextSpan>
+                                   Everyone has a story.
+				</TextSpan>
+				<TextSpan>
+				   This is mine.
+				</TextSpan>
+				<TextSpan>
+				   In the beginning, the universe exploded,
+				   and intelligent life emerged.
+				</TextSpan>
+				{/** </Sequence> **/}
+                
+				{/**<Sequence direction="y" polarity={-1}>**/}
+				<TextSpan>Ultr7A.com was born at some point.</TextSpan>
+				<TextSpan>From a young age, they were fascinated</TextSpan>
+				<TextSpan>with water, pipes, electricity and wires.</TextSpan>
+				{/**</Sequence> **/}
+                            
+				{/**<Sequence direction="y" polarity={-1}>**/}
+                                <TextSpan>Ultr7A later took an interest in</TextSpan>
+                                <TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
+				{/**<TextSpan> </TextSpan>**/}
+				{/** </Sequence> **/}
+                            
+			{/**<Sequence direction="y" polarity={-1}> **/}
+		                <TextSpan>They went on to work for numerous startups, </TextSpan>
+                                 <TextSpan>including Redeam and Mindbridge AI.</TextSpan>
+			{/** </Sequence> **/}
 
-                    <TextSpan>
-                        Everyone has a story. 
-                        This is mine.    
-                    </TextSpan>
-                    <TextSpan>
-                        In the beginning the universe exploded, 
-                        and intelligent life emerged. 
-                    </TextSpan>
-                    <TextSpan>Ultr7A.com was born at some point.</TextSpan>
-                    <TextSpan> </TextSpan> 
-			
-                    <TextSpan>From a young age, they were fascinated</TextSpan> 
-                    <TextSpan>with water, pipes, electricity and wires.</TextSpan>
-                    <TextSpan> </TextSpan>
-                    
-                    <TextSpan>Ultr7A later took an interest in</TextSpan>
-                    <TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
-                    <TextSpan> </TextSpan>
-                    
-                    <TextSpan>They went on to work for numerous startups, </TextSpan>
-                    <TextSpan>including Redeam and Mindbridge AI.</TextSpan>
-
-                    <TextSpan>** Singularity **</TextSpan>
+		    <TextSpan>** Singularity **</TextSpan>
                 
 		</Sequence>
 		</GroupMain>
