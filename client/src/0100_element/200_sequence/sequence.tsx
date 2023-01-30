@@ -9,12 +9,16 @@ export interface SequenceProps {
     xFunction?: (d: number) => number,
     yFunction?: (d: number) => number,
     zFunction?: (d: number) => number,
+    yRotationFunction?: (d: number) => number,
     itemPadding?: number,
     elements?: string[]
     children?: React.ReactNode,
     position?: [number, number, number]
     color?: [number, number, number]
-    border?: boolean
+    border?: boolean,
+    afterItem?: (position: [number, number, number],
+                    scale: [number, number, number], 
+                direction: "x" | "y" | "z") => React.ReactNode,
 }
 
 function shapeForDirection(direction: "x" | "y" | "z") {
@@ -28,8 +32,30 @@ function shapeForDirection(direction: "x" | "y" | "z") {
     }
 }
 
+function backgroundShapeForDirection(direction: "x" | "y" | "z"): [number, number, number] {
+    switch (direction) {
+        case "x":
+            return [0.1,3,4];
+        case "y":
+            return [4,0.1,3];
+        case "z":
+            return [4,3,0.1];
+    }
+}
+
+function backgroundPositionForDirection(direction: "x" | "y" | "z", position: [number, number, number]): [number, number, number] {
+    switch (direction) {
+        case "x":
+            return [position[0]*0.5-0.25, -0.5, 0];
+        case "y":
+            return [-0.5, position[1]*0.5-0.25, 0];
+        case "z":
+            return [0, -0.5, position[2]*0.5-0.25];
+    }
+}
+
 function positionForDirection(xFunction = (x: number)=>0, yFunction=(y: number)=>0, zFunction = (z: number)=>0,
-	                      direction: "x" | "y" | "z", polarity: 1 | -1, padding: number, index: number) {
+	                      direction: "x" | "y" | "z", polarity: 1 | -1, padding: number, index: number): [number, number, number] {
     switch (direction) {
         case "x":
             return [polarity * index * (1+padding), yFunction(index),  zFunction(index)];
@@ -48,14 +74,26 @@ export const Sequence = (props: SequenceProps) => {
         <group position={props.position || [0,0,0]}>
             {
                 React.Children.map(props.children, (child, index) => {
+                    const position = positionForDirection(props.xFunction, props.yFunction, props.zFunction,
+                        props.direction,
+                        props.polarity,
+                        props.itemPadding || 0, index);
+
+                    let afterItem = null;
+
+                    if (props.afterItem) {
+                        afterItem = props.afterItem(backgroundPositionForDirection(props.direction, position), 
+                                                    backgroundShapeForDirection(props.direction), 
+                                                    props.direction
+                                                   );
+                    }
 		   return (
                         <group key={index} 
-                         position={positionForDirection(props.xFunction, props.yFunction, props.zFunction,
-				                        props.direction,
-                                                        props.polarity,
-				                        props.itemPadding || 0, 
-                                                        index)}>
+                         position={position}
+                         rotation={[0,props.yRotationFunction ? props.yRotationFunction(index) : 0,0]}
+                        >
                             {child}
+                            {afterItem}
                         </group>
                     )
                 })
@@ -63,7 +101,9 @@ export const Sequence = (props: SequenceProps) => {
             { props.border ? 
                 <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
 			                             props.polarity,
-			                             props.itemPadding || 0, 0)}>
+			                             props.itemPadding || 0, 0)}
+			          rotation={[0, props.yRotationFunction ? props.yRotationFunction(0) : 0, 0]}
+		        >
                     <boxBufferGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
                 </mesh> 
@@ -76,7 +116,11 @@ export const Sequence = (props: SequenceProps) => {
                                                      props.elements 
                                                         ? props.elements.length-1
                                                         : React.Children.count(props.children)-1
-                                                        )}>
+                                                        )}
+			    rotation={[0, props.yRotationFunction ? props.yRotationFunction(props.elements 
+												? props.elements.length -1
+			       								        : React.Children.count(props.children)-1) : 0, 0]}
+		        >
                     <boxBufferGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
                 </mesh>
