@@ -11,7 +11,7 @@ export class ScrollControl {
 
     private onScroll = (delta: number) => {
         
-        this.onScrollHandlers.forEach(handler => handler(delta));
+        this.onScrollHandlers.forEach(handler => handler(delta * this.polarity));
 
         if (this.firstScroll) {
             this.polarity = delta > 0 ? 1 : -1;
