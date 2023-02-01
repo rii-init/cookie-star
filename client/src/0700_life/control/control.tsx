@@ -35,7 +35,7 @@ export class UserControls {
     public gamepad  = new GamepadControl(this);
     public touch    = new TouchControl();
     public mouse    = new MouseState(this);
-    public keys     = new KeyboardState();
+    public keys     = new KeyboardState(this);
     public gyro?:  DeviceOrientationControls;
 
     public staticGeom = new StaticGeometries();
@@ -108,6 +108,7 @@ export class UserControls {
 
             this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
             this.ctx3.camera.matrixAutoUpdate = false;
+            this.velocity.y = 0;
         } else {
             this.mode = ControlType.Scrolling;
             this.ctx3.camera.matrixAutoUpdate = true;

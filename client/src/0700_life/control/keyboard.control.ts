@@ -1,3 +1,6 @@
+import { UserControls } from "./control";
+import { ControlType } from "./control.type";
+
 export class KeyboardState {
     public w:     boolean = false;
     public a:     boolean = false;
@@ -21,6 +24,8 @@ export class KeyboardState {
     private keyUpCallbacks: ((evt: KeyboardEvent) => void)[]   = [];
     private keyDownCallbacks: ((evt: KeyboardEvent) => void)[] = [];
 
+    constructor (public controller: UserControls) {}
+
     init() {
         document.addEventListener("keydown", (evt) => this.onKeyDown(evt))
         document.addEventListener("keyup",   (evt) => this.onKeyUp(evt))
@@ -35,6 +40,12 @@ export class KeyboardState {
     }
 
     onKeyDown(evt: KeyboardEvent) {
+        if (evt.key !== "Escape") {
+            this.controller.toggleManualCameraControl(ControlType.Touch__And__Keyboard__And__Mouse);
+        } else {
+            this.controller.toggleManualCameraControl(ControlType.Scrolling);
+        }
+
         switch (evt.key) {
             case "w": case "W": this.w = true; break;
             case "a": case "A": this.a = true; break;
