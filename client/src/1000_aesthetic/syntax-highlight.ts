@@ -1,3 +1,4 @@
+import { Elements } from "./elements";
 import { getRGB } from "./getRGB";
 
 export class SyntaxHighlight {

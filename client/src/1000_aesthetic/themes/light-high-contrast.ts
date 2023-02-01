@@ -1,4 +1,5 @@
-import { ColorScheme, VisualTheme } from "../visual-theme";
+import { VisualTheme } from "../visual-theme";
+import { LightSyntaxHighlight } from "./syntax-highlight.light";
 
 export const LightHighContrast = new VisualTheme(
     {
@@ -18,4 +19,6 @@ export const LightHighContrast = new VisualTheme(
                 intensity: 1.3, 
                 color: "#ffffff" 
         }   
-    })
+    },
+    new LightSyntaxHighlight()
+);

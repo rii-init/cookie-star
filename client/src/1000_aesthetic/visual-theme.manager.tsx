@@ -11,7 +11,7 @@ export const themeIdx = parseInt(
         localStorage.getItem("visualTheme") || "0");
 
 export function currentTheme() {
-    return themes[themeIdx];
+    return themes[themeIdx].enable();
 }
 
 

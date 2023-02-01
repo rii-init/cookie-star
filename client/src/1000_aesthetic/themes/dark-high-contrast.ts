@@ -1,3 +1,4 @@
+import { DarkSyntaxHighlight } from "./syntax-highlight.dark";
 import { VisualTheme } from "../visual-theme";
 
 
@@ -19,6 +20,6 @@ export const DarkHighContrast = new VisualTheme(
                 intensity: 1.2, 
                 color: "#c94bff" 
         }   
-    }
+    },
+    new DarkSyntaxHighlight()
 );
-

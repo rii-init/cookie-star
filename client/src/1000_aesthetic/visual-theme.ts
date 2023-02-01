@@ -1,4 +1,5 @@
 import { getRGB } from "./getRGB";
+import { SyntaxHighlight } from "./syntax-highlight";
 
 export interface ColorScheme {
     _foreground:  string;
@@ -18,7 +19,7 @@ export interface LightConditions {
 
 export class VisualTheme implements ColorScheme {
     
-    constructor(colors: ColorScheme, lighting: LightConditions) {
+    constructor(colors: ColorScheme, lighting: LightConditions, public elements: any) {
         this.ambientLight = lighting.ambientLight;
         this.celestialLight = lighting.celestialLight;
         
@@ -41,6 +42,15 @@ export class VisualTheme implements ColorScheme {
     _accent:     string;
     _accent2:    string;
     _accent3:    string;
+
+    public enable() {
+
+        for (let key in this.elements) {
+            (SyntaxHighlight as any)[key] = this.elements[key];
+        }
+
+        return this;
+    }
 
     get foreground(): [number, number, number] {
         return getRGB(this._foreground)
