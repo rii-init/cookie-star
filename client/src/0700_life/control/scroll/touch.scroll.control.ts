@@ -1,4 +1,4 @@
-import { TouchControl } from "./touch.control";
+import { TouchControl } from "../touch.control";
 
 export class TouchScrollControl {
     constructor(

@@ -1,4 +1,4 @@
-import { MouseState } from "./mouse.control";
+import { MouseState } from "../mouse.control";
 
 export class MouseScrollControl {
     private onMouseScroll: (delta: number) => void = () => {};
@@ -10,7 +10,7 @@ export class MouseScrollControl {
     public init() {
         document.addEventListener('wheel', (e) => {
         //e.preventDefault();
-            this.onMouseScroll(e.deltaY);
+            this.onMouseScroll(-e.deltaY);
         }, true);
     }
 }

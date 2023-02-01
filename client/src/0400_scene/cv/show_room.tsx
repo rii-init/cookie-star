@@ -21,12 +21,12 @@ export const show_room = () => {
 							             scale: [number, number, number], 
 								     direction: "x" | "y" | "z") => {
 							  return (
-								  <mesh position={position} scale={scale}>
-									  <boxBufferGeometry attach="geometry" />
+								  <mesh position={[position[0], position[1]-0.5, position[2]]} scale={scale}>
+									  <boxBufferGeometry attach="geometry" args={[3,1,0.1]}/>
 									  <meshLambertMaterial attach="material" 
 									                        color={Universe.colors.background2} 
-									 					   transparent={true}
-														   opacity={0.5}
+									 				  transparent={true}
+														  opacity={0.5}
 									  />
 								  </mesh>
 							  )

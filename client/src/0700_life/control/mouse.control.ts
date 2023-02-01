@@ -1,3 +1,6 @@
+import { UserControls } from "./control";
+import { ControlType } from "./control.type";
+
 export class MouseState {
     public leftButton  = false;
     public rightButton = false;
@@ -8,6 +11,11 @@ export class MouseState {
     public canvas: HTMLCanvasElement | null = null;
 
     private handlers: any = { };
+
+
+
+
+    constructor(public controller: UserControls) { }
 
     public addHandler(
         name: string, 
@@ -43,6 +51,8 @@ export class MouseState {
                     if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 200)) {
                         canvas.requestPointerLock();
                         this.setLocked(true );
+                        this.controller.mode = ControlType.Touch__And__Keyboard__And__Mouse;
+                        
                     }
                 }
             }
@@ -54,8 +64,10 @@ export class MouseState {
         if (document.pointerLockElement === this.canvas ||
             (document as any).mozPointerLockElement === this.canvas) {
             this.setLocked(true);
+            this.controller.toggleManualCameraControl(ControlType.Touch__And__Keyboard__And__Mouse);
         } else {
             this.setLocked(false)
+            this.controller.toggleManualCameraControl(ControlType.Scrolling);
         } 
     }
 
