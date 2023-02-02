@@ -1,49 +1,143 @@
-import { useState } from "react";
-import { PerspectiveCamera } from "three";
+import { XRController } from "@react-three/xr";
+import { createContext, useEffect, useState } from "react";
+import { Group, Intersection, Matrix4, Object3D, PerspectiveCamera, Raycaster } from "three";
 import { Universe } from "../../0000_concept/universe";
 
 export interface TeleportControlsProps {
     children?: React.ReactNode;
+    gl: any;
+    scene: any;
+    intersections: Intersection[];
+    controller: Group;
+    grip: Group;
+    raycaster: Raycaster;
 }
 
 
-export function onSelect(intersects: any[]) {
+// based on https://codesandbox.io/s/r3f-vr-controllers-forked-kgv77q?file=/src/use-controller.tsx:1216-1224
 
+
+interface XRInputSource {
+    handedness: "left" | "right" | "none";
+    gamepad: Gamepad;
 }
+  
+  
+export interface XRControllerMap {
+    [key: string]: IXRController;
+}
+
+export interface IXRController {
+    squeezing: boolean;
+    selecting: boolean;
+    inputSource: XRInputSource;
+    grip: Group;
+    // we can always get the world position etc. from the controller
+    // TODO: add targetray, so that rays can be precisely positioned
+    // https://developer.mozilla.org/en-US/docs/Web/API/XRInputSource/targetRayMode
+    // controllere actually returns the targetRaySpace!
+    controller: Group;
+    raycaster: Raycaster;
+    getIntersects: (objects: any[]) => Intersection[];
+}
+
+
+const ControllersContext = createContext<any>([]);
+
+
+function setUpController(
+        idx: number, 
+        gl:  any, 
+        setState: (p: Function) => void,
+        raycaster: Raycaster
+    ): IXRController {
+    
+    const controller = gl.xr.getController(idx);
+    const grip = gl.xr.getControllerGrip(idx);
+
+  const getIntersects = (objects: Object3D[]) => {
+    const tempMatrix = new Matrix4();
+    tempMatrix.identity().extractRotation(controller.matrix);
+    raycaster.ray.origin.setFromMatrixPosition(controller.matrix);
+    raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
+    return raycaster.intersectObjects(objects, true);
+  };
+
+  const root: IXRController = {
+    squeezing: false,
+    selecting: false,
+    inputSource: undefined as any,
+    grip,
+    controller,
+    raycaster,
+    getIntersects,
+  };
+
+  controller.addEventListener("connected", (e) =>
+    setState(() => {
+      root.inputSource = e.data;
+      return root;
+    })
+  );
+  controller.addEventListener("selectstart", () => {
+    setState((controller: XRController) => {
+      root.selecting = true;
+      return controller;
+    });
+  });
+  controller.addEventListener("selectend", () => {
+    setState((controller: XRController) => {
+        root.selecting = false;
+      return controller;
+    });
+  });
+  controller.addEventListener("squeezestart", () => {
+    setState((controller: XRController) => {
+        root.squeezing = true;
+      return controller;
+    });
+  });
+  controller.addEventListener("squeezeend", () => {
+    setState((controller: XRController) => {
+        root.squeezing = true;
+      return controller;
+    });
+  });
+
+  return root;
+}
+
+
 
 
 export const TeleportControls = (props: TeleportControlsProps) => {
     const [cursorVisible, setCursorVisible] = useState(false);
     const [intersection, setIntersection] = useState(null);
     const camera = Universe.ctx3.camera;
-    const controllers = Universe.xrControllers;
 
-    function handleSelection(intersects: { point: any }[] ) {
-        onSelect(intersects);
-    }
+    const [controllerStates, setControllerStates] = useState<XRControllerMap>();
+    
+    const setControllerState = (index: string | number) => (fn: any): void =>
+    setControllerStates((prevTotalState: XRControllerMap | undefined) => {
+      // this should mutate the controller instance specific state
+      // @ts-ignore
+      prevTotalState[index] = fn(prevTotalState[index]);
+      return prevTotalState;
+    });
 
-    function previewTeleport() {
-        setCursorVisible(true);
-    }
 
-    function cancelTeleport() {
-        setCursorVisible(false);
-    }
+    useEffect(() => {
+        const init = Object.fromEntries(
+          // TODO: actually get xrSession.inputSources 
+          [0, 1].map((x) => [x, setUpController(x, props.gl, setControllerState(x), props.raycaster)])
+        );
+
+        setControllerState(init);
+      }, [props.gl]);
 
     return (
-        <>
-            {
-                cursorVisible 
-                ? ( 
-                    <group>
-                        <mesh>
-                            <boxBufferGeometry args={[1, 1, 1]} />
-                            <meshBasicMaterial color="red" />
-                        </mesh>
-                    </group>
-                )
-                : null
-            }
-        </>
-    );
+        <ControllersContext.Provider key="xr-ctrl-context" value={controllerStates}>
+          {props.children}
+        </ControllersContext.Provider>
+      );
 };
