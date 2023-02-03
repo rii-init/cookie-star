@@ -3,3 +3,4 @@ secrets
 ultr7a.com
 client/build/buffer
 *.spec.js
+.vscode

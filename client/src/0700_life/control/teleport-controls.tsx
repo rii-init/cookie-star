@@ -1,16 +1,23 @@
+import { useThree } from "@react-three/fiber";
 import { XRController } from "@react-three/xr";
 import { createContext, useEffect, useState } from "react";
 import { Group, Intersection, Matrix4, Object3D, PerspectiveCamera, Raycaster } from "three";
 import { Universe } from "../../0000_concept/universe";
 
+
+export interface ExternalTeleportControlsProviders {
+    gl?: any;
+    scene?: any;
+    intersections?: Intersection[];
+    controller?: Group;
+    grip?: Group;
+    raycaster?: Raycaster;
+}
+
 export interface TeleportControlsProps {
     children?: React.ReactNode;
-    gl: any;
-    scene: any;
-    intersections: Intersection[];
-    controller: Group;
-    grip: Group;
-    raycaster: Raycaster;
+    
+    api?: any // (api: { methods?: any }) => ExternalTeleportControlsProviders;
 }
 
 
@@ -73,7 +80,7 @@ function setUpController(
     getIntersects,
   };
 
-  controller.addEventListener("connected", (e) =>
+  controller.addEventListener("connected", (e: any) =>
     setState(() => {
       root.inputSource = e.data;
       return root;
@@ -115,6 +122,19 @@ export const TeleportControls = (props: TeleportControlsProps) => {
     const [intersection, setIntersection] = useState(null);
     const camera = Universe.ctx3.camera;
 
+    let gl: any = null;
+    
+    // use external provider if possible... (basically, during testing)
+    
+
+    const three  = useThree();
+
+    if (!gl) {
+        gl = three.gl;
+    }
+
+
+
     const [controllerStates, setControllerStates] = useState<XRControllerMap>();
     
     const setControllerState = (index: string | number) => (fn: any): void =>
@@ -126,17 +146,11 @@ export const TeleportControls = (props: TeleportControlsProps) => {
     });
 
 
-    useEffect(() => {
-        const init = Object.fromEntries(
-          // TODO: actually get xrSession.inputSources 
-          [0, 1].map((x) => [x, setUpController(x, props.gl, setControllerState(x), props.raycaster)])
-        );
-
-        setControllerState(init);
-      }, [props.gl]);
+    useEffect(() => { });
+       
 
     return (
-        <ControllersContext.Provider key="xr-ctrl-context" value={controllerStates}>
+        <ControllersContext.Provider key="xr-ctrl-context" value={[]}>
           {props.children}
         </ControllersContext.Provider>
       );

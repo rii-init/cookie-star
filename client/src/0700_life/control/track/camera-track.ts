@@ -18,24 +18,36 @@ export class CameraTrack {
 		camera.lookAt(pointA.target.lerpVectors(pointA.target, pointB.target, t2));
    	}
 
-   public init() {
-	this.poses = [
-		{
-			position: new Vector3(0,  0.8,   3.5),
-			target:   new Vector3(0,  0,   -20)
-		},
-		{
-			position: new Vector3(1,  0.6,  -9),
-			target:   new Vector3(0,  1.6, -20)
-		},	
-		{
-			position: new Vector3(-1, 1.4, -13),
-			target:   new Vector3(0,  1.6, -20)
-		},	
-		{
-			position: new Vector3(0,  0.6, -20),
-			target:   new Vector3(0,  1.6, -25)
-		}
-	];
-   }
+   	public init() {
+		this.poses = this.defaultCameraPoses();
+   	}
+
+	public setCameraPosesToDefault() {
+		this.poses = this.defaultCameraPoses();
+	}
+
+	public setCameraPoses(poses: CameraPose[]) {
+		this.poses = poses;
+	}
+
+    private defaultCameraPoses(): CameraPose[] {
+		return [
+			{
+				position: new Vector3(0,  0.8,   3.5),
+				target:   new Vector3(0,  0,   -20)
+			},
+			{
+				position: new Vector3(1,  0.6,  -9),
+				target:   new Vector3(0,  1.6, -20)
+			},	
+			{
+				position: new Vector3(-1, 1.4, -13),
+				target:   new Vector3(0,  1.6, -20)
+			},	
+			{
+				position: new Vector3(0,  0.6, -20),
+				target:   new Vector3(0,  1.6, -25)
+			}
+		]
+	}
 }

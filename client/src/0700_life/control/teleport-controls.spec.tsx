@@ -1,4 +1,4 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Raycaster, Scene } from "three";
+import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Raycaster, Scene, Vector3 } from "three";
 import { TeleportControls } from "./teleport-controls";
 
 describe("TeleportControls", () => {
@@ -38,14 +38,14 @@ describe("TeleportControls", () => {
         let intersections: any[] = [];
 
         // Test the teleport controls
-        const teleportControls = TeleportControls({ gl, scene, controller, grip, raycaster, cursor, intersections });
+        const teleportControls = TeleportControls({  children: [] });
 
 
         // verify the ray cast hit the surface
         expect(intersections.length).toBe(1);
 
         // verify the cursor is at the intersection point
-        expect(intersections[0].point).toEqual(new THREE.Vector3(0, 0, -1));
+        expect(intersections[0].point).toEqual(new Vector3(0, 0, -1));
 
 
     })

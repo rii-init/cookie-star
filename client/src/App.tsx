@@ -23,8 +23,7 @@ import { RouterNavigationSurface } from './0200_component/flat/navigation-surfac
 import { Cursor } from './0200_component/hud/cursor';
 
 import { NoToneMapping } from 'three';
-import { GenderExpressionButton } from './0200_component/flat/2d/gender-expression-button';
-import { TeleportControls } from './0700_life/control/teleport-controls';
+import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
 
 
 const R3FCanvas = Canvas as any;
@@ -34,11 +33,15 @@ export const MagnetismContext = createContext(Universe.magnetism);
 
 function App() {
   
+  function registerTeleportAPI(api: (api: {providers: ExternalTeleportControlsProviders}) => { methods: any } ) {
+    console.log("api({})");
+  }
+ 
   return (
       <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
-          <GenderExpressionButton />
+          {/* <GenderExpressionButton /> */}
           <VisualThemeManager />  
           <VRButton className="ui_2d__button" />
         </div>
@@ -69,19 +72,10 @@ function App() {
             <ThreeJSContext />
             <ResizeCanvas />
             
-            { !Universe.xrMode 
-              ? (
-                  <Cursor hide={false} 
-                     activated={0.05 || Universe?.user_controls?.cursorActivated}
-                      position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
-                  />
-                ) 
-              : null
-            }  
-            <TeleportControls />
             <Controllers 
               hideRaysOnBlur={true}
             />
+            
             <Hands />
             
             <pointLight   position={[0, 15, 10]} 
@@ -92,7 +86,28 @@ function App() {
                           color={Universe.colors.ambientLight.color} />
 
             <UniverseContext.Provider value={Universe}>
-	        <MagnetismContext.Provider value={Universe.magnetism}>
+              
+              <TeleportControls api={(api: {methods: any}) => { 
+                  
+                  console.log("TeleportControls API ", api.methods);
+
+                  return {
+                    providers: {
+                        // gl,
+                        // scene,
+                        // intersections,
+                    }
+                  }
+                  
+              }}>
+              
+                <Cursor hide={false} 
+                        activated={0.05 || Universe?.user_controls?.cursorActivated}
+                          position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
+                />
+              
+                <MagnetismContext.Provider value={Universe.magnetism}>
+                    
                     <Router>
                         <group className="App-header">
                             <RouterNavigationSurface />
@@ -105,7 +120,11 @@ function App() {
                           <Route path="/cv"   component={show_room}         />
                         </Switch>
                     </Router>
-	    	</MagnetismContext.Provider>
+
+	          	  </MagnetismContext.Provider>
+          
+              </TeleportControls>
+            
             </UniverseContext.Provider>
           </XR>
           

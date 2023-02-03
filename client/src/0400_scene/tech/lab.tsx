@@ -7,8 +7,20 @@ import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
 import { DocumentScene } from "../../0300_entity/document.scene"
 import { TextH1 } from "../../0200_component/flat/typography/h1"
 import { GroupMain } from "../../0200_component/flat/typography/main"
+import { Universe } from "../../0000_concept/universe"
+import { Vector3 } from "three"
 
 export const lab = () => {
+
+    Universe.user_controls.track.setCameraPoses([
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+    ])
+
     return (
         <>
             <TextH1 position={[0,2.4,-1.5]}>Lab</TextH1>
