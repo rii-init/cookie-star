@@ -1,9 +1,9 @@
-import { DarkHighContrast } from "./themes/dark-high-contrast";
+import { DarkLowContrast } from "./themes/dark-high-contrast";
 import { LightHighContrast } from "./themes/light-high-contrast";
 
 const themes = [ 
     LightHighContrast,
-    DarkHighContrast
+    DarkLowContrast
 ];
 
 

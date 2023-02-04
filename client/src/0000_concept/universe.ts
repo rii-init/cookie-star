@@ -12,10 +12,11 @@ import { Magnetism } from "../0700_life/physical/magnetism";
  */ 
 export class Universe { 
 
-    public static Love() { }
+    public static Omniscience() { }
 
     public static colors: VisualTheme = currentTheme();
-    public static skyColor = Universe.colors.background;
+    public static skyColor  = Universe.colors.background;
+    public static skyColor2 = Universe.colors.background2;
     public static sky: Mesh | null = null;
 
     public static attachCursorToCamera?:   Function;

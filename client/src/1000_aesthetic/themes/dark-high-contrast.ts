@@ -2,11 +2,11 @@ import { DarkSyntaxHighlight } from "./syntax-highlight.dark";
 import { VisualTheme } from "../visual-theme";
 
 
-export const DarkHighContrast = new VisualTheme(
+export const DarkLowContrast = new VisualTheme(
     { 
         _foreground:  "#ffffff",
-        _background:  "#1c0042",
-        _background2: "#1f002f",
+        _background:  "#fc9ce8",
+        _background2: "#ffb862",
         _accent:      "#ffd727",
         _accent2:     "#aa60ff",
         _accent3:     "#ae00ff",
@@ -14,11 +14,11 @@ export const DarkHighContrast = new VisualTheme(
     {
         ambientLight:   { 
                 intensity: 0.5, 
-                color: "#5010ff" 
+                color: "#cc94f7" 
         },
         celestialLight: { 
                 intensity: 1.2, 
-                color: "#c94bff" 
+                color: "#f5acf5" 
         }   
     },
     new DarkSyntaxHighlight()

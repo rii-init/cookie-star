@@ -1,10 +1,11 @@
-import { Universe } from "../../0000_concept/universe"
-import { Sequence } from "../../0100_element/200_sequence/sequence"
-import { TextH1 } from "../../0200_component/flat/typography/h1"
-import { GroupMain } from "../../0200_component/flat/typography/main"
-import { TextP } from "../../0200_component/flat/typography/p"
-import { TextSpan } from "../../0200_component/flat/typography/span"
-import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
+import { Universe }    from "../../0000_concept/universe"
+import { Sequence }    from "../../0100_element/200_sequence/sequence"
+
+import { TextH1 }      from "../../0200_component/flat/typography/h1"
+import { GroupMain }   from "../../0200_component/flat/typography/main"
+import { TextSpan }    from "../../0200_component/flat/typography/span"
+
+import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 
 export const show_room = () => {
@@ -21,8 +22,8 @@ export const show_room = () => {
 							             scale: [number, number, number], 
 								     direction: "x" | "y" | "z") => {
 							  return (
-								  <mesh position={[position[0], position[1]-0.5, position[2]]} scale={scale}>
-									  <boxBufferGeometry attach="geometry" args={[3,1,0.1]}/>
+								  <mesh position={[position[0], position[1]+0.25, position[2]]} scale={scale}>
+									  <boxBufferGeometry attach="geometry" args={[2,0.25,0.1]}/>
 									  <meshLambertMaterial attach="material" 
 									                        color={Universe.colors.background2} 
 									 				  transparent={true}

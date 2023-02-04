@@ -10,22 +10,26 @@ const fragmentShader = /* glsl */ `
 precision highp float;
 
 uniform vec3 skyColor;
+uniform vec3 skyColor2;
 uniform vec3 ambientLight;
 uniform vec3 celestiaLight;
 
 varying vec2 vUv;
 
 void main( void ) {
-	float color = 0.532; 
-	
-	if (vUv.y < 0.65 && vUv.y > 0.35) {
-		color = -0.1 + ( 1.0-(2.54*abs(vUv.y-0.5)) );
-        
-	}
+	float color = 0.232; 
+    vec3 blendedSky = skyColor;
 
-	gl_FragColor = vec4( vec3( color * celestiaLight.x  +  skyColor.x*0.9, 
-                                   color * celestiaLight.y  +  skyColor.y*0.9, 
-                                   color * celestiaLight.z  +  skyColor.z*0.9), 1.0 );
+	//if (vUv.y < 0.65 && vUv.y > 0.35) {
+		color = -0.4 + ( 1.0-(2.54*abs(vUv.y-0.5)) );
+        // blend sky color with sky color 2 based on vUv.y
+        blendedSky = skyColor - mix(skyColor, skyColor2, 0.5-abs(vUv.y/2.0 -0.5)) * (1.0 -vUv.y * 2.0);
+        
+	//}
+
+	gl_FragColor = vec4( vec3( color * celestiaLight.x /2.0 + blendedSky.x*0.9, 
+                               color * celestiaLight.y /2.0 + blendedSky.y*0.9, 
+                               color * celestiaLight.z /2.0 + blendedSky.z*0.9), 1.0 );
 
 }
 `;
@@ -41,11 +45,13 @@ const vertexShader = /* glsl */`
 
 export const SkySphereMaterial = (p: { 
         skyColor:       [number, number, number],
+        skyColor2:      [number, number, number],
         celestialLight: [number, number, number],
         ambientLight:   [number, number, number]
     }) => {
     const uniforms = {
         skyColor:      { value: p.skyColor       },
+        skyColor2:     { value: p.skyColor2      },
         celestiaLight: { value: p.celestialLight },
         ambientLight:  { value: p.ambientLight   } 
     };
@@ -75,6 +81,7 @@ export const Atmosphere = () => {
         <group>
             <mesh ref={skyRef}>
                 <SkySphereMaterial       skyColor={Universe.skyColor} 
+                                         skyColor2={Universe.skyColor2}
                                    celestialLight={Universe.colors.celestialLightColor} 
                                      ambientLight={Universe.colors.ambientLightColor}
                 />
