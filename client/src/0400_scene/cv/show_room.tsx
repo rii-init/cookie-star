@@ -18,6 +18,7 @@ export const show_room = () => {
 				<GridOctaves />
 
 				<Sequence direction="z" polarity={-1} itemPadding={1}
+						  buffer={{ size: 16 }}
 						  afterItem={(position: [number, number, number], 
 							             scale: [number, number, number], 
 								     direction: "x" | "y" | "z") => {

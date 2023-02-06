@@ -4,21 +4,40 @@ import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 // Structural Sequence:
 
 export interface SequenceProps {
+    elements?: string[]
+    children?: React.ReactNode,
+    
     direction: "x" | "y" | "z",
     polarity: 1  | -1,
+
+    buffer?: { size: number }
+
     xFunction?: (d: number) => number,
     yFunction?: (d: number) => number,
     zFunction?: (d: number) => number,
     yRotationFunction?: (d: number) => number,
     itemPadding?: number,
-    elements?: string[]
-    children?: React.ReactNode,
     position?: [number, number, number]
     color?: [number, number, number]
     border?: boolean,
     afterItem?: (position: [number, number, number],
                     scale: [number, number, number], 
                 direction: "x" | "y" | "z") => React.ReactNode,
+}
+
+export function calculateBufferedItemVisibility(
+    direction: "x" | "y" | "z",
+    position: [number, number, number],
+    bufferSize:     number,
+    itemPosition:   number, 
+    spacing:        number, 
+    scrollDistance: number
+) {
+    const scrollingWindowSize = bufferSize * spacing;
+    const absolute_itemPosition = itemPosition + position[ "xyz".indexOf(direction) ]; 
+
+    return absolute_itemPosition > scrollDistance &&
+           absolute_itemPosition < scrollDistance + scrollingWindowSize; 
 }
 
 function shapeForDirection(direction: "x" | "y" | "z") {

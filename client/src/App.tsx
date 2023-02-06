@@ -24,12 +24,14 @@ import { Cursor } from './0200_component/hud/cursor';
 
 import { NoToneMapping } from 'three';
 import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
+import { ScrollingBuffer, ScrollingBufferContext } from './0200_component/meta/scrolling-buffer';
 
 
 const R3FCanvas = Canvas as any;
 
 export const UniverseContext = createContext(Universe);
 export const MagnetismContext = createContext(Universe.magnetism);
+
 
 function App() {
   
@@ -75,7 +77,6 @@ function App() {
             <Controllers 
               hideRaysOnBlur={true}
             />
-            
             <Hands />
             
             <pointLight   position={[0, 15, 10]} 
@@ -93,9 +94,7 @@ function App() {
 
                   return {
                     providers: {
-                        // gl,
-                        // scene,
-                        // intersections,
+                        // gl, // scene, // intersections,
                     }
                   }
                   
@@ -105,9 +104,9 @@ function App() {
                         activated={0.05 || Universe?.user_controls?.cursorActivated}
                           position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
                 />
-              
+
                 <MagnetismContext.Provider value={Universe.magnetism}>
-                    
+                <ScrollingBuffer>
                     <Router>
                         <group className="App-header">
                             <RouterNavigationSurface />
@@ -120,12 +119,13 @@ function App() {
                           <Route path="/cv"   component={show_room}         />
                         </Switch>
                     </Router>
-
+                </ScrollingBuffer>
 	          	  </MagnetismContext.Provider>
-          
+              
               </TeleportControls>
-            
+
             </UniverseContext.Provider>
+
           </XR>
           
         </R3FCanvas>
