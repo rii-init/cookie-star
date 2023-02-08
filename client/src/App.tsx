@@ -13,6 +13,8 @@ import { show_room }         from './0400_scene/cv/show_room';
 import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
 import { Canvas } from '@react-three/fiber';
 
+import { ResizeObserver } from '@juggle/resize-observer';
+
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
@@ -51,6 +53,7 @@ function App() {
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                    colorManagement={true}
+                   resize={{ polyfill: ResizeObserver }} 
                   pixelRatio={window.devicePixelRatio} 
                           gl={{ alpha: false, toneMapping: NoToneMapping }}
         >

@@ -13,12 +13,12 @@ import { Vector3 } from "three"
 export const lab = () => {
 
     Universe.user_controls.track.setCameraPoses([
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
-        { position: new Vector3(0,0,0), target: new Vector3(0,0,0) },
+        { position: new Vector3( 0,    0, 4), target: new Vector3(0, 0,  -2) },
+        { position: new Vector3( 0.25,-1, 3), target: new Vector3(0,-1,  -2) },
+        { position: new Vector3(-0.25,-2, 2), target: new Vector3(0,-2,  -2) },
+        { position: new Vector3( 0.25,-3, 2), target: new Vector3(0,-3,-2) },
+        { position: new Vector3(-0.25,-4, 2), target: new Vector3(0,-4,  -2) },
+        { position: new Vector3( 0.25,-5, 2), target: new Vector3(0,-5,-2) },
     ])
 
     return (
