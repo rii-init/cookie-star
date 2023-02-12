@@ -39,7 +39,7 @@ export class KeyboardState {
         this.keyDownCallbacks.push(callback);
     }
 
-    onKeyDown(evt: KeyboardEvent) {
+    public onKeyDown(evt: KeyboardEvent) {
         if (evt.key !== "Escape") {
             this.controller.toggleManualCameraControl(ControlType.Touch__And__Keyboard__And__Mouse);
         } else {

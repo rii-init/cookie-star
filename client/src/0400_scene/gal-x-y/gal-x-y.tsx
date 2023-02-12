@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect } from "react"
 import { Universe }    from "../../0000_concept/universe"
 import { Sequence }    from "../../0100_element/200_sequence/sequence"
 
@@ -9,6 +10,11 @@ import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 
 export const show_room = () => {
+
+	useEffect(() => {
+		Universe.user_controls.track.setCameraPosesToDefault();
+	}, [])
+	
     return (
         <>
             <TextH1 position={[0,2.4,-1.5]} >Timeline</TextH1>

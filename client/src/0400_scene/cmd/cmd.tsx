@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect } from "react"
 import { Universe }    from "../../0000_concept/universe"
 import { Sequence }    from "../../0100_element/200_sequence/sequence"
 import { InputSurface } from "../../0200_component/flat/scalar/InputSurface"
@@ -9,7 +10,6 @@ import { TextSpan }    from "../../0200_component/flat/typography/span"
 
 import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
-import { UniverseContext } from "../../App"
 
 function onUserNameChange(event: any) {
     console.log(event);
@@ -39,7 +39,12 @@ const workspaces = [
     }
 ]
 
-export const shell = () => {
+export const Shell = () => {
+
+	useEffect(() => {
+		Universe.user_controls.track.setCameraPosesToDefault();
+	}, [])
+
     return (
         <>
             <TextH1 position={[0,2.4,-1.5]} >Shell</TextH1>

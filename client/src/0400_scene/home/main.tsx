@@ -8,8 +8,14 @@ import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight"
 import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
 
 import { GroupMain } from "../../0200_component/flat/typography/main"
+import { useEffect, useLayoutEffect } from "react"
+import { Universe } from "../../0000_concept/universe"
 
-export const main = () => {
+export const Main = () => {
+    
+	useEffect(() => {
+		Universe.user_controls.track.setCameraPosesToDefault();
+	}, [])
     
     return (
         <>

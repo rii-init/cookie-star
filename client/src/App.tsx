@@ -4,11 +4,11 @@ import { Route, Router, Switch } from "wouter";
 
 import './App.css';
 
-import { conference_centre } from './0400_scene/chat/conference_centre';
-import { main }              from './0400_scene/home/main';
-import { lab }               from './0400_scene/tech/lab';
-import { nature }            from './0400_scene/meta/nature';
-import { show_room }         from './0400_scene/cv/show_room';
+import { Conference_centre } from './0400_scene/chat/conference_centre';
+import { Main }              from './0400_scene/home/main';
+import { Lab }               from './0400_scene/tech/lab';
+import { Nature }            from './0400_scene/meta/nature';
+import { Show_room }         from './0400_scene/cv/show_room';
 
 import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
 import { Canvas } from '@react-three/fiber';
@@ -115,11 +115,11 @@ function App() {
                             <RouterNavigationSurface />
                         </group>
                         <Switch>
-                          <Route path="/"     component={main}   />
-                          <Route path="/meta" component={nature} />
-                          <Route path="/tech" component={lab}  />
-                          <Route path="/chat" component={conference_centre} />
-                          <Route path="/cv"   component={show_room}         />
+                          <Route path="/"     component={Main}   />
+                          <Route path="/meta" component={Nature} />
+                          <Route path="/tech" component={Lab}  />
+                          <Route path="/chat" component={Conference_centre} />
+                          <Route path="/cv"   component={Show_room}         />
                         </Switch>
                     </Router>
                 </ScrollingBuffer>

@@ -7,7 +7,7 @@ export class CameraTrack {
     public interpolate(camera: Camera, distance: number) {
 
 		if (distance < 0) return;
-		if (distance > this.poses.length - 1) return;
+		if (distance >= this.poses.length - 1) return;
 
 		const pointA = this.poses[Math.floor(distance)];
 		const pointB = this.poses[Math.ceil(distance)];
@@ -16,6 +16,7 @@ export class CameraTrack {
 
 		camera.position.lerpVectors(pointA.position, pointB.position, t2);
 		camera.lookAt(pointA.target.lerpVectors(pointA.target, pointB.target, t2));
+		
    	}
 
    	public init() {
@@ -33,7 +34,7 @@ export class CameraTrack {
     private defaultCameraPoses(): CameraPose[] {
 		return [
 			{
-				position: new Vector3(0,  0.8,   3.5),
+				position: new Vector3(0,  0.8,   4.5),
 				target:   new Vector3(0,  0,   -20)
 			},
 			{

@@ -1,11 +1,17 @@
-import { Html } from "@react-three/drei";
+import { useLayoutEffect } from "react";
+import { Universe } from "../../0000_concept/universe";
 import { Sequence } from "../../0100_element/200_sequence/sequence";
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextH1 } from "../../0200_component/flat/typography/h1";
 import { GroupMain } from "../../0200_component/flat/typography/main";
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere";
 
-export let conference_centre = () => {
+export let Conference_centre = () => {
+
+	useLayoutEffect(() => {
+		Universe.user_controls.track.setCameraPosesToDefault();
+	}, [])
+    
     return (
         <group>
             <TextH1 position={[0,2.4,-1.5]}>Hi</TextH1>
