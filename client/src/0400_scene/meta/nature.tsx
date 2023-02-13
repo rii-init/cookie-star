@@ -8,11 +8,8 @@ import { TextP } from "../../0200_component/flat/typography/p"
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere"
 
 export const Nature = () => {
-
-	useEffect(() => {
-		Universe.user_controls.track.setCameraPosesToDefault();
-	}, [])
-
+	
+	Universe.user_controls.track.setCameraPosesToDefault();
 
     return (
         <>

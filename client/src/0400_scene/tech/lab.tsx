@@ -11,17 +11,14 @@ import { Group, Vector3 } from "three"
 import { useEffect } from "react"
 export const Lab = () => {
 
-    useEffect(() => {
-        Universe.user_controls.track.setCameraPoses([
-            { position: new Vector3( 0,    2, 4), target: new Vector3( 0,  2,  -2) },
-            { position: new Vector3( 0.25, 1, 3), target: new Vector3( 0,  1,  -2) },
-            { position: new Vector3(-0.25,-2, 3), target: new Vector3( 0,  0,  -2) },
-            { position: new Vector3( 0.25,-3, 3), target: new Vector3( 0, -1,  -2) },
-            { position: new Vector3(-0.25,-4, 3), target: new Vector3( 0, -2,  -2) },
-            { position: new Vector3( 0.25,-5, 3), target: new Vector3( 0, -4,  -2) },
-        ])
-    }, []);
-    
+    Universe.user_controls.track.setCameraPoses([
+        { position: new Vector3( 0,    2, 4), target: new Vector3( 0,  2,  -22) },
+        { position: new Vector3( 0.25, 1, 3), target: new Vector3( 0,  2,  -22) },
+        { position: new Vector3(-0.25,-2, 3), target: new Vector3( 0,  2,  -22) },
+        { position: new Vector3( 0.25,-3, 3), target: new Vector3( 0,  2,  -22) },
+        { position: new Vector3(-0.25,-4, 3), target: new Vector3( 0,  2,  -22) },
+        { position: new Vector3( 0.25,-5, 3), target: new Vector3( 0,  2,  -22) },
+    ])    
 
     return (
         <>

@@ -13,9 +13,7 @@ import { Universe } from "../../0000_concept/universe"
 
 export const Main = () => {
     
-	useEffect(() => {
-		Universe.user_controls.track.setCameraPosesToDefault();
-	}, [])
+	Universe.user_controls.track.setCameraPosesToDefault();
     
     return (
         <>

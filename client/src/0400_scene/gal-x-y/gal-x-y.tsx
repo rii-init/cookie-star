@@ -10,10 +10,8 @@ import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
 import { GridOctaves } from "../../0300_entity/grid-octaves"
 
 export const show_room = () => {
-
-	useEffect(() => {
-		Universe.user_controls.track.setCameraPosesToDefault();
-	}, [])
+	
+	Universe.user_controls.track.setCameraPosesToDefault();
 	
     return (
         <>

@@ -8,10 +8,8 @@ import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere";
 
 export let Conference_centre = () => {
 
-	useLayoutEffect(() => {
-		Universe.user_controls.track.setCameraPosesToDefault();
-	}, [])
-    
+	Universe.user_controls.track.setCameraPosesToDefault();
+	
     return (
         <group>
             <TextH1 position={[0,2.4,-1.5]}>Hi</TextH1>

@@ -41,10 +41,8 @@ const workspaces = [
 
 export const Shell = () => {
 
-	useEffect(() => {
-		Universe.user_controls.track.setCameraPosesToDefault();
-	}, [])
-
+	Universe.user_controls.track.setCameraPosesToDefault();
+	
     return (
         <>
             <TextH1 position={[0,2.4,-1.5]} >Shell</TextH1>
