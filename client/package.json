@@ -27,7 +27,8 @@
     "build": "react-scripts build && ./linker.sh",
     "serve": "react-scripts build && ./linker.sh && cd ../server && go build && ./ultr7a.com && cd ../client",
     "up":    "cd ../server && go build && ./ultr7a.com && cd ../client",
-	"test": "jest",
+	  "down": "kill $(pidof ultr7a.com)",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,0 +1,12 @@
+[Unit]
+Description=UwU Ultr7A
+
+[Service]
+ExecStart=INSTALL_DIR/server/service.sh
+ExecStop=INSTALL_DIR/server/service.sh   stop
+ExecStatus=INSTALL_DIR/server/service.sh status
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
