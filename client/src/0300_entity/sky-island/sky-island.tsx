@@ -16,27 +16,27 @@ export const SkyIsland = (p: SkyIslandProps) => {
             { p.children }
 
             <MagneticField>
-                <Entity editMode={true} position={[5, 2, 5]}>
+                <Entity editMode={true} position={[5, 2, -5]}>
                     <boxBufferGeometry   attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                 </Entity>
             </MagneticField>
             
             <MagneticField>
-                <Entity                 position={[0,0,0]}>
-                    <boxBufferGeometry   attach="geometry" args={[10,2,10]} />
+                <Entity                 position={[-3.5,0,0]}>
+                    <boxBufferGeometry   attach="geometry" args={[6,2,4]} />
                     <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                 </Entity>
             </MagneticField>
 
             <MagneticField>
-                <Entity editMode={true} position={[-3, 0, -6.8]}>
+                <Entity editMode={true} position={[-7, 0, -6.8]}>
                     <boxBufferGeometry   attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                 </Entity>
             </MagneticField>
             
-            <Entity     editMode={true}  position={[3, 0, 6.8]}>
+            <Entity     editMode={true}  position={[4, 0, -6.8]}>
                     <boxBufferGeometry   attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
             </Entity>
