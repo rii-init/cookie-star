@@ -15,7 +15,7 @@ export const show_room = () => {
 	
     return (
         <>
-            <TextH1 position={[0,2.4,-1.5]} >Timeline</TextH1>
+            <TextH1 position={[0,2.6,-1.5]} >Timeline</TextH1>
     
             <GroupMain>
 				<Atmosphere />

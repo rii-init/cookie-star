@@ -9,6 +9,7 @@ import { GroupMain } from "../../0200_component/flat/typography/main"
 import { Universe } from "../../0000_concept/universe"
 import { Group, Vector3 } from "three"
 import { useEffect } from "react"
+import { TextSpan } from "../../0200_component/flat/typography/span"
 export const Lab = () => {
 
     Universe.user_controls.track.setCameraPoses([
@@ -22,65 +23,41 @@ export const Lab = () => {
 
     return (
         <>
-            <TextH1 position={[0,2.4,-1.5]}>Lab</TextH1>
+        <TextH1 position={[0,2.6,-1.5]}>Lab</TextH1>
 	    <GroupMain>
-		<group>
-                <TableOfContentsSurface>
-                    <group>
-                        <LabelSurface>N0TE8</LabelSurface>
-                    </group>
-                    
-                    <group>
-                        <LabelSurface>MXT8P</LabelSurface>
-                    </group>
-                    
-                    <group>
-                        <LabelSurface>NCODE</LabelSurface>
-                    </group>
-
-                    <group>
-                        <LabelSurface>5HDDR</LabelSurface>
-                    </group>
-                    
-                    <group>
-                        <LabelSurface>RETRO</LabelSurface>
-                    </group>
-                    
-                    <group>
-                        <LabelSurface>OVRWRLD</LabelSurface>
-                    </group>
-
-                    <group>
-                        <LabelSurface>ECSLANG</LabelSurface>
-                    </group>
-                </TableOfContentsSurface>
-                <group>
-                    <Sequence direction="z" polarity={-1}>
-                        <DemoVolume name="N0TE8">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="MXT8P">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="NCODE">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="5HDDR">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="RETRO">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="OVRWRLD">
-                            
-                        </DemoVolume>
-                        <DemoVolume name="ECSLANG">
-                            
-                        </DemoVolume>
-
+		    <group>
+                <Sequence direction="y" position={[-2, -4, 0]}>           
+                    <Sequence direction="x" itemPadding={2}>
+                        <LabelSurface>DATAHEXAGON</LabelSurface>
+                        <Sequence direction="y">
+                            <TextSpan>https://retro.ultr7a.com/data</TextSpan>
+                        </Sequence>
                     </Sequence>
-                </group>
-                               
+                    <Sequence direction="x" itemPadding={2}>
+                        <LabelSurface>ECSLANG</LabelSurface>
+                        <Sequence direction="y">
+                            <TextSpan>https://retro.ultr7a.com/ecslang</TextSpan>
+                        </Sequence>
+                    </Sequence>
+                    <Sequence direction="x" itemPadding={2}>
+                        <LabelSurface>Meta.gl</LabelSurface>
+                        <Sequence direction="y">                            
+                            <TextSpan>https://github.com/ultr7A/meta.gl</TextSpan>
+                        </Sequence>
+                    </Sequence> 
+                    <Sequence direction="x" itemPadding={2}>
+                        <LabelSurface>NCODE</LabelSurface>
+                        <Sequence direction="y">                            
+                            <TextSpan>https://github.com/ultr7A/ncode</TextSpan>
+                        </Sequence> 
+                    </Sequence>
+                    <Sequence direction="x" itemPadding={2}>     
+                        <LabelSurface>OVRWRLD</LabelSurface>
+                        <Sequence direction="y">
+                            <TextSpan>https://retro.ultr7a.com/ovrwrld</TextSpan>
+                        </Sequence>
+                    </Sequence>
+                </Sequence>
             </group>
             <Atmosphere />
             <GridOctaves />

@@ -8,7 +8,7 @@ export interface SequenceProps {
     children?: React.ReactNode,
     
     direction: "x" | "y" | "z",
-    polarity: 1  | -1,
+    polarity?:  1  | -1,
 
     buffer?: { size: number }
 
@@ -95,7 +95,7 @@ export const Sequence = (props: SequenceProps) => {
                 React.Children.map(props.children, (child, index) => {
                     const position = positionForDirection(props.xFunction, props.yFunction, props.zFunction,
                         props.direction,
-                        props.polarity,
+                        props.polarity || 1,
                         props.itemPadding || 0, index);
 
                     let afterItem = null;
@@ -119,7 +119,7 @@ export const Sequence = (props: SequenceProps) => {
             }
             { props.border ? 
                 <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
-			                             props.polarity,
+			                             props.polarity || 1,
 			                             props.itemPadding || 0, 0)}
 			          rotation={[0, props.yRotationFunction ? props.yRotationFunction(0) : 0, 0]}
 		        >
@@ -130,7 +130,7 @@ export const Sequence = (props: SequenceProps) => {
             }
             { props.border ?
                 <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
-						     props.polarity,
+						     props.polarity || 1,
 			                             props.itemPadding || 0,
                                                      props.elements 
                                                         ? props.elements.length-1

@@ -12,7 +12,7 @@ export let Conference_centre = () => {
 	
     return (
         <group>
-            <TextH1 position={[0,2.4,-1.5]}>Hi</TextH1>
+            <TextH1 position={[0,2.6,-1.5]}>Hi</TextH1>
             <GroupMain>
                 <Sequence direction="z" polarity={-1}>
                     <TextDiv>

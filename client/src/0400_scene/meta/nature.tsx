@@ -13,7 +13,7 @@ export const Nature = () => {
 
     return (
         <>
-        <TextH1 position={[0,2.2,-1.5]} >Design Language</TextH1>
+        <TextH1 position={[0,2.6,-1.5]} >Design Language</TextH1>
             <GroupMain>
                 
                 <Sequence direction="z" polarity={-1}>

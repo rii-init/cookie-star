@@ -45,7 +45,7 @@ export const Shell = () => {
 	
     return (
         <>
-            <TextH1 position={[0,2.4,-1.5]} >Shell</TextH1>
+            <TextH1 position={[0,2.6,-1.5]} >Shell</TextH1>
     
             <GroupMain>
 				<Atmosphere />

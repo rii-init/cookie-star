@@ -26,7 +26,7 @@ import { Cursor } from './0200_component/hud/cursor';
 
 import { NoToneMapping } from 'three';
 import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
-import { ScrollingBuffer, ScrollingBufferContext } from './0200_component/meta/scrolling-buffer';
+import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 
 
 const R3FCanvas = Canvas as any;
@@ -105,7 +105,7 @@ function App() {
               
                 <Cursor hide={false} 
                         activated={0.05 || Universe?.user_controls?.cursorActivated}
-                          position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
+                         position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
                 />
 
                 <MagnetismContext.Provider value={Universe.magnetism}>
