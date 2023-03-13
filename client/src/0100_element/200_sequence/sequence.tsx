@@ -40,16 +40,6 @@ export function calculateBufferedItemVisibility(
            absolute_itemPosition < scrollDistance + scrollingWindowSize; 
 }
 
-function shapeForDirection(direction: "x" | "y" | "z") {
-    switch (direction) {
-        case "x":
-            return [0.1,0.5,0.5];
-        case "y":
-            return [0.5,0.1,0.5];
-        case "z":
-            return [0.5,0.5,0.1];
-    }
-}
 
 function backgroundShapeForDirection(direction: "x" | "y" | "z"): [number, number, number] {
     switch (direction) {

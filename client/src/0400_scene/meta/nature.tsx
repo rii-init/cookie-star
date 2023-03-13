@@ -18,11 +18,11 @@ export const Nature = () => {
                 
                 <Sequence direction="z" polarity={-1}>
                 
-			<TextH2 position={[0,0,0]} >Elements</TextH2>
+					<TextH2 position={[0,0,0]} >Elements</TextH2>
                    
-			<Sequence direction="y" polarity={-1}>
-                    		<TextP>Simple, orthogonal, composable pieces</TextP>
-		    		<TextP> make language robust and scalable.</TextP>
+					<Sequence direction="y" polarity={-1}>
+                    	<TextP>Simple, orthogonal, composable pieces</TextP>
+		    			<TextP> make language robust and scalable.</TextP>
                 	</Sequence>
 
                 </Sequence>

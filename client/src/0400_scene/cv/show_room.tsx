@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect } from "react"
 import { Universe }    from "../../0000_concept/universe"
 import { Sequence }    from "../../0100_element/200_sequence/sequence"
+import { LinkSurface } from "../../0200_component/flat/scalar/LinkSurface"
 
 import { TextH1 }      from "../../0200_component/flat/typography/h1"
 import { GroupMain }   from "../../0200_component/flat/typography/main"
@@ -23,20 +24,7 @@ export const Show_room = () => {
 
 				<Sequence direction="z" polarity={-1} itemPadding={1}
 						  buffer={{ size: 16 }}
-						  afterItem={(position: [number, number, number], 
-							             scale: [number, number, number], 
-								     direction: "x" | "y" | "z") => {
-							  return (
-								  <mesh position={[position[0], position[1]+0.25, position[2]]} scale={scale}>
-									  <boxBufferGeometry attach="geometry" args={[2,0.25,0.1]}/>
-									  <meshLambertMaterial attach="material" 
-									                        color={Universe.colors.background2} 
-									 				  transparent={true}
-														  opacity={0.5}
-									  />
-								  </mesh>
-							  )
-						  }}>
+				>
 				
 					<TextSpan>
                 		Everyone has a story.
@@ -67,6 +55,8 @@ export const Show_room = () => {
 		        	{/* </Sequence>                 */}
 		               
 					<TextSpan>** Singularity **</TextSpan>
+
+					{/* <LinkSurface location="/cv/ultr7a.cv.pdf" current={""}>[(Download PDF)]</LinkSurface> */}
                 
 		    	</Sequence>
 			</GroupMain>
