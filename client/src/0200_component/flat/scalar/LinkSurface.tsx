@@ -30,7 +30,16 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                      }}
         >
         <group className="navigation" 
-                 onClick={() => setLocation(props.location)}
+                 onClick={() => { 
+                    console.log("click");
+                    if (props.location.startsWith("http")) {
+                        // open in new tab
+                        window.open(props.location, "_blank");
+                    } else {
+                        setLocation(props.location);
+                    }
+                    
+                 }}
            onPointerOver={() => Universe.user_controls.handlePointerOver(meshRef.current as any)}
             onPointerOut={() => Universe.user_controls.handleOverOut(meshRef.current as any)}
       

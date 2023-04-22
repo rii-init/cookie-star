@@ -46,7 +46,7 @@ export const Lab = () => {
                             <LinkSurface location={"https://retro.ultr7a.com/convolvr"} current={location}>https://retro.ultr7a.com/convolvr</TextSpan>
                         </Sequence>
                     </Sequence> */}
-
+                    
                     <Sequence direction="x" itemPadding={2}>     
                         <LabelSurface>OVRWRLD</LabelSurface>
                         <Sequence direction="y" position={[0,+0.18, 0]}>
