@@ -1,14 +1,11 @@
-import { useEffect, useLayoutEffect } from "react"
 import { Universe }    from "../../0000_concept/universe"
 import { Sequence }    from "../../0100_element/200_sequence/sequence"
-import { LinkSurface } from "../../0200_component/flat/scalar/LinkSurface"
 
 import { TextH1 }      from "../../0200_component/flat/typography/h1"
 import { GroupMain }   from "../../0200_component/flat/typography/main"
 import { TextSpan }    from "../../0200_component/flat/typography/span"
 
 import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
-import { GridOctaves } from "../../0300_entity/grid-octaves"
 
 export const Show_room = () => {
 
@@ -20,7 +17,6 @@ export const Show_room = () => {
     
             <GroupMain>
 				<Atmosphere />
-				<GridOctaves />
 
 				<Sequence direction="z" polarity={-1} itemPadding={1}
 						  buffer={{ size: 16 }}

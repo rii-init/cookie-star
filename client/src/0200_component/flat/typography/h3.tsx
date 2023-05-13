@@ -6,6 +6,8 @@ export interface TextH3Props {
     color?: string;
     scaling?: number;
     position?: [number, number, number];
+    onPointerOver?: () => void;
+    onPointerOut?: () => void;
 }
 
 export const TextH3 = (p: TextH3Props) => {
@@ -15,6 +17,8 @@ export const TextH3 = (p: TextH3Props) => {
                  color={p.color || Universe.colors._foreground} // default
                anchorX="center" // default
                anchorY="middle" // default
+               onPointerOver={(event) => p.onPointerOver && p.onPointerOver()}
+                onPointerOut={(event) => p.onPointerOut && p.onPointerOut()}
         >
             {p.children}    
         </Text>
