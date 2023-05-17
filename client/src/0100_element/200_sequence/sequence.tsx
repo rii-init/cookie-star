@@ -15,6 +15,7 @@ export interface SequenceProps {
     xFunction?: (d: number) => number,
     yFunction?: (d: number) => number,
     zFunction?: (d: number) => number,
+    xRotationFunction?: (d: number) => number,
     yRotationFunction?: (d: number) => number,
     itemPadding?: number,
     position?: [number, number, number]
@@ -78,9 +79,13 @@ export const SequenceContext = React.createContext({});
 
 export const Sequence = (props: SequenceProps) => {
 
+
+    const elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
+
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group position={props.position || [0,0,0]}>
+            
             {
                 React.Children.map(props.children, (child, index) => {
                     const position = positionForDirection(props.xFunction, props.yFunction, props.zFunction,
@@ -99,7 +104,10 @@ export const Sequence = (props: SequenceProps) => {
 		   return (
                         <group key={index} 
                          position={position}
-                         rotation={[0,props.yRotationFunction ? props.yRotationFunction(index) : 0,0]}
+                         rotation={[
+                                props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                                props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                                  0]}
                         >
                             {child}
                             {afterItem}
@@ -107,11 +115,15 @@ export const Sequence = (props: SequenceProps) => {
                     )
                 })
             }
+
             { props.border ? 
                 <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
 			                             props.polarity || 1,
 			                             props.itemPadding || 0, 0)}
-			          rotation={[0, props.yRotationFunction ? props.yRotationFunction(0) : 0, 0]}
+			          rotation={[
+                            props.xRotationFunction ? props.xRotationFunction(0) : 0, 
+                            props.yRotationFunction ? props.yRotationFunction(0) : 0, 
+                               0]}
 		        >
                     <boxBufferGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
@@ -121,14 +133,14 @@ export const Sequence = (props: SequenceProps) => {
             { props.border ?
                 <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
 						     props.polarity || 1,
-			                             props.itemPadding || 0,
-                                                     props.elements 
-                                                        ? props.elements.length-1
-                                                        : React.Children.count(props.children)-1
-                                                        )}
-			    rotation={[0, props.yRotationFunction ? props.yRotationFunction(props.elements 
-												? props.elements.length -1
-			       								        : React.Children.count(props.children)-1) : 0, 0]}
+			              props.itemPadding || 0,
+                                      props.elements 
+                                         ? props.elements.length-1
+                                         : React.Children.count(props.children)-1
+                                         )}
+			    rotation={[props.xRotationFunction ? props.xRotationFunction(elementCount - 1) : 0, 
+                           props.yRotationFunction ? props.yRotationFunction(elementCount - 1) : 0, 
+                         0]}
 		        >
                     <boxBufferGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
