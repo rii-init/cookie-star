@@ -12,13 +12,16 @@ export interface SequenceProps {
 
     buffer?: { size: number }
 
-    xFunction?: (d: number) => number,
-    yFunction?: (d: number) => number,
-    zFunction?: (d: number) => number,
-    xRotationFunction?: (d: number) => number,
-    yRotationFunction?: (d: number) => number,
+    xFunction?: (d: number) => number
+    yFunction?: (d: number) => number
+    zFunction?: (d: number) => number
+    xRotationFunction?: (d: number) => number
+    yRotationFunction?: (d: number) => number
     itemPadding?: number,
+    
     position?: [number, number, number]
+    rotation?: [number, number, number]
+
     color?: [number, number, number]
     border?: boolean,
     afterItem?: (position: [number, number, number],
@@ -84,7 +87,9 @@ export const Sequence = (props: SequenceProps) => {
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
-        <group position={props.position || [0,0,0]}>
+        <group position={props.position || [0,0,0]}
+               rotation={props.rotation || [0,0,0]}
+        >
             
             {
                 React.Children.map(props.children, (child, index) => {

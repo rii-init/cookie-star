@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Universe }    from "../../0000_concept/universe"
 import { Sequence }    from "../../0100_element/200_sequence/sequence"
 
@@ -6,10 +7,20 @@ import { GroupMain }   from "../../0200_component/flat/typography/main"
 import { TextSpan }    from "../../0200_component/flat/typography/span"
 
 import { Atmosphere }  from "../../0300_entity/atmosphere/atmosphere"
+import { Vector3 } from "three"
 
 export const Show_room = () => {
 
-	Universe.user_controls.track.setCameraPosesToDefault();
+	useEffect(() => {
+        Universe.user_controls.track.setCameraPoses([
+            { position: new Vector3( 0,    0,    4), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3( 0.25, 1,    0), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3(-0.25, 1.5, -2), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3( 0.25, 3,   -4), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3(-0.25, 5,   -6), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3( 0.25, 9,   -10), target: new Vector3( 0,  4,  -22) },
+        ])
+    }, [])
 	
     return (
         <>
@@ -18,9 +29,10 @@ export const Show_room = () => {
             <GroupMain>
 				<Atmosphere />
 
-				<Sequence direction="z" polarity={-1} itemPadding={1}
+				<Sequence direction="z" polarity={-1} itemPadding={0.5}
 					      xRotationFunction={(index: number) => Math.PI / -2}		
 						  buffer={{ size: 16 }}
+						  rotation={[Math.PI / 8, 0, 0]}
 				>
 				
 					<TextSpan>
