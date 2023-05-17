@@ -4,6 +4,7 @@ import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 import { Magnetism } from "../0700_life/physical/magnetism";
+import { BehaviorSubject, Observable, from, of } from "rxjs";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -34,4 +35,10 @@ export class Universe {
     public static net_transport: any;
     public static user_controls: UserControls;
     public static user:          LivingUwU;
+
+    public static state = {
+        cursor: {
+            $activation: new BehaviorSubject(0.1)
+        }
+    };
 }

@@ -16,7 +16,7 @@ export let Conference_centre = () => {
             <GroupMain>
                 <Sequence direction="z" polarity={-1}>
                     <TextDiv>
-                        My name is ultr7a.com 
+                        My name is Haven Darkmoon 
                     </TextDiv>
                     
                     <TextDiv>    

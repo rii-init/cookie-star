@@ -49,7 +49,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
             <TextH3 position={[0,-0.1,0.4]} 
                     onPointerOver={() => { console.log("handle pointer over"); 
                         Universe.user_controls.handlePointerOver(meshRef.current as any) } }
-                    onPointerOut={() => Universe.user_controls.handleOverOut(meshRef.current as any)}>
+                    onPointerOut={() => Universe.user_controls.handlePointerOut(meshRef.current as any)}>
                 {props.children}
             </TextH3>
         </group>

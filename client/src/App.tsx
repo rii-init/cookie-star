@@ -27,6 +27,7 @@ import { Cursor } from './0200_component/hud/cursor';
 import { NoToneMapping } from 'three';
 import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
+import { Settings } from './0200_component/flat/2d/settings';
 
 
 const R3FCanvas = Canvas as any;
@@ -35,18 +36,18 @@ export const UniverseContext = createContext(Universe);
 export const MagnetismContext = createContext(Universe.magnetism);
 
 
+
 function App() {
   
   function registerTeleportAPI(api: (api: {providers: ExternalTeleportControlsProviders}) => { methods: any } ) {
     console.log("api({})");
   }
- 
+
   return (
       <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
-          {/* <GenderExpressionButton /> */}
-          <VisualThemeManager />  
+          <Settings />
           <VRButton className="ui_2d__button" />
         </div>
 
@@ -104,10 +105,8 @@ function App() {
               }}>
               
                 <Cursor hide={false} 
-                        activated={0.05 || Universe?.user_controls?.cursorActivated}
-                         position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
-                />
-
+                        position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
+                />                      : null
                 <MagnetismContext.Provider value={Universe.magnetism}>
                 <ScrollingBuffer>
                     <Router>

@@ -81,12 +81,12 @@ export class UserControls {
 
     }
 
-    public handlePointerOver = (mesh: Mesh) => {
-        this.cursorActivated = 0.0;
+    public handlePointerOver = (mesh?: Mesh) => {
+        Universe.state.cursor.$activation.next(0.0);
     }
 
-    public handleOverOut = (mesh: Mesh) => {
-        this.cursorActivated = 0.1;
+    public handlePointerOut = (mesh?: Mesh) => {
+        Universe.state.cursor.$activation.next(0.1);
     }
 
     public update(delta: number) {
