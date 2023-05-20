@@ -1,10 +1,14 @@
 import { useLayoutEffect } from "react";
+import { Text } from "@react-three/drei";
+
 import { Universe } from "../../0000_concept/universe";
 import { Sequence } from "../../0100_element/200_sequence/sequence";
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextH1 } from "../../0200_component/flat/typography/h1";
 import { GroupMain } from "../../0200_component/flat/typography/main";
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere";
+import { LinkSurface } from "../../0200_component/flat/scalar/LinkSurface";
+import { TextSpan } from "../../0200_component/flat/typography/span";
 
 export let Conference_centre = () => {
 
@@ -35,9 +39,22 @@ export let Conference_centre = () => {
                         Follow me on Twitter @ultr7A
                     </TextDiv>
                     
-                    <TextDiv>        
-                        I like to make sounds here.
-                        I love attaching things to stuff.
+                    <TextDiv>
+                        <Sequence direction="x" polarity={1} itemPadding={ 0.35 } >
+                            <TextSpan>I like to make sounds</TextSpan>
+                            <LinkSurface current={""} 
+                                         location="https://soundcloud.com/ultr7a">
+                                here.
+                            </LinkSurface>
+                        </Sequence >        
+                        <Sequence direction="x" polarity={1} itemPadding={ 0.45 } >
+                            <TextSpan>I love attaching things to</TextSpan> 
+                            <LinkSurface 
+                                current={""} 
+                                location="https://github.com/ultr7A">
+                                    stuff
+                            </LinkSurface>.
+                        </Sequence>
                     </TextDiv>    
                 </Sequence>
             </GroupMain>
@@ -46,5 +63,5 @@ export let Conference_centre = () => {
     );
 }
 
-/* <Html><a href="https://github.com/ultr7A">things</a></Html> */
-/* <Html><a href="https://soundcloud.com/ultr7a">here</a></Html> */
+/* <Html><a href="">things</a></Html> */
+/* <Html><a href="">here</a></Html> */

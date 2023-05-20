@@ -8,9 +8,10 @@ import { TextH3 } from "../typography/h3";
 
 
 export interface LinkSurfaceProps {
-    location: string;
-    current:  string;
-    children: React.ReactNode;
+    location:  string;
+    current:   string;
+    position?: [number, number, number];
+    children:  React.ReactNode;
 }
 
 export const LinkSurface = (props: LinkSurfaceProps) => {
@@ -46,8 +47,8 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                             ? Universe.colors.accent3
                             : Universe.colors.background2} />
             </mesh>
-            <TextH3 position={[0,-0.1,0.4]} 
-                    onPointerOver={() => { console.log("handle pointer over"); 
+            <TextH3 position={props.position || [0,0,0]} 
+                    onPointerOver={() => { 
                         Universe.user_controls.handlePointerOver(meshRef.current as any) } }
                     onPointerOut={() => Universe.user_controls.handlePointerOut(meshRef.current as any)}>
                 {props.children}

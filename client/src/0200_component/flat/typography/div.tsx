@@ -21,6 +21,7 @@ export const TextDiv = (props: TextDivProps) => {
 		   position={props.position || [0,0,0]}>
                 {
 			Children.map(props.children, (child) => {
+				
 				if (typeof child === "string") {
 		    			return (
 					<Text color={props.color || colors._foreground || "black" }
@@ -29,14 +30,9 @@ export const TextDiv = (props: TextDivProps) => {
 						{child}
 					</Text>
 					)
-		    		}
+		    	}
 
-				return (
-					<TextDiv position={props.position || [0, 3, 0]}
-					        direction={props.direction === "z" ? "y" : "z"}>
-						{child}
-					</TextDiv>
-				       )             
+				return child;             
 		})
 		}       
         </Sequence>

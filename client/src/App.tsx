@@ -70,7 +70,7 @@ function App() {
 
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
-              if (Universe.attachCursorToCamera) { Universe.attachCursorToCamera() }
+              if (Universe.attachCursorToCamera) {   Universe.attachCursorToCamera() }
               Universe.xrMode = false;
             }}
           >

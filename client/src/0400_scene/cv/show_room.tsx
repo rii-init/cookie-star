@@ -34,9 +34,8 @@ export const Show_room = () => {
 						  buffer={{ size: 16 }}
 						  rotation={[Math.PI / 8, 0, 0]}
 				>
-				
 					<TextSpan>
-                		Everyone has a story.
+                	   Everyone has a story.
 					</TextSpan>
 					<TextSpan>
 					   This is mine.
@@ -47,13 +46,13 @@ export const Show_room = () => {
 					</TextSpan>
 				
 					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-						<TextSpan>Ultr7A.com was born at some point.</TextSpan>
+						<TextSpan>Haven Darkmoon was born at some point.</TextSpan>
 						<TextSpan>From a young age, they were fascinated</TextSpan>
 						<TextSpan>with water, pipes, electricity and wires.</TextSpan>
 			        {/* </Sequence> */}
                             
 					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-                    	<TextSpan>Ultr7A later took an interest in</TextSpan>
+                    	<TextSpan>Haven later took an interest in</TextSpan>
                     	<TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
 						<TextSpan> </TextSpan>
 					{/* </Sequence> */}

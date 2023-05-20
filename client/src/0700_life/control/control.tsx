@@ -86,7 +86,7 @@ export class UserControls {
     }
 
     public handlePointerOut = (mesh?: Mesh) => {
-        Universe.state.cursor.$activation.next(0.1);
+        Universe.state.cursor.$activation.next(0.025);
     }
 
     public update(delta: number) {

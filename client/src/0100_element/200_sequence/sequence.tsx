@@ -95,7 +95,7 @@ export const Sequence = (props: SequenceProps) => {
                 React.Children.map(props.children, (child, index) => {
                     const position = positionForDirection(props.xFunction, props.yFunction, props.zFunction,
                         props.direction,
-                        props.polarity || 1,
+                        props.polarity    || 1,
                         props.itemPadding || 0, index);
 
                     let afterItem = null;

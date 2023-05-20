@@ -48,28 +48,28 @@ export const Lab = () => {
                     
                     <Sequence direction="x" itemPadding={2}>     
                         <LabelSurface>OVRWRLD</LabelSurface>
-                        <Sequence direction="y" position={[0,+0.18, 0]}>
+                        <Sequence direction="y">
                             <LinkSurface location={"https://retro.ultr7a.com/ovrwrld"} current={location} >https://retro.ultr7a.com/ovrwrld</LinkSurface>
                         </Sequence>
                     </Sequence>
 
                     <Sequence direction="x" itemPadding={2}>
                         <LabelSurface>Meta.gl</LabelSurface>
-                        <Sequence direction="y" position={[0,+0.18, 0]}>                            
+                        <Sequence direction="y" >                            
                             <LinkSurface location="https://github.com/ultr7A/meta.gl" current={location}>https://github.com/ultr7A/meta.gl</LinkSurface>
                         </Sequence>
                     </Sequence> 
 
                     <Sequence direction="x" itemPadding={2}>
                         <LabelSurface>ECSLANG</LabelSurface>
-                        <Sequence direction="y" position={[0,+0.18, 0]}>
+                        <Sequence direction="y" >
                             <LinkSurface location="https://retro.ultr7a.com/ecslang" current={location}>https://retro.ultr7a.com/ecslang</LinkSurface>
                         </Sequence>
                     </Sequence>
                     
                     <Sequence direction="x" itemPadding={2}>
                         <LabelSurface>DATAHEXAGON</LabelSurface>
-                        <Sequence direction="y" position={[0,+0.18, 0]}>
+                        <Sequence direction="y" >
                             <LinkSurface location="https://retro.ultr7a.com/data" current={location}>https://retro.ultr7a.com/data</LinkSurface>
                         </Sequence>
                     </Sequence>
