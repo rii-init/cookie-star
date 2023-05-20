@@ -10,7 +10,9 @@ import { TextH3 } from "../typography/h3";
 export interface LinkSurfaceProps {
     location:  string;
     current:   string;
-    position?: [number, number, number];
+    position?:     [number, number, number];
+    linkShape?:    [number, number, number];
+    linkPosition?: [number, number, number];
     children:  React.ReactNode;
 }
 
@@ -41,16 +43,21 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     
                  }}
         >
-            <mesh ref={meshRef} visible={props.current == props.location || hovered} >
-                <boxBufferGeometry args={[0.5,0.5,0.5]} />
+            <mesh ref={meshRef}
+                  position={props.linkPosition || [0, 0,-0.6]} 
+                  visible={props.current == props.location || hovered} >
+                <boxBufferGeometry args={props.linkShape || [0.5,0.5,0.5]} />
                 <meshLambertMaterial color={hovered 
                             ? Universe.colors.accent3
                             : Universe.colors.background2} />
             </mesh>
             <TextH3 position={props.position || [0,0,0]} 
                     onPointerOver={() => { 
+                        setHovered(true);
                         Universe.user_controls.handlePointerOver(meshRef.current as any) } }
-                    onPointerOut={() => Universe.user_controls.handlePointerOut(meshRef.current as any)}>
+                    onPointerOut={() => {
+                        setHovered(false);
+                        Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
                 {props.children}
             </TextH3>
         </group>
