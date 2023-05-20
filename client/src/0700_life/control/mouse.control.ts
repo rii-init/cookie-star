@@ -1,3 +1,6 @@
+import { UserControls } from "./control";
+import { ControlType } from "./control.type";
+
 export class MouseState {
     public leftButton  = false;
     public rightButton = false;
@@ -8,6 +11,11 @@ export class MouseState {
     public canvas: HTMLCanvasElement | null = null;
 
     private handlers: any = { };
+
+
+
+
+    constructor(public controller: UserControls) { }
 
     public addHandler(
         name: string, 
@@ -31,8 +39,6 @@ export class MouseState {
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         canvas.addEventListener("click", (e: MouseEvent) => {
-            // console.log("distance_x from center ", Math.abs(e.clientX - (window.innerWidth / 2)));
-            // console.log("distance_y from center ", Math.abs(e.clientY - (window.innerHeight / 2)))
 
             const deltaX = Math.abs(e.clientX - (window.innerWidth / 2));
 
@@ -42,9 +48,12 @@ export class MouseState {
 
                 if (deltaY < (window.innerHeight / 10) ) {
                     
-                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 150))
-                    canvas.requestPointerLock();
-                    this.setLocked(true );
+                    if ((deltaX * deltaX + deltaY * deltaY) < (window.innerHeight * window.innerHeight / 200)) {
+                        canvas.requestPointerLock();
+                        this.setLocked(true );
+                        this.controller.mode = ControlType.Touch__And__Keyboard__And__Mouse;
+                        
+                    }
                 }
             }
 
@@ -55,8 +64,10 @@ export class MouseState {
         if (document.pointerLockElement === this.canvas ||
             (document as any).mozPointerLockElement === this.canvas) {
             this.setLocked(true);
+            this.controller.toggleManualCameraControl(ControlType.Touch__And__Keyboard__And__Mouse);
         } else {
             this.setLocked(false)
+            this.controller.toggleManualCameraControl(ControlType.Scrolling);
         } 
     }
 

@@ -1,96 +1,137 @@
-import React, { useEffect, useRef } from 'react';
+import React, { createContext, useEffect, useRef } from 'react';
 
 import { Route, Router, Switch } from "wouter";
 
 import './App.css';
 
-import { conference_centre } from './0400_scene/chat/conference_centre';
-import { main }              from './0400_scene/home/main';
-import { lab }               from './0400_scene/tech/lab';
-import { nature }            from './0400_scene/meta/nature';
-import { show_room }         from './0400_scene/cv/show_room';
+import { Conference_centre } from './0400_scene/chat/conference_centre';
+import { Main }              from './0400_scene/home/main';
+import { Lab }               from './0400_scene/tech/lab';
+import { Nature }            from './0400_scene/meta/nature';
+import { Show_room }         from './0400_scene/cv/show_room';
 
-import { ProgressiveEnhance } from './progressive-enhance';
-
-import { Controllers, Hands, VRButton, XR } from '@react-three/xr';
+import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
 import { Canvas } from '@react-three/fiber';
+
+import { ResizeObserver } from '@juggle/resize-observer';
 
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
 import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
 
-import { TallBox }     from './0300_entity/lilac-box';
-import { GridOctaves } from './0300_entity/grid-octaves';
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
-import { Enter3DButton }    from './0200_component/flat/2d/enter-3d-button';
-import { InfiniteUniverse } from './0200_component/infinite-universe';
+
 import { Cursor } from './0200_component/hud/cursor';
+
+import { NoToneMapping } from 'three';
+import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
+import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
+import { Settings } from './0200_component/flat/2d/settings';
 
 
 const R3FCanvas = Canvas as any;
 
+export const UniverseContext = createContext(Universe);
+export const MagnetismContext = createContext(Universe.magnetism);
+
+
 
 function App() {
   
-  useEffect(() => {
-      ProgressiveEnhance.LoadHeading();
-      ProgressiveEnhance.LoadMain();
-  }, []);
+  function registerTeleportAPI(api: (api: {providers: ExternalTeleportControlsProviders}) => { methods: any } ) {
+    console.log("api({})");
+  }
 
   return (
-    <>
       <div className={"fullScreen theme _"+themeIdx}>
         
         <div id="ui_2d__button_container">
-          <VisualThemeManager />  
+          <Settings />
           <VRButton className="ui_2d__button" />
         </div>
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
+                   colorManagement={true}
+                   resize={{ polyfill: ResizeObserver }} 
                   pixelRatio={window.devicePixelRatio} 
-                          gl={{ alpha: false }}
+                          gl={{ alpha: false, toneMapping: NoToneMapping }}
         >
           <color attach="background" 
                    args={Universe.colors.background} />
-          <XR>
+          <XR
+            onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
+            }}
+
+            onSessionStart={(event) => {
+              Universe.xrMode = true;
+              if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
+
+            }}
+            onSessionEnd={(event: XREvent<XRManagerEvent>) => {
+              if (Universe.attachCursorToCamera) {   Universe.attachCursorToCamera() }
+              Universe.xrMode = false;
+            }}
+          >
 
             <ThreeJSContext />
             <ResizeCanvas />
-            <Cursor hide={false} 
-               activated={0.05 || Universe?.user_controls?.cursorActivated}
-                position={[0,0,-1]}
-            />  
-            <Controllers />
+            
+            <Controllers 
+              hideRaysOnBlur={true}
+            />
             <Hands />
             
-            <pointLight   intensity={1.0} position={[0, 5, 0]} />
-            <ambientLight intensity={0.5} />
+            <pointLight   position={[0, 15, 10]} 
+                          intensity={Universe.colors.celestialLight.intensity}
+                          distance={100000} 
+                          color={Universe.colors.celestialLight.color} />
+            <ambientLight intensity={Universe.colors.ambientLight.intensity} 
+                          color={Universe.colors.ambientLight.color} />
 
-            
-            <InfiniteUniverse>
+            <UniverseContext.Provider value={Universe}>
+              
+              <TeleportControls api={(api: {methods: any}) => { 
+                  
+                  console.log("TeleportControls API ", api.methods);
 
-            </InfiniteUniverse>
-          
+                  return {
+                    providers: {
+                        // gl, // scene, // intersections,
+                    }
+                  }
+                  
+              }}>
+              
+                <Cursor hide={false} 
+                        position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
+                />                      : null
+                <MagnetismContext.Provider value={Universe.magnetism}>
+                <ScrollingBuffer>
+                    <Router>
+                        <group className="App-header">
+                            <RouterNavigationSurface />
+                        </group>
+                        <Switch>
+                          <Route path="/"     component={Main}   />
+                          <Route path="/meta" component={Nature} />
+                          <Route path="/tech" component={Lab}  />
+                          <Route path="/chat" component={Conference_centre} />
+                          <Route path="/cv"   component={Show_room}         />
+                        </Switch>
+                    </Router>
+                </ScrollingBuffer>
+	          	  </MagnetismContext.Provider>
+              
+              </TeleportControls>
+
+            </UniverseContext.Provider>
+
           </XR>
-          
-          <Router>
-              <group className="App-header">
-                <RouterNavigationSurface />
-              </group>
-              <Switch>
-                <Route path="/"     component={main}   />
-                <Route path="/meta" component={nature} />
-                <Route path="/tech" component={lab}  />
-                <Route path="/chat" component={conference_centre} />
-                <Route path="/cv"   component={show_room}         />
-              </Switch>
-          </Router>
           
         </R3FCanvas>
       </div>
-    </>
   );
 }
 

@@ -1,11 +1,17 @@
-import { Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
+import { Camera, Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
-import { StaticGeometries } from "../static.geometries";
+import { StaticGeometries } from "../physical/static.geometries";
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
+import { MouseScrollControl } from "./scroll/mouse.scroll.control";
+import { ScrollControl } from "./scroll/scroll.control";
 import { TouchControl } from "./touch.control";
+import { TouchScrollControl } from "./scroll/touch.scroll.control";
+import { DeviceOrientationControls } from './device-orientation.control'
+import { ControlType } from "./control.type";
+import { CameraTrack } from "./track/camera-track";
 
 
 export class UserControls {
@@ -23,30 +29,42 @@ export class UserControls {
   
     public enableFlying        = false;
     public controllersAttached = false;
-  
+    public mode                = ControlType.Scrolling;
+
+    public track    = new CameraTrack();
     public gamepad  = new GamepadControl(this);
     public touch    = new TouchControl();
-    public mouse    = new MouseState();
-    public keys     = new KeyboardState( );
+    public mouse    = new MouseState(this);
+    public keys     = new KeyboardState(this);
+    public gyro?:  DeviceOrientationControls;
 
     public staticGeom = new StaticGeometries();
 
     public cursorHidden = false;
     public cursorActivated = 0;
+    public cursorPosition: [number, number, number] | null = null;
 
-    public oldRaycaster: Raycaster | undefined;
+    private scrollDistance = 0;
+
+    public scrollControl = new ScrollControl(
+        this.touch,
+        new MouseScrollControl(),
+        new TouchScrollControl(this.touch)
+    )
 
 
     constructor(ctx3: CTX3) {
         this.ctx3 = ctx3;
 
+        this.track.init();
         this.keys.init();
         this.mouse.init();
+        this.gyro = new DeviceOrientationControls( ctx3.camera );
+        //this.gyro.connect();
+
+        // ctx3.camera.matrix.elements[13]  = 1.6;
+        // ctx3.camera.matrix.elements[14]  = 1.5;
         
-        ctx3.camera.matrix.elements[13]  = 1.6;
-        ctx3.camera.matrix.elements[14]  = 1.5;
-        
-        ctx3.camera.matrixAutoUpdate = false;
 
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
@@ -56,43 +74,105 @@ export class UserControls {
         })
 
         this.mouse.setCanvas(Universe.canvas);
+
+        this.scrollControl.addOnScrollHandler((y: number) => {
+            this.scrollDistance += y / 2000;
+        });
+
     }
 
-    public handlePointerOver(mesh: Mesh) {
-        this.cursorActivated = 0.0;
+    public handlePointerOver = (mesh?: Mesh) => {
+        Universe.state.cursor.$activation.next(0.0);
     }
 
-    public handleOverOut(mesh: Mesh) {
-        this.cursorActivated = 0.1;
+    public handlePointerOut = (mesh?: Mesh) => {
+        Universe.state.cursor.$activation.next(0.025);
     }
 
     public update(delta: number) {
         this.mouse.dx /= 1.15;
         this.mouse.dy /= 1.15;
 
-        this.calculateMoveVector();
-        this.calculateRotationVector();
-        this.calculatePosition(delta);
+        if (!Universe.xrMode) {
+            this.calculateMoveVector();
+            this.calculateRotationVector();
+            // this.gyro?.update();
+            this.calculatePosition(delta);
+        }
     }
+
+
+    public toggleManualCameraControl(mode?: ControlType) { 
+        if (     mode === ControlType.Touch__And__Keyboard__And__Mouse || 
+            this.mode === ControlType.Scrolling) {
+
+            this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
+            this.ctx3.camera.matrixAutoUpdate = false;
+            this.velocity.y = 0;
+        } else {
+            this.mode = ControlType.Scrolling;
+            this.ctx3.camera.matrixAutoUpdate = true;
+        }
+    }
+
 
     private calculatePosition(delta: number) {
         const camera = this.ctx3.camera;
-        const move   = this.moveVector.multiplyScalar(delta);
-        
-        const    m1T = camera.matrix.elements.slice(12,15);
 
-        this.movement.identity();        
-        this.movement.makeTranslation(move.x, move.y, move.z);
+	    
+            
+        // Scrolling Mode
+        if (this.mode === ControlType.Scrolling) {           
+            const m1T = this.calculateNonVRCameraMovementStep1(camera, delta); 
+            
+            this.track.interpolate(camera, this.scrollDistance);
+
+        // Manual camera control Mode:
+        } else {
+
+            this.calculateManualNonVRCameraMovement(camera, delta);          
+
+        }
+
+        // Collision Detection
+        this.staticGeom.collision(this, camera, this.velocity, delta)
+
+        // Terrestrial Movement:
+        if (!this.enableFlying) {
+            this.velocity.y -= 0.0025;
+        }
+    
+        camera.updateMatrixWorld();
+    }
+
+
+    private calculateManualNonVRCameraMovement(camera: Camera, delta: number) {
+
+        const  m1T = this.calculateNonVRCameraMovementStep1(camera, delta);
 
         this.rotation.identity(); 
         this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
         camera.matrix.multiply(this.rotation);
 
-        this.rotation.identity();
-        this.handleKeyboardCameraRotation();
+        this.handleKeyboardCameraRotation(camera);
+        
         camera.matrix.multiply(this.rotation);
 
-        camera.matrix.multiply(this.rotation);
+        this.calculateNonVRCameraMovementStep3(camera, delta, m1T as [number, number, number]);
+    }
+
+    private calculateNonVRCameraMovementStep1(camera: Camera, delta: number) {
+
+        const move = this.moveVector.multiplyScalar(delta);
+        const  m1T = camera.matrix.elements.slice(12,15) as [number, number, number];
+
+        this.movement.identity();        
+        this.movement.makeTranslation(move.x, move.y, move.z);
+
+        return m1T;
+    }
+
+    private calculateNonVRCameraMovementStep3(camera: Camera, delta: number, m1T: [number, number, number]) {
         camera.matrix.multiply(this.movement);
 
         const     m2T = camera.matrix.elements.slice(12,15);
@@ -109,21 +189,13 @@ export class UserControls {
               elements[12] += this.velocity.x;
               elements[13] += this.velocity.y;
               elements[14] += this.velocity.z;
-
-
-        this.staticGeom.collision(this, camera, this.velocity, delta)
-        
-
-        // Terresterial movement
-        if (!this.enableFlying) {
-            // Gravity
-            this.velocity.y -= 0.0025;
-        }
         
         camera.updateMatrixWorld(true);
     }
 
-    private handleKeyboardCameraRotation() {
+    private handleKeyboardCameraRotation(camera: Camera) {
+        this.rotation.identity();
+
         this.keyRotationVelocity.x -= this.keys.ArrowDown ? 0.0025 :0 - (this.keys.ArrowUp ? 0.0025 : 0);
 
         this.keyRotationVelocity.y -= this.keys.ArrowRight ? 0.0025 :0 - (this.keys.ArrowLeft ? 0.0025 : 0);
@@ -135,6 +207,8 @@ export class UserControls {
         this.rotation.makeRotationFromEuler(
             new Euler(this.keyRotationVelocity.x, 
                       this.keyRotationVelocity.y, this.roll.z/35))
+
+        camera.matrix.multiply(this.rotation);
     }
 
     private calculateMoveVector() {
@@ -169,8 +243,8 @@ export class UserControls {
             }
         }
 
-        this.moveVector.x += this.touch.dx;
-        this.moveVector.y += this.touch.dy;
+        this.moveVector.x -= this.touch.dx / 2.0;
+        this.moveVector.z -= this.touch.dy / 2.0;
     }
 
     private calculateRotationVector() {

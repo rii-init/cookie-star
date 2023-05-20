@@ -6,7 +6,7 @@ export interface TableOfContentsSurfaceProps {
 
 export const TableOfContentsSurface = (props: TableOfContentsSurfaceProps) => {
     return (
-        <Sequence direction="y">
+        <Sequence direction="y" polarity = {-1}>
             { props.children }
         </Sequence>
     )

@@ -1,4 +1,5 @@
 import { Html } from "@react-three/drei";
+import { TextH3 } from "../typography/h3";
 
 export interface LabelSurfaceProps {
     text?: string;
@@ -8,12 +9,12 @@ export interface LabelSurfaceProps {
 
 export let LabelSurface = (props: LabelSurfaceProps) => {
     return (
-        <Html>            
+        <TextH3 position={props.position}>            
             { props.text 
-                    ? <span>{props.text}</span> 
+                    ? props.text 
                     : null 
             }
             { props.children }
-        </Html>
+        </TextH3>
     );
 }

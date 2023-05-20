@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"log"
+	"os"
 
 	"fmt"
 	"net/http"
@@ -29,7 +31,28 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 			log.Println("read:", err)
 			break
 		}
-		log.Printf("recv: %s", message)
+
+		// get message type:
+		messageTypeLen := int(message[0])
+		messageType := string(message[1 : messageTypeLen+1])
+		log.Printf("recv type: %s", messageType)
+		switch messageType {
+		case "chat":
+			// get message content:
+			messageContent := string(message[messageTypeLen+1:])
+			log.Printf("chat message: %s", messageContent)
+
+		case "telemetry":
+			// get telemetry data:
+			// telemetryData := string(message[messageTypeLen+1:])
+		case "save_entity":
+			// get entity data:
+			// entityData := string(message[messageTypeLen+1:])
+			// save entity data to database:
+			// model.SaveEntity(db, entityData)
+
+		}
+
 		err = c.WriteMessage(mt, message)
 		if err != nil {
 			log.Println("write:", err)
@@ -53,7 +76,7 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 
 	// Get pages as json data:
-	r.GET("/pages", func(c *gin.Context) {
+	r.GET("/api/pages", func(c *gin.Context) {
 		pages := []model.Page{}
 
 		model.GetPages(db, &pages)
@@ -64,7 +87,7 @@ func setupRouter() *gin.Engine {
 	})
 
 	// Get page by url as json data:
-	r.GET("/page/:url", func(c *gin.Context) {
+	r.GET("/api/page/:url", func(c *gin.Context) {
 		url := c.Param("url")
 		page := model.Page{}
 
@@ -75,7 +98,29 @@ func setupRouter() *gin.Engine {
 		})
 	})
 
-	r.GET("/socket", gin.WrapF(socketAPI))
+	r.GET("/api/socket", gin.WrapF(socketAPI))
+
+	r.POST("/api/dev-console", func(c *gin.Context) {
+		// print out the request body:
+		log.Println(c.Request.Body)
+		// write the response into a file in append mode
+		f, err := os.OpenFile("journal/owo.pages", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Println(err) // 0w0 ..What's dis?
+		}
+		defer f.Close()
+
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(c.Request.Body)
+
+		if _, err := f.WriteString(buf.String() + ",\n"); err != nil {
+			log.Println(err)
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": "ok",
+		})
+
+	})
 
 	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
 

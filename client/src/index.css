@@ -29,7 +29,7 @@ header div a:hover {
   padding: 1em;
 }
 
-header div a.active {
+.navigation-link a.active {
   color: #ff00d0a1;
   padding: 1em;
 }

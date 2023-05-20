@@ -8,6 +8,11 @@ main {
 .theme._1 main {
   color: #ffffff;
 }
+
+.visual-theme {
+  font-size: 1.85em !important;
+  vertical-align: bottom;
+}
 .visual-theme._0 {
   padding-right: 0.3em;
 }
@@ -72,18 +77,14 @@ main {
   margin: auto;
   width: 60vw;
   min-width: 22em;
-  height: 1.75em;
-  color: #7b7b7b;
-  font-size: 3.5vw !important; 
+  height: 1.75em; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navigation-link{ 
+  font-size: 3.5vw !important;
+  color: #7b7b7b;
+  position: relative !important;
+  right: 2.5vw;
 }
 
 .horizon { 
@@ -106,7 +107,6 @@ main {
 h1 {
   text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
   font-size: 3.5vw;
-  margin-top:2em;
 }
 
 p {
@@ -126,19 +126,34 @@ p {
   bottom: 1em;
   right: 0;
   display: inline-block;
-  margin-left: 1em;
+  margin-right: 0.5vw;
 }
 
 #ui_2d__button_container .ui_2d__button {
   z-index: 9999 !important;
-    font-size: 3vw !important;
     position: relative !important;
     transform: none !important;
-    margin-right: 0.3em;
+    margin-right: 0.5vw;
     left: 0 !important;
     top: 0 !important;
     background-color: #eeeeee !important;
     color: #444 !important;
     border: 0.07em solid #ccc !important;
     border-radius: 0.2em !important;
+    cursor: pointer !important;
+}
+
+.ui_2d__button.gender-expression {
+  display: inline-block;
+  font-size: 2.5vw;
+  vertical-align: bottom;
+  height: 2vw;
+  width: 2vw;
+}
+
+.ui_2d__button.gender-expression span {
+  position: relative;
+  bottom: 0.7vw;
+  font-size: 0.9em;
+  padding-left: 0.15vw;
 }

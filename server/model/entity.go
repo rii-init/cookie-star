@@ -41,8 +41,8 @@ func GetEntity(db *gorm.DB, Entity *Entity, id int) (err error) {
 }
 
 // get Entity by id
-func GetEntityByUrl(db *gorm.DB, Entity *Entity, url string) (err error) {
-	err = db.Where("url = ?", url).First(Entity).Error
+func GetEntityByName(db *gorm.DB, Entity *Entity, name string) (err error) {
+	err = db.Where("name = ?", name).First(Entity).Error
 	if err != nil {
 		return err
 	}
