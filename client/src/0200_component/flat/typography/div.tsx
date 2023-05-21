@@ -8,6 +8,7 @@ import { Sequence } from '../../../0100_element/200_sequence/sequence';
 export interface TextDivProps {
     children?: React.ReactNode;
     direction?: "x" | "y" | "z";
+	itemPadding?: number;
     position?: [number, number, number];
     className?: string;
     color?: string;
@@ -17,7 +18,7 @@ export const TextDiv = (props: TextDivProps) => {
     const colors = useContext(UniverseContext).colors;
 
     return (
-        <Sequence direction={props.direction || "z"} polarity={-1} 
+        <Sequence direction={props.direction || "z"} polarity={-1} itemPadding={props.itemPadding || 0} 
 		   position={props.position || [0,0,0]}>
                 {
 			Children.map(props.children, (child) => {

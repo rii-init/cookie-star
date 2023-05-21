@@ -13,11 +13,11 @@ export const Lab = () => {
     useEffect(() => {
         Universe.user_controls.track.setCameraPoses([
             { position: new Vector3( 0,    2, 4), target: new Vector3( 0,  2,  -22) },
-            { position: new Vector3( 0.25, 1, 3), target: new Vector3( 0,  2,  -22) },
-            { position: new Vector3(-0.25,-2, 3), target: new Vector3( 0,  2,  -22) },
-            { position: new Vector3( 0.25,-3, 3), target: new Vector3( 0,  2,  -22) },
-            { position: new Vector3(-0.25,-4, 3), target: new Vector3( 0,  2,  -22) },
-            { position: new Vector3( 0.25,-5, 3), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, 1, 4.5), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25,-2, 4.5), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25,-3, 4.5), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25,-4, 4.5), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25,-5, 4.5), target: new Vector3( 0,  2,  -22) },
         ])
     }, [])
         
@@ -29,7 +29,7 @@ export const Lab = () => {
         <TextH1 position={[0,2.6,-1.5]}>Lab</TextH1>
 	    <GroupMain>
 		    <group>
-                <Sequence direction="y" position={[-2, -4, 0]}>           
+                <Sequence direction="y" position={[-2, -2, 0]} itemPadding={-0.4}>           
 
                     
                     <Sequence direction="x" itemPadding={2}>

@@ -1,4 +1,3 @@
-import { Html } from "@react-three/drei";
 import { useLocation, Link } from "wouter";
 import { Sequence } from "../../../0100_element/200_sequence/sequence";
 import { LinkSurface } from "../scalar/LinkSurface";
