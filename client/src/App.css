@@ -87,13 +87,6 @@ main {
   right: 2.5vw;
 }
 
-.horizon { 
-  background: linear-gradient(90deg, 
-              #ff21d620 0%,  #ff21d640  20%
-              #ffffff20 40%, #ffffff20  60%
-              #21d6ff20 80%, #21d6ff40 100%
-              ); 
-}
 
 .App-link {
   color: #ffffff;
@@ -121,6 +114,11 @@ p {
   left: 0;
 }
 
+
+.background {
+  background:#ffffffb0;
+}
+
 #ui_2d__button_container {
   position: absolute;
   bottom: 1em;
@@ -129,31 +127,42 @@ p {
   margin-right: 0.5vw;
 }
 
-#ui_2d__button_container .ui_2d__button {
+.ui_2d__button {
   z-index: 9999 !important;
-    position: relative !important;
-    transform: none !important;
+  position: relative !important;
+  transform: none !important;
+  left: 0 !important;
+  top: 0 !important;
+  background-color: #eeeeee !important;
+  color: #444 !important;
+  border: 0.07em solid #ccc !important;
+  border-radius: 0.2em !important;
+  cursor: pointer !important;
+}
+
+input._2_glyph_icon {
+  border: 0;
+  padding: 0.4vw;
+  padding-top: 0.5vw;
+  padding-bottom: 0.5vw;
+  cursor: pointer;
+} 
+ 
+#ui_2d__button_container .ui_2d__button {
+  
     margin-right: 0.5vw;
-    left: 0 !important;
-    top: 0 !important;
-    background-color: #eeeeee !important;
-    color: #444 !important;
-    border: 0.07em solid #ccc !important;
-    border-radius: 0.2em !important;
-    cursor: pointer !important;
+    
 }
 
-.ui_2d__button.gender-expression {
-  display: inline-block;
-  font-size: 2.5vw;
-  vertical-align: bottom;
-  height: 2vw;
-  width: 2vw;
+.table {
+  display: flex;
+  flex-direction: column;
 }
 
-.ui_2d__button.gender-expression span {
-  position: relative;
-  bottom: 0.7vw;
-  font-size: 0.9em;
-  padding-left: 0.15vw;
+.row {
+  display: flex;
+}
+
+.cell {
+  flex: 1;
 }

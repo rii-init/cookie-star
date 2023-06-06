@@ -16,11 +16,13 @@ export const Nature = () => {
         <TextH1 position={[0,2.6,-1.5]} >Design Language</TextH1>
             <GroupMain>
                 
-                <Sequence direction="z" polarity={-1}>
+                <Sequence direction="y" polarity={-1}>
                 
 					<TextH2 position={[0,0,0]} >Elements</TextH2>
                    
-					<Sequence direction="y" polarity={-1}>
+					<Sequence 	direction="z" 
+								polarity={-1} 
+								xRotationFunction={() => Math.PI / -2}>
                     	<TextP>Simple, orthogonal, composable pieces</TextP>
 		    			<TextP> make language robust and scalable.</TextP>
                 	</Sequence>
