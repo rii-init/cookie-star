@@ -127,6 +127,15 @@ p {
   margin-right: 0.5vw;
 }
 
+.ui_2d__settings {
+  background-color: rgb(238 238 238);
+  z-index: 9999999999;
+  position: relative;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 1em;
+}
+
 .ui_2d__button {
   z-index: 9999 !important;
   position: relative !important;
@@ -161,6 +170,7 @@ input._2_glyph_icon {
 
 .row {
   display: flex;
+  padding: 0.25em;
 }
 
 .cell {

@@ -27,6 +27,7 @@ export function Settings() {
                                 value="✕" 
                                 onClick={() => settingsOpenToggle()} 
                                 className="ui_2d__button"
+                                style={{marginLeft: "1em"}}
                         />
                     </div>
                 </div>
