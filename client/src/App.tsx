@@ -28,6 +28,7 @@ import { NoToneMapping } from 'three';
 import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
+import { settingsState } from './0000/settings-state';
 
 
 const R3FCanvas = Canvas as any;
@@ -56,7 +57,7 @@ function App() {
                    colorManagement={true}
                    resize={{ polyfill: ResizeObserver }} 
                   pixelRatio={window.devicePixelRatio} 
-                          gl={{ alpha: false, toneMapping: NoToneMapping }}
+                          gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state }}
         >
           <color attach="background" 
                    args={Universe.colors.background} />

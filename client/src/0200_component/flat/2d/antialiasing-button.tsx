@@ -2,7 +2,7 @@ import { settingsState } from "../../../0000/settings-state";
 
 export const AntialiasingButton = () => {
 
-    const modeChanges = ["█▄", "◣"]
+    const modeChanges = ["◣", "█▄"]
 
     return (
         <div className="ui_2d__button">
