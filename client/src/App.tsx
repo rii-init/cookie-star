@@ -11,7 +11,7 @@ import { Nature }            from './0400_scene/meta/nature';
 import { Show_room }         from './0400_scene/cv/show_room';
 
 import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 
 import { ResizeObserver } from '@juggle/resize-observer';
 
@@ -28,7 +28,7 @@ import { NoToneMapping } from 'three';
 import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
-import { settingsState } from './0000/settings-state';
+import { SettingsState, settingsState } from './0000/settings-state';
 
 
 const R3FCanvas = Canvas as any;
@@ -54,10 +54,10 @@ function App() {
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
-                   colorManagement={true}
                    resize={{ polyfill: ResizeObserver }} 
                   pixelRatio={window.devicePixelRatio} 
                           gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state }}
+                   frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
         >
           <color attach="background" 
                    args={Universe.colors.background} />

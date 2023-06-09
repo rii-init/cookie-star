@@ -91,7 +91,6 @@ export class MouseState {
         for (const idx in this.handlers) {
             this.handlers[idx](this);
         }
-        
     }
 
     private onMouseUp(evt: MouseEvent) {

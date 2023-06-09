@@ -38,7 +38,7 @@ export class Universe {
 
     public static state = {
         cursor: {
-            $activation: new BehaviorSubject(0.025)
-        }
+            $activation:   new BehaviorSubject(0.025),
+        },
     };
 }

@@ -3,6 +3,7 @@ import { useXR, useXREvent, XR } from "@react-three/xr";
 import { useEffect, useRef, useState } from "react";
 import { Group, Object3D } from "three";
 import { Universe } from "../../0000_concept/universe";
+import { useFrame } from "@react-three/fiber";
 
 const WhiteSquare = (p: {
         position: [number,number,number], children: React.ReactNode;
