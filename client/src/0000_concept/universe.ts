@@ -20,9 +20,6 @@ export class Universe {
     public static skyColor2 = Universe.colors.background2;
     public static sky: Mesh | null = null;
 
-    public static attachCursorToCamera?:   Function;
-    public static removeCursorFromCamera?: Function;
-
     public static xrControllers?: any[];
     public static xrMode: boolean = false;
     public static xr:            any;
