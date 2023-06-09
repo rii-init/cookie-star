@@ -4,6 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Camera, Raycaster, Scene, Vector2 } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
+import { useEffect } from "react";
 
 
 export type CTX3 = { 
@@ -25,12 +26,13 @@ export let ThreeJSContext = function() {
     Universe.user_controls = new UserControls(Universe.ctx3);
     Universe.magnetism.setCamera(Universe.ctx3.camera);
 
+    useEffect(() => {
+      Universe.state.cursor.$parent.next(Universe.ctx3.camera);
+    }, [])
+    
     useFrame((state, delta, xrFrame) => {
       if (Universe.user_controls) {
         Universe.user_controls.update(delta);
-        Universe.sky?.position.set(state.camera.position.x, state.camera.position.y, state.camera.position.z);
-        Universe.sky?.updateMatrix();
-        (window as any).sky = Universe.sky;
       }
       
     })

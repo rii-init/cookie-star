@@ -1,4 +1,4 @@
-import { Mesh } from "three";
+import { Mesh, Object3D } from "three";
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
@@ -38,7 +38,8 @@ export class Universe {
 
     public static state = {
         cursor: {
-            $activation:   new BehaviorSubject(0.025),
+            $activation: new BehaviorSubject(0.025),
+            $parent:     new BehaviorSubject<Object3D | null>(null),
         },
     };
 }

@@ -29,6 +29,7 @@ import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { SettingsState, settingsState } from './0000/settings-state';
+import { HudPortal } from './0200_component/hud/hud.portal';
 
 
 const R3FCanvas = Canvas as any;
@@ -66,11 +67,11 @@ function App() {
 
             onSessionStart={(event) => {
               Universe.xrMode = true;
-              if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
+              Universe.state.cursor.$parent.next(Universe.ctx3.scene);
 
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
-              if (Universe.attachCursorToCamera) {   Universe.attachCursorToCamera() }
+              Universe.state.cursor.$parent.next(Universe.ctx3.camera);
               Universe.xrMode = false;
             }}
           >
@@ -104,9 +105,11 @@ function App() {
                   
               }}>
               
-                <Cursor hide={false} 
-                        position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
-                />                      : null
+                {
+                  <HudPortal hide={false}
+                         position={Universe?.user_controls?.cursorPosition || [0, 0, -1]}                
+                  />
+                }     
                 <MagnetismContext.Provider value={Universe.magnetism}>
                 <ScrollingBuffer>
                     <Router>
