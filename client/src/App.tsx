@@ -62,8 +62,7 @@ function App() {
           <color attach="background" 
                    args={Universe.colors.background} />
           <XR
-            onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
-            }}
+            onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {  }}
 
             onSessionStart={(event) => {
               Universe.xrMode = true;

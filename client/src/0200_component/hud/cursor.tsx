@@ -52,7 +52,9 @@ export const Cursor = (p: CursorProps) => {
     }
 
     function removeCursorFromCamera() {
+        alert("removeCursorFromCamera");
         if (meshRef.current) {
+            alert("removeCursorFromCamera, meshRef exists")
             meshRef.current?.removeFromParent();
             parent?.add(meshRef.current);
         }
