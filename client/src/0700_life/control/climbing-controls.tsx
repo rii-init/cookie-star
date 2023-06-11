@@ -4,87 +4,48 @@ import { createContext, useEffect, useState } from "react";
 import { Group } from "three";
 import { Universe } from "../../0000_concept/universe";
 import { XRControllerState } from "./xr-controller-state";
+import { diagnosticState } from "../../0000/r3f-debug";
 
 
 
 export interface ClimbingControlsProps {
     children?: React.ReactNode;    
-    api?: any // (api: { methods?: any }) => ExternalClimbingControlsProviders;
 }
 
-
-interface XRInputSource {
-    handedness: "left" | "right" | "none";
-    gamepad: Gamepad;
-}
-  
-
-// export interface XRController extends Object3D {
-//   index: number
-//   controller: THREE.XRTargetRaySpace
-//   grip: THREE.XRGripSpace
-//   hand: THREE.XRHandSpace
-//   inputSource: XRInputSource
-// }
-
-  
-export interface XRControllerMap {
-    [key: string]: IXRController;
-}
-
-export interface IXRController {
-    squeezing: boolean;
-    selecting: boolean;
-    inputSource: XRInputSource;
-    grip: Group;
-    // we can always get the world position etc. from the controller
-    // TODO: add targetray, so that rays can be precisely positioned
-    // https://developer.mozilla.org/en-US/docs/Web/API/XRInputSource/targetRayMode
-    // controller actually returns the targetRaySpace!
-    controller: Group;
-}
 
 
 
 export const xRControllerState = {
   handedness: {
-    left:  { selecting: false, previousPosition: [] as number[], baseMatrix: null as null | number[] },
-    right: { selecting: false, previousPosition: [] as number[], baseMatrix: null as null | number[] },
-    none:  { selecting: false, previousPosition: [] as number[], baseMatrix: null as null | number[] },
+    left:  { selecting: false, previous: [] as number[], group: null as null | Group },
+    right: { selecting: false, previous: [] as number[], group: null as null | Group },
+    none:  { selecting: false, previous: [] as number[], group: null as null | Group },
   } 
 }
 
 
 export const ClimbingControls = (props: ClimbingControlsProps) => {
-    // const { isPresenting, session, player } =  useXR();
+    const { isPresenting, session } =  useXR();
 
 
     (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
       const hand = event.target.inputSource.handedness;
       const grip = event.target.grip;
 
-      if (hand !== null) {
-        const controller = xRControllerState.handedness[hand];
-        
-        controller.previousPosition = grip.matrixWorld.elements;
-        controller.selecting = true;       
-      }
+      diagnosticState.addMessage(`selectstart: ${hand}`);
     });
 
-    (useXREvent as any)('selectEnd', (event: XRControllerEvent) => {
+    (useXREvent as any)('selectend', (event: XRControllerEvent) => {
       const hand = event.target.inputSource.handedness;
       
-      if (hand !== null) {
-        const controller = xRControllerState.handedness[hand];
-
-        controller.selecting = false;      
-      }
+      diagnosticState.addMessage(`selectend: ${hand}`);
     });
 
 
     return (
         <>
-          {/* { isPresenting && <XRControllerState session={session} player={player}></XRControllerState>} */}
+          {/* player={player} */}
+          { isPresenting && <XRControllerState session={session} ></XRControllerState> }
           {props.children}
         </>
     );

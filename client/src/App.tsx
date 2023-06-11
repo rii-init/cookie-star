@@ -28,7 +28,6 @@ import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
-import { setXRControllerBaseMatrixFromInputSources } from './0700_life/control/xr-controller-state';
 import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 
 
@@ -58,12 +57,6 @@ function App() {
           <color attach="background" 
                    args={Universe.colors.background} />
           <XR
-            onInputSourcesChange={(event) => {
-              if ((event?.target as any)?.inputSources.length > 0) {
-                setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
-              }
-            }}
-
             onSessionStart={(event) => {
 
               Universe.xrMode = true;
