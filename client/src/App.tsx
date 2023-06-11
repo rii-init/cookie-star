@@ -29,6 +29,7 @@ import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
 import { setXRControllerBaseMatrixFromInputSources } from './0700_life/control/xr-controller-state';
+import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 
 
 const R3FCanvas = Canvas as any;
@@ -59,7 +60,9 @@ function App() {
           <XR
             onInputSourcesChange={(event) => {
               if ((event?.target as any)?.inputSources.length > 0) {
-                alert("XR input sources changed, and there are " + (event?.target as any)?.inputSources.length + " of them.");
+                diagnosticState.addMessage("XR input sources changed.");
+                diagnosticState.addMessage("XR input sources: "+(event?.target as any)?.inputSources.length);
+                diagnosticState.addMessage("");
                 setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
               }
             }}
@@ -79,9 +82,7 @@ function App() {
             <ThreeJSContext />
             <ResizeCanvas />
             
-            <Controllers 
-              hideRaysOnBlur={true}
-            />
+            <Controllers hideRaysOnBlur={true} />
             <Hands />
             
             <pointLight   position={[0, 15, 10]} 
@@ -94,7 +95,7 @@ function App() {
             <UniverseContext.Provider value={Universe}>
               
               <ClimbingControls />
-
+              <R3FDiagnosticText />
                 {
                   <HudPortal hide={false}
                          position={Universe?.user_controls?.cursorPosition || [0, 0, -1]}                
