@@ -60,9 +60,6 @@ function App() {
           <XR
             onInputSourcesChange={(event) => {
               if ((event?.target as any)?.inputSources.length > 0) {
-                diagnosticState.addMessage("XR input sources changed.");
-                diagnosticState.addMessage("XR input sources: "+(event?.target as any)?.inputSources.length);
-                diagnosticState.addMessage("");
                 setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
               }
             }}

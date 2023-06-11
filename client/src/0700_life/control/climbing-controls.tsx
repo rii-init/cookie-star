@@ -65,6 +65,7 @@ export const ClimbingControls = (props: ClimbingControlsProps) => {
 
       if (hand !== null) {
         const controller = xRControllerState.handedness[hand];
+        
         controller.previousPosition = grip.matrixWorld.elements;
         controller.selecting = true;       
       }
