@@ -110,23 +110,23 @@ export class UserControls {
             this.calculatePosition(delta);
         } else {
 
-            for (const hand in xRControllerState.handedness) {
-                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+            // for (const hand in xRControllerState.handedness) {
+            //     const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
 
-                if (controller.selecting && controller.baseMatrix) {
+            //     if (controller.selecting && controller.baseMatrix) {
                     
-                    const delta = this.getPositionFromMatrix(controller.baseMatrix)
-                                      .map((v, i) => v - controller.previousPosition[i]);
+            //         const delta = this.getPositionFromMatrix(controller.baseMatrix)
+            //                           .map((v, i) => v - controller.previousPosition[i]);
                     
-                    controller.previousPosition = this.getPositionFromMatrix(controller.baseMatrix);
+            //         controller.previousPosition = this.getPositionFromMatrix(controller.baseMatrix);
 
-                    // move xr camera by delta
+            //         // move xr camera by delta
                     
-                    // this.xr_player?.position.sub(new Vector3(delta[0], delta[1], delta[2]));
+            //         // this.xr_player?.position.sub(new Vector3(delta[0], delta[1], delta[2]));
 
-                }
+            //     }
                     
-            }
+            // }
 
         }
     }

@@ -58,14 +58,14 @@ export const xRControllerState = {
 
 
 export const ClimbingControls = (props: ClimbingControlsProps) => {
-    const camera = Universe.ctx3.camera;
-
-    
     const { isPresenting, session, player } =  useXR();
 
-    if (player) {
-      Universe.user_controls.xr_player = player;
-    }
+    // useEffect(() => {
+    //   if (player) {
+    //     Universe.user_controls.xr_player = player;
+    //   }
+    // }, [player]);
+    
 
     (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
       const hand = event.target.inputSource.handedness;
