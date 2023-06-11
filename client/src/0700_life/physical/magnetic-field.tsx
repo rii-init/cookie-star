@@ -35,8 +35,6 @@ function registerMesh(parent: any, mesh: any, magnetism: Magnetism) {
 			size = (geometryOrMaterial as any).props.args;
 		}
 
-		console.log("before add magnet, parent is ", parent);
-
 		magnetism.registerMagnet({
 			position: mesh.props.position,
 			rotation: mesh.props.rotation,

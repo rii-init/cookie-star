@@ -1,4 +1,4 @@
-import { Mesh, Object3D } from "three";
+import { Group, Mesh, Object3D } from "three";
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";

@@ -5,6 +5,8 @@ import { Camera, Raycaster, Scene, Vector2 } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 import { useEffect } from "react";
+import { xRControllerState } from "../0700_life/control/climbing-controls";
+import { useController } from "@react-three/xr";
 
 
 export type CTX3 = { 

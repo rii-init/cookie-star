@@ -1,4 +1,4 @@
-import { Camera, Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
+import { Camera, Euler, Group, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../physical/static.geometries";
@@ -12,6 +12,8 @@ import { TouchScrollControl } from "./scroll/touch.scroll.control";
 import { DeviceOrientationControls } from './device-orientation.control'
 import { ControlType } from "./control.type";
 import { CameraTrack } from "./track/camera-track";
+import { xRControllerState } from "./climbing-controls";
+import { XRController } from "@react-three/xr";
 
 
 export class UserControls {
@@ -29,6 +31,8 @@ export class UserControls {
   
     public enableFlying        = false;
     public controllersAttached = false;
+    public xrControllers       = [] as XRController[];
+    public xr_player           = null as null | Group;
     public mode                = ControlType.Scrolling;
 
     public track    = new CameraTrack();
@@ -89,7 +93,13 @@ export class UserControls {
         Universe.state.cursor.$activation.next(0.025);
     }
 
-    public update(delta: number) {
+    
+
+    private getPositionFromMatrix(baseMatrix: number[]) {
+        return baseMatrix.slice(12, 15);
+    }
+
+    public update(delta: number, xrFrame?: XRFrame) {
         this.mouse.dx /= 1.15;
         this.mouse.dy /= 1.15;
 
@@ -98,6 +108,28 @@ export class UserControls {
             this.calculateRotationVector();
             // this.gyro?.update();
             this.calculatePosition(delta);
+        } else {
+
+            this.xr_player?.position.sub( new Vector3(0, 0, -1) );
+
+            for (const hand in xRControllerState.handedness) {
+                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+
+                if (controller.selecting && controller.baseMatrix) {
+                    
+                    const delta = this.getPositionFromMatrix(controller.baseMatrix)
+                                      .map((v, i) => v - controller.previousPosition[i]);
+                    
+                    controller.previousPosition = this.getPositionFromMatrix(controller.baseMatrix);
+
+                    // move xr camera by delta
+                    
+                    // this.xr_player?.position.sub(new Vector3(delta[0], delta[1], delta[2]));
+
+                }
+                    
+            }
+
         }
     }
 

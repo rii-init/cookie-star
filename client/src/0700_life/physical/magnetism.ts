@@ -16,7 +16,6 @@ export class Magnetism {
     }
 
     public registerMagnet(magnet: Magnet) {
-        console.log("register magnet", magnet);
         this.magnets.push(magnet);
     }
 
