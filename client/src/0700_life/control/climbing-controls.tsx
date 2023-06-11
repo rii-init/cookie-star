@@ -36,14 +36,12 @@ export const ClimbingControls = (props: ClimbingControlsProps) => {
 
       controllerState.selecting = true;
       controllerState.previous = [grip.position.x, grip.position.y, grip.position.z];
-      diagnosticState.addMessage(`selectstart: ${hand}`);
-      diagnosticState.solo("hand pawz: " + grip.position.toArray());
     });
 
     (useXREvent as any)('selectend', (event: XRControllerEvent) => {
-      const hand = event.target.inputSource.handedness;
-      
-      diagnosticState.addMessage(`selectend: ${hand}`);
+      const controllerState = xRControllerState.handedness[event.target.inputSource.handedness];
+
+      controllerState.selecting = false;
     });
 
 

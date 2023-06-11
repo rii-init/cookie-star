@@ -110,18 +110,24 @@ export class UserControls {
             // this.gyro?.update();
             this.calculatePosition(delta);
         } else {
+            let paws = "";
 
             for (const hand in xRControllerState.handedness) {
                 
                 const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
 
-                // if (controller) {
-                //     if (hand == "left") {
-                //         diagnosticState.solo("left: " + controller.group?.position.toArray());
-                //     }
-                // }
+                if (controller && controller.group !== null) {
+                    paws += " " + hand + "=" +
+                        (controller.group.position.x.toFixed(2) + "," 
+                       + controller.group.position.y.toFixed(2) + "," 
+                       + controller.group.position.z.toFixed(2) + "; "
+                       );
+                }
                     
             }
+
+
+            diagnosticState.solo("paws: " + paws);
 
         }
     }

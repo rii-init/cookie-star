@@ -1,9 +1,6 @@
-import { Group } from "three";
 import { useController } from "@react-three/xr";
 
 import { xRControllerState } from "./climbing-controls";
-import { Universe } from "../../0000_concept/universe";
-import { diagnosticState } from "../../0000/r3f-debug";
 
 export type Handedness = "left" | "right" | "none";
 
@@ -35,9 +32,6 @@ export function XRControllerState({ session  }: { session: any }) {
         controllerState.selecting = false;
     }
             
-
-    
-    // setXRControllerBaseMatrixFromInputSources(session.inputSources);
     
     return <></>;
 }
