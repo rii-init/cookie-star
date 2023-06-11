@@ -115,11 +115,11 @@ export class UserControls {
                 
                 const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
 
-                if (controller) {
-                    if (hand == "left") {
-                        diagnosticState.solo("left: " + controller.group?.position.toArray());
-                    }
-                }
+                // if (controller) {
+                //     if (hand == "left") {
+                //         diagnosticState.solo("left: " + controller.group?.position.toArray());
+                //     }
+                // }
                     
             }
 
