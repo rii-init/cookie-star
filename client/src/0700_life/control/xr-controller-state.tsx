@@ -1,4 +1,6 @@
+import { Group } from "three";
 import { xRControllerState } from "./climbing-controls";
+import { Universe } from "../../0000_concept/universe";
 
 
 export function setXRControllerBaseMatrixFromInputSources(inputSources: any) {
@@ -8,9 +10,11 @@ export function setXRControllerBaseMatrixFromInputSources(inputSources: any) {
     }
 }
 
-export function XRControllerState({ session }: any) {
+export function XRControllerState({ session, player  }: { session: any, player: Group | null }) {
 
-    setXRControllerBaseMatrixFromInputSources(session.inputSources);
+    // Universe.user_controls.xr_player = player;
+
+    // setXRControllerBaseMatrixFromInputSources(session.inputSources);
     
     return <></>;
 }

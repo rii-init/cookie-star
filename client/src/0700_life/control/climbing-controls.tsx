@@ -55,43 +55,35 @@ export const xRControllerState = {
 }
 
 
-
-
 export const ClimbingControls = (props: ClimbingControlsProps) => {
-    const { isPresenting, session, player } =  useXR();
+    // const { isPresenting, session, player } =  useXR();
 
-    // useEffect(() => {
-    //   if (player) {
-    //     Universe.user_controls.xr_player = player;
+
+    // (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
+    //   const hand = event.target.inputSource.handedness;
+    //   const grip = event.target.grip;
+
+    //   if (hand !== null) {
+    //     const controller = xRControllerState.handedness[hand];
+    //     controller.previousPosition = grip.matrixWorld.elements;
+    //     controller.selecting = true;       
     //   }
-    // }, [player]);
-    
+    // });
 
-    (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
-      const hand = event.target.inputSource.handedness;
-      const grip = event.target.grip;
-
-      if (hand !== null) {
-        const controller = xRControllerState.handedness[hand];
-        controller.previousPosition = grip.matrixWorld.elements;
-        controller.selecting = true;       
-      }
-    });
-
-    (useXREvent as any)('selectEnd', (event: XRControllerEvent) => {
-      const hand = event.target.inputSource.handedness;
+    // (useXREvent as any)('selectEnd', (event: XRControllerEvent) => {
+    //   const hand = event.target.inputSource.handedness;
       
-      if (hand !== null) {
-        const controller = xRControllerState.handedness[hand];
+    //   if (hand !== null) {
+    //     const controller = xRControllerState.handedness[hand];
 
-        controller.selecting = false;      
-      }
-    });
+    //     controller.selecting = false;      
+    //   }
+    // });
 
 
     return (
         <>
-          { isPresenting && <XRControllerState session={session}></XRControllerState>}
+          {/* { isPresenting && <XRControllerState session={session} player={player}></XRControllerState>} */}
           {props.children}
         </>
     );

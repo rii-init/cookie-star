@@ -51,7 +51,6 @@ function App() {
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                       resize={{ polyfill: ResizeObserver }} 
-                  pixelRatio={window.devicePixelRatio} 
                           gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state }}
                    frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
         >
@@ -59,9 +58,9 @@ function App() {
                    args={Universe.colors.background} />
           <XR
             onInputSourcesChange={(event) => {
-              if ((event?.target as any)?.inputSources.length > 0) {
-                setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
-              }
+              // if ((event?.target as any)?.inputSources.length > 0) {
+              //   setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
+              // }
             }}
 
             onSessionStart={(event) => {
