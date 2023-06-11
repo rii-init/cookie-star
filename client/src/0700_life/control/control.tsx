@@ -14,6 +14,7 @@ import { ControlType } from "./control.type";
 import { CameraTrack } from "./track/camera-track";
 import { xRControllerState } from "./climbing-controls";
 import { XRController } from "@react-three/xr";
+import { diagnosticState } from "../../0000/r3f-debug";
 
 
 export class UserControls {
@@ -110,23 +111,17 @@ export class UserControls {
             this.calculatePosition(delta);
         } else {
 
-            // for (const hand in xRControllerState.handedness) {
-            //     const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+            for (const hand in xRControllerState.handedness) {
+                
+                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
 
-            //     if (controller.selecting && controller.baseMatrix) {
+                if (controller) {
+                    if (hand == "left") {
+                        diagnosticState.solo("left: " + controller.group?.position.toArray());
+                    }
+                }
                     
-            //         const delta = this.getPositionFromMatrix(controller.baseMatrix)
-            //                           .map((v, i) => v - controller.previousPosition[i]);
-                    
-            //         controller.previousPosition = this.getPositionFromMatrix(controller.baseMatrix);
-
-            //         // move xr camera by delta
-                    
-            //         // this.xr_player?.posClimbingControlsPropsition.sub(new Vector3(delta[0], delta[1], delta[2]));
-
-            //     }
-                    
-            // }
+            }
 
         }
     }

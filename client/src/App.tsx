@@ -58,7 +58,6 @@ function App() {
                    args={Universe.colors.background} />
           <XR
             onSessionStart={(event) => {
-
               Universe.xrMode = true;
               Universe.state.cursor.$parent.next(Universe.ctx3.scene);
              

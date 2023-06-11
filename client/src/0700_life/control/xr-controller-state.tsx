@@ -22,7 +22,7 @@ export function XRControllerState({ session  }: { session: any }) {
     const rightController = useController("right");
     
     if (rightController) {
-        const controllerState = xRControllerState.handedness["left"];
+        const controllerState = xRControllerState.handedness["right"];
         controllerState.group = rightController;
         controllerState.selecting = false;
     }
@@ -30,7 +30,7 @@ export function XRControllerState({ session  }: { session: any }) {
     const noneController = useController("none");
     
     if (noneController) {
-        const controllerState = xRControllerState.handedness["left"];
+        const controllerState = xRControllerState.handedness["none"];
         controllerState.group = noneController;
         controllerState.selecting = false;
     }

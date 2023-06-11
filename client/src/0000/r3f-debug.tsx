@@ -6,8 +6,13 @@ import { Color, Group, Mesh } from "three";
 
 export class DiagnosticState {
     messages = new BehaviorSubject<string[]>([]);
+    
     public addMessage(message: string)  {
         diagnosticState.messages.next([...diagnosticState.messages.value, message]);
+    }
+
+    public solo(message: string) {
+        diagnosticState.messages.next([message]);
     }
 }
 
