@@ -35,6 +35,7 @@ export const ClimbingControls = (props: ClimbingControlsProps) => {
       const controllerState = xRControllerState.handedness[hand];
 
       controllerState.selecting = true;
+      controllerState.group = grip;
       controllerState.previous = [grip.position.x, grip.position.y, grip.position.z];
     });
 
