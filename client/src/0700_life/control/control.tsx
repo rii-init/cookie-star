@@ -122,7 +122,7 @@ export class UserControls {
 
             //         // move xr camera by delta
                     
-            //         // this.xr_player?.position.sub(new Vector3(delta[0], delta[1], delta[2]));
+            //         // this.xr_player?.posClimbingControlsPropsition.sub(new Vector3(delta[0], delta[1], delta[2]));
 
             //     }
                     

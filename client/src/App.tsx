@@ -58,9 +58,9 @@ function App() {
                    args={Universe.colors.background} />
           <XR
             onInputSourcesChange={(event) => {
-              // if ((event?.target as any)?.inputSources.length > 0) {
-              //   setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
-              // }
+              if ((event?.target as any)?.inputSources.length > 0) {
+                setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
+              }
             }}
 
             onSessionStart={(event) => {
