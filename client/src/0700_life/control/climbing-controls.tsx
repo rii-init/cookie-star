@@ -59,26 +59,26 @@ export const ClimbingControls = (props: ClimbingControlsProps) => {
     // const { isPresenting, session, player } =  useXR();
 
 
-    // (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
-    //   const hand = event.target.inputSource.handedness;
-    //   const grip = event.target.grip;
+    (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
+      const hand = event.target.inputSource.handedness;
+      const grip = event.target.grip;
 
-    //   if (hand !== null) {
-    //     const controller = xRControllerState.handedness[hand];
-    //     controller.previousPosition = grip.matrixWorld.elements;
-    //     controller.selecting = true;       
-    //   }
-    // });
+      if (hand !== null) {
+        const controller = xRControllerState.handedness[hand];
+        controller.previousPosition = grip.matrixWorld.elements;
+        controller.selecting = true;       
+      }
+    });
 
-    // (useXREvent as any)('selectEnd', (event: XRControllerEvent) => {
-    //   const hand = event.target.inputSource.handedness;
+    (useXREvent as any)('selectEnd', (event: XRControllerEvent) => {
+      const hand = event.target.inputSource.handedness;
       
-    //   if (hand !== null) {
-    //     const controller = xRControllerState.handedness[hand];
+      if (hand !== null) {
+        const controller = xRControllerState.handedness[hand];
 
-    //     controller.selecting = false;      
-    //   }
-    // });
+        controller.selecting = false;      
+      }
+    });
 
 
     return (

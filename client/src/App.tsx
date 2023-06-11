@@ -59,6 +59,7 @@ function App() {
           <XR
             onInputSourcesChange={(event) => {
               if ((event?.target as any)?.inputSources.length > 0) {
+                alert("XR input sources changed, and there are " + (event?.target as any)?.inputSources.length + " of them.");
                 setXRControllerBaseMatrixFromInputSources((event?.target as any).inputSources);
               }
             }}
