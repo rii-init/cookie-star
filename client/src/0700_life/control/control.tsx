@@ -32,9 +32,11 @@ export class UserControls {
   
     public enableFlying        = false;
     public controllersAttached = false;
-    public xrControllers       = [] as XRController[];
-    public xr_player           = null as null | Group;
-    public mode                = ControlType.Scrolling;
+
+    private xrControllerMovement = new Vector3(0, 0, 0);
+    public xrControllers = [] as XRController[];
+    public xr_player     = null as null | Group;
+    public mode          = ControlType.Scrolling;
 
     public track    = new CameraTrack();
     public gamepad  = new GamepadControl(this);
@@ -116,18 +118,22 @@ export class UserControls {
                 
                 const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
 
-                if (controller && controller.group !== null) {
-                    paws += " " + hand + "=" +
-                        (controller.group.position.x.toFixed(2) + "," 
-                       + controller.group.position.y.toFixed(2) + "," 
-                       + controller.group.position.z.toFixed(2) + "; "
-                       );
+                if (controller.selecting && controller.group !== null) {
+                    // current position minus previous position
+                    this.xrControllerMovement.subVectors(
+                        controller.previous,  
+                        controller.group.position,
+                    );
+                    
+                    if (Universe.user_controls.xr_player) {
+                        Universe.user_controls.xr_player.position.add(this.xrControllerMovement);
+                        
+                    }
+
+                    controller.previous.copy(controller.group.position)
                 }
                     
             }
-
-
-            diagnosticState.solo("paws: " + paws);
 
         }
     }

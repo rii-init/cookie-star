@@ -20,12 +20,11 @@ export class Universe {
     public static skyColor2 = Universe.colors.background2;
     public static sky: Mesh | null = null;
 
-    public static xrControllers?: any[];
-    public static xrMode: boolean = false;
-    public static xr:            any;
+    public static xrMode:    boolean = false;
+    public static xr:        any;
     
-    public static ctx3:          any; 
-    public static canvas:        any;
+    public static ctx3:      any; 
+    public static canvas:    any;
 
     public static magnetism  = new Magnetism();
 

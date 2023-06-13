@@ -29,6 +29,7 @@ import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
 import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
+import { XRControlls } from './0700_life/control/xr-controlls';
 
 
 const R3FCanvas = Canvas as any;
@@ -83,7 +84,7 @@ function App() {
 
             <UniverseContext.Provider value={Universe}>
               
-              <ClimbingControls />
+              <XRControlls />
               <R3FDiagnosticText />
                 {
                   <HudPortal hide={false}
