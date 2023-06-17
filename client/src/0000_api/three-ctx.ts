@@ -30,6 +30,8 @@ export let ThreeJSContext = function() {
 
     useEffect(() => {
       Universe.state.cursor.$parent.next(Universe.ctx3.camera);
+      Universe.state.scrolling.$parent.next(Universe.ctx3.camera);
+      Universe.state.scrolling.$position.next([0,0,0] as [number,number,number]);
     }, [])
     
     useFrame((state, delta, xrFrame) => {

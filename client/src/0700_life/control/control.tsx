@@ -52,6 +52,7 @@ export class UserControls {
     public cursorPosition: [number, number, number] | null = null;
 
     private scrollDistance = 0;
+    private scrollDomain   = 1;
 
     public scrollControl = new ScrollControl(
         this.touch,
@@ -69,10 +70,6 @@ export class UserControls {
         this.gyro = new DeviceOrientationControls( ctx3.camera );
         //this.gyro.connect();
 
-        // ctx3.camera.matrix.elements[13]  = 1.6;
-        // ctx3.camera.matrix.elements[14]  = 1.5;
-        
-
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
                 this.mouse.isLocked = false;
@@ -84,6 +81,15 @@ export class UserControls {
 
         this.scrollControl.addOnScrollHandler((y: number) => {
             this.scrollDistance += y / 2000;
+            
+            if (this.scrollDistance < 0) this.scrollDistance = 0;
+            if (this.scrollDistance > this.scrollDomain) this.scrollDistance = this.scrollDomain;
+
+            Universe.state.scrolling.$distance.next(this.scrollDistance);
+        });
+
+        Universe.state.scrolling.$scrollDomain.subscribe((domain) => {
+            this.scrollDomain = domain;
         });
 
     }
@@ -145,10 +151,15 @@ export class UserControls {
 
             this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
             this.ctx3.camera.matrixAutoUpdate = false;
+            Universe.state.scrolling.$parent.next(this.ctx3.scene);
+            Universe.state.scrolling.$position.next(this.ctx3.camera.position.toArray());
+
             this.velocity.y = 0;
         } else {
             this.mode = ControlType.Scrolling;
             this.ctx3.camera.matrixAutoUpdate = true;
+            Universe.state.scrolling.$parent.next(this.ctx3.camera);
+            Universe.state.scrolling.$position.next([0 ,0, 0]);
         }
     }
 

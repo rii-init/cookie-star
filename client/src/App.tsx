@@ -30,6 +30,8 @@ import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
 import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
+import { ScrollBar } from './0300_entity/scroll-bar';
+import { Cursor } from './0200_component/hud/cursor';
 
 
 const R3FCanvas = Canvas as any;
@@ -61,10 +63,14 @@ function App() {
             onSessionStart={(event) => {
               Universe.xrMode = true;
               Universe.state.cursor.$parent.next(Universe.ctx3.scene);
+              Universe.state.scrolling.$parent.next(Universe.ctx3.scene);
+              Universe.state.scrolling.$position.next(Universe.ctx3.camera.position.toArray());
              
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
               Universe.state.cursor.$parent.next(Universe.ctx3.camera);
+              Universe.state.scrolling.$parent.next(Universe.ctx3.camera);
+              Universe.state.scrolling.$position.next([5, 0, -1]);
               Universe.xrMode = false;
             }}
           >
@@ -87,10 +93,17 @@ function App() {
               <XRControlls />
               <R3FDiagnosticText />
                 {
-                  <HudPortal hide={false}
-                         position={Universe?.user_controls?.cursorPosition || [0, 0, -1]}                
-                  />
-                }     
+                  <HudPortal
+                    parent={Universe.state.cursor.$parent}
+                    renderHudComponent={
+                      () => <Cursor position={Universe?.user_controls?.cursorPosition || [0, 0, -1]} hide={false} />} />
+                }   
+                {
+                  <HudPortal
+                    parent={Universe.state.scrolling.$parent}
+                    renderHudComponent={ () => <ScrollBar position={[5, 0, -5]} />}  />
+                }  
+                
                 <MagnetismContext.Provider value={Universe.magnetism}>
                 <ScrollingBuffer>
                     <Router>

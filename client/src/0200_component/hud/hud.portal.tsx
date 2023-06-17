@@ -4,19 +4,20 @@ import { useEffect, useState } from "react";
 import { Object3D } from "three";
 
 import { Universe } from "../../0000_concept/universe";
+import { BehaviorSubject } from "rxjs";
 
 export interface Resource { something: string };
 
-export interface HudPortalProps extends CursorProps {
-    
+export interface HudPortalProps {
+    renderHudComponent: () => JSX.Element;
+    parent: BehaviorSubject<Object3D | null>;
 }
 
 export function HudPortal(props: HudPortalProps): any {
     const [target, setTarget] = useState<Object3D | null>(null)
   
     useEffect(() => {
-        // set(targets[1])
-        const subscription = Universe.state.cursor.$parent.subscribe((v) => {
+        const subscription = props.parent.subscribe((v) => {
         
             if (v) {
                 setTarget(v);
@@ -29,9 +30,11 @@ export function HudPortal(props: HudPortalProps): any {
         }
     }, [])
   
+    const HudComponent = props.renderHudComponent();
+
     return (
         <>
-            {target ? createPortal(<Cursor position={props.position} hide={props.hide} />, target)
+            {target ? createPortal(HudComponent, target)
                     : null
             }
         </>
