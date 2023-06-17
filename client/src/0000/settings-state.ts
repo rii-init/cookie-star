@@ -11,10 +11,16 @@ class Setting {
 export class SettingsState {
     
     constructor() {
+        let   str_version    = localStorage.getItem("version");
+        let       version    = str_version === null ? null : parseInt(str_version);
+        const currentVersion = 7;
+
+        localStorage.setItem("version", currentVersion.toString());
+
         for (let key in this.controls) {
             const localValue = localStorage.getItem(key);
 
-            if (localValue === null) {
+            if (localValue === null || version != currentVersion) {
                 this.controls[key as SettingsType].state 
               = this.controls[key as SettingsType].initial;
                 
@@ -27,7 +33,7 @@ export class SettingsState {
     public controls = {
         aa:          new Setting(1, 1, 2),
         animation:   new Setting(1, 1, 2),
-        visualTheme: new Setting(0, 0, 2),
+        visualTheme: new Setting(1, 0, 2),
     }
     
     nextValue(field: SettingsType) {
