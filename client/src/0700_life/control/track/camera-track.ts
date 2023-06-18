@@ -35,10 +35,15 @@ export class CameraTrack {
 
 	public setCameraPosesToDefault() {
 		this.poses = this.defaultCameraPoses();
+		this.calculateMaxScroll();
 	}
 
 	public setCameraPoses(poses: CameraPose[]) {
 		this.poses = poses;
+		this.calculateMaxScroll();
+	}
+
+	private calculateMaxScroll() {
 		this.maxScroll = this.getScrollDomain();
 		Universe.state.scrolling.$scrollDomain.next(this.maxScroll);
 	}

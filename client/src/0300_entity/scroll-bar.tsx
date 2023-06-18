@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Universe } from "../0000_concept/universe";
 import { Vector3 } from "three";
 
+let drag = false;
 
 export const ScrollBar = (props: {position: [number, number, number]}) => {
 
     const frameHeight      = 5;
-    const baseButtonHeight = 2;
+    const baseButtonHeight = 5;
     
     const [scrollDomain, setScrollDomain]     = useState(0);
     const [scrollDistance, setScrollDistance] = useState(0);
@@ -23,6 +24,7 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
         return () => {
             domainSub.unsubscribe();
             distanceSub.unsubscribe();
+            positionSub.unsubscribe();
         }
     }, [])
 
@@ -32,9 +34,34 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
                             - ( ((scrollDistance / scrollDomain) * (frameHeight - buttonHeight)) ) 
                             - (buttonHeight / 2); 
 
+
+    function handleManualScroll(e: {point: Vector3}) {
+        const distance = (frameHeight - (frameHeight / 2 + e.point.y)) / (frameHeight - buttonHeight) * scrollDomain;
+     
+        Universe.user_controls?.scroll(distance);
+    }
+
+    function onClick(e: {point: Vector3}) {
+        handleManualScroll(e);
+    }
+
+    function onPointerMove(e: {point: Vector3}) {
+        if (drag) {
+            handleManualScroll(e);
+        }
+    }
+
+    function onPointerDown() { drag = true;  }
+    function onPointerUp() { drag = false; }
+
     return (
         <group position={[ position[0] + 5, position[1], position[2] - 5]}>
-            <mesh>
+            <mesh onClick={(e: {point: Vector3}) => onClick(e)}
+            onPointerMove={(e: {point: Vector3}) => onPointerMove(e)}
+            onPointerDown={() => onPointerDown()}
+              onPointerUp={() => onPointerUp()}
+            
+            >
                 <boxBufferGeometry args={[0.5, frameHeight, 0.25]} />
                 <meshLambertMaterial color="white"    />
             </mesh>

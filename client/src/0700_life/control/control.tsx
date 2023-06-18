@@ -80,18 +80,22 @@ export class UserControls {
         this.mouse.setCanvas(Universe.canvas);
 
         this.scrollControl.addOnScrollHandler((y: number) => {
-            this.scrollDistance += y / 2000;
-            
-            if (this.scrollDistance < 0) this.scrollDistance = 0;
-            if (this.scrollDistance > this.scrollDomain) this.scrollDistance = this.scrollDomain;
-
-            Universe.state.scrolling.$distance.next(this.scrollDistance);
+            this.scroll(this.scrollDistance + y / 2000);
         });
 
         Universe.state.scrolling.$scrollDomain.subscribe((domain) => {
             this.scrollDomain = domain;
         });
 
+    }
+
+    public scroll(to: number) {
+        this.scrollDistance = to;
+
+        if (this.scrollDistance < 0) this.scrollDistance = 0;
+        if (this.scrollDistance > this.scrollDomain) this.scrollDistance = this.scrollDomain;
+
+        Universe.state.scrolling.$distance.next(this.scrollDistance);
     }
 
     public handlePointerOver = (mesh?: Mesh) => {
