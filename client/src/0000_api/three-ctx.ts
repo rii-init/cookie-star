@@ -38,8 +38,14 @@ export let ThreeJSContext = function() {
       if (Universe.user_controls) {
         Universe.user_controls.update(delta);
       }
-      
+
+      if (Universe.sky) {
+        const cameraPosition = Universe.ctx3.camera.matrix.elements.slice(12, 15);
+        
+        Universe.sky.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
+      }
     })
     
+
     return null;
 }

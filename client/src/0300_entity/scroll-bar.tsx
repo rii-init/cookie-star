@@ -36,7 +36,11 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
 
 
     function handleManualScroll(e: {point: Vector3}) {
-        const distance = (frameHeight - (frameHeight / 2 + e.point.y)) / (frameHeight - buttonHeight) * scrollDomain;
+        const cameraY = Universe.ctx3?.camera.matrix.elements[13] || 0;
+
+        const invertedPosition = frameHeight - ((e.point.y - cameraY) + frameHeight / 2);
+        
+        const distance = (invertedPosition  / frameHeight) * scrollDomain; //((frameHeight - (e.point.y - cameraY) - frameHeight / 2) / frameHeight) * scrollDomain;
      
         Universe.user_controls?.scroll(distance);
     }
