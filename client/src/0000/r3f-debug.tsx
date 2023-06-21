@@ -36,7 +36,7 @@ export const R3FDiagnosticText = () => {
         window.location.search.includes("debug") 
             ? <group position={[ -4.5, 1, -3 ]} rotation={[0, Math.PI / 5, 0]} >
                     <mesh position={[0, 0.5, -1]}>
-                        <boxBufferGeometry args={[6,5.2,0.2]} />
+                        <boxGeometry args={[6,5.2,0.2]} />
                         <meshBasicMaterial color="black" transparent={true} opacity={0.9} />
                     </mesh>
                     {

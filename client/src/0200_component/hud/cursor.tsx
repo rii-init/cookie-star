@@ -9,7 +9,7 @@ const WhiteSquare = (p: {
         position: [number,number,number], children: React.ReactNode;
     }) => (
     <mesh position={p.position}>
-        <boxBufferGeometry args={[0.025, 0.025, 0.025]} />
+        <boxGeometry args={[0.025, 0.025, 0.025]} />
         <meshStandardMaterial color="white" opacity={0.45} transparent={true} />
     </mesh>
 );

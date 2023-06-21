@@ -44,7 +44,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
             <mesh ref={meshRef}
                   position={props.linkPosition || [0, 0,-0.6]} 
                   visible={props.current == props.location || hovered} >
-                <boxBufferGeometry args={props.linkShape || [0.5,0.5,0.5]} />
+                <boxGeometry args={props.linkShape || [0.5,0.5,0.5]} />
                 <meshLambertMaterial color={hovered 
                             ? Universe.colors.accent3
                             : Universe.colors.background2} />

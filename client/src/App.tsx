@@ -32,6 +32,7 @@ import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
 import { ScrollBar } from './0300_entity/scroll-bar';
 import { Cursor } from './0200_component/hud/cursor';
+import { ResponsiveDocument } from './0000_concept/responsive-document';
 
 
 const R3FCanvas = Canvas as any;
@@ -105,20 +106,22 @@ function App() {
                 }  
                 
                 <MagnetismContext.Provider value={Universe.magnetism}>
-                <ScrollingBuffer>
-                    <Router>
-                        <group className="App-header">
-                            <RouterNavigationSurface />
-                        </group>
-                        <Switch>
-                          <Route path="/"     component={Main}   />
-                          <Route path="/meta" component={Nature} />
-                          <Route path="/tech" component={Lab}  />
-                          <Route path="/chat" component={Conference_centre} />
-                          <Route path="/cv"   component={Show_room}         />
-                        </Switch>
-                    </Router>
-                </ScrollingBuffer>
+                <ResponsiveDocument>
+                  <ScrollingBuffer>
+                      <Router>
+                          <group className="App-header">
+                              <RouterNavigationSurface />
+                          </group>
+                          <Switch>
+                            <Route path="/"     component={Main}   />
+                            <Route path="/meta" component={Nature} />
+                            <Route path="/tech" component={Lab}  />
+                            <Route path="/chat" component={Conference_centre} />
+                            <Route path="/cv"   component={Show_room}         />
+                          </Switch>
+                      </Router>
+                  </ScrollingBuffer>
+                </ResponsiveDocument>
 	          	  </MagnetismContext.Provider>
               
               

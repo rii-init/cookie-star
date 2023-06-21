@@ -130,7 +130,7 @@ export const Sequence = (props: SequenceProps) => {
                             props.yRotationFunction ? props.yRotationFunction(0) : 0, 
                                0]}
 		        >
-                    <boxBufferGeometry args={[0.1,1,1]} />
+                    <boxGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
                 </mesh> 
                 : null 
@@ -147,7 +147,7 @@ export const Sequence = (props: SequenceProps) => {
                            props.yRotationFunction ? props.yRotationFunction(elementCount - 1) : 0, 
                          0]}
 		        >
-                    <boxBufferGeometry args={[0.1,1,1]} />
+                    <boxGeometry args={[0.1,1,1]} />
                     <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
                 </mesh>
                 : null 

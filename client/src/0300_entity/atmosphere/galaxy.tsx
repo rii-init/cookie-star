@@ -40,7 +40,7 @@ return (
     ref={meshRef}
     args={[undefined, undefined, 320]}
   >
-    <boxBufferGeometry attach="geometry" args={[1, 1, 1]}></boxBufferGeometry>
+    <boxGeometry attach="geometry" args={[1, 1, 1]}></boxGeometry>
     <meshBasicMaterial color={Universe.colors.accent} />
   </instancedMesh>
 )

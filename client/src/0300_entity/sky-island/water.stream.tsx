@@ -12,7 +12,7 @@ export const WaterStream = (p: WaterStreamProps) => {
     return (
         <Entity position={p.position} rotation={p.rotation} editMode={true}>
             <mesh>
-                <boxBufferGeometry args={[2,0.25,3]} />
+                <boxGeometry args={[2,0.25,3]} />
                 <meshLambertMaterial transparent={true} opacity={0.65} color={SyntaxHighlight.Sequence} />
             </mesh>
         </Entity>

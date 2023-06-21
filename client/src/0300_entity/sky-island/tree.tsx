@@ -14,21 +14,21 @@ export const Tree = (props: TreeProps) => {
         <Entity position={props.position} rotation={props.rotation} editMode={true}>
             {/* tree trunk */}
             <mesh position={[0,0.5,0]}>
-                <boxBufferGeometry args={[1,5.8,1]} />
+                <boxGeometry args={[1,5.8,1]} />
                 <meshLambertMaterial color={SyntaxHighlight.Manifold} />
             </mesh>
             {/* tree top */}
             <group>
                 {/* <mesh position={[0,4,0]} rotation={[Math.PI/-3, Math.PI/-3,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
+                    <boxGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />
                 </mesh> */}
                 <mesh position={[0.5,5,0.75]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
+                    <boxGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />
                 </mesh>
                 <mesh position={[-0.5,5,-0.75]} rotation={[Math.PI/-6, Math.PI/-6,0]}>
-                    <boxBufferGeometry args={[1,4,1]} />
+                    <boxGeometry args={[1,4,1]} />
                     <meshLambertMaterial color={SyntaxHighlight.Manifold} />
                 </mesh>
             </group>

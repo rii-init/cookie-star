@@ -66,12 +66,12 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
               onPointerUp={() => onPointerUp()}
             
             >
-                <boxBufferGeometry args={[0.5, frameHeight, 0.25]} />
+                <boxGeometry args={[0.5, frameHeight, 0.25]} />
                 <meshLambertMaterial color="white"    />
             </mesh>
 
             <mesh position={[0, buttonPosition, 0.25]}>
-                <boxBufferGeometry args={[0.5, buttonHeight, 0.1]} />
+                <boxGeometry args={[0.5, buttonHeight, 0.1]} />
                 <meshBasicMaterial color="white"    />
             </mesh>
 

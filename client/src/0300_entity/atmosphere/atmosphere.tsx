@@ -85,7 +85,7 @@ export const Atmosphere = () => {
                                    celestialLight={Universe.colors.celestialLightColor} 
                                      ambientLight={Universe.colors.ambientLightColor}
                 />
-                <sphereBufferGeometry attach="geometry" args={[900, 32, 32]} />
+                <sphereGeometry attach="geometry" args={[900, 32, 32]} />
                 { themeIdx == 1 
                 ? (
                     <Galaxy />
