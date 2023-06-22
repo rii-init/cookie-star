@@ -2,7 +2,7 @@ import { createContext } from "react"
 
 export interface ResponsiveDocumentContext {
     orientation: "portrait" | "landscape";
-    splitLineAtNCharacters: number;
+    wrap: RegExp;
 
 }
 
@@ -11,7 +11,7 @@ function calculateResponsiveDocumentState(): ResponsiveDocumentContext {
     
     return {
         orientation,
-        splitLineAtNCharacters: orientation === "landscape" ? 80 : 25,
+        wrap: new RegExp(`.{${  orientation === "landscape" ? 80 : 25}}`, 'g')
     }
 }
 

@@ -7,8 +7,6 @@ import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextH1 } from "../../0200_component/flat/typography/h1";
 import { GroupMain } from "../../0200_component/flat/typography/main";
 import { Atmosphere } from "../../0300_entity/atmosphere/atmosphere";
-import { LinkSurface } from "../../0200_component/flat/scalar/LinkSurface";
-import { TextSpan } from "../../0200_component/flat/typography/span";
 import { Vector3 } from "three";
 
 export let Conference_centre = () => {
@@ -43,7 +41,7 @@ export let Conference_centre = () => {
                         Follow me on Twitter @ultr7A
                     </TextDiv>
                     
-                    <TextDiv direction="y" position={[-0.35, 0, 0]} itemPadding={-0.35}>
+                    {/* <Sequence direction="y" position={[-0.35, 0, 0]} itemPadding={-0.35}>
                         <Sequence direction="x" polarity={1} itemPadding={ 0.35 } >
                             <TextSpan>I like to make sounds</TextSpan>
                             <LinkSurface current={""} 
@@ -59,7 +57,7 @@ export let Conference_centre = () => {
                                     stuff
                             </LinkSurface>.
                         </Sequence>
-                    </TextDiv>    
+                    </Sequence>     */}
                 </Sequence>
             </GroupMain>
 	    <Atmosphere />

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { JSXElementConstructor, ReactElement, ReactNode, useContext } from "react";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
+import { ResponsiveDocumentContext } from "../../0000_concept/responsive-document";
+import { text } from "stream/consumers";
 
 // Structural Sequence:
 
@@ -80,43 +82,83 @@ function positionForDirection(xFunction = (x: number)=>0, yFunction=(y: number)=
 }
 export const SequenceContext = React.createContext({});
 
+function getPosition(props: SequenceProps, index: number) { 
+    return positionForDirection(props.xFunction, props.yFunction, props.zFunction,
+        props.direction,
+        props.polarity    || 1,
+        props.itemPadding || 0, index);
+}
+
 export const Sequence = (props: SequenceProps) => {
 
-
-    const elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
+    const doc  = useContext(ResponsiveDocumentContext);
+    
+    let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
+    let dynamicIndex = 0;
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group position={props.position || [0,0,0]}
                rotation={props.rotation || [0,0,0]}
         >
-            
             {
-                React.Children.map(props.children, (child, index) => {
-                    const position = positionForDirection(props.xFunction, props.yFunction, props.zFunction,
-                        props.direction,
-                        props.polarity    || 1,
-                        props.itemPadding || 0, index);
+                React.Children.map(props.children, (element, index) => {
 
-                    let afterItem = null;
+                let textLines = null, renderedElement = null;
 
-                    if (props.afterItem) {
-                        afterItem = props.afterItem(backgroundPositionForDirection(props.direction, position), 
-                                                    backgroundShapeForDirection(props.direction), 
-                                                    props.direction
-                                                   );
+                if (element &&        (element as ReactElement<any>).type
+                            && typeof (element as ReactElement<any>).type === 'function'
+                    ) {
+                
+                    const componentType = ((element as ReactElement<any>).type as Function).name;
+
+                    if (["TextDiv", "TextSpan"].includes(componentType)) {
+                        const lines = ((element as any).props.children as string).match(doc.wrap)
+                        
+                        if (lines && lines.length > 1) {
+
+                            textLines = lines.map((line: string, index: number) => {
+                                const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
+                                
+                                return (
+                                    <group key={index} 
+                                           position={getPosition(props, dynamicIndex++)}
+                                           rotation={[
+                                               props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                                               props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                                               0]}
+                                    >
+                                        { lineElement }
+                                    </group>
+                                )
+                            });
+
+                        } else {
+                            renderedElement = element;
+                        }
+
+                    } else {
+                        renderedElement = element;
                     }
+
+                } else {
+                    renderedElement = element;
+                }
+
+            if (textLines) {
+                return (<> { textLines } </>)
+            }
+
 		   return (
-                        <group key={index} 
-                         position={position}
-                         rotation={[
-                                props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                                props.yRotationFunction ? props.yRotationFunction(index) : 0,
-                                  0]}
-                        >
-                            {child}
-                            {afterItem}
-                        </group>
+                    <group key={index} 
+                      position={getPosition(props, dynamicIndex++)}
+                      rotation={[
+                              props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                              props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                              0]}
+                    >
+                        { renderedElement }
+                    </group>
                     )
                 })
             }
