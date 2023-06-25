@@ -97,10 +97,6 @@ export const Sequence = (props: SequenceProps) => {
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
 
-    useEffect(() => {
-        diagnosticState.addMessage("responsive doc orientation " + doc.orientation)
-    }, [])
-
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group position={props.position || [0,0,0]}
