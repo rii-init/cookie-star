@@ -1,7 +1,8 @@
-import React, { JSXElementConstructor, ReactElement, ReactNode, useContext } from "react";
+import React, { JSXElementConstructor, ReactElement, ReactNode, useContext, useEffect } from "react";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { ResponsiveDocumentContext } from "../../0000_concept/responsive-document";
 import { text } from "stream/consumers";
+import { diagnosticState } from "../../0000/r3f-debug";
 
 // Structural Sequence:
 
@@ -95,6 +96,10 @@ export const Sequence = (props: SequenceProps) => {
     
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
+
+    useEffect(() => {
+        diagnosticState.addMessage("responsive doc orientation " + doc.orientation)
+    }, [])
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
