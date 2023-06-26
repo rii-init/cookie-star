@@ -102,6 +102,9 @@ func setupRouter() *gin.Engine {
 		if strings.Contains(c.Request.URL.Path, ".") {
 			c.File("../client/build" + c.Request.URL.Path)
 		} else {
+			// print out the request body:
+			log.Println("No route found, redirecting to index.html")
+			log.Println(c.Request.Body)
 			c.File("../client/build/" + c.Request.URL.Path + "/index.html")
 		}
 	})
