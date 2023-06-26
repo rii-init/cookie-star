@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"fmt"
@@ -73,27 +74,9 @@ func main() {
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
-	// check if static file ends with an extension, if not, redirect to index.html, without the trailing slash:
+	r.Use(IndexHTMLHandler())
 
-	r.GET("/*path", func(c *gin.Context) {
-		requestedPath := c.Param("path")
-
-		if requestedPath == "/api/socket" {
-			gin.WrapF(socketAPI)(c)
-			return
-		}
-
-		// Check if the requested path ends with a file extension
-		if !strings.Contains(requestedPath, ".") {
-			// Handle the logic for routes without file extensions
-			// For example, you can serve an "index.html" file
-			indexPath := requestedPath + "/index.html"
-			c.File("../client/build" + indexPath)
-			return
-		}
-
-		c.Abort()
-	})
+	r.GET("/api/socket", gin.WrapF(socketAPI))
 
 	r.POST("/api/dev-console", func(c *gin.Context) {
 		// print out the request body:
@@ -120,4 +103,28 @@ func setupRouter() *gin.Engine {
 	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
 
 	return r
+}
+
+// IndexHTMLHandler is a custom middleware that serves index.html inside the requested path without a trailing slash
+func IndexHTMLHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		requestPath := c.Request.URL.Path
+
+		// Check if the request path ends with a trailing slash
+		requestPath = strings.TrimSuffix(requestPath, "/")
+		indexDirPath := filepath.Join("../client/build", requestPath)
+		// Check if the path corresponds to a directory
+		if fileInfo, err := os.Stat(indexDirPath); err == nil && fileInfo.IsDir() {
+			// Serve the index.html file inside the directory
+			indexFilePath := filepath.Join(indexDirPath, "index.html")
+			if _, err := os.Stat(indexFilePath); err == nil {
+				c.File(indexFilePath)
+				c.Abort()
+				return
+			}
+		}
+
+		// Continue to the next middleware or route handler
+		c.Next()
+	}
 }
