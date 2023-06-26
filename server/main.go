@@ -4,14 +4,12 @@ import (
 	"bytes"
 	"log"
 	"os"
+	"strings"
 
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-	database "ultr7a.com/db"
-	model "ultr7a.com/model"
 
 	"github.com/gorilla/websocket"
 )
@@ -61,56 +59,40 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-var db *gorm.DB
+// var db *gorm.DB
 
 func main() {
 	fmt.Println("Starting ultr7a.com on port 3080")
 
-	db = database.InitDb()
+	// db = database.InitDb()
 
 	r := setupRouter()
 	_ = r.Run(":3080")
 }
 
-func RemoveTrailingSlash() gin.HandlerFunc {
+func ServePagesMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if c.Request.URL.Path != "/" && c.Request.URL.Path[len(c.Request.URL.Path)-1] == '/' {
-			// Remove the trailing slash
-			newPath := c.Request.URL.Path[:len(c.Request.URL.Path)-1]
-			// Redirect the request to the new URL
-			c.Redirect(http.StatusMovedPermanently, newPath)
-			c.Abort()
+		// Check if the request URL ends with a slash
+		if strings.HasSuffix(c.Request.URL.Path, "/") {
+			// Try to serve the "index.html" file for the requested directory
+
+			// check if index.html exists off of URL.Path:
+			if _, err := os.Stat(c.Request.URL.Path + "index.html"); err == nil {
+				http.ServeFile(c.Writer, c.Request, c.Request.URL.Path+"index.html")
+				c.Abort()
+				return
+			}
+
 		}
+
+		c.Next()
 	}
 }
 
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.Use(RemoveTrailingSlash())
-
-	// Get pages as json data:
-	r.GET("/api/pages", func(c *gin.Context) {
-		pages := []model.Page{}
-
-		model.GetPages(db, &pages)
-
-		c.JSON(http.StatusOK, gin.H{
-			"pages": pages,
-		})
-	})
-
-	// Get page by url as json data:
-	r.GET("/api/page/:url", func(c *gin.Context) {
-		url := c.Param("url")
-		page := model.Page{}
-
-		model.GetPageByUrl(db, &page, url)
-
-		c.JSON(http.StatusOK, gin.H{
-			"page": page,
-		})
-	})
+	r.Use(ServePagesMiddleware())
 
 	r.GET("/api/socket", gin.WrapF(socketAPI))
 
