@@ -102,9 +102,9 @@ func setupRouter() *gin.Engine {
 	r.Use(func(c *gin.Context) {
 		if c.Request.URL.Path != "/" && strings.HasSuffix(c.Request.URL.Path, "/") {
 			// rewrite the url without the trailing slash, and serve the index.html file
-			fmt.Println("Loading ../client/build" + c.Request.URL.Path + "/index.html")
+			fmt.Println("Loading ../client/build" + strings.TrimSuffix(c.Request.URL.Path, "/") + "/index.html")
 			c.Request.URL.Path = strings.TrimSuffix(c.Request.URL.Path, "/")
-			c.File("../client/build" + c.Request.URL.Path + "/index.html")
+			c.File("../client/build" + strings.TrimSuffix(c.Request.URL.Path, "/") + "/index.html")
 			r.HandleContext(c)
 
 		}
