@@ -72,8 +72,22 @@ func main() {
 	_ = r.Run(":3080")
 }
 
+func RemoveTrailingSlash() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.Request.URL.Path != "/" && c.Request.URL.Path[len(c.Request.URL.Path)-1] == '/' {
+			// Remove the trailing slash
+			newPath := c.Request.URL.Path[:len(c.Request.URL.Path)-1]
+			// Redirect the request to the new URL
+			c.Redirect(http.StatusMovedPermanently, newPath)
+			c.Abort()
+		}
+	}
+}
+
 func setupRouter() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(RemoveTrailingSlash())
 
 	// Get pages as json data:
 	r.GET("/api/pages", func(c *gin.Context) {
