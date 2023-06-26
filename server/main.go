@@ -78,6 +78,10 @@ func setupRouter() *gin.Engine {
 	r.GET("/*path", func(c *gin.Context) {
 		requestedPath := c.Param("path")
 
+		if requestedPath == "/api/socket" {
+			gin.WrapF(socketAPI)(c)
+		}
+
 		// Check if the requested path ends with a file extension
 		if !strings.Contains(requestedPath, ".") {
 			// Handle the logic for routes without file extensions
@@ -89,8 +93,6 @@ func setupRouter() *gin.Engine {
 
 		c.Abort()
 	})
-
-	r.GET("/api/socket", gin.WrapF(socketAPI))
 
 	r.POST("/api/dev-console", func(c *gin.Context) {
 		// print out the request body:
