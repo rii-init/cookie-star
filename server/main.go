@@ -99,15 +99,19 @@ func setupRouter() *gin.Engine {
 
 	// check if static file ends with an extension, if not, redirect to index.html, without the trailing slash:
 
-	r.Use(func(c *gin.Context) {
-		if c.Request.URL.Path != "/" && strings.HasSuffix(c.Request.URL.Path, "/") {
-			// rewrite the url without the trailing slash, and serve the index.html file
-			fmt.Println("Loading ../client/build" + strings.TrimSuffix(c.Request.URL.Path, "/") + "/index.html")
-			c.Request.URL.Path = strings.TrimSuffix(c.Request.URL.Path, "/")
-			c.File("../client/build" + strings.TrimSuffix(c.Request.URL.Path, "/") + "/index.html")
-			r.HandleContext(c)
+	r.GET("/*path", func(c *gin.Context) {
+		requestedPath := c.Param("path")
 
+		// Check if the requested path ends with a file extension
+		if !strings.Contains(requestedPath, ".") {
+			// Handle the logic for routes without file extensions
+			// For example, you can serve an "index.html" file
+			indexPath := requestedPath + "/index.html"
+			c.File("../client/build" + indexPath)
+			return
 		}
+
+		c.Abort()
 	})
 
 	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
