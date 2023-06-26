@@ -2,14 +2,13 @@ package main
 
 import (
 	"log"
-	"os"
-	"path"
 
 	"net/http"
 
 	"github.com/gorilla/websocket"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
@@ -62,30 +61,13 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 func main() {
 	e := echo.New()
 
+	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root: "../client/build",
+	}))
+
 	// Serve the frontend
 	e.GET("/", func(c echo.Context) error {
 		return c.File("../client/build/index.html")
-	})
-
-	// Custom route handler for serving index.html for requested folders
-	e.GET("/*", func(c echo.Context) error {
-		// Get the requested path
-		reqPath := c.Request().URL.Path
-
-		// Check if the requested path is a directory
-		if info, err := os.Stat("../client/build" + reqPath); err == nil && info.IsDir() {
-			// Construct the full path to index.html
-			indexFilePath := path.Join("../client/build"+reqPath, "index.html")
-
-			// Check if index.html exists
-			if _, err := os.Stat(indexFilePath); err == nil {
-				// Serve index.html
-				return c.File(indexFilePath)
-			}
-		}
-
-		// Serve the requested file or directory using the built-in Echo handler
-		return echo.WrapHandler(http.FileServer(http.Dir("../client/build")))(c)
 	})
 
 	// Start the server
