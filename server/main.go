@@ -62,6 +62,11 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 func main() {
 	e := echo.New()
 
+	// Serve the frontend
+	e.GET("/", func(c echo.Context) error {
+		return c.File("../client/build/index.html")
+	})
+
 	// Custom route handler for serving index.html for requested folders
 	e.GET("/*", func(c echo.Context) error {
 		// Get the requested path
