@@ -123,6 +123,7 @@ func IndexHTMLHandler() gin.HandlerFunc {
 			fmt.Println("Index File: " + indexFilePath)
 
 			if _, err := os.Stat(indexFilePath); err == nil {
+				fmt.Println("*** Serving index.html ***")
 				c.File(indexFilePath)
 				c.Abort()
 				return
