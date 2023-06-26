@@ -73,6 +73,23 @@ func main() {
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
+	// check if static file ends with an extension, if not, redirect to index.html, without the trailing slash:
+
+	r.GET("/*path", func(c *gin.Context) {
+		requestedPath := c.Param("path")
+
+		// Check if the requested path ends with a file extension
+		if !strings.Contains(requestedPath, ".") {
+			// Handle the logic for routes without file extensions
+			// For example, you can serve an "index.html" file
+			indexPath := requestedPath + "/index.html"
+			c.File("../client/build" + indexPath)
+			return
+		}
+
+		c.Abort()
+	})
+
 	r.GET("/api/socket", gin.WrapF(socketAPI))
 
 	r.POST("/api/dev-console", func(c *gin.Context) {
@@ -95,23 +112,6 @@ func setupRouter() *gin.Engine {
 			"message": "ok",
 		})
 
-	})
-
-	// check if static file ends with an extension, if not, redirect to index.html, without the trailing slash:
-
-	r.GET("/*path", func(c *gin.Context) {
-		requestedPath := c.Param("path")
-
-		// Check if the requested path ends with a file extension
-		if !strings.Contains(requestedPath, ".") {
-			// Handle the logic for routes without file extensions
-			// For example, you can serve an "index.html" file
-			indexPath := requestedPath + "/index.html"
-			c.File("../client/build" + indexPath)
-			return
-		}
-
-		c.Abort()
 	})
 
 	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
