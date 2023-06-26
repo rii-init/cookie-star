@@ -113,10 +113,15 @@ func IndexHTMLHandler() gin.HandlerFunc {
 		// Check if the request path ends with a trailing slash
 		requestPath = strings.TrimSuffix(requestPath, "/")
 		indexDirPath := filepath.Join("../client/build", requestPath)
+
+		fmt.Println("Index DIR: " + indexDirPath)
 		// Check if the path corresponds to a directory
 		if fileInfo, err := os.Stat(indexDirPath); err == nil && fileInfo.IsDir() {
 			// Serve the index.html file inside the directory
 			indexFilePath := filepath.Join(indexDirPath, "index.html")
+
+			fmt.Println("Index File: " + indexFilePath)
+
 			if _, err := os.Stat(indexFilePath); err == nil {
 				c.File(indexFilePath)
 				c.Abort()
