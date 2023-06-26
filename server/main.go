@@ -80,6 +80,7 @@ func setupRouter() *gin.Engine {
 
 		if requestedPath == "/api/socket" {
 			gin.WrapF(socketAPI)(c)
+			return
 		}
 
 		// Check if the requested path ends with a file extension
