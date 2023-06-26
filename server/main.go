@@ -70,29 +70,8 @@ func main() {
 	_ = r.Run(":3080")
 }
 
-func ServePagesMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// Check if the request URL ends with a slash
-		if strings.HasSuffix(c.Request.URL.Path, "/") {
-			// Try to serve the "index.html" file for the requested directory
-
-			// check if index.html exists off of URL.Path:
-			if _, err := os.Stat(c.Request.URL.Path + "index.html"); err == nil {
-				http.ServeFile(c.Writer, c.Request, c.Request.URL.Path+"index.html")
-				c.Abort()
-				return
-			}
-
-		}
-
-		c.Next()
-	}
-}
-
 func setupRouter() *gin.Engine {
 	r := gin.Default()
-
-	r.Use(ServePagesMiddleware())
 
 	r.GET("/api/socket", gin.WrapF(socketAPI))
 
@@ -118,7 +97,16 @@ func setupRouter() *gin.Engine {
 
 	})
 
-	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
+	// check if static file ends with an extension, if not, redirect to index.html, without the trailing slash:
+	r.NoRoute(func(c *gin.Context) {
+		if strings.Contains(c.Request.URL.Path, ".") {
+			c.File("../client/build" + c.Request.URL.Path)
+		} else {
+			c.File("../client/build/" + c.Request.URL.Path + "/index.html")
+		}
+	})
+
+	//r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
 
 	return r
 }
