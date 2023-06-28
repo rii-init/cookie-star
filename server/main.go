@@ -92,6 +92,11 @@ func main() {
 	// UwU_name, password, db_name, db_port
 	db = database.InitDb(dbUwUName, dbPassword, dbName, dbPort)
 
+	// if db != nil {
+	// 		entityRepo := entity.NewEntityRepo(db)
+	// 		voxelRepo := voxel.NewVoxelRepo(db)
+	// }
+
 	// Start the server
 	e.Start(":" + portStr)
 

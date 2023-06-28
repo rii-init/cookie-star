@@ -1,3 +1,5 @@
+import { diagnosticState } from "../../0000/r3f-debug";
+
 export class TouchControl { 
 
     private onTouchMove: (x: number, y: number) => void = (x, y) => {};
@@ -64,6 +66,8 @@ export class TouchControl {
 
             if (touches.length == 1) {
                 this.onTouchMove(touches[0].clientX, touches[0].clientY);
+
+                diagnosticState.addMessage("touch " + touches[0].clientX + " ," + touches[0].clientY)
                 return;
             }
 
