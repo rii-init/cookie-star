@@ -62,6 +62,9 @@ export class TouchControl {
             
             if (touches.length >= 2) {
                 event.preventDefault();
+            } else {
+                this.previousScroll.x = touches[0].clientX;
+                this.previousScroll.y = touches[0].clientY;
             }
 
             for (var i = 0; i < Math.min(2,touches.length); i++) {
@@ -120,6 +123,9 @@ export class TouchControl {
                 this.delta.x[i] = 0;
                 this.delta.y[i] = 0;
             }
+
+            this.previousScroll.x = 0;
+            this.previousScroll.y = 0;
         })
     }
 
