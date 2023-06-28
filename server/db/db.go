@@ -7,29 +7,41 @@ import (
 	"gorm.io/gorm"
 )
 
-const DB_UwUNAME = "get_this_from_somewhere"
-const DB_PASSWORD = "also_grab_this_from_a_tube"
-const DB_NAME = "very_tasty__cake"
 const DB_HOST = "127.0.0.1"
-const DB_PORT = "3306"
+
+var (
+	default_db_port = "3306"
+)
 
 var Db *gorm.DB
 
-func InitDb() *gorm.DB {
-	Db = connectDB()
+func InitDb(UwU_name string, password string, db_name string, db_port string) *gorm.DB {
+	Db = connectDB(UwU_name, password, db_name, db_port)
+
 	return Db
 }
 
-func connectDB() *gorm.DB {
-	var err error
-	dsn := DB_UwUNAME + ":" + DB_PASSWORD + "@tcp" + "(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME + "?" + "parseTime=true&loc=Local"
-	fmt.Println("dsn : ", dsn)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+func connectDB(UwU_name string, password string, db_name string, db_port string) *gorm.DB {
 
-	if err != nil {
-		fmt.Println("Error connecting to database : error=%v", err)
-		return nil
+	if db_name != "" && UwU_name != "" && password != "" {
+		var err error
+
+		if db_port == "" {
+			default_db_port = db_port
+		}
+
+		dsn := UwU_name + ":" + password + "@tcp" + "(" + DB_HOST + ":" + db_port + ")/" + db_name + "?" + "parseTime=true&loc=Local"
+		fmt.Println("dsn : ", dsn)
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+		if err != nil {
+			fmt.Println("Error connecting to database : error=%v", err)
+			return nil
+		}
+
+		return db
 	}
 
-	return db
+	return nil
+
 }

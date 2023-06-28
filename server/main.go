@@ -6,9 +6,12 @@ import (
 	"os"
 
 	"github.com/gorilla/websocket"
+	"gorm.io/gorm"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+
+	database "ultr7a.com/db"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
@@ -47,11 +50,8 @@ func socketAPI(c echo.Context) error {
 		case "save_entity":
 			// get entity data:
 			// entityData := string(message[messageTypeLen+1:])
-			// save entity data to database:
-			// model.SaveEntity(db, entityData)
-
+			// save entityportStr
 		}
-
 	}
 }
 
@@ -63,17 +63,17 @@ func broadcastToAllPeers(c echo.Context, ws *websocket.Conn, content string) {
 	}
 }
 
-// var db *gorm.DB
+var (
+	db *gorm.DB
+)
 
 func main() {
-
 	portStr := os.Getenv("PORT")
 
-	if portStr == "" {
-		// Handle the error if the conversion fails
-		fmt.Println("Error converting PORT to an integer:")
-		// Use a default port value or exit the program if necessary
-	}
+	dbUwUName := os.Getenv("DB_UWU_NAME")
+	dbName := os.Getenv("DB_NAME")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbPort := os.Getenv("DB_PORT")
 
 	e := echo.New()
 
@@ -88,7 +88,11 @@ func main() {
 
 	e.GET("/api/socket", socketAPI)
 
+	// connect to db
+	// UwU_name, password, db_name, db_port
+	db = database.InitDb(dbUwUName, dbPassword, dbName, dbPort)
+
 	// Start the server
 	e.Start(":" + portStr)
-	// db = database.InitDb()
+
 }
