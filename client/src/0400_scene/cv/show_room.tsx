@@ -45,23 +45,17 @@ export const Show_room = () => {
 					   and intelligent life emerged.
 					</TextSpan>
 				
-					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-						<TextSpan>Haven Darkmoon was born at some point.</TextSpan>
-						<TextSpan>From a young age, they were fascinated</TextSpan>
-						<TextSpan>with water, pipes, electricity and wires.</TextSpan>
-			        {/* </Sequence> */}
-                            
-					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-                    	<TextSpan>Haven later took an interest in</TextSpan>
-                    	<TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
-						<TextSpan> </TextSpan>
-					{/* </Sequence> */}
-                            
-			    	{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-		        		<TextSpan>They went on to work for numerous startups, </TextSpan>
-                	    <TextSpan>including Redeam and Mindbridge AI.</TextSpan>
-		        	{/* </Sequence>                 */}
-		               
+					<TextSpan>Haven Darkmoon was born at some point.</TextSpan>
+					<TextSpan>From a young age, they were fascinated</TextSpan>
+					<TextSpan>with water, pipes, electricity and wires.</TextSpan>
+			        
+					<TextSpan>Haven later took an interest in</TextSpan>
+                    <TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
+					<TextSpan> </TextSpan>
+					
+					<TextSpan>They went on to work for numerous startups, </TextSpan>
+                	<TextSpan>including Redeam and Mindbridge AI.</TextSpan>
+   
 					<TextSpan>** Singularity **</TextSpan>
 
 					{/* <LinkSurface location="/cv/ultr7a.cv.pdf" current={""}>[(Download PDF)]</LinkSurface> */}

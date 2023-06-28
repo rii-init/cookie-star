@@ -120,6 +120,7 @@ export const Sequence = (props: SequenceProps) => {
                         if (lines && lines.length > 1) {
 
                             textLines = lines.map((line: string, index: number) => {
+                                diagnosticState.addMessage("IDX "+index+" "+line);
                                 const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
                                 
                                 return (
