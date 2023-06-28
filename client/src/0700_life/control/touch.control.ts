@@ -1,8 +1,8 @@
-import { diagnosticState } from "../../0000/r3f-debug";
 
 export class TouchControl { 
 
     private onTouchMove: (x: number, y: number) => void = (x, y) => {};
+    private onTouchScroll: (x: number, y: number) => void = (x, y) => {};
 
     private one = {
         x: [0,0],
@@ -19,6 +19,17 @@ export class TouchControl {
         y: [0,0]
     }
 
+
+    public deltaScroll = {
+        x: 0,
+        y: 0
+    }
+
+    public previousScroll = {
+        x: 0,
+        y: 0
+    }
+
     public get dx() {
         return this.delta.x[0] + this.delta.x[1] / 2.0;
     }
@@ -29,6 +40,10 @@ export class TouchControl {
 
     public setOnTouchMove(onTouchMove: (x: number, y: number) => void) {
         this.onTouchMove = onTouchMove;
+    }
+
+    public setOnTouchScroll(onTouchScroll: (x: number, y: number) => void) {
+        this.onTouchScroll = onTouchScroll;
     }
 
     constructor() {
@@ -64,6 +79,17 @@ export class TouchControl {
                 event.preventDefault();
             }
 
+            if (touches.length == 1) {
+
+                this.deltaScroll.x = touches[0].clientX - this.previousScroll.x;
+                this.deltaScroll.y = touches[0].clientY - this.previousScroll.y;
+
+                this.onTouchScroll(this.deltaScroll.x, this.deltaScroll.y);
+
+                this.previousScroll.x = touches[0].clientX;
+                this.previousScroll.y = touches[0].clientY;
+            }
+
             for (var i = 0; i < Math.min(2, touches.length); i++) {
             
                 this.two.x[i] = (event as TouchEvent).touches[i].clientX
@@ -74,11 +100,6 @@ export class TouchControl {
                 
                 this.one.x[i] = this.two.x[i];
                 this.one.y[i] = this.two.y[i];
-
-                if (touches.length == 1) {
-                    this.onTouchMove(this.delta.x[0], this.delta.y[0]);
-                }
-    
             }
         })
     }
