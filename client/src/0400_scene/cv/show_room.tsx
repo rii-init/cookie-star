@@ -29,8 +29,7 @@ export const Show_room = () => {
             <GroupMain>
 				<Atmosphere />
 
-				<Sequence direction="z" polarity={-1} itemPadding={0.5}
-					      xRotationFunction={(index: number) => Math.PI / -2}		
+				<Sequence direction="z" polarity={-1} itemPadding={0.5}		
 						  buffer={{ size: 16 }}
 						  rotation={[Math.PI / 8, 0, 0]}
 				>

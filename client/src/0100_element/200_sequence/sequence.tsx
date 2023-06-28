@@ -3,6 +3,8 @@ import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { ResponsiveDocumentContext } from "../../0000_concept/responsive-document";
 import { text } from "stream/consumers";
 import { diagnosticState } from "../../0000/r3f-debug";
+import { TextDiv } from "../../0200_component/flat/typography/div";
+import { TextSpan } from "../../0200_component/flat/typography/span";
 
 // Structural Sequence:
 
@@ -94,7 +96,6 @@ export const Sequence = (props: SequenceProps) => {
 
     const doc  = useContext(ResponsiveDocumentContext);
     
-    diagnosticState.addMessage("wrap "+doc.wrap.source)
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
 
@@ -103,102 +104,80 @@ export const Sequence = (props: SequenceProps) => {
         <group position={props.position || [0,0,0]}
                rotation={props.rotation || [0,0,0]}
         >
-            {
-                React.Children.map(props.children, (element, index) => {
-
-                let textLines = null, renderedElement = null;
-
-                if (element &&        (element as ReactElement<any>).type
-                            && typeof (element as ReactElement<any>).type === 'function'
-                    ) {
-                
-                    const componentType = ((element as ReactElement<any>).type as Function).name;
-
-                    diagnosticState.addMessage("[]["+index+"] "+componentType);
-
-                    if (["TextDiv", "TextSpan"].includes(componentType)) {
-                        const lines = ((element as any).props.children as string).match(doc.wrap)
-                        
-                        if (lines && lines.length > 1) {
-
-                            textLines = lines.map((line: string, index: number) => {
-                                diagnosticState.addMessage("IDX "+index+" "+line);
-                                const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
-                                
-                                return (
-                                    <group key={index} 
-                                           position={getPosition(props, dynamicIndex++)}
-                                           rotation={[
-                                               props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                                               props.yRotationFunction ? props.yRotationFunction(index) : 0,
-                                               0]}
-                                    >
-                                        { lineElement }
-                                    </group>
-                                )
-                            });
-
-                        } else {
-                            renderedElement = element;
-                        }
-
-                    } else {
-                        renderedElement = element;
+        {
+            React.Children.map(props.children, (element, index) => {
+            let textLines = null;
+            if (element &&        (element as ReactElement<any>).type
+                        && typeof (element as ReactElement<any>).type === 'function'
+                ) {                
+                const componentType = ((element as ReactElement<any>).type as Function);
+                if (([TextDiv, TextSpan] as Function[]).includes(componentType)) {
+                    const lines = ((element as any).props.children as string).match(doc.wrap)
+                    if (lines && lines.length > 1) {
+                        textLines = lines.map((line: string, index: number) => {
+                            const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
+                            return (
+                                <group key={index} 
+                                       position={getPosition(props, dynamicIndex++)}
+                                       rotation={[
+                                           props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                                           props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                                           0]}
+                                >
+                                    { lineElement }
+                                </group>
+                            )
+                        });
                     }
-
-                } else {
-                    renderedElement = element;
                 }
-
-            if (textLines) {
-                return (<> { textLines } </>)
             }
-
-		   return (
-                    <group key={index} 
-                      position={getPosition(props, dynamicIndex++)}
-                      rotation={[
-                              props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                              props.yRotationFunction ? props.yRotationFunction(index) : 0,
-                              0]}
-                    >
-                        { renderedElement }
-                    </group>
-                    )
-                })
-            }
-
-            { props.border ? 
-                <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
-			                             props.polarity || 1,
-			                             props.itemPadding || 0, 0)}
-			          rotation={[
-                            props.xRotationFunction ? props.xRotationFunction(0) : 0, 
-                            props.yRotationFunction ? props.yRotationFunction(0) : 0, 
-                               0]}
-		        >
-                    <boxGeometry args={[0.1,1,1]} />
-                    <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
-                </mesh> 
-                : null 
-            }
-            { props.border ?
-                <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
-						     props.polarity || 1,
-			              props.itemPadding || 0,
-                                      props.elements 
-                                         ? props.elements.length-1
-                                         : React.Children.count(props.children)-1
-                                         )}
-			    rotation={[props.xRotationFunction ? props.xRotationFunction(elementCount - 1) : 0, 
-                           props.yRotationFunction ? props.yRotationFunction(elementCount - 1) : 0, 
-                         0]}
-		        >
-                    <boxGeometry args={[0.1,1,1]} />
-                    <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
-                </mesh>
-                : null 
-            }
+        if (textLines) {
+            return (<> { textLines } </>)
+        } 
+		return (
+                <group key={index} 
+                  position={getPosition(props, dynamicIndex++)}
+                  rotation={[
+                          props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                          props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                          0]}
+                >
+                    { element }
+                </group>
+                )
+            })
+        }
+        { props.border ? 
+            <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
+		                             props.polarity || 1,
+		                             props.itemPadding || 0, 0)}
+		          rotation={[
+                        props.xRotationFunction ? props.xRotationFunction(0) : 0, 
+                        props.yRotationFunction ? props.yRotationFunction(0) : 0, 
+                           0]}
+		    >
+                <boxGeometry args={[0.1,1,1]} />
+                <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
+            </mesh> 
+            : null 
+        }
+        { props.border ?
+            <mesh position={positionForDirection(undefined, undefined, undefined, props.direction, 
+					     props.polarity || 1,
+		              props.itemPadding || 0,
+                                  props.elements 
+                                     ? props.elements.length-1
+                                     : React.Children.count(props.children)-1
+                                     )}
+		    rotation={[props.xRotationFunction ? props.xRotationFunction(elementCount - 1) : 0, 
+                       props.yRotationFunction ? props.yRotationFunction(elementCount - 1) : 0, 
+                     0]}
+		    >
+                <boxGeometry args={[0.1,1,1]} />
+                <meshBasicMaterial color={props.color || SyntaxHighlight.Sequence} />
+            </mesh>
+            : null 
+        }
         </group>
         </SequenceContext.Provider>
     )
