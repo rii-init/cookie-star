@@ -64,13 +64,6 @@ export class TouchControl {
                 event.preventDefault();
             }
 
-            if (touches.length == 1) {
-                this.onTouchMove(touches[0].clientX, touches[0].clientY);
-
-                diagnosticState.addMessage("touch " + touches[0].clientX + " ," + touches[0].clientY)
-                return;
-            }
-
             for (var i = 0; i < Math.min(2, touches.length); i++) {
             
                 this.two.x[i] = (event as TouchEvent).touches[i].clientX
@@ -81,6 +74,11 @@ export class TouchControl {
                 
                 this.one.x[i] = this.two.x[i];
                 this.one.y[i] = this.two.y[i];
+
+                if (touches.length == 1) {
+                    this.onTouchMove(this.delta.x[0], this.delta.y[0]);
+                }
+    
             }
         })
     }
