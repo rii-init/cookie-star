@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
-
-	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 
@@ -12,34 +12,38 @@ import (
 )
 
 var upgrader = websocket.Upgrader{} // use default options
-
-func socketAPI(w http.ResponseWriter, r *http.Request) {
-	c, err := upgrader.Upgrade(w, r, nil)
+func socketAPI(c echo.Context) error {
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
-		log.Print("upgrade:", err)
-		return
+		return err
 	}
-	defer c.Close()
+	defer ws.Close()
+
 	for {
-		mt, message, err := c.ReadMessage()
+
+		// Read
+		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			log.Println("read:", err)
-			break
+			c.Logger().Error(err)
 		}
+		fmt.Printf("%s\n", msg)
 
 		// get message type:
-		messageTypeLen := int(message[0])
-		messageType := string(message[1 : messageTypeLen+1])
+		messageTypeLen := int(msg[0])
+		messageType := string(msg[1 : messageTypeLen+1])
+
 		log.Printf("recv type: %s", messageType)
 		switch messageType {
 		case "chat":
 			// get message content:
-			messageContent := string(message[messageTypeLen+1:])
+			messageContent := string(msg[messageTypeLen+1:])
+			broadcastToAllPeers(c, ws, messageContent)
 			log.Printf("chat message: %s", messageContent)
 
 		case "telemetry":
 			// get telemetry data:
-			// telemetryData := string(message[messageTypeLen+1:])
+			telemetryData := string(msg[messageTypeLen+1:])
+			broadcastToAllPeers(c, ws, telemetryData)
 		case "save_entity":
 			// get entity data:
 			// entityData := string(message[messageTypeLen+1:])
@@ -48,17 +52,29 @@ func socketAPI(w http.ResponseWriter, r *http.Request) {
 
 		}
 
-		err = c.WriteMessage(mt, message)
-		if err != nil {
-			log.Println("write:", err)
-			break
-		}
+	}
+}
+
+func broadcastToAllPeers(c echo.Context, ws *websocket.Conn, content string) {
+	// Write
+	err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
+	if err != nil {
+		c.Logger().Error(err)
 	}
 }
 
 // var db *gorm.DB
 
 func main() {
+
+	portStr := os.Getenv("PORT")
+
+	if portStr == "" {
+		// Handle the error if the conversion fails
+		fmt.Println("Error converting PORT to an integer:")
+		// Use a default port value or exit the program if necessary
+	}
+
 	e := echo.New()
 
 	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
@@ -70,8 +86,9 @@ func main() {
 		return c.File("../client/build/index.html")
 	})
 
-	// Start the server
-	e.Start(":3080")
-	// db = database.InitDb()
+	e.GET("/api/socket", socketAPI)
 
+	// Start the server
+	e.Start(":" + portStr)
+	// db = database.InitDb()
 }
