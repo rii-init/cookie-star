@@ -94,6 +94,7 @@ export const Sequence = (props: SequenceProps) => {
 
     const doc  = useContext(ResponsiveDocumentContext);
     
+    diagnosticState.addMessage("wrap "+doc.wrap.source)
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
 
