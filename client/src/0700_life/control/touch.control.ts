@@ -88,6 +88,8 @@ export class TouchControl {
 
                 this.previousScroll.x = touches[0].clientX;
                 this.previousScroll.y = touches[0].clientY;
+
+                return;
             }
 
             for (var i = 0; i < Math.min(2, touches.length); i++) {
