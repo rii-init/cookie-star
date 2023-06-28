@@ -10,8 +10,7 @@ export class TouchScrollControl {
 
     public setOnTouchScroll(onTouchScroll: (delta: number) => void) {
         this.control.setOnTouchScroll((x, y) => {
-            onTouchScroll(y/200);
-            diagnosticState.addMessage("touch scroll: " + y/200);
+            onTouchScroll(y);
         });
     }
 }
