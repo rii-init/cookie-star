@@ -114,6 +114,8 @@ export const Sequence = (props: SequenceProps) => {
                 
                     const componentType = ((element as ReactElement<any>).type as Function).name;
 
+                    diagnosticState.addMessage("[]["+index+"] "+componentType);
+
                     if (["TextDiv", "TextSpan"].includes(componentType)) {
                         const lines = ((element as any).props.children as string).match(doc.wrap)
                         
