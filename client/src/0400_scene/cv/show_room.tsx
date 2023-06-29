@@ -13,12 +13,12 @@ export const Show_room = () => {
 
 	useEffect(() => {
         Universe.user_controls.track.setCameraPoses([
-            { position: new Vector3( 0,    0,    4), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 1,    0), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3(-0.25, 1.5, -2), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 3,   -4), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3(-0.25, 5,   -6), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 9,   -10), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3( 0,    0,    4), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, -1,    0), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25, -0.5, -2), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, 1,   -4), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25, 3,   -6), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, 7,   -10), target: new Vector3( 0,  2,  -22) },
         ])
     }, [])
 	
@@ -32,6 +32,7 @@ export const Show_room = () => {
 				<Sequence direction="z" polarity={-1} itemPadding={0.5}		
 						  buffer={{ size: 16 }}
 						  rotation={[Math.PI / 8, 0, 0]}
+						  position={[0, -2, 0]}
 				>
 					<TextSpan>
                 	   Everyone has a story.

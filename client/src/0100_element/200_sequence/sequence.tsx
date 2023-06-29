@@ -2,7 +2,7 @@ import React, { JSXElementConstructor, ReactElement, ReactNode, useContext, useE
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { ResponsiveDocumentContext } from "../../0000_concept/responsive-document";
 import { text } from "stream/consumers";
-import { diagnosticState } from "../../0000/r3f-debug";
+import { DiagnosticState, diagnosticState } from "../../0000/r3f-debug";
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextSpan } from "../../0200_component/flat/typography/span";
 
@@ -108,33 +108,38 @@ export const Sequence = (props: SequenceProps) => {
             React.Children.map(props.children, (element, index) => {
             let textLines = null;
             if (element &&        (element as ReactElement<any>).type
-                        && typeof (element as ReactElement<any>).type === 'function'
-                ) {                
+                        && typeof (element as ReactElement<any>).type === 'function') 
+            {                
                 const componentType = ((element as ReactElement<any>).type as Function);
+
                 if (([TextDiv, TextSpan] as Function[]).includes(componentType)) {
-                    const lines = ((element as any).props.children as string).match(doc.wrap)
+                    const lines = doc.wrap((element as any).props.children as string);
+
                     if (lines && lines.length > 1) {
                         textLines = lines.map((line: string, index: number) => {
-                            const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
-                            return (
-                                <group key={index} 
-                                       position={getPosition(props, dynamicIndex++)}
-                                       rotation={[
-                                           props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                                           props.yRotationFunction ? props.yRotationFunction(index) : 0,
-                                           0]}
-                                >
-                                    { lineElement }
-                                </group>
-                            )
+                        const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
+                        return (
+                            <group key={index} 
+                                   position={getPosition(props, dynamicIndex++)}
+                                   rotation={[
+                                       props.xRotationFunction ? props.xRotationFunction(index) : 0,
+                                       props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                                       0]}
+                            >
+                                { lineElement }
+                            </group>
+                        )
                         });
                     }
                 }
+                
             }
-        if (textLines) {
-            return (<> { textLines } </>)
-        } 
-		return (
+
+            if (textLines) {
+                return (<> { textLines } </>)
+            } 
+            
+		    return (
                 <group key={index} 
                   position={getPosition(props, dynamicIndex++)}
                   rotation={[
