@@ -1,10 +1,11 @@
 import React, { JSXElementConstructor, ReactElement, ReactNode, useContext, useEffect } from "react";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
-import { ResponsiveDocumentContext } from "../../0000_concept/responsive-document";
 import { text } from "stream/consumers";
 import { DiagnosticState, diagnosticState } from "../../0000/r3f-debug";
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextSpan } from "../../0200_component/flat/typography/span";
+import { wrapText } from "../../0000_concept/responsive-document";
+import { Universe } from "../../0000_concept/universe";
 
 // Structural Sequence:
 
@@ -93,11 +94,21 @@ function getPosition(props: SequenceProps, index: number) {
 }
 
 export const Sequence = (props: SequenceProps) => {
-
-    const doc  = useContext(ResponsiveDocumentContext);
     
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
+
+    const [orientation, setOrientation] = React.useState<"portrait" | "landscape">("portrait");
+
+    useEffect(() => { 
+        const orientationSub = Universe.state.responsiveDocument.$orientation.subscribe((orientation) => {
+            setOrientation(orientation);
+        })
+
+        return () => {
+            orientationSub.unsubscribe();
+        }
+    }, []);
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
@@ -113,7 +124,7 @@ export const Sequence = (props: SequenceProps) => {
                 const componentType = ((element as ReactElement<any>).type as Function);
 
                 if (([TextDiv, TextSpan] as Function[]).includes(componentType)) {
-                    const lines = doc.wrap((element as any).props.children as string);
+                    const lines = wrapText((element as any).props.children as string, orientation);
 
                     if (lines && lines.length > 1) {
                         textLines = lines.map((line: string, index: number) => {

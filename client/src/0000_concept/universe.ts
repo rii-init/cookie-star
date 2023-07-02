@@ -5,6 +5,7 @@ import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 import { Magnetism } from "../0700_life/physical/magnetism";
 import { BehaviorSubject, Observable, from, of } from "rxjs";
+import { stateManager } from "./state-manager";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -12,8 +13,6 @@ import { BehaviorSubject, Observable, from, of } from "rxjs";
  *⭐        🌟🧋
  */ 
 export class Universe { 
-
-    public static Omniscience() { }
 
     public static colors: VisualTheme = currentTheme();
     public static skyColor  = Universe.colors.background;
@@ -32,16 +31,5 @@ export class Universe {
     public static user_controls: UserControls;
     public static user:          LivingUwU;
 
-    public static state = {
-        cursor: {
-            $activation: new BehaviorSubject(0.025),
-            $parent:     new BehaviorSubject<Object3D | null>(null),
-        },
-        scrolling: {
-            $distance:     new BehaviorSubject(0),
-            $scrollDomain: new BehaviorSubject(1),
-            $position:     new BehaviorSubject([0,0,0] as [number,number,number]),
-            $parent:       new BehaviorSubject<Object3D | null>(null),
-        }
-    };
+    public static state = stateManager
 }

@@ -30,9 +30,8 @@ import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
 import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
-import { ScrollBar } from './0300_entity/scroll-bar';
 import { Cursor } from './0200_component/hud/cursor';
-import { ResponsiveDocument } from './0000_concept/responsive-document';
+import { ScrollBar } from './0300_entity/scroll-bar';
 
 
 const R3FCanvas = Canvas as any;
@@ -43,11 +42,11 @@ export const MagnetismContext = createContext(Universe.magnetism);
 
 
 function App() {
-  
   return (
-      <div className={"fullScreen theme _"+themeIdx}>
-        
-        <div id="ui_2d__button_container">
+
+    <div className={"fullScreen theme _"+themeIdx}>
+
+      <div id="ui_2d__button_container">
           <Settings />
           <VRButton className="ui_2d__button" />
         </div>
@@ -75,7 +74,6 @@ function App() {
               Universe.xrMode = false;
             }}
           >
-
             <ThreeJSContext />
             <ResizeCanvas />
             
@@ -106,7 +104,6 @@ function App() {
                 }  
                 
                 <MagnetismContext.Provider value={Universe.magnetism}>
-                <ResponsiveDocument>
                   <ScrollingBuffer>
                       <Router>
                           <group className="App-header">
@@ -121,17 +118,14 @@ function App() {
                           </Switch>
                       </Router>
                   </ScrollingBuffer>
-                </ResponsiveDocument>
 	          	  </MagnetismContext.Provider>
               
-              
-
             </UniverseContext.Provider>
 
           </XR>
-          
         </R3FCanvas>
       </div>
+    
   );
 }
 
