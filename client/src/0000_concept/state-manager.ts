@@ -1,5 +1,6 @@
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Object3D } from "three";
+import { calculateResponsiveDocumentState } from "./responsive-document";
 
 export const stateManager = {
     cursor: {
@@ -16,6 +17,6 @@ export const stateManager = {
         $resize: new Subject(),
     },
     responsiveDocument: {
-        $orientation: new BehaviorSubject<"portrait" | "landscape">("portrait"),
+        $orientation: new BehaviorSubject<"portrait" | "landscape">(calculateResponsiveDocumentState()),
     }
 };
