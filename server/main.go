@@ -1,128 +1,103 @@
 package main
 
 import (
-	"bytes"
+	"fmt"
 	"log"
 	"os"
 
-	"fmt"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-	database "ultr7a.com/db"
-	model "ultr7a.com/model"
-
 	"github.com/gorilla/websocket"
+	"gorm.io/gorm"
+
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+
+	database "ultr7a.com/db"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
-
-func socketAPI(w http.ResponseWriter, r *http.Request) {
-	c, err := upgrader.Upgrade(w, r, nil)
+func socketAPI(c echo.Context) error {
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
-		log.Print("upgrade:", err)
-		return
+		return err
 	}
-	defer c.Close()
+	defer ws.Close()
+
 	for {
-		mt, message, err := c.ReadMessage()
+
+		// Read
+		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			log.Println("read:", err)
-			break
+			c.Logger().Error(err)
 		}
+		fmt.Printf("%s\n", msg)
 
 		// get message type:
-		messageTypeLen := int(message[0])
-		messageType := string(message[1 : messageTypeLen+1])
+		messageTypeLen := int(msg[0])
+		messageType := string(msg[1 : messageTypeLen+1])
+
 		log.Printf("recv type: %s", messageType)
 		switch messageType {
 		case "chat":
 			// get message content:
-			messageContent := string(message[messageTypeLen+1:])
+			messageContent := string(msg[messageTypeLen+1:])
+			broadcastToAllPeers(c, ws, messageContent)
 			log.Printf("chat message: %s", messageContent)
 
 		case "telemetry":
 			// get telemetry data:
-			// telemetryData := string(message[messageTypeLen+1:])
+			telemetryData := string(msg[messageTypeLen+1:])
+			broadcastToAllPeers(c, ws, telemetryData)
 		case "save_entity":
 			// get entity data:
 			// entityData := string(message[messageTypeLen+1:])
-			// save entity data to database:
-			// model.SaveEntity(db, entityData)
-
-		}
-
-		err = c.WriteMessage(mt, message)
-		if err != nil {
-			log.Println("write:", err)
-			break
+			// save entityportStr
 		}
 	}
 }
 
-var db *gorm.DB
-
-func main() {
-	fmt.Println("Starting ultr7a.com on port 3080")
-
-	db = database.InitDb()
-
-	r := setupRouter()
-	_ = r.Run(":3080")
+func broadcastToAllPeers(c echo.Context, ws *websocket.Conn, content string) {
+	// Write
+	err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
+	if err != nil {
+		c.Logger().Error(err)
+	}
 }
 
-func setupRouter() *gin.Engine {
-	r := gin.Default()
+var (
+	db *gorm.DB
+)
 
-	// Get pages as json data:
-	r.GET("/api/pages", func(c *gin.Context) {
-		pages := []model.Page{}
+func main() {
+	portStr := os.Getenv("PORT")
 
-		model.GetPages(db, &pages)
+	dbUwUName := os.Getenv("DB_UWU_NAME")
+	dbName := os.Getenv("DB_NAME")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbPort := os.Getenv("DB_PORT")
 
-		c.JSON(http.StatusOK, gin.H{
-			"pages": pages,
-		})
+	e := echo.New()
+
+	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root: "../client/build",
+	}))
+
+	// Serve the frontend
+	e.GET("/", func(c echo.Context) error {
+		return c.File("../client/build/index.html")
 	})
 
-	// Get page by url as json data:
-	r.GET("/api/page/:url", func(c *gin.Context) {
-		url := c.Param("url")
-		page := model.Page{}
+	e.GET("/api/socket", socketAPI)
 
-		model.GetPageByUrl(db, &page, url)
+	// connect to db
+	// UwU_name, password, db_name, db_port
+	db = database.InitDb(dbUwUName, dbPassword, dbName, dbPort)
 
-		c.JSON(http.StatusOK, gin.H{
-			"page": page,
-		})
-	})
+	// if db != nil {
+	// 		entityRepo := entity.NewEntityRepo(db)
+	// 		voxelRepo := voxel.NewVoxelRepo(db)
+	// }
 
-	r.GET("/api/socket", gin.WrapF(socketAPI))
+	// Start the server
+	e.Start(":" + portStr)
 
-	r.POST("/api/dev-console", func(c *gin.Context) {
-		// print out the request body:
-		log.Println(c.Request.Body)
-		// write the response into a file in append mode
-		f, err := os.OpenFile("journal/owo.pages", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-		if err != nil {
-			log.Println(err) // 0w0 ..What's dis?
-		}
-		defer f.Close()
-
-		buf := new(bytes.Buffer)
-		buf.ReadFrom(c.Request.Body)
-
-		if _, err := f.WriteString(buf.String() + ",\n"); err != nil {
-			log.Println(err)
-		}
-		c.JSON(http.StatusOK, gin.H{
-			"message": "ok",
-		})
-
-	})
-
-	r.NoRoute(gin.WrapH(http.FileServer(http.Dir("../client/build"))))
-
-	return r
 }

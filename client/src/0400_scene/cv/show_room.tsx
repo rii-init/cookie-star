@@ -13,12 +13,12 @@ export const Show_room = () => {
 
 	useEffect(() => {
         Universe.user_controls.track.setCameraPoses([
-            { position: new Vector3( 0,    0,    4), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 1,    0), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3(-0.25, 1.5, -2), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 3,   -4), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3(-0.25, 5,   -6), target: new Vector3( 0,  4,  -22) },
-            { position: new Vector3( 0.25, 9,   -10), target: new Vector3( 0,  4,  -22) },
+            { position: new Vector3( 0,    0,    4), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, -1,    0), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25, -0.5, -2), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, 1,   -4), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3(-0.25, 3,   -6), target: new Vector3( 0,  2,  -22) },
+            { position: new Vector3( 0.25, 7,   -10), target: new Vector3( 0,  2,  -22) },
         ])
     }, [])
 	
@@ -29,10 +29,10 @@ export const Show_room = () => {
             <GroupMain>
 				<Atmosphere />
 
-				<Sequence direction="z" polarity={-1} itemPadding={0.5}
-					      xRotationFunction={(index: number) => Math.PI / -2}		
+				<Sequence direction="z" polarity={-1} itemPadding={0.5}		
 						  buffer={{ size: 16 }}
 						  rotation={[Math.PI / 8, 0, 0]}
+						  position={[0, -2, 0]}
 				>
 					<TextSpan>
                 	   Everyone has a story.
@@ -45,23 +45,17 @@ export const Show_room = () => {
 					   and intelligent life emerged.
 					</TextSpan>
 				
-					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-						<TextSpan>Haven Darkmoon was born at some point.</TextSpan>
-						<TextSpan>From a young age, they were fascinated</TextSpan>
-						<TextSpan>with water, pipes, electricity and wires.</TextSpan>
-			        {/* </Sequence> */}
-                            
-					{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-                    	<TextSpan>Haven later took an interest in</TextSpan>
-                    	<TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
-						<TextSpan> </TextSpan>
-					{/* </Sequence> */}
-                            
-			    	{/* <Sequence direction="y" polarity={-1} itemPadding={-0.5}> */}
-		        		<TextSpan>They went on to work for numerous startups, </TextSpan>
-                	    <TextSpan>including Redeam and Mindbridge AI.</TextSpan>
-		        	{/* </Sequence>                 */}
-		               
+					<TextSpan>Haven Darkmoon was born at some point.</TextSpan>
+					<TextSpan>From a young age, they were fascinated</TextSpan>
+					<TextSpan>with water, pipes, electricity and wires.</TextSpan>
+			        
+					<TextSpan>Haven later took an interest in</TextSpan>
+                    <TextSpan>programming, gamedev, webdev, and visual arts.</TextSpan>
+					<TextSpan> </TextSpan>
+					
+					<TextSpan>They went on to work for numerous startups, </TextSpan>
+                	<TextSpan>including Redeam and Mindbridge AI.</TextSpan>
+   
 					<TextSpan>** Singularity **</TextSpan>
 
 					{/* <LinkSurface location="/cv/ultr7a.cv.pdf" current={""}>[(Download PDF)]</LinkSurface> */}

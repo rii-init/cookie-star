@@ -5,20 +5,20 @@ import { VisualTheme } from "../visual-theme";
 export const DarkLowContrast = new VisualTheme(
     { 
         _foreground:  "#ffffff",
-        _background:  "#fc9ce8",
-        _background2: "#ffb862",
-        _accent:      "#ffd727",
-        _accent2:     "#aa60ff",
-        _accent3:     "#ae00ff",
+        _background:  "#7d0062",
+        _background2: "#ffc400",
+        _accent:      "#ffe054",
+        _accent2:     "#37145f",
+        _accent3:     "#49006b",
     },
     {
         ambientLight:   { 
-                intensity: 0.5, 
-                color: "#cc94f7" 
+                intensity: 1.9, 
+                color: "#7b1656" 
         },
         celestialLight: { 
-                intensity: 1.2, 
-                color: "#f5acf5" 
+                intensity: 1.4, 
+                color: "#ddb6ff" 
         }   
     },
     new DarkSyntaxHighlight()

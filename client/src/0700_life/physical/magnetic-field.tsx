@@ -20,22 +20,20 @@ function registerMesh(parent: any, mesh: any, magnetism: Magnetism) {
 			return geometryOrMaterial;
 		}
 
-		if (geometryOrMaterial.type === "boxBufferGeometry") {
+		if (geometryOrMaterial.type === "boxGeometry") {
 			shape = "box";
 			size = (geometryOrMaterial as any).props.args;
 		}
 
-		if (geometryOrMaterial.type === "sphereBufferGeometry") {
+		if (geometryOrMaterial.type === "sphereGeometry") {
 			shape = "sphere";
 			size = (geometryOrMaterial as any).props.args;
 		}
 
-		if (geometryOrMaterial.type === "cylinderBufferGeometry") {
+		if (geometryOrMaterial.type === "cylinderGeometry") {
 			shape = "cylinder";
 			size = (geometryOrMaterial as any).props.args;
 		}
-
-		console.log("before add magnet, parent is ", parent);
 
 		magnetism.registerMagnet({
 			position: mesh.props.position,

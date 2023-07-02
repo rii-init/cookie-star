@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	database "ultr7a.com/db"
 	model "ultr7a.com/model"
 )
 
@@ -18,8 +17,7 @@ type VoxelRepo struct {
 	Db *gorm.DB
 }
 
-func NewVoxel() *VoxelRepo {
-	db := database.InitDb()
+func NewVoxelRepo(db *gorm.DB) *VoxelRepo {
 	db.AutoMigrate(&model.Voxel{})
 	return &VoxelRepo{Db: db}
 }

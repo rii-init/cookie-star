@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	database "ultr7a.com/db"
 	model "ultr7a.com/model"
 )
 
@@ -18,8 +17,7 @@ type EntityRepo struct {
 	Db *gorm.DB
 }
 
-func NewEntity() *EntityRepo {
-	db := database.InitDb()
+func NewEntityRepo(db *gorm.DB) *EntityRepo {
 	db.AutoMigrate(&model.Entity{})
 	return &EntityRepo{Db: db}
 }

@@ -4,6 +4,7 @@ import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
 import { CloudFormation } from "./cloud.formation"
 import { Galaxy } from "./galaxy"
 import { useLayoutEffect, useRef } from "react"
+import { useFrame } from "@react-three/fiber"
 
 
 const fragmentShader = /* glsl */ `
@@ -70,12 +71,11 @@ export const SkySphereMaterial = (p: {
 export const Atmosphere = () => {
     const skyRef = useRef<Mesh>(null);
 
-    useLayoutEffect(() => {
-        if (skyRef.current) {
-            Universe.sky = skyRef.current;
-        }
-    }, [skyRef])
-
+     useLayoutEffect(() => {
+         if (skyRef.current) {
+             Universe.sky = skyRef.current;
+         }
+     }, [skyRef])
 
     return (
         <group>
@@ -85,14 +85,15 @@ export const Atmosphere = () => {
                                    celestialLight={Universe.colors.celestialLightColor} 
                                      ambientLight={Universe.colors.ambientLightColor}
                 />
-                <sphereBufferGeometry attach="geometry" args={[900, 32, 32]} />
-            </mesh>
-            { themeIdx == 1 
+                <sphereGeometry attach="geometry" args={[900, 32, 32]} />
+                { themeIdx == 1 
                 ? (
                     <Galaxy />
                   )
                 : null
-            }
+                }
+            </mesh>
+            
             <CloudFormation />
         </group>
     )

@@ -1,8 +1,13 @@
 import { Camera, Vector3 } from 'three';
 import { CameraPose } from './camera-pose';
+import { Universe } from '../../../0000_concept/universe';
 
 export class CameraTrack {
-    public poses = [] as CameraPose[]
+    public poses = [] as CameraPose[];
+	public currentPosition = new Vector3(0,0,0);
+	
+	private maxScroll = 1;
+
   
     public interpolate(camera: Camera, distance: number) {
 
@@ -17,7 +22,12 @@ export class CameraTrack {
 		camera.position.lerpVectors(pointA.position, pointB.position, t2);
 		camera.lookAt(pointA.target.lerpVectors(pointA.target, pointB.target, t2));
 		
+		this.currentPosition = camera.position;
    	}
+
+	public getScrollDomain() {
+		return this.poses.length - 1;
+	}
 
    	public init() {
 		this.poses = this.defaultCameraPoses();
@@ -25,10 +35,17 @@ export class CameraTrack {
 
 	public setCameraPosesToDefault() {
 		this.poses = this.defaultCameraPoses();
+		this.calculateMaxScroll();
 	}
 
 	public setCameraPoses(poses: CameraPose[]) {
 		this.poses = poses;
+		this.calculateMaxScroll();
+	}
+
+	private calculateMaxScroll() {
+		this.maxScroll = this.getScrollDomain();
+		Universe.state.scrolling.$scrollDomain.next(this.maxScroll);
 	}
 
     private defaultCameraPoses(): CameraPose[] {

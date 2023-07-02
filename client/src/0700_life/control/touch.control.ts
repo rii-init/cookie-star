@@ -1,6 +1,8 @@
+
 export class TouchControl { 
 
     private onTouchMove: (x: number, y: number) => void = (x, y) => {};
+    private onTouchScroll: (x: number, y: number) => void = (x, y) => {};
 
     private one = {
         x: [0,0],
@@ -17,6 +19,17 @@ export class TouchControl {
         y: [0,0]
     }
 
+
+    public deltaScroll = {
+        x: 0,
+        y: 0
+    }
+
+    public previousScroll = {
+        x: 0,
+        y: 0
+    }
+
     public get dx() {
         return this.delta.x[0] + this.delta.x[1] / 2.0;
     }
@@ -27,6 +40,10 @@ export class TouchControl {
 
     public setOnTouchMove(onTouchMove: (x: number, y: number) => void) {
         this.onTouchMove = onTouchMove;
+    }
+
+    public setOnTouchScroll(onTouchScroll: (x: number, y: number) => void) {
+        this.onTouchScroll = onTouchScroll;
     }
 
     constructor() {
@@ -45,6 +62,9 @@ export class TouchControl {
             
             if (touches.length >= 2) {
                 event.preventDefault();
+            } else {
+                this.previousScroll.x = touches[0].clientX;
+                this.previousScroll.y = touches[0].clientY;
             }
 
             for (var i = 0; i < Math.min(2,touches.length); i++) {
@@ -63,7 +83,15 @@ export class TouchControl {
             }
 
             if (touches.length == 1) {
-                this.onTouchMove(touches[0].clientX, touches[0].clientY);
+
+                this.deltaScroll.x = touches[0].clientX - this.previousScroll.x;
+                this.deltaScroll.y = touches[0].clientY - this.previousScroll.y;
+
+                this.onTouchScroll(this.deltaScroll.x, this.deltaScroll.y);
+
+                this.previousScroll.x = touches[0].clientX;
+                this.previousScroll.y = touches[0].clientY;
+
                 return;
             }
 
@@ -95,6 +123,9 @@ export class TouchControl {
                 this.delta.x[i] = 0;
                 this.delta.y[i] = 0;
             }
+
+            this.previousScroll.x = 0;
+            this.previousScroll.y = 0;
         })
     }
 

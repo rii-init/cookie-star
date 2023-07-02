@@ -10,8 +10,8 @@ import { Lab }               from './0400_scene/tech/lab';
 import { Nature }            from './0400_scene/meta/nature';
 import { Show_room }         from './0400_scene/cv/show_room';
 
-import { Controllers, Hands, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
-import { Canvas } from '@react-three/fiber';
+import { Controllers, Hands, useController, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
+import { Canvas, useFrame } from '@react-three/fiber';
 
 import { ResizeObserver } from '@juggle/resize-observer';
 
@@ -22,12 +22,16 @@ import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.mana
 
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 
-import { Cursor } from './0200_component/hud/cursor';
-
 import { NoToneMapping } from 'three';
-import { ExternalTeleportControlsProviders, TeleportControls } from './0700_life/control/teleport-controls';
+import { ClimbingControls, xRControllerState } from './0700_life/control/climbing-controls';
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
+import { settingsState } from './0000/settings-state';
+import { HudPortal } from './0200_component/hud/hud.portal';
+import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
+import { XRControlls } from './0700_life/control/xr-controlls';
+import { Cursor } from './0200_component/hud/cursor';
+import { ScrollBar } from './0300_entity/scroll-bar';
 
 
 const R3FCanvas = Canvas as any;
@@ -38,49 +42,42 @@ export const MagnetismContext = createContext(Universe.magnetism);
 
 
 function App() {
-  
-  function registerTeleportAPI(api: (api: {providers: ExternalTeleportControlsProviders}) => { methods: any } ) {
-    console.log("api({})");
-  }
-
   return (
-      <div className={"fullScreen theme _"+themeIdx}>
-        
-        <div id="ui_2d__button_container">
+
+    <div className={"fullScreen theme _"+themeIdx}>
+
+      <div id="ui_2d__button_container">
           <Settings />
           <VRButton className="ui_2d__button" />
         </div>
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
-                   colorManagement={true}
-                   resize={{ polyfill: ResizeObserver }} 
-                  pixelRatio={window.devicePixelRatio} 
-                          gl={{ alpha: false, toneMapping: NoToneMapping }}
+                      resize={{ polyfill: ResizeObserver }} 
+                          gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state }}
+                   frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
         >
           <color attach="background" 
                    args={Universe.colors.background} />
           <XR
-            onInputSourcesChange={(event: XREvent<XRSessionEvent>) => {
-            }}
-
             onSessionStart={(event) => {
               Universe.xrMode = true;
-              if (Universe.removeCursorFromCamera) { Universe.removeCursorFromCamera() }
-
+              Universe.state.cursor.$parent.next(Universe.ctx3.scene);
+              Universe.state.scrolling.$parent.next(Universe.ctx3.scene);
+              Universe.state.scrolling.$position.next(Universe.ctx3.camera.position.toArray());
+             
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
-              if (Universe.attachCursorToCamera) {   Universe.attachCursorToCamera() }
+              Universe.state.cursor.$parent.next(Universe.ctx3.camera);
+              Universe.state.scrolling.$parent.next(Universe.ctx3.camera);
+              Universe.state.scrolling.$position.next([5, 0, -1]);
               Universe.xrMode = false;
             }}
           >
-
             <ThreeJSContext />
             <ResizeCanvas />
             
-            <Controllers 
-              hideRaysOnBlur={true}
-            />
+            <Controllers hideRaysOnBlur={true} />
             <Hands />
             
             <pointLight   position={[0, 15, 10]} 
@@ -92,46 +89,43 @@ function App() {
 
             <UniverseContext.Provider value={Universe}>
               
-              <TeleportControls api={(api: {methods: any}) => { 
-                  
-                  console.log("TeleportControls API ", api.methods);
-
-                  return {
-                    providers: {
-                        // gl, // scene, // intersections,
-                    }
-                  }
-                  
-              }}>
-              
-                <Cursor hide={false} 
-                        position={Universe?.user_controls?.cursorPosition || [0,0,-1]}
-                />                      : null
+              <XRControlls />
+              <R3FDiagnosticText />
+                {
+                  <HudPortal
+                    parent={Universe.state.cursor.$parent}
+                    renderHudComponent={
+                      () => <Cursor position={Universe?.user_controls?.cursorPosition || [0, 0, -1]} hide={false} />} />
+                }   
+                {
+                  <HudPortal
+                    parent={Universe.state.scrolling.$parent}
+                    renderHudComponent={ () => <ScrollBar position={[5, 0, -5]} />}  />
+                }  
+                
                 <MagnetismContext.Provider value={Universe.magnetism}>
-                <ScrollingBuffer>
-                    <Router>
-                        <group className="App-header">
-                            <RouterNavigationSurface />
-                        </group>
-                        <Switch>
-                          <Route path="/"     component={Main}   />
-                          <Route path="/meta" component={Nature} />
-                          <Route path="/tech" component={Lab}  />
-                          <Route path="/chat" component={Conference_centre} />
-                          <Route path="/cv"   component={Show_room}         />
-                        </Switch>
-                    </Router>
-                </ScrollingBuffer>
+                  <ScrollingBuffer>
+                      <Router>
+                          <group className="App-header">
+                              <RouterNavigationSurface />
+                          </group>
+                          <Switch>
+                            <Route path="/"     component={Main}   />
+                            <Route path="/meta" component={Nature} />
+                            <Route path="/tech" component={Lab}  />
+                            <Route path="/chat" component={Conference_centre} />
+                            <Route path="/cv"   component={Show_room}         />
+                          </Switch>
+                      </Router>
+                  </ScrollingBuffer>
 	          	  </MagnetismContext.Provider>
               
-              </TeleportControls>
-
             </UniverseContext.Provider>
 
           </XR>
-          
         </R3FCanvas>
       </div>
+    
   );
 }
 

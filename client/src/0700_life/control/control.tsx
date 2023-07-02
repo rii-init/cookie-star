@@ -1,4 +1,4 @@
-import { Camera, Euler, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
+import { Camera, Euler, Group, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
 import { StaticGeometries } from "../physical/static.geometries";
@@ -12,6 +12,9 @@ import { TouchScrollControl } from "./scroll/touch.scroll.control";
 import { DeviceOrientationControls } from './device-orientation.control'
 import { ControlType } from "./control.type";
 import { CameraTrack } from "./track/camera-track";
+import { xRControllerState } from "./climbing-controls";
+import { XRController } from "@react-three/xr";
+import { diagnosticState } from "../../0000/r3f-debug";
 
 
 export class UserControls {
@@ -29,7 +32,11 @@ export class UserControls {
   
     public enableFlying        = false;
     public controllersAttached = false;
-    public mode                = ControlType.Scrolling;
+
+    private xrControllerMovement = new Vector3(0, 0, 0);
+    public xrControllers = [] as XRController[];
+    public xr_player     = null as null | Group;
+    public mode          = ControlType.Scrolling;
 
     public track    = new CameraTrack();
     public gamepad  = new GamepadControl(this);
@@ -45,6 +52,7 @@ export class UserControls {
     public cursorPosition: [number, number, number] | null = null;
 
     private scrollDistance = 0;
+    private scrollDomain   = 1;
 
     public scrollControl = new ScrollControl(
         this.touch,
@@ -62,10 +70,6 @@ export class UserControls {
         this.gyro = new DeviceOrientationControls( ctx3.camera );
         //this.gyro.connect();
 
-        // ctx3.camera.matrix.elements[13]  = 1.6;
-        // ctx3.camera.matrix.elements[14]  = 1.5;
-        
-
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
                 this.mouse.isLocked = false;
@@ -76,9 +80,22 @@ export class UserControls {
         this.mouse.setCanvas(Universe.canvas);
 
         this.scrollControl.addOnScrollHandler((y: number) => {
-            this.scrollDistance += y / 2000;
+            this.scroll(this.scrollDistance + y / 2000);
         });
 
+        Universe.state.scrolling.$scrollDomain.subscribe((domain) => {
+            this.scrollDomain = domain;
+        });
+
+    }
+
+    public scroll(to: number) {
+        this.scrollDistance = to;
+
+        if (this.scrollDistance < 0) this.scrollDistance = 0;
+        if (this.scrollDistance > this.scrollDomain) this.scrollDistance = this.scrollDomain;
+
+        Universe.state.scrolling.$distance.next(this.scrollDistance);
     }
 
     public handlePointerOver = (mesh?: Mesh) => {
@@ -89,7 +106,13 @@ export class UserControls {
         Universe.state.cursor.$activation.next(0.025);
     }
 
-    public update(delta: number) {
+    
+
+    private getPositionFromMatrix(baseMatrix: number[]) {
+        return baseMatrix.slice(12, 15);
+    }
+
+    public update(delta: number, xrFrame?: XRFrame) {
         this.mouse.dx /= 1.15;
         this.mouse.dy /= 1.15;
 
@@ -98,6 +121,30 @@ export class UserControls {
             this.calculateRotationVector();
             // this.gyro?.update();
             this.calculatePosition(delta);
+        } else {
+            let paws = "";
+
+            for (const hand in xRControllerState.handedness) {
+                
+                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+
+                if (controller.selecting && controller.group !== null) {
+                    // current position minus previous position
+                    this.xrControllerMovement.subVectors(
+                        controller.previous,  
+                        controller.group.position,
+                    );
+                    
+                    if (Universe.user_controls.xr_player) {
+                        Universe.user_controls.xr_player.position.add(this.xrControllerMovement);
+                        
+                    }
+
+                    controller.previous.copy(controller.group.position)
+                }
+                    
+            }
+
         }
     }
 
@@ -108,10 +155,15 @@ export class UserControls {
 
             this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
             this.ctx3.camera.matrixAutoUpdate = false;
+            Universe.state.scrolling.$parent.next(this.ctx3.scene);
+            Universe.state.scrolling.$position.next(this.ctx3.camera.position.toArray());
+
             this.velocity.y = 0;
         } else {
             this.mode = ControlType.Scrolling;
             this.ctx3.camera.matrixAutoUpdate = true;
+            Universe.state.scrolling.$parent.next(this.ctx3.camera);
+            Universe.state.scrolling.$position.next([0 ,0, 0]);
         }
     }
 
