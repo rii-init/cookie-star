@@ -1,6 +1,8 @@
 node_modules
 secrets
 ultr7a.com
+compiler/compiler
 client/build/buffer
+content/*
 *.spec.js
 .vscode

@@ -129,12 +129,13 @@ export const Sequence = (props: SequenceProps) => {
                     if (lines && lines.length > 1) {
                         textLines = lines.map((line: string, index: number) => {
                         const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
+                        
                         return (
-                            <group key={index} 
+                            <group key={dynamicIndex} 
                                    position={getPosition(props, dynamicIndex++)}
                                    rotation={[
-                                       props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                                       props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                                       props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
+                                       props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,
                                        0]}
                             >
                                 { lineElement }
@@ -142,8 +143,7 @@ export const Sequence = (props: SequenceProps) => {
                         )
                         });
                     }
-                }
-                
+                } 
             }
 
             if (textLines) {
@@ -151,11 +151,11 @@ export const Sequence = (props: SequenceProps) => {
             } 
             
 		    return (
-                <group key={index} 
+                <group key={dynamicIndex} 
                   position={getPosition(props, dynamicIndex++)}
                   rotation={[
-                          props.xRotationFunction ? props.xRotationFunction(index) : 0,
-                          props.yRotationFunction ? props.yRotationFunction(index) : 0,
+                          props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
+                          props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,
                           0]}
                 >
                     { element }
