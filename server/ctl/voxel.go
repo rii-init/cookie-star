@@ -8,9 +8,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
+	model "server/model"
+
+	"github.com/labstack/echo"
 	"gorm.io/gorm"
-	model "ultr7a.com/model"
 )
 
 type VoxelRepo struct {
@@ -23,76 +24,85 @@ func NewVoxelRepo(db *gorm.DB) *VoxelRepo {
 }
 
 // create Voxel
-func (repository *VoxelRepo) CreateVoxel(c *gin.Context) {
-	var Voxel model.Voxel
-	c.BindJSON(&Voxel)
-	err := model.CreateVoxel(repository.Db, &Voxel)
+func (repository *VoxelRepo) CreateVoxel(c echo.Context) {
+	Voxel := model.Voxel{}
+	err := c.Bind(&Voxel)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
+		return
+	}
+	err = model.CreateVoxel(repository.Db, &Voxel)
+	if err != nil {
+		c.Error(err)
 		return
 	}
 	c.JSON(http.StatusOK, Voxel)
 }
 
 // get Voxels
-func (repository *VoxelRepo) GetVoxels(c *gin.Context) {
+func (repository *VoxelRepo) GetVoxels(c echo.Context) {
 	var Voxel []model.Voxel
 	err := model.GetVoxels(repository.Db, &Voxel)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
 		return
 	}
 	c.JSON(http.StatusOK, Voxel)
 }
 
 // get Voxel by id
-func (repository *VoxelRepo) GetVoxel(c *gin.Context) {
+func (repository *VoxelRepo) GetVoxel(c echo.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var Voxel model.Voxel
 	err := model.GetVoxel(repository.Db, &Voxel, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.AbortWithStatus(http.StatusNotFound)
+			c.Error(err)
 			return
 		}
 
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
 		return
 	}
 	c.JSON(http.StatusOK, Voxel)
 }
 
 // update Voxel
-func (repository *VoxelRepo) UpdateVoxel(c *gin.Context) {
+func (repository *VoxelRepo) UpdateVoxel(c echo.Context) {
 	var Voxel model.Voxel
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := model.GetVoxel(repository.Db, &Voxel, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.AbortWithStatus(http.StatusNotFound)
+			c.Error(err)
 			return
 		}
 
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
 		return
 	}
-	c.BindJSON(&Voxel)
+	err = c.Bind(&Voxel)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
 	err = model.UpdateVoxel(repository.Db, &Voxel)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
 		return
 	}
-	c.JSON(http.StatusOK, Voxel)
+
+	c.JSON(http.StatusOK, nil)
 }
 
 // delete Voxel
-func (repository *VoxelRepo) DeleteVoxel(c *gin.Context) {
+func (repository *VoxelRepo) DeleteVoxel(c echo.Context) {
 	var Voxel model.Voxel
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := model.DeleteVoxel(repository.Db, &Voxel, id)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err})
+		c.Error(err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Voxel deleted successfully"})
 }

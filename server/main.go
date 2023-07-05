@@ -11,10 +11,11 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
-	database "ultr7a.com/db"
+	database "server/db"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
+
 func socketAPI(c echo.Context) error {
 	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {

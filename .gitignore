@@ -4,5 +4,8 @@ ultr7a.com
 compiler/compiler
 client/build/buffer
 content/*
+surface/*
+client/src/sitemap.json
 *.spec.js
+go.work
 .vscode

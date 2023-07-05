@@ -4,12 +4,6 @@ import { Route, Router, Switch } from "wouter";
 
 import './App.css';
 
-import { Conference_centre } from './0400_scene/chat/conference_centre';
-import { Main }              from './0400_scene/home/main';
-import { Lab }               from './0400_scene/tech/lab';
-import { Nature }            from './0400_scene/meta/nature';
-import { Show_room }         from './0400_scene/cv/show_room';
-
 import { Controllers, Hands, useController, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
 import { Canvas, useFrame } from '@react-three/fiber';
 
@@ -32,6 +26,7 @@ import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
 import { Cursor } from './0200_component/hud/cursor';
 import { ScrollBar } from './0300_entity/scroll-bar';
+import { DefaultScene } from './0400_scene/default';
 
 
 const R3FCanvas = Canvas as any;
@@ -110,11 +105,8 @@ function App() {
                               <RouterNavigationSurface />
                           </group>
                           <Switch>
-                            <Route path="/"     component={Main}   />
-                            <Route path="/meta" component={Nature} />
-                            <Route path="/tech" component={Lab}  />
-                            <Route path="/chat" component={Conference_centre} />
-                            <Route path="/cv"   component={Show_room}         />
+                            <Route path="/"        component={DefaultScene} />
+                            <Route path="/contact" component={DefaultScene} />
                           </Switch>
                       </Router>
                   </ScrollingBuffer>
