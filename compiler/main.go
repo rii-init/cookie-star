@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	model "compiler/model"
+	"compiler/util"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -52,14 +53,16 @@ func getTitle(path string) string {
 func main() {
 	fmt.Println("[rendering markdown, and creating sitemap.json]")
 
-	root := "../surface"
+	file_root := "../"
+	input_root := file_root + "content"
+	output_root := file_root + "surface"
 
 	siteMap := model.SiteMap{
 		Pages: make([]model.Page, 0),
 		Lists: make(map[string][]model.Page),
 	}
 
-	err := filepath.WalkDir(root, func(path string, info os.DirEntry, err error) error {
+	err := filepath.WalkDir(input_root, func(path string, info os.DirEntry, err error) error {
 		// Initialize an empty dynamic list of strings
 
 		if err != nil {
@@ -67,18 +70,17 @@ func main() {
 			return err
 		}
 
-		if info.IsDir() {
-			fmt.Printf("Directory: %s\n", path)
+		if !info.IsDir() {
 
-		} else {
-			fmt.Printf("File: %s\n", path)
+			// only process markdown files that are not hidden
+			if path[len(input_root)+1] != byte('.') && filepath.Ext(path) == ".md" {
 
-			if filepath.Ext(path) == ".html" {
+				fmt.Printf("File: %s\n", path)
 				elements := strings.Split(path, "/")
 
 				if len(elements) == 3 {
 
-					file_without_extension := elements[2][0 : len(elements[2])-5]
+					file_without_extension := elements[2][0 : len(elements[2])-3]
 
 					page := model.Page{
 						Path:  file_without_extension,
@@ -92,7 +94,7 @@ func main() {
 						siteMap.Lists[elements[2]] = make([]model.Page, 0)
 					}
 
-					file_without_extension := elements[3][0 : len(elements[3])-5]
+					file_without_extension := elements[3][0 : len(elements[3])-3]
 
 					page := model.Page{
 						Path:  file_without_extension,
@@ -101,6 +103,23 @@ func main() {
 
 					siteMap.Lists[elements[2]] = append(siteMap.Lists[elements[2]], page)
 				}
+
+				// join elements with "/" and remove last 3 characters (.md)
+				output_path := output_root + "/" + strings.Join(elements, "/")[len(input_root)+1:len(strings.Join(elements, "/"))-3] + ".html"
+
+				// create directory if it doesn't exist
+				os.MkdirAll(output_path[0:len(output_path)-len(elements[len(elements)-1])-3], os.ModePerm)
+
+				command := "node ./index.js '" + path + "' '" + output_path + "'"
+
+				resp, err := util.RunShellCommand(command)
+				if err != nil {
+					fmt.Printf("Error executing the command: %v\n", err)
+					os.Exit(1)
+				}
+
+				fmt.Println(resp)
+
 			}
 		}
 
@@ -108,14 +127,14 @@ func main() {
 	})
 
 	if err != nil {
-		fmt.Printf("Error walking the path %s: %v\n", root, err)
+		fmt.Printf("Error walking the path %s: %v\n", input_root, err)
 	}
 
 	// write SiteMap to ../surface/sitemap.json and ../client/src/sitemap.json
 
 	// Open a file for writing
 
-	writeSiteMap(siteMap, "../surface/sitemap.json")
+	writeSiteMap(siteMap, output_root+"/sitemap.json")
 	writeSiteMap(siteMap, "../client/src/sitemap.json")
 
 }

@@ -1,0 +1,18 @@
+{
+  "name": "compiler.ultr7a.com",
+  "version": "1.0.0",
+  "description": "markdown post processor for ultr7a.com web framework",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ultr7a.com",
+  "license": "MIT",
+  "dependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-attrs": "^4.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2"
+  }
+}

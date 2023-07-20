@@ -3,7 +3,8 @@ secrets
 ultr7a.com
 compiler/compiler
 client/build/buffer
-content/*
+content/**
+content/**/*
 surface/*
 client/src/sitemap.json
 *.spec.js
