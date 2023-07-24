@@ -62,6 +62,12 @@ func main() {
 		Lists: make(map[string][]model.Page),
 	}
 
+	// make sure ./index.js exists
+	if _, err := os.Stat("./ts/index.js"); os.IsNotExist(err) {
+		fmt.Println("compiler/ts/index.js missing; run `npm install` in compiler directory")
+		os.Exit(1)
+	}
+
 	err := filepath.WalkDir(input_root, func(path string, info os.DirEntry, err error) error {
 		// Initialize an empty dynamic list of strings
 
@@ -105,12 +111,12 @@ func main() {
 				}
 
 				// join elements with "/" and remove last 3 characters (.md)
-				output_path := output_root + "/" + strings.Join(elements, "/")[len(input_root)+1:len(strings.Join(elements, "/"))-3] + ".html"
+				output_path := output_root + "/" + strings.Join(elements, "/")[len(input_root)+1:len(strings.Join(elements, "/"))-3]
 
 				// create directory if it doesn't exist
-				os.MkdirAll(output_path[0:len(output_path)-len(elements[len(elements)-1])-3], os.ModePerm)
+				os.MkdirAll(output_path, os.ModePerm)
 
-				command := "node ./index.js '" + path + "' '" + output_path + "'"
+				command := "node ./ts/index.js render-page '" + path + "' '" + output_path + "'"
 
 				resp, err := util.RunShellCommand(command)
 				if err != nil {

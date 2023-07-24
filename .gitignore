@@ -2,6 +2,7 @@ node_modules
 secrets
 ultr7a.com
 compiler/compiler
+compiler/**/*.js
 client/build/buffer
 content/**
 content/**/*
