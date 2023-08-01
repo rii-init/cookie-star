@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	cp "github.com/otiai10/copy"
 )
 
 func writeSiteMap(siteMap model.SiteMap, path string) {
@@ -19,14 +21,18 @@ func writeSiteMap(siteMap model.SiteMap, path string) {
 	}
 	defer fo.Close()
 
-	// Create a new json encoder
-	e := json.NewEncoder(fo)
+	// encode json into a string first
+	jsonString, err := json.MarshalIndent(siteMap, "", "  ")
 
-	// Encode the data
-	err = e.Encode(siteMap)
 	if err != nil {
 		panic(err)
 	}
+
+	// add export const siteMap = to the beginning of the string
+	jsonString = []byte("export const siteMap = " + string(jsonString))
+
+	// write to file
+	fo.Write(jsonString)
 }
 
 func getTitle(path string) string {
@@ -43,19 +49,35 @@ func getTitle(path string) string {
 	// Scan for the first line
 	if scanner.Scan() {
 		firstLine := scanner.Text()
+		afterHeading := strings.ReplaceAll(firstLine, "#", "")
 
-		return strings.ReplaceAll(firstLine, "#", "")
+		// check if left brace exists:
+		if strings.Contains(afterHeading, "{") {
+			// get everything before the left brace
+			return strings.Split(afterHeading, "{")[0]
+		}
+
+		return afterHeading
 	}
 
 	return path
 }
 
 func main() {
-	fmt.Println("[rendering markdown, and creating sitemap.json]")
 
 	file_root := "../"
 	input_root := file_root + "content"
 	output_root := file_root + "surface"
+
+	mode := "create-sitemap"
+	// check command line params:
+	if len(os.Args) > 1 {
+		mode = os.Args[1]
+		fmt.Println("mode: " + mode)
+		fmt.Println("[rendering markdown]")
+	} else {
+		fmt.Println("[creating sitemap]")
+	}
 
 	siteMap := model.SiteMap{
 		Pages: make([]model.Page, 0),
@@ -69,7 +91,7 @@ func main() {
 	}
 
 	err := filepath.WalkDir(input_root, func(path string, info os.DirEntry, err error) error {
-		// Initialize an empty dynamic list of strings
+		// Inijsonialize an empty dynamic list of strings
 
 		if err != nil {
 			fmt.Printf("Error accessing path %s: %v\n", path, err)
@@ -116,15 +138,18 @@ func main() {
 				// create directory if it doesn't exist
 				os.MkdirAll(output_path, os.ModePerm)
 
-				command := "node ./ts/index.js render-page '" + path + "' '" + output_path + "'"
+				if mode == "render-pages" {
 
-				resp, err := util.RunShellCommand(command)
-				if err != nil {
-					fmt.Printf("Error executing the command: %v\n", err)
-					os.Exit(1)
+					command := "node ./ts/index.js render-page '" + path + "' '" + output_path + "'"
+
+					resp, err := util.RunShellCommand(command)
+					if err != nil {
+						fmt.Printf("Error executing the command: %v\n", err)
+						os.Exit(1)
+					}
+
+					fmt.Println(resp)
 				}
-
-				fmt.Println(resp)
 
 			}
 		}
@@ -136,11 +161,26 @@ func main() {
 		fmt.Printf("Error walking the path %s: %v\n", input_root, err)
 	}
 
+	if mode == "render-pages" {
+
+		// modify index to make js non blocking:
+		command := "node ./ts/index.js modify-index.html"
+		resp, err := util.RunShellCommand(command)
+		if err != nil {
+			fmt.Printf("Error executing the command: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println(resp)
+
+		// copy static files found under ../client/build to ../surface
+		cp.Copy(file_root+"client/build", output_root)
+		os.Exit(0)
+	}
+
 	// write SiteMap to ../surface/sitemap.json and ../client/src/sitemap.json
 
-	// Open a file for writing
-
-	writeSiteMap(siteMap, output_root+"/sitemap.json")
-	writeSiteMap(siteMap, "../client/src/sitemap.json")
+	writeSiteMap(siteMap, output_root+"/sitemap.ts")
+	writeSiteMap(siteMap, "../client/src/sitemap.ts")
 
 }

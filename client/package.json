@@ -26,6 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "generate": "./generate.sh",
     "test": "jest",
     "eject": "react-scripts eject"
   },

@@ -79,12 +79,12 @@ func main() {
 	e := echo.New()
 
 	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
-		Root: "../client/build",
+		Root: "../surface",
 	}))
 
 	// Serve the frontend
 	e.GET("/", func(c echo.Context) error {
-		return c.File("../client/build/index.html")
+		return c.File("../surface/index.html")
 	})
 
 	e.GET("/api/socket", socketAPI)

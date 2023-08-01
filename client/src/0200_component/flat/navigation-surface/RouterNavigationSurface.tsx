@@ -1,6 +1,7 @@
 import { useLocation, Link } from "wouter";
 import { Sequence } from "../../../0100_element/200_sequence/sequence";
 import { LinkSurface } from "../scalar/LinkSurface";
+import { siteMap } from "../../../sitemap";
 
 export interface SiteMap {
   pages: { path: string, title: string }[],
@@ -9,7 +10,6 @@ export interface SiteMap {
   } 
 }
 
-import * as siteMap from "../../../sitemap.json";
 
 export const RouterNavigationSurface = () => {
     const [location, setLocation] = useLocation();
