@@ -16,7 +16,7 @@ export function modifyIndexHtml(): void {
 
     modifiedIndex = modifiedIndex.replace(/<script defer="defer" src="\/static\/js\/main\.[a-z0-9]+\.js"><\/script>/, '');
 
-    modifiedIndex = modifiedIndex.replace('<div id="js_async"></div>', '<script src="' + assetManifest['main.js'] + '" />');
+    modifiedIndex = modifiedIndex.replace('<div id="js_async"></div>', '<script src="' + assetManifest['main.js'] + '" ></script>');
 
     // write the modified index.html:
     fs.writeFileSync('../client/build/index.html', modifiedIndex, 'utf8');

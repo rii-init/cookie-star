@@ -33,10 +33,6 @@ export function renderPage (inputPath: string, outputPath: string): void {
         "</html>";
 
 
-    // print working dir:
-    console.log("");
-    console.log("Input path: " + inputPath);
-    console.log("Output path: " + outputPath);
     // write the output:
     fs.writeFileSync(outputPath+"/index.html", html, 'utf8');
 }
