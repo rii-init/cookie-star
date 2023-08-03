@@ -8,3 +8,6 @@ cd ts
 tsc
 
 cd ..
+
+# yay everything is k
+echo "Build complete"

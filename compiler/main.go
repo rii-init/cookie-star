@@ -1,16 +1,12 @@
 package main
 
 import (
-	"bufio"
 	model "compiler/model"
-	"compiler/util"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
-
-	cp "github.com/otiai10/copy"
 )
 
 func writeSiteMap(siteMap model.SiteMap, path string) {
@@ -35,32 +31,25 @@ func writeSiteMap(siteMap model.SiteMap, path string) {
 	fo.Write(jsonString)
 }
 
-func getTitle(path string) string {
-	// read file and get first line:
-	file, err := os.Open(path)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
+func getTitle(file_without_extension string) string {
 
-	// Create a new scanner to read the file
-	scanner := bufio.NewScanner(file)
+	var titleElements []string = make([]string, 0)
 
-	// Scan for the first line
-	if scanner.Scan() {
-		firstLine := scanner.Text()
-		afterHeading := strings.ReplaceAll(firstLine, "#", "")
-
-		// check if left brace exists:
-		if strings.Contains(afterHeading, "{") {
-			// get everything before the left brace
-			return strings.Split(afterHeading, "{")[0]
-		}
-
-		return afterHeading
+	// check if filename contains underscore:
+	if strings.Contains(file_without_extension, "_") {
+		titleElements = strings.Split(file_without_extension, "_")
+	} else if strings.Contains(file_without_extension, "-") {
+		titleElements = strings.Split(file_without_extension, "-")
+	} else {
+		titleElements = []string{file_without_extension}
 	}
 
-	return path
+	// capitalise first letter of each word
+	for i := 0; i < len(titleElements); i++ {
+		titleElements[i] = strings.ToUpper(titleElements[i][0:1]) + titleElements[i][1:]
+	}
+
+	return strings.Join(titleElements, " ")
 }
 
 func main() {
@@ -106,49 +95,22 @@ func main() {
 				fmt.Printf("File: %s\n", path)
 				elements := strings.Split(path, "/")
 
-				if len(elements) == 3 {
+				// check if the last element contains 3 dots,
+				// for example: 0.index.md  (first component is the sort order)
 
-					file_without_extension := elements[2][0 : len(elements[2])-3]
+				filename_components := strings.Split(elements[len(elements)-1], ".")
 
-					page := model.Page{
-						Path:  file_without_extension,
-						Title: getTitle(path),
-					}
-
-					siteMap.Pages = append(siteMap.Pages, page)
-				} else if len(elements) == 4 {
-
-					if _, ok := siteMap.Lists[elements[2]]; !ok {
-						siteMap.Lists[elements[2]] = make([]model.Page, 0)
-					}
-
-					file_without_extension := elements[3][0 : len(elements[3])-3]
-
-					page := model.Page{
-						Path:  file_without_extension,
-						Title: getTitle(path),
-					}
-
-					siteMap.Lists[elements[2]] = append(siteMap.Lists[elements[2]], page)
+				if len(filename_components) > 2 {
+					filename_without_sort_order := strings.Join(filename_components[1:], ".")
+					elements[len(elements)-1] = filename_without_sort_order
 				}
 
-				// join elements with "/" and remove last 3 characters (.md)
-				output_path := output_root + "/" + strings.Join(elements, "/")[len(input_root)+1:len(strings.Join(elements, "/"))-3]
-
-				// create directory if it doesn't exist
-				os.MkdirAll(output_path, os.ModePerm)
+				if mode == "create-sitemap" {
+					CreateSitemap(elements, &siteMap)
+				}
 
 				if mode == "render-pages" {
-
-					command := "node ./ts/index.js render-page '" + path + "' '" + output_path + "'"
-
-					resp, err := util.RunShellCommand(command)
-					if err != nil {
-						fmt.Printf("Error executing the command: %v\n", err)
-						os.Exit(1)
-					}
-
-					fmt.Println(resp)
+					RenderPage(input_root, output_root, path, elements)
 				}
 
 			}
@@ -162,19 +124,7 @@ func main() {
 	}
 
 	if mode == "render-pages" {
-
-		// modify index to make js non blocking:
-		command := "node ./ts/index.js modify-index.html"
-		resp, err := util.RunShellCommand(command)
-		if err != nil {
-			fmt.Printf("Error executing the command: %v\n", err)
-			os.Exit(1)
-		}
-
-		fmt.Println(resp)
-
-		// copy static files found under ../client/build to ../surface
-		cp.Copy(file_root+"client/build", output_root)
+		RenderIndexHTML(file_root, output_root)
 		os.Exit(0)
 	}
 

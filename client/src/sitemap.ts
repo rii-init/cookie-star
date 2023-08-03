@@ -1,39 +1,39 @@
 export const siteMap = {
   "pages": [
     {
-      "path": "chat",
-      "title": " Hi "
+      "path": "index",
+      "title": "Index"
     },
     {
       "path": "cv",
-      "title": " Timeline "
-    },
-    {
-      "path": "index",
-      "title": " Ultr7A "
-    },
-    {
-      "path": "meta",
-      "title": " Design Language "
+      "title": "Cv"
     },
     {
       "path": "tech",
-      "title": " Lab "
+      "title": "Tech"
+    },
+    {
+      "path": "chat",
+      "title": "Chat"
+    },
+    {
+      "path": "meta",
+      "title": "Meta"
     }
   ],
   "lists": {
     "articles": [
       {
         "path": "designing-fursuit",
-        "title": " Considerations when designing a fursuit"
+        "title": "Designing Fursuit"
       },
       {
         "path": "hybrid_ssg_spa",
-        "title": " Hybrid SSG + SPA, the best of both worlds :)"
+        "title": "Hybrid Ssg Spa"
       },
       {
         "path": "index",
-        "title": " Articles "
+        "title": "Index"
       }
     ]
   }
