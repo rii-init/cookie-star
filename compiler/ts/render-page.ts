@@ -20,6 +20,20 @@ export function renderPage (inputPath: string, outputPath: string): void {
     // get names of static assets from asset-manifest.json:
     const assetManifest = JSON.parse(fs.readFileSync('../client/build/asset-manifest.json', 'utf8')).files;
 
+    // get page_name from inputPath:
+    const page_name_components = inputPath.split("/").pop()?.split(".") ?? [];
+
+    if ((page_name_components).length > 1) {
+        page_name_components?.pop();
+    }
+
+    let config_js_object = "";
+
+    if (fs.existsSync('../content/'+page_name_components.join(".")+".json")) {
+        // read `${sort_order}.${page_name}.json` into a string:
+        config_js_object = fs.readFileSync('../content/'+page_name_components.join(".")+".json", 'utf8');
+    }
+    
     html = "<!DOCTYPE html>\n" +
         "<html lang=\"en\">\n" +
         "<head>\n" +
@@ -30,6 +44,7 @@ export function renderPage (inputPath: string, outputPath: string): void {
         html +
         '<div id="root"></div>\n' +
         "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" +
+        "<script id=\"page-config\">" + config_js_object + "</script>\n" +
         "</body>\n" +
         "</html>";
 
