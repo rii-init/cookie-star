@@ -1,8 +1,8 @@
 export const siteMap = {
   "pages": [
     {
-      "path": "index",
-      "title": "Index"
+      "path": "/",
+      "title": "./"
     },
     {
       "path": "cv",
@@ -32,8 +32,8 @@ export const siteMap = {
         "title": "Hybrid Ssg Spa"
       },
       {
-        "path": "index",
-        "title": "Index"
+        "path": "/",
+        "title": "./"
       }
     ]
   }

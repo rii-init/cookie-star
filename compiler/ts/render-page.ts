@@ -28,6 +28,7 @@ export function renderPage (inputPath: string, outputPath: string): void {
         "</head>\n" +
         "<body>\n" +
         html +
+        '<div id="root"></div>\n' +
         "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" +
         "</body>\n" +
         "</html>";
