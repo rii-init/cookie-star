@@ -4,10 +4,39 @@ import (
 	model "compiler/model"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
 )
+
+func initConfig(config *model.Config) {
+	// Open our jsonFile
+	jsonFile, err := os.Open("config.json")
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		fmt.Println("If you'd like to change how pages and environments are rendered and organised, you can create a config.json file in the compiler directory.")
+		fmt.Println(err)
+	}
+
+	if jsonFile != nil {
+		defer jsonFile.Close()
+
+		fmt.Println("!? 0w0 What's dis? [Detected config.json]")
+
+		// read our opened jsonFile as a byte array into our config variable
+		byteValue, _ := io.ReadAll(jsonFile)
+		json.Unmarshal(byteValue, &config)
+	} else {
+
+		// It's okay. The defaults are pretty sensible.
+		config = &model.Config{
+			CapitaliseSmolTitles:                 true,
+			CapitaliseSmolTitlesUnderNCharacters: 3,
+		}
+
+	}
+}
 
 func writeSiteMap(siteMap model.SiteMap, path string) {
 	// Open a file for writing
@@ -31,7 +60,7 @@ func writeSiteMap(siteMap model.SiteMap, path string) {
 	fo.Write(jsonString)
 }
 
-func getTitle(file_without_extension string) string {
+func getTitle(config *model.Config, file_without_extension string) string {
 
 	var titleElements []string = make([]string, 0)
 
@@ -44,6 +73,17 @@ func getTitle(file_without_extension string) string {
 		titleElements = []string{file_without_extension}
 	}
 
+	if &config.CapitaliseSmolTitles != nil && config.CapitaliseSmolTitles {
+		// You might wanna capitalise short abbreviations, automatically. This can be changed in compiler/config.json. I'm not going to tell you how to name things. You do you, unelss it comes down to sorting orders, and in that case, you'll need to prefix the sort order and a dot to the filename, like this: 0.index.md
+		if len(titleElements) == 1 && len(titleElements[0]) < config.CapitaliseSmolTitlesUnderNCharacters {
+			return strings.ToUpper(titleElements[0])
+		}
+	} else {
+		if len(titleElements) == 1 && len(titleElements[0]) < 3 { // Awww.. It's so kawaii ♡〜٩( ╹▿╹ )۶〜♡
+			return strings.ToUpper(titleElements[0])
+		}
+	}
+
 	// capitalise first letter of each word
 	for i := 0; i < len(titleElements); i++ {
 		titleElements[i] = strings.ToUpper(titleElements[i][0:1]) + titleElements[i][1:]
@@ -53,6 +93,15 @@ func getTitle(file_without_extension string) string {
 }
 
 func main() {
+
+	// Let's read the config.file, right away.
+	// The user might be a particular individual (Not a bad thing!)
+
+	var (
+		config model.Config
+	)
+
+	initConfig(&config) // Let's gooOwO!!!
 
 	file_root := "../"
 	input_root := file_root + "content"
@@ -106,7 +155,7 @@ func main() {
 				}
 
 				if mode == "create-sitemap" {
-					CreateSitemap(elements, &siteMap)
+					CreateSitemap(&config, elements, &siteMap)
 				}
 
 				if mode == "render-pages" {

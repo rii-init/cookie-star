@@ -5,35 +5,35 @@ export const siteMap = {
       "title": "./"
     },
     {
-      "path": "cv",
-      "title": "Cv"
+      "path": "/cv",
+      "title": "CV"
     },
     {
-      "path": "tech",
+      "path": "/tech",
       "title": "Tech"
     },
     {
-      "path": "chat",
+      "path": "/chat",
       "title": "Chat"
     },
     {
-      "path": "meta",
+      "path": "/meta",
       "title": "Meta"
     }
   ],
   "lists": {
     "articles": [
       {
-        "path": "designing-fursuit",
+        "path": "/designing-fursuit",
         "title": "Designing Fursuit"
       },
       {
-        "path": "hybrid_ssg_spa",
+        "path": "/hybrid_ssg_spa",
         "title": "Hybrid Ssg Spa"
       },
       {
-        "path": "/",
-        "title": "./"
+        "path": "",
+        "title": "Articles"
       }
     ]
   }

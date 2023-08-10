@@ -2,27 +2,34 @@ package main
 
 import (
 	model "compiler/model"
+	"fmt"
 )
 
-func renameIndex(pageName string) (string, string) {
+func renameIndex(config *model.Config, pageName string, listName *string) (string, string) {
 	if pageName == "index" {
+
+		if listName != nil {
+			fmt.Println("Hay! THere's a list name: Renaming index to /" + *listName + "/")
+			return "", getTitle(config, *listName)
+		}
+
 		return "/", "./"
 	} else {
-		return pageName, getTitle(pageName)
+		return "/" + pageName, getTitle(config, pageName)
 	}
 }
 
-func CreateSitemap(elements []string, siteMap *model.SiteMap) {
+func CreateSitemap(config *model.Config, elements []string, siteMap *model.SiteMap) {
 
 	if len(elements) == 3 {
 
 		file_without_extension := elements[2][0 : len(elements[2])-3]
 
-		Path, Title := renameIndex(file_without_extension)
+		path, title := renameIndex(config, file_without_extension, nil)
 
 		siteMap.Pages = append(siteMap.Pages, model.Page{
-			Path:  Path,
-			Title: Title,
+			Path:  path,
+			Title: title,
 		})
 	} else if len(elements) == 4 {
 
@@ -32,11 +39,11 @@ func CreateSitemap(elements []string, siteMap *model.SiteMap) {
 
 		file_without_extension := elements[3][0 : len(elements[3])-3]
 
-		Path, Title := renameIndex(file_without_extension)
+		contentName, title := renameIndex(config, file_without_extension, &elements[2])
 
 		siteMap.Lists[elements[2]] = append(siteMap.Lists[elements[2]], model.Page{
-			Path:  Path,
-			Title: Title,
+			Path:  contentName,
+			Title: title,
 		})
 	}
 }
