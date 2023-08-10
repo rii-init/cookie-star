@@ -1,4 +1,3 @@
-import { exit } from 'process';
 import { renderPage } from './render-page';
 import { modifyIndexHtml } from './modify-index-html';
 import { usage_string, validateCommand } from './validation';

@@ -24,8 +24,7 @@ export const RouterNavigationSurface = () => {
                              itemPadding={-0.333}>
           {
             siteMap.pages.map( (page, index) =>
-  	        <LinkSurface location={page.path}     
-                          current={location} 
+  	        <LinkSurface location={page.path}  
                          position={offset} 
                      linkPosition={[0,0,0]}>{ page.path != "/" 
                                                 ? page.title

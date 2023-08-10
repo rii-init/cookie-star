@@ -44,7 +44,7 @@ export function renderPage (inputPath: string, outputPath: string): void {
         html +
         '<div id="root"></div>\n' +
         "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" +
-        "<script id=\"page-config\">" + config_js_object + "</script>\n" +
+        "<script id=\"page-config\">/*" + config_js_object + "*/</script>\n" +
         "</body>\n" +
         "</html>";
 

@@ -40,4 +40,5 @@ func RenderIndexHTML(file_root string, output_root string) {
 
 	// copy static files found under ../client/build to ../surface
 	cp.Copy(file_root+"client/build", output_root)
+	cp.Copy(file_root+"content/manifest.json", output_root)
 }

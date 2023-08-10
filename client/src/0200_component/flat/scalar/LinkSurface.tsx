@@ -9,7 +9,6 @@ import { TextH3 } from "../typography/h3";
 
 export interface LinkSurfaceProps {
     location:  string;
-    current:   string;
     position?:     [number, number, number];
     linkShape?:    [number, number, number];
     linkPosition?: [number, number, number];
@@ -43,7 +42,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
         >
             <mesh ref={meshRef}
                   position={props.linkPosition || [0, 0,-0.6]} 
-                  visible={props.current == props.location || hovered} >
+                  visible={location == props.location || hovered} >
                 <boxGeometry args={props.linkShape || [0.5,0.5,0.5]} />
                 <meshLambertMaterial color={hovered 
                             ? Universe.colors.accent3
