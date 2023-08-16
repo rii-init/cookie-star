@@ -17,12 +17,11 @@ import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.mana
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 
 import { NoToneMapping } from 'three';
-import { ClimbingControls, xRControllerState } from './0700_life/control/climbing-controls';
 import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
-import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
+import { R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
 import { Cursor } from './0200_component/hud/cursor';
 import { ScrollBar } from './0300_entity/scroll-bar';
@@ -105,8 +104,9 @@ function App() {
                               <RouterNavigationSurface />
                           </group>
                           <Switch>
-                            <Route path="/"        component={DefaultScene} />
-                            <Route path="/contact" component={DefaultScene} />
+                            <Route path="/"             component={DefaultScene} />
+                            <Route path="/:thing"       component={DefaultScene} />
+                            <Route path="/:list/:thing" component={DefaultScene} />
                           </Switch>
                       </Router>
                   </ScrollingBuffer>

@@ -1,6 +1,19 @@
 import * as React from 'react';
+import { extend } from '@react-three/fiber'
+
 import { Parser } from "./parser";
 
+import { TextSpan } from '../0200_component/flat/typography/span';
+import { TextH1 } from '../0200_component/flat/typography/h1';
+
+import { Atmosphere } from '../0300_entity/atmosphere/atmosphere';
+import { LinkSurface } from '../0200_component/flat/scalar/LinkSurface';
+import { TextH3 } from '../0200_component/flat/typography/h3';
+import { TextH2 } from '../0200_component/flat/typography/h2';
+import { TextDiv } from '../0200_component/flat/typography/div';
+
+
+extend({ TextSpan, TextDiv, TextH1, TextH2, TextH3, LinkSurface, Atmosphere });
 
 interface TextChildNode {
     nodeName: '#text';
@@ -19,6 +32,9 @@ function evaluate (element: HTMLElement | TextChildNode, components: React.React
         // It's not uncommon for there to be attributes:
         // They might be a data structure that has to be parsed:
         const attrs = Parser.parse(element as HTMLElement)
+
+        // I got some attributes.. i think?? let me double check
+        console.log("Attributes? Can has?", attrs);
 
         // Check if it's a text label of some kind:
         if (element.nodeName === 'SPAN') {
@@ -113,7 +129,10 @@ function evaluate (element: HTMLElement | TextChildNode, components: React.React
 }
 
 
-export function Evaluator () {
+export function Evaluator (props: { location: string }) {
+
+    console.log("the page changed. Time to load the content! :D",
+    "btw: the page is:  ", props.location);
 
     const components = [] as React.ReactNode[];
     const body = document.body;

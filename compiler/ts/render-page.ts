@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { interpolateAttributes } from './interpolate-attributes';
 
 export function renderPage (inputPath: string, outputPath: string): void {
     // init markdown-it:
@@ -13,7 +14,12 @@ export function renderPage (inputPath: string, outputPath: string): void {
 
     // render the page:
     const page = fs.readFileSync(inputPath, 'utf8');
+    //  🐣
     let html = md.render(page);
+
+    //  🐥
+        html = interpolateAttributes(html);
+
 
     // read ../../content/head.html into a string:
     const headContent = fs.readFileSync('../content/head.html', 'utf8');

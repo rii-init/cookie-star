@@ -18,8 +18,6 @@ export interface LinkSurfaceProps {
 export const LinkSurface = (props: LinkSurfaceProps) => {
     const [location, setLocation] = useLocation();
     
-    console.log("nav item", "location = "+ location, "props.location = "+ props.location);
-
     const clickLink = (location: string) => {
         if (location.startsWith("http")) {
             // open in new tab

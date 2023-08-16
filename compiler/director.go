@@ -2,14 +2,12 @@ package main
 
 import (
 	model "compiler/model"
-	"fmt"
 )
 
 func renameIndex(config *model.Config, pageName string, listName *string) (string, string) {
 	if pageName == "index" {
 
 		if listName != nil {
-			fmt.Println("Hay! THere's a list name: Renaming index to /" + *listName + "/")
 			return "", getTitle(config, *listName)
 		}
 
