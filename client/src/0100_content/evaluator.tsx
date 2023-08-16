@@ -11,9 +11,12 @@ import { LinkSurface } from '../0200_component/flat/scalar/LinkSurface';
 import { TextH3 } from '../0200_component/flat/typography/h3';
 import { TextH2 } from '../0200_component/flat/typography/h2';
 import { TextDiv } from '../0200_component/flat/typography/div';
+import { UniverseContext } from '../App';
+import { Sequence } from '../0100_element/200_sequence/sequence';
+import { TextP } from '../0200_component/flat/typography/p';
 
 
-extend({ TextSpan, TextDiv, TextH1, TextH2, TextH3, LinkSurface, Atmosphere });
+extend({ TextSpan, TextDiv, TextP, TextH1, TextH2, TextH3, LinkSurface, Sequence, Atmosphere });
 
 interface TextChildNode {
     nodeName: '#text';
@@ -22,9 +25,13 @@ interface TextChildNode {
 
 function evaluate (element: HTMLElement | TextChildNode, components: React.ReactNode[]) {
 
+    console.log("element: ", element);
+
     // check if text node:
     if (element.nodeName === '#text') {
+        if (/^\n+$/.test(element.nodeValue || "")) { return; /** naw... **/ }
         
+        // otherwise, it's delicious bytes of text:
         components.push(
             React.createElement('TextSpan', {}, element.nodeValue)
         )
@@ -33,8 +40,6 @@ function evaluate (element: HTMLElement | TextChildNode, components: React.React
         // They might be a data structure that has to be parsed:
         const attrs = Parser.parse(element as HTMLElement)
 
-        // I got some attributes.. i think?? let me double check
-        console.log("Attributes? Can has?", attrs);
 
         // Check if it's a text label of some kind:
         if (element.nodeName === 'SPAN') {
@@ -87,12 +92,24 @@ function evaluate (element: HTMLElement | TextChildNode, components: React.React
                 }
                 
             }
+           
+             
+            console.log("Adding <Sequence> with attrs: ", attrs, " and children: ", listItemComponents);
 
             components.push(
                 React.createElement('Sequence', attrs, listItemComponents)
             );
         }
         
+        if (element.nodeName === 'LI') {
+            // check child nodes for anything that can be rendered:
+
+            for (let i = 0; i < (element as HTMLElement).childNodes.length; i++) {
+                const child = (element as HTMLElement).childNodes[i];
+
+                evaluate(child as HTMLElement, components)
+            }
+        }
 
         // UwU Ultr7A CompOwOnents:
         if (element.nodeName === "SEQUENCE") {
@@ -137,12 +154,18 @@ export function Evaluator (props: { location: string }) {
     const components = [] as React.ReactNode[];
     const body = document.body;
 
+
     if (body) {
         // iterate over body:
         for (let i = 0; i < body.childNodes.length; i++) {
             const node = body.childNodes[i];
 
+            
             // ignore stuff that isn't static html content:
+            // if (node.nodeName === "#text" && /^\n+$/.test(node.nodeValue || "")) {
+            //     continue;
+            // }
+            
             if  (   node instanceof HTMLElement && 
                     (    
                         node.nodeName           === "SCRIPT" ||

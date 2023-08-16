@@ -17,12 +17,12 @@ export const TextP = (p: TextPProps) => {
         <group>
         
             <Text
-                scale={[0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1), 0.2 * (p.scaling || 1)]}
-                color={p.color || Universe.colors._foreground} // default
+                scale={[0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1)]}
+                color={p?.color || Universe.colors._foreground} // default
                 anchorX="center" // default
                 anchorY="middle" // default
             >
-            {p.children}   
+            {p?.children}   
             </Text>
         ))
         

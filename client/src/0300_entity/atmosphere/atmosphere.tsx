@@ -69,13 +69,18 @@ export const SkySphereMaterial = (p: {
 }
 
 export const Atmosphere = () => {
-    const skyRef = useRef<Mesh>(null);
+ 
+    // for debuggings' sake:
 
-     useLayoutEffect(() => {
-         if (skyRef.current) {
-             Universe.sky = skyRef.current;
-         }
-     }, [skyRef])
+    // const skyRef = useRef<Mesh>(null);
+
+    //  useLayoutEffect(() => {
+    //      if (skyRef.current) {
+    //          Universe.sky = skyRef.current;
+    //      }
+    //  }, [skyRef])
+
+    const skyRef = null;
 
     return (
         <group>

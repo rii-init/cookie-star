@@ -10,13 +10,13 @@ export interface TextH1Props {
 
 export const TextH1 = (p: TextH1Props) => {
     return (
-        <Text position={p.position || [0, 0, 0]}
-                 scale={[(p.scaling || 1), (p.scaling || 1), (p.scaling || 1)]}
-                 color={p.color || Universe.colors._foreground} // default
+        <Text position={p?.position || [0, 0, 0]}
+                 scale={[(p?.scaling || 1), (p?.scaling || 1), (p?.scaling || 1)]}
+                 color={p?.color || Universe.colors._foreground} // default
                anchorX="center" // default
                anchorY="middle" // default
             >
-            {p.children}    
+            {p?.children}    
         </Text>
     )
 }

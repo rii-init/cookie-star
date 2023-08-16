@@ -95,20 +95,27 @@ function getPosition(props: SequenceProps, index: number) {
 
 export const Sequence = (props: SequenceProps) => {
     
+    // const [orientation, setOrientation] = React.useState<"portrait" | "landscape">("portrait");
+
+    // useEffect(() => { 
+    //     const orientationSub = Universe.state.responsiveDocument.$orientation.subscribe((orientation) => {
+    //         setOrientation(orientation);
+    //     })
+
+    //     return () => {
+    //         orientationSub.unsubscribe();
+    //     }
+    // }, []);
+
+
+    // debugging measure:
+    if (!props){
+        return null;
+    }
+
     let elementCount = props.elements ? props.elements.length : React.Children.count(props.children);
     let dynamicIndex = 0;
 
-    const [orientation, setOrientation] = React.useState<"portrait" | "landscape">("portrait");
-
-    useEffect(() => { 
-        const orientationSub = Universe.state.responsiveDocument.$orientation.subscribe((orientation) => {
-            setOrientation(orientation);
-        })
-
-        return () => {
-            orientationSub.unsubscribe();
-        }
-    }, []);
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
@@ -124,7 +131,7 @@ export const Sequence = (props: SequenceProps) => {
                 const componentType = ((element as ReactElement<any>).type as Function);
 
                 if (([TextDiv, TextSpan] as Function[]).includes(componentType)) {
-                    const lines = wrapText((element as any).props.children as string, orientation);
+                    const lines = wrapText((element as any).props.children as string, "landscape"); //??? orientation);
 
                     if (lines && lines.length > 1) {
                         textLines = lines.map((line: string, index: number) => {
