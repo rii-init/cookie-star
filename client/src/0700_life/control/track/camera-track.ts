@@ -38,8 +38,15 @@ export class CameraTrack {
 		this.calculateMaxScroll();
 	}
 
-	public setCameraPoses(poses: CameraPose[]) {
-		this.poses = poses;
+	public setCameraPoses(poses: CameraPose<[number, number, number]>[]) {
+
+		this.poses = poses.map(pose => {
+			return {
+				position: new Vector3(...pose.position),
+				target:   new Vector3(...pose.target)
+			}
+		});
+		
 		this.calculateMaxScroll();
 	}
 

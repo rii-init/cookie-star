@@ -1,5 +1,5 @@
 export interface SpaceConfig {
-    "call"?: { [method: string]: any[]}[]
+    "call"?: [string, any[]][]
 }
 
 export class Parser {
@@ -32,7 +32,7 @@ export class Parser {
     public static parseConfig(): SpaceConfig {
         const config = document.getElementById('page-config') as HTMLScriptElement;
 
-        if (config) {
+        if (config && config.innerText.length > 4) {
             return JSON.parse(config.innerHTML.replace('/*', '').replace('*/', ''));
         } 
         

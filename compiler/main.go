@@ -173,7 +173,7 @@ func main() {
 	}
 
 	if mode == "render-pages" {
-		RenderIndexHTML(file_root, output_root)
+		prepareIndexHTML(file_root, output_root)
 		os.Exit(0)
 	}
 

@@ -27,18 +27,15 @@ func RenderPage(input_root string, output_root string, path string, elements []s
 	fmt.Println(resp)
 }
 
-func RenderIndexHTML(file_root string, output_root string) {
-	// modify index to make js non blocking:
-	command := "node ./ts/index.js modify-index.html"
-	resp, err := util.RunShellCommand(command)
-	if err != nil {
-		fmt.Printf("Error executing the command: %v\n", err)
-		os.Exit(1)
-	}
+func prepareIndexHTML(file_root string, output_root string) {
 
-	fmt.Println(resp)
-
-	// copy static files found under ../client/build to ../surface
 	cp.Copy(file_root+"client/build", output_root)
 	cp.Copy(file_root+"content/manifest.json", output_root)
+
+	cp.Copy(output_root+"/index/index.html", output_root+"/index.html")
+	rmErr := os.RemoveAll(output_root + "/index")
+	if rmErr != nil {
+		fmt.Println("(-_-) Huh.. Couldn't delete the extra index folder. ", rmErr)
+	}
+
 }
