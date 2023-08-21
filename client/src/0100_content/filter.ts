@@ -8,7 +8,7 @@ export function htmlNodeFilter(node: ChildNode) {
             )
             ||
             (
-                              node.nodeName === "#text" && 
-                !/^\n+$/.test(node.nodeValue || "")
+                                  node.nodeName === "#text" && 
+                !/^[\n\s]+$/.test(node.textContent || "")
             )
 }

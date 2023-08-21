@@ -1,4 +1,4 @@
-const numericExpressionPattern = /[0-9-+]+\s*(?:[\+\*\-\/\%]+\s*[0-9-+]+\s*)+$/;
+const numericExpressionPattern = /[-+]?[0-9]+\s*(?:[\+\*\-\/\%]+\s*[-+]?[0-9]+\s*)+$/;
 
 // input is the value of the attribute, without the quotes.
 export function evalNumericExpression(input: string): string {

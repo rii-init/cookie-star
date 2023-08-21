@@ -30,7 +30,9 @@ export class CameraTrack {
 	}
 
    	public init() {
-		this.poses = this.defaultCameraPoses();
+		if (this.poses.length == 0) {
+			this.poses = this.defaultCameraPoses();
+		}
    	}
 
 	public setCameraPosesToDefault() {

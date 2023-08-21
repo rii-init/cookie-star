@@ -17,11 +17,9 @@ import { Parser } from "./parser"
 
 
 export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>) {
-    console.log("filter and eval nodes:");
     return Array.from(nodes)
                 .filter(htmlNodeFilter)
                 .map((node) => {
-                    console.log("evaluating node: ", node);
                     return EvalHTMLToReactElement(node as HTMLElement)
                 })
 }
@@ -54,14 +52,16 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
                 return <TextH4 {...attrs}>{(node as HTMLElement).textContent}</TextH4>
 
             case "A":
-                return <LinkSurface location={attrs.location}>{(node as HTMLElement).textContent}</LinkSurface>
+                return <LinkSurface location={attrs.href || (node as HTMLElement).textContent}>
+                    {(node as HTMLElement).textContent}
+                </LinkSurface>
 
             // If someone has the audacity to use a p tag or a div, they might be doing something complicated,
             // so we're going to check if there's more elements inside of it:
             case "P":
                 if (node.childNodes.length === 1) {
                     if (node.childNodes[0].nodeName === 'ATMOSPHERE') {
-                        return <Atmosphere {...attrs}></Atmosphere>
+                        return <Atmosphere></Atmosphere>
                     }
                 }
                 
@@ -104,22 +104,22 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
             case "LI":
                 const listItemContents = filterAndEvalNodes(node.childNodes);
 
-                console.log("items within the list item: ", listItemContents);
                 return listItemContents.length > 1
-                    ? <group>
-                        { listItemContents }
-                      </group>
+                    ? (
+                        <Sequence direction="x">
+                            { listItemContents }
+                        </Sequence>
+                    )
                     : listItemContents[0];
 
             // Cool and awesome components:   
-            // There's probably a way to do this with a map, but I'm not sure how to do it with the JSX syntax:
-            
+            // Going to generate this part of the file, in v2:
             case "SEQUENCE":
                 return <Sequence direction={attrs.direction} {...attrs}>
                             { 
                                 Array.from(node.childNodes)
                                 .filter(htmlNodeFilter)
-                                .flatMap((childNode) => { 
+                                .flatMap((childNode) => {
                                     if (["UL", "OL"].includes(childNode.nodeName)) {
                                         
                                         return filterAndEvalNodes(childNode.childNodes)
