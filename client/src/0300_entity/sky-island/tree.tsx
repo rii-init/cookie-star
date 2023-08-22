@@ -9,7 +9,6 @@ export interface TreeProps {
 }
 
 export const Tree = (props: TreeProps) => {
-    console.log("🌳 Tree!!", props);
     
     return (
         <Entity position={props.position} rotation={props.rotation} editMode={true}>

@@ -1,5 +1,5 @@
 import { Sequence } from "../0100_element/200_sequence/sequence"
-import { LinkSurface } from "../0200_component/flat/scalar/LinkSurface"
+import { LinkSurface } from "../0200_component/flat/navigation-surface/LinkSurface"
 import { TextDiv } from "../0200_component/flat/typography/div"
 import { TextH1 } from "../0200_component/flat/typography/h1"
 import { TextH2 } from "../0200_component/flat/typography/h2"

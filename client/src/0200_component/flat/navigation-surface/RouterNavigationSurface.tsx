@@ -1,6 +1,6 @@
 import { useLocation, Link } from "wouter";
 import { Sequence } from "../../../0100_element/200_sequence/sequence";
-import { LinkSurface } from "../scalar/LinkSurface";
+import { LinkSurface } from "../navigation-surface/LinkSurface";
 import { siteMap } from "../../../sitemap";
 
 export interface SiteMap {

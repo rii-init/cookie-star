@@ -10,22 +10,14 @@ export interface TextPProps {
 
 export const TextP = (p: TextPProps) => {
 
-    // const paragraph = (p.children as string)
-    //          .match(/(.{1,32})(?:\s|$)/g);;
-
     return (
-        <group>
-        
-            <Text
-                scale={[0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1)]}
-                color={p?.color || Universe.colors._foreground} // default
-                anchorX="center" // default
-                anchorY="middle" // default
-            >
+        <Text
+            scale={[0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1), 0.2 * (p?.scaling || 1)]}
+            color={p?.color || Universe.colors._foreground} // default
+            anchorX="center" // default
+            anchorY="middle" // default
+        >
             {p?.children}   
-            </Text>
-        ))
-        
-        </group>
+        </Text>
     );
 }
