@@ -20,7 +20,6 @@ export const RouterNavigationSurface = () => {
 
         <Sequence direction="x" polarity={1} 
                                 position={[-1.32,1.6,-1]} 
-                                   color={[250,250,250]} 
                              itemPadding={-0.333}>
           {
             siteMap.pages.map( (page, index) =>

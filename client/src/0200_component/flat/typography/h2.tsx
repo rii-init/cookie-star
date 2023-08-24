@@ -2,7 +2,7 @@ import { Text } from "@react-three/drei";
 
 export interface TextH2Props {
     children: React.ReactNode;
-    color?: string;
+    color?:   string;
     scaling?: number;
     position?: [number, number, number];
 }
