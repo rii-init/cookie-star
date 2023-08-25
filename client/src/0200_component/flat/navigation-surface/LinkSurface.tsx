@@ -31,33 +31,35 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     const [hovered, setHovered] = useState(false);
 
     return (
-        <Interactive onSelect={(event: XRInteractionEvent) => { clickLink(props.location); }}
+        
+        <group  className="navigation" 
+                position={props.position || [0,0,0]}
+                onClick={() => { 
+                   clickLink(props.location);
+                }}
+        >
+            <Interactive onSelect={(event: XRInteractionEvent) => { clickLink(props.location); }}
                      onHover={(event: XRInteractionEvent) => { setHovered(true);   }}
                      onBlur={(event: XRInteractionEvent) => {  setHovered(false); }}
-        >
-        <group className="navigation" 
-                 onClick={() => { 
-                    clickLink(props.location);
-                 }}
-        >
-            <mesh ref={meshRef}
-                  position={props.linkPosition || [0, 0,-0.6]} 
-                  visible={location == props.location || hovered} >
-                <boxGeometry args={props.linkShape || [0.5,0.5,0.5]} />
-                <meshLambertMaterial color={hovered 
-                            ? Universe.colors.accent3
-                            : Universe.colors.background2} />
-            </mesh>
-            <TextH3 position={props.position || [0,0,0]} 
-                    onPointerOver={() => { 
-                        setHovered(true);
-                        Universe.user_controls.handlePointerOver(meshRef.current as any) } }
-                    onPointerOut={() => {
-                        setHovered(false);
-                        Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
-                {props.children}
-            </TextH3>
+            >
+                <mesh ref={meshRef}
+                    position={props.linkPosition || [0, 0,-0.6]} 
+                    visible={location == props.location || hovered} >
+                    <boxGeometry args={props.linkShape || [0.5,0.5,0.5]} />
+                    <meshLambertMaterial color={hovered 
+                                ? Universe.colors.accent3
+                                : Universe.colors.background2} />
+                </mesh>
+                <TextH3 onPointerOver={() => { 
+                            setHovered(true);
+                            Universe.user_controls.handlePointerOver(meshRef.current as any) } }
+                        onPointerOut={() => {
+                            setHovered(false);
+                            Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
+                    {props.children}
+                </TextH3>
+            </Interactive>
         </group>
-        </Interactive>
+        
     );
 }

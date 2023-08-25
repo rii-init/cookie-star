@@ -20,7 +20,8 @@ export const RouterNavigationSurface = () => {
 
         <Sequence direction="x" polarity={1} 
                                 position={[-1.32,1.6,-1]} 
-                             itemPadding={-0.333}>
+                             itemPadding={-0.333}
+                             staticLayout={true}>
           {
             siteMap.pages.map( (page, index) =>
   	        <LinkSurface location={page.path}  

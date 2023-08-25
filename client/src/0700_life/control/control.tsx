@@ -1,7 +1,6 @@
 import { Camera, Euler, Group, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
 import { Universe } from "../../0000_concept/universe";
-import { StaticGeometries } from "../physical/static.geometries";
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
@@ -14,7 +13,6 @@ import { ControlType } from "./control.type";
 import { CameraTrack } from "./track/camera-track";
 import { xRControllerState } from "./climbing-controls";
 import { XRController } from "@react-three/xr";
-import { diagnosticState } from "../../0000/r3f-debug";
 
 
 export class UserControls {
@@ -44,8 +42,6 @@ export class UserControls {
     public mouse    = new MouseState(this);
     public keys     = new KeyboardState(this);
     public gyro?:  DeviceOrientationControls;
-
-    public staticGeom = new StaticGeometries();
 
     public cursorHidden = false;
     public cursorActivated = 0;
@@ -187,12 +183,12 @@ export class UserControls {
         }
 
         // Collision Detection
-        this.staticGeom.collision(this, camera, this.velocity, delta)
+        
 
         // Terrestrial Movement:
-        if (!this.enableFlying) {
-            this.velocity.y -= 0.0025;
-        }
+        // if (!this.enableFlying) {
+        //     this.velocity.y -= 0.0025;
+        // }
     
         camera.updateMatrixWorld();
     }
