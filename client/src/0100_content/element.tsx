@@ -115,7 +115,6 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
             // Cool and awesome components:   
             // Going to generate this part of the file, in v2:
             case "SEQUENCE":
-                console.log("sequence attrs: ", attrs);
                 return <Sequence direction={attrs.direction || "y"} {...attrs}>
                             { 
                                 Array.from(node.childNodes)

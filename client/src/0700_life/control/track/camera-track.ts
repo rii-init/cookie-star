@@ -40,7 +40,7 @@ export class CameraTrack {
 		this.calculateMaxScroll();
 	}
 
-	public setCameraPoses(poses: CameraPose<[number, number, number]>[]) {
+	public setCameraPoses = (poses: CameraPose<[number, number, number]>[]) => {
 
 		this.poses = poses.map(pose => {
 			return {

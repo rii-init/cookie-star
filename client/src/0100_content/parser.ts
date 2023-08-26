@@ -36,7 +36,12 @@ export class Parser {
         return attrs;
     }
 
-    public static parseConfig(): SpaceConfig {
+    public static parseConfig(fromHeap?: string): SpaceConfig {
+
+        if (fromHeap && fromHeap.length > 4) {
+            return JSON.parse(fromHeap.replace('/*', '').replace('*/', ''));
+        }
+
         const config = document.getElementById('page-config') as HTMLScriptElement;
 
         if (config && config.innerText.length > 4) {

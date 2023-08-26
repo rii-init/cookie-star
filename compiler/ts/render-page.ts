@@ -47,7 +47,9 @@ export function renderPage (inputPath: string, outputPath: string): void {
         "<link rel=\"stylesheet\" href=\"" + assetManifest['main.css'] + "\">\n" +
         "</head>\n" +
         "<body>\n" +
+        "<main>\n" +
         html +
+        "</main>\n" +
         '<div id="root"></div>\n' +
         "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" +
         "<script id=\"page-config\">/*" + config_js_object + "*/</script>\n" +
