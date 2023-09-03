@@ -9,7 +9,7 @@ import { stateManager } from "./state-manager";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
- *  Universe  UwU  <3 <3 <3
+ *  Universe  OwO  <3 <3 <3
  *⭐        🌟🧋
  */ 
 export class Universe { 

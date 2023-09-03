@@ -30,6 +30,13 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     const meshRef = React.useRef<Mesh>(null);
     const [hovered, setHovered] = useState(false);
 
+
+    const linkPosition = props.linkPosition || [0,0, -0.35];
+
+    if (hovered) {
+        linkPosition[2] = -0.75;
+    }
+
     return (
         
         <group  className="navigation" 
@@ -43,12 +50,15 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                      onBlur={(event: XRInteractionEvent) => {  setHovered(false); }}
             >
                 <mesh ref={meshRef}
-                    position={props.linkPosition || [0, 0,-0.6]} 
+                    position={linkPosition} 
                     visible={location == props.location || hovered} >
-                    <boxGeometry args={props.linkShape || [0.5,0.5,0.5]} />
-                    <meshLambertMaterial color={hovered 
-                                ? Universe.colors.accent3
-                                : Universe.colors.background2} />
+                    <boxGeometry args={props.linkShape || [ 0.5, 0.5, hovered ? 0.1 : 0.5]} 
+                                                          />
+                    <meshLambertMaterial 
+                        attach="material"
+                        transparent={hovered}
+                        opacity={hovered ? 0.7 : 1.0}
+                        color={Universe.colors.background2} />
                 </mesh>
                 <TextH3 onPointerOver={() => { 
                             setHovered(true);

@@ -13,7 +13,7 @@ export const WaterFall = (p: WaterFallProps) => {
         <Entity position={p.position} rotation={p.rotation} editMode={true}>
             <mesh position={[0,-50,0]}>
                 <boxGeometry args={[2,100,0.5]} />
-                <meshLambertMaterial transparent={true} opacity={0.5} color={SyntaxHighlight.Sequence} />
+                <meshLambertMaterial transparent={true} opacity={0.4} color={SyntaxHighlight.Sequence} />
             </mesh>
             {p.children}
         </Entity>

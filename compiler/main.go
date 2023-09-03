@@ -141,7 +141,7 @@ func main() {
 			// only process markdown files that are not hidden
 			if path[len(input_root)+1] != byte('.') && filepath.Ext(path) == ".md" {
 
-				fmt.Printf("File: %s\n", path)
+				fmt.Printf("File: %s", path)
 				elements := strings.Split(path, "/")
 
 				// check if the last element contains 3 dots,

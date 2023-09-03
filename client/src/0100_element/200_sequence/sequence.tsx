@@ -1,5 +1,5 @@
 import React, { JSXElementConstructor, ReactElement, ReactNode, useContext, useEffect } from "react";
-import { Group, Mesh } from "three";
+import { Box3, BoxHelper, Group, Mesh, Object3D, Vector3 } from "three";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { text } from "stream/consumers";
 import { DiagnosticState, diagnosticState } from "../../0000/r3f-debug";
@@ -7,6 +7,7 @@ import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextSpan } from "../../0200_component/flat/typography/span";
 import { wrapText } from "../../0000_concept/responsive-document";
 import { Universe } from "../../0000_concept/universe";
+import { useLocation } from "wouter";
 
 // Structural Sequence:
 
@@ -48,28 +49,6 @@ export function calculateBufferedItemVisibility(
 }
 
 
-function backgroundShapeForDirection(direction: "x" | "y" | "z"): [number, number, number] {
-    switch (direction) {
-        case "x":
-            return [0.1,3,4];
-        case "y":
-            return [4,0.1,3];
-        case "z":
-            return [4,3,0.1];
-    }
-}
-
-function backgroundPositionForDirection(direction: "x" | "y" | "z", position: [number, number, number]): [number, number, number] {
-    switch (direction) {
-        case "x":
-            return [position[0]*0.5-0.25, -0.5, 0];
-        case "y":
-            return [-0.5, position[1]*0.5-0.25, 0];
-        case "z":
-            return [0, -0.5, position[2]*0.5-0.25];
-    }
-}
-
 function positionForDirection(xFunction = (x: number)=>0, yFunction=(y: number)=>0, zFunction = (z: number)=>0,
 	                      direction: "x" | "y" | "z", polarity: 1 | -1, padding: number, index: number): [number, number, number] {
     switch (direction) {
@@ -91,15 +70,143 @@ function getPosition(props: SequenceProps, index: number) {
 }
 
 
-function computeLayout(direction: "x" | "y" | "z", group: THREE.Object3D, levels = 0) {
-    // check if each child is a mesh or group:
-    // if it's a mesh, then we can just use the bounding box to compute the layout
-    // if it's a group, then we need to compute the layout of the group, and then use that to compute the layout of the parent group
-    let height = 0;
+function approximateR3FTextWidth(child: Mesh, direction: "x" | "y" | "z", width: number) {
+    if ((child as any).__r3f) {
+        const props = (child as any).__r3f.memoizedProps;
+        
+        if (props.text && props.text.length > 0) {
+            // it's some text!!  we need to compute the width of the text
+            
+            if (direction == "x") {
+                return          width + 1 + (props.text.length * 0.52 * props.scale[0]);
+            } else {
+                return Math.max(width,  1 + (props.text.length * 0.52 * props.scale[0]));
+            }
+        }
+    }
+
+    return width;
+}
+
+
+function approximateR3FTextHeight(child: Mesh, direction: "x" | "y" | "z", height: number) {
+    if ((child as any).__r3f) {
+        const props = (child as any).__r3f.memoizedProps;
+        if (props.text && props.text.length > 0) {
+            // it's some text!!  we need to compute the height of the text
+            // to handle the async updating of the text geometry, 
+            // It might require forking drei and adding a callback to the Text component,
+            // For now, for the sake of simplicity, an approximation of the height is used:
+            if (direction == "y") {
+                return          height + (1.05 * props.scale[1]);
+            } else {
+                return Math.max(height,  (1.05 * props.scale[1]));
+            }
+        }
+    }
+
+    return height;
+}
+
+
+
+function  getGroupWidth(direction: "x" | "y" | "z", group: THREE.Group): number {
     let width = 0;
 
     group.children.forEach((child) => {
+        if (child.type == "Mesh") {
+            (child as Mesh).geometry.computeBoundingBox();
+            const box = (child as Mesh).geometry.boundingBox;
+            
+            if (box != null && box.max.x !== -Infinity) {
+                if (direction == "x") {
+                    width += box.max.x - box.min.x;
+                } else {
+                    width = Math.max(width, box.max.x - box.min.x);
+                }
+            } else {
+                const approximateWidth = approximateR3FTextWidth(child as Mesh, direction, width);
+                
+                console.log("direction: ",direction, "approximate width:", approximateWidth);
+                width += approximateWidth;
+            }
+        } else if (child.type == "Group") {
+            width += getGroupWidth(child.userData.direction, child as THREE.Group);
+        }
+    });
+
+    return width;
+}
+
+function getGroupHeight(direction: "x" | "y" | "z", group: THREE.Group): number {
+    let height = 0;
+    
+    group.children.forEach((child) => {
+        if (child.type == "Mesh") {
+            (child as Mesh).geometry.computeBoundingBox();
+            const box = (child as Mesh).geometry.boundingBox;
+            
+            if (box != null && box.max.y !== -Infinity) {
+                
+                if (direction == "y") {
+                    height += box.max.y - box.min.y;
+                } else {
+                    height = Math.max(height, box.max.y - box.min.y);
+                }
+            } else {
+                const approximateHeight = approximateR3FTextHeight(child as Mesh, direction, height);
+                console.log("direction: ",direction, "approximate height:", approximateHeight);
+                
+                height += approximateHeight;
+            }
+
+        } else if (child.type == "Group") {
+
+            if (direction == "y") {
+                height += getGroupHeight(child.userData.direction, child as THREE.Group);
+            }
+        }
+    });
+
+    return height;
+}
+
+
+function computeLayout(direction: "x" | "y" | "z", group: THREE.Object3D): void {
+    // ⑂ check if each child is a mesh or group:
+    // ▪ If it's a mesh, then we can just use the bounding box to compute the layout
+    //       that is, if it's not a drei <Text> node, 
+    //       which there doesn't seem to be EventDispatcher::dispatch for when the geometry is updated,
+    //       so, we'll just approximate the width and height of the text for now.
+    // ▪ If it's a group, then we need to compute the layout of the group, and then use that to compute the layout of the parent group
+    let height = 0;
+    let width = 0;
+    
+    let layout_position_x = 0;
+    let layout_position_y = 0;
+
+    let previousItem: Object3D | null = null;
+
+    group.children.forEach((child, idx) => {
      
+        if (idx > 0) {
+
+            if (direction == "y" ) {
+                
+                child.position.y -= layout_position_y;
+                child.updateMatrixWorld(true);
+                //console.log("Update layout-Y📗 " + idx + " by", -layout_position_y, " to " + child.position.y);
+            } else if (direction == "x") {
+
+                if (previousItem)
+                layout_position_x += previousItem.position.x;
+
+                child.position.x += layout_position_x;
+                child.updateMatrixWorld(true);
+                console.log("Update layout-X📘 " + idx + " by", layout_position_x, " to " + child.position.x);
+            }
+        }
+
         if (child.type == "Mesh") {
             (child as Mesh).geometry.computeBoundingBox();
             const box = (child as Mesh).geometry.boundingBox;
@@ -108,74 +215,76 @@ function computeLayout(direction: "x" | "y" | "z", group: THREE.Object3D, levels
 
                 if (direction == "y") {
                     if (box.max.y !== -Infinity) {
-                        height += box.max.y - box.min.y;
+                        const itemHeight = box.max.y - box.min.y;
+
+                        layout_position_y += itemHeight;
+                        height += itemHeight;
+                    } 
+                    // else {
+                    //     const approximateHeight = approximateR3FTextHeight(child as Mesh, direction, height);
+                    //     console.log("direction: ",direction, "approximate height:", approximateHeight);
+                        
+                    //     layout_position_y += approximateHeight;
+                    //     height += approximateHeight;
+                    // }
+                } else if (direction == "x") {
+                    if (box.max.x !== -Infinity) {
+                        const itemWidth = box.max.x - box.min.x;
+
+                        layout_position_x += itemWidth;
+                        width += itemWidth;
+                    } else {
+                        const approximateWidth = approximateR3FTextWidth(child as Mesh, direction, width);
+                        
+                        console.log("direction: ",direction, "approximate width:", approximateWidth);
+                        layout_position_x += approximateWidth;
+                        width += approximateWidth;
                     }
                 }
             
-            }
+            } 
             
         } else if (child.type == "Group") {
-            let tallestItem = 0;
-            let lastWidth = 0;
+            const box = new BoxHelper( child, 0xffe000 );
+    
+            Universe.ctx3.scene.add( box );
 
-            child.children.forEach((g_child, g_idx: number) => {
 
-                if (g_child.type == "Mesh") {
-                    (g_child as Mesh).geometry.computeBoundingBox();
-                    const box = (g_child as Mesh).geometry.boundingBox;
-                    
-                    if (box != null) {
+            if (direction == "y") {
+                const itemHeight = getGroupHeight(child.userData.direction, child as THREE.Group);
+            
+                height += itemHeight;
+                layout_position_y += itemHeight;
+            
+            } 
+            else if (direction == "x") {
+                const itemWidth  = getGroupWidth(child.userData.direction, child as THREE.Group);
 
-                        if (direction == "y") {
-                            if (box.max.y !== -Infinity) {
-                                height += box.max.y - box.min.y;
-                            } 
-                        } else {
-                            if (box.max.y !== -Infinity) {
-                                tallestItem = Math.max(tallestItem, (box.max.y - box.min.y));
-                            }
-                        }
+                console.log("x direction📘 itemWidth📦⇔", itemWidth, "layoutPositionX📘🏗", layout_position_x);
 
-                        console.log("2nd level Mesh.parent.userData: ", child.userData)
-                        if (child.userData.direction == "x") {
-                            
-                            console.log("2nd level Mesh is in a horizontal sequence, with lastWidth: ", lastWidth);
-                            if (box.max.x !== -Infinity) {
-                                
-                                if (lastWidth > 0) {
-                                    g_child.position.x += lastWidth;
-                                    g_child.updateMatrixWorld(true);
-                                }
-                                
-                                lastWidth = box.max.x - box.min.x;
-                                console.log("lastWidth: ", lastWidth);
-                                width += lastWidth;
-                            } 
-                        }
-                    }
-
-                } else if (g_child.type == "Group") {
-
-                    height += computeLayout(g_child.userData.direction, g_child, levels+1);
-                }
- 
-            });
-
-            height += tallestItem;
+                width += itemWidth;
+                layout_position_x += itemWidth;
+            }
 
         }
+
+        // todo: justification prop (left, center, right)
+        if (idx === 0) {
+            if (direction == "x") {
+                // Left justified by default
+                child.position.x += layout_position_x / 2.0;
+                child.updateMatrixWorld(true);
+            }
+        }
+
+        previousItem = child;
     });
 
-    if (levels == 0 || direction == "y") {
-        group.position.y -= height * 0.5;
-        group.updateMatrixWorld(true);
-    }
+    group.position.x -= width  * 0.5;
+    //group.position.y -= height * 0.5;
+    
+    group.updateMatrixWorld(true);
 
-    if (levels > 1 || direction == "x") {
-        console.log("levels > 1 and direction='x' ", group);
-    }
-
-    return height;
 }
 
 export const Sequence = (props: SequenceProps) => {
@@ -193,18 +302,19 @@ export const Sequence = (props: SequenceProps) => {
 
     let dynamicIndex = 0;
 
+    const [location] = useLocation();
     const groupRef = React.useRef<THREE.Group>(null);
 
     useEffect(() => {
         if (!props.staticLayout && groupRef.current) {
-            computeLayout(props.direction, groupRef.current);
+            computeLayout(props.direction, groupRef.current);     
         }
-    }, [groupRef]);
+    }, [groupRef, location]);
 
     return (
         <SequenceContext.Provider value={{direction: props.direction}}>
         <group position={props.position || [0,0,0]}
-               rotation={props.rotation || [0,0,0]}
+               rotation={props.rotation || [0,0,0]} 
                ref={groupRef}
                userData={{direction: props.direction}}
         >
@@ -225,7 +335,7 @@ export const Sequence = (props: SequenceProps) => {
                         
                         return (
                             <group key={dynamicIndex} 
-                                   position={getPosition(props, dynamicIndex++)}
+                                   position={props.staticLayout ? getPosition(props, dynamicIndex++) : [0,0,0]}
                                    rotation={[
                                        props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
                                        props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,
@@ -245,7 +355,9 @@ export const Sequence = (props: SequenceProps) => {
             
             return React.cloneElement(element as ReactElement<any>, 
                 { ...((element as any).props),
-                    position: getPosition(props, dynamicIndex++),
+                    position: (props.staticLayout || props.direction != "y") 
+                                ? getPosition(props, dynamicIndex++) 
+                                : [0,0,0],
                     rotation: [
                             props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
                             props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,

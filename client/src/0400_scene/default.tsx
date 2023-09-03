@@ -21,8 +21,6 @@ export const DefaultScene = () => {
         
         // page url changed, for example /, or /cv, or /articles/designing-fursuit 
         SGS.loadContent(location).subscribe(() => {
-            console.log("Hmm.. is react a good framework actually?");
-            console.log("well, this should update. Let's see");
             setUpdate(update + 1);
         });
 
