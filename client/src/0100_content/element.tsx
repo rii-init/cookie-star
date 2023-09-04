@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 import { Sequence } from "../0100_element/200_sequence/sequence"
 import { LinkSurface } from "../0200_component/flat/navigation-surface/LinkSurface"
 import { TextDiv } from "../0200_component/flat/typography/div"
@@ -16,15 +17,27 @@ import { htmlNodeFilter } from "./filter"
 import { Parser } from "./parser"
 
 
-export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>) {
+export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, 
+                              cssLayout?: boolean,
+                              layoutCoords?: [number, number, number]): ReactNode[] 
+{
     return Array.from(nodes)
                 .filter(htmlNodeFilter)
                 .map((node) => {
-                    return EvalHTMLToReactElement(node as HTMLElement)
+                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, layoutCoords)
                 })
 }
 
-export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
+function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect): [number, number, number] {
+    return [
+        ( (boundingBox.left + boundingBox.width / 2) - window.innerWidth  / 2) / 156,
+        (window.innerHeight / 2 -(boundingBox.top + boundingBox.height / 2))       / 156,
+        0 // Now that layout is more generalised, 
+          // Specifying the coordinate system needs to be reworked.
+    ]
+}
+
+export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, relativeTo?: [number, number, number]): React.ReactNode {
     // It's not uncommon for there to be attributes:
     // They might be a data structure that has to be parsed:
     if (node.nodeName === '#text') {
@@ -35,26 +48,43 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
                     
         const attrs = Parser.parse(node as HTMLElement)
 
+        let layoutCoords: [number, number, number] | undefined = undefined;
+
+        if (cssLayout) {
+            const boundingBox = node.getBoundingClientRect();
+
+            layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox);
+
+
+            if (relativeTo) {
+                layoutCoords[0] -= relativeTo[0];
+                layoutCoords[1] -= relativeTo[1];
+                layoutCoords[2] -= relativeTo[2];
+            }
+        }
+
+
         switch (node.nodeName) {
             case "SPAN":
-                return <TextSpan {...attrs}>
-                            { filterAndEvalNodes(node.childNodes) }
-                </TextSpan>
+                return <TextSpan {...attrs} position={layoutCoords}>
+                            { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
+                       </TextSpan>
                 
-
             case "H1":
-                return <TextH1 {...attrs}>{(node as HTMLElement).textContent}</TextH1>
+                return <TextH1 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH1>
             case "H2":
-                return <TextH2 {...attrs}>{(node as HTMLElement).textContent}</TextH2>
+                return <TextH2 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH2>
             case "H3":
-                return <TextH3 {...attrs}>{(node as HTMLElement).textContent}</TextH3>
+                return <TextH3 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH3>
             case "H4":
-                return <TextH4 {...attrs}>{(node as HTMLElement).textContent}</TextH4>
+                return <TextH4 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH4>
 
             case "A":
-                return <LinkSurface location={attrs.href || (node as HTMLElement).textContent}>
+                return <LinkSurface location={attrs.href || (node as HTMLElement).textContent}
+                                    position={layoutCoords}
+                       >
                     {(node as HTMLElement).textContent}
-                </LinkSurface>
+                       </LinkSurface>
 
             // If someone has the audacity to use a p tag or a div, they might be doing something complicated,
             // so we're going to check if there's more elements inside of it:
@@ -65,29 +95,29 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
                     }
                 }
                 
-                return  <TextP {...attrs}>
-                            { filterAndEvalNodes(node.childNodes) }
+                return  <TextP {...attrs} position={layoutCoords}>
+                            { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
                         </TextP>
                             
             case "DIV":
-                return <TextDiv { ...attrs}>
-                            { filterAndEvalNodes(node.childNodes) }
+                return <TextDiv { ...attrs} position={layoutCoords}>
+                            { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
                        </TextDiv>
             
             case "UL":
-                return <Sequence direction={attrs.direction} {...attrs}>
+                return <group {...attrs} position={layoutCoords}>
                         {
-                            filterAndEvalNodes(node.childNodes)
+                            filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords)
                         }
-                      </Sequence>
+                      </group>
 
             case "OL":
-                return <Sequence direction={attrs.direction} {...attrs}>
+                return <group position={layoutCoords} {...attrs}>
                         {
                             Array.from(node.childNodes)
                             .filter(htmlNodeFilter)
                             .map((childNode, idx: number) => {
-                                const listItemContents = filterAndEvalNodes(childNode.childNodes);
+                                const listItemContents = filterAndEvalNodes(childNode.childNodes, cssLayout, layoutCoords);
 
                                 return listItemContents.length > 1 
                                     ? <group>
@@ -98,34 +128,34 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
 
                             })
                         }
-                       </Sequence>
+                       </group>
 
 
             case "LI":
-                const listItemContents = filterAndEvalNodes(node.childNodes);
+                const listItemContents = filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords);
 
                 return listItemContents.length > 1
                     ? (
-                        <Sequence direction="x">
+                        <group position={layoutCoords}>
                             { listItemContents }
-                        </Sequence>
+                        </group>
                     )
                     : listItemContents[0];
 
             // Cool and awesome components:   
             // Going to generate this part of the file, in v2:
             case "SEQUENCE":
-                return <Sequence direction={attrs.direction || "y"} {...attrs}>
+                return <Sequence direction={attrs.direction || "y"} position={layoutCoords} {...attrs}>
                             { 
                                 Array.from(node.childNodes)
                                 .filter(htmlNodeFilter)
                                 .flatMap((childNode) => {
                                     if (["UL", "OL"].includes(childNode.nodeName)) {
                                         
-                                        return filterAndEvalNodes(childNode.childNodes)
+                                        return filterAndEvalNodes(childNode.childNodes, false)
                                     }
 
-                                    return EvalHTMLToReactElement(childNode as HTMLElement)
+                                    return EvalHTMLToReactElement(childNode as HTMLElement, false)
                                 })
                             }
                        </Sequence>
@@ -135,7 +165,7 @@ export function EvalHTMLToReactElement(node: HTMLElement): React.ReactNode {
 
             case "SKYISLAND":
                 return <SkyIsland position={attrs.position} {...attrs}>
-                    { filterAndEvalNodes(node.childNodes) }
+                    { filterAndEvalNodes(node.childNodes, false) }
                 </SkyIsland>
 
             case "WATERSTREAM":

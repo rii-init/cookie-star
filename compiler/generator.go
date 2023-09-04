@@ -30,7 +30,8 @@ func RenderPage(input_root string, output_root string, path string, elements []s
 func prepareIndexHTML(file_root string, output_root string) {
 
 	cp.Copy(file_root+"client/build", output_root)
-	cp.Copy(file_root+"content/manifest.json", output_root)
+	cp.Copy(file_root+"content/manifest.json", output_root+"/manifest.json")
+	cp.Copy(file_root+"content/default.css", output_root+"/default.css")
 
 	cp.Copy(output_root+"/index/index.html", output_root+"/index.html")
 	rmErr := os.RemoveAll(output_root + "/index")

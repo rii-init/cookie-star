@@ -100,9 +100,7 @@ function App() {
                 <MagnetismContext.Provider value={Universe.magnetism}>
                   <ScrollingBuffer>
                       <Router>
-                          <group className="App-header">
-                              <RouterNavigationSurface />
-                          </group>
+                          <RouterNavigationSurface />
                           <Switch>
                             <Route path="/"             component={DefaultScene} />
                             <Route path="/:thing"       component={DefaultScene} />

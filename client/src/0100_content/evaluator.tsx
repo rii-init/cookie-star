@@ -15,7 +15,11 @@ export function Evaluator (props: { location: string, update: number }) {
            Array.from(document.querySelector("body main")?.childNodes ?? [])
                 .filter(htmlNodeFilter)    
                 .map((node) => {
-                    return EvalHTMLToReactElement(node as HTMLElement)
+                    
+                    return EvalHTMLToReactElement(
+                        node as HTMLElement, 
+                        node.nodeName !== "SEQUENCE" // currently the only custom container component
+                    );
                 })
 
         }

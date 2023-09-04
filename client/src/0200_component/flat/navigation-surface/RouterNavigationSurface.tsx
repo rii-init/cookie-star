@@ -16,10 +16,8 @@ export const RouterNavigationSurface = () => {
     const offset = [0,-0.1, 0.4] as [number, number, number];
 
     return (
-      <group className="navigation">
-
-        <Sequence direction="x" polarity={1} 
-                                position={[-1.32,1.6,-1]} 
+      <Sequence direction="x" polarity={1} 
+                                position={[-1.32,4,-1]} 
                              itemPadding={-0.333}
                              staticLayout={true}>
           {
@@ -33,8 +31,6 @@ export const RouterNavigationSurface = () => {
                                                     : "../" }
             </LinkSurface>)
           }
-        </Sequence>
-
-      </group>
+      </Sequence>
     );
   };
