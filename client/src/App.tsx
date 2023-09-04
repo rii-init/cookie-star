@@ -43,7 +43,7 @@ function App() {
       <div id="ui_2d__button_container">
           <Settings />
           <VRButton className="ui_2d__button" />
-        </div>
+      </div>
 
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
@@ -53,6 +53,8 @@ function App() {
         >
           <color attach="background" 
                    args={Universe.colors.background} />
+          
+          { !Universe.ctx3 ? <ThreeJSContext /> : null }
           <XR
             onSessionStart={(event) => {
               Universe.xrMode = true;
@@ -68,7 +70,6 @@ function App() {
               Universe.xrMode = false;
             }}
           >
-            <ThreeJSContext />
             <ResizeCanvas />
             
             <Controllers hideRaysOnBlur={true} />
