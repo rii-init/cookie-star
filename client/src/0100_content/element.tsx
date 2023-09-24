@@ -15,6 +15,7 @@ import { WaterFall } from "../0300_entity/sky-island/water.fall"
 import { WaterStream } from "../0300_entity/sky-island/water.stream"
 import { htmlNodeFilter } from "./filter"
 import { Parser } from "./parser"
+import { Color } from "three"
 
 
 export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, 
@@ -24,6 +25,23 @@ export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>,
     return Array.from(nodes)
                 .filter(htmlNodeFilter)
                 .map((node) => {
+
+                    if (nodes.length > 1 && node.nodeName === '#text') {
+                        const text    = (node as HTMLElement).textContent;
+                        const parent  = node.parentElement
+                            
+                        if ( !parent) {
+                            return null
+                        }
+                
+                        parent.removeChild(node);
+                
+                        node = document.createElement('span');
+                        node.textContent = text;
+                        
+                        parent.appendChild(node);
+                    }
+
                     return EvalHTMLToReactElement(node as HTMLElement, cssLayout, layoutCoords)
                 })
 }
@@ -31,7 +49,7 @@ export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>,
 function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect): [number, number, number] {
     return [
                                 ((boundingBox.left + boundingBox.width  / 2) - window.innerWidth  / 2) / 52,
-        (window.innerHeight / 2 -(boundingBox.top  + boundingBox.height / 2))                          / 52,
+        (window.innerHeight / 2 -(boundingBox.top  + boundingBox.height / 2))                          / 52 - 6,
         0 // Now that layout is more generalised, 
           // Specifying the coordinate system needs to be reworked.
     ]
@@ -39,14 +57,13 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect): [number, nu
 
 export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, relativeTo?: [number, number, number]): React.ReactNode {
     
-    // It's not uncommon for there to be attributes:
-    // They might be a data structure that has to be parsed:
     if (node.nodeName === '#text') {
         return (
             <TextSpan position={relativeTo}>{(node as HTMLElement).textContent}</TextSpan>
         )
-    }
+    }    
     
+
     // Some components handle their own layout:
     // For most most components, the browsers layout engine is used:
     let layoutCoords: [number, number, number] | undefined = undefined;
@@ -63,14 +80,22 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         }
     }
     
-                    
+    // It's not uncommon for there to be attributes:
+    // They might be a data structure that has to be parsed:
     const attrs = Parser.parse(node as HTMLElement)
 
     
     switch (node.nodeName) {
         case "SPAN":
             return <TextSpan {...attrs} position={layoutCoords}>
-                            { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
+                            { 
+                                    node.childNodes.length      == 1        
+                                &&  node.childNodes[0].nodeName == "#text"
+                                        
+                                    ? node.childNodes[0].textContent
+                                        
+                                    : filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) 
+                            }
                    </TextSpan>
                 
         case "H1":
@@ -99,21 +124,32 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
             }
             
             return  <TextP {...attrs} position={layoutCoords}>
-                        { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
+                        { 
+                            node.childNodes.length      == 1
+                        &&  node.childNodes[0].nodeName == "#text"
+                            ? node.childNodes[0].textContent
+                            : filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) 
+                        }
                     </TextP>
                         
         case "DIV":
             return <TextDiv { ...attrs} position={layoutCoords}>
                         { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
                    </TextDiv>
-        
+        case "OL":
         case "UL":
             console.log("UL, position: ", layoutCoords, "relative to: ", relativeTo);
+            //
             return <group {...attrs} position={layoutCoords}>
+                        <mesh position={[0,0,0]}>
+                            <boxBufferGeometry attach="geometry" args={[1,1,1]} />
+                            <meshBasicMaterial attach="material" color={new Color(0xffc500)} wireframe={true} />
+                        </mesh>
                     {
                         filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords)
                     }
                    </group>
+        /**
         case "OL":
             return <group position={layoutCoords} {...attrs}>
                     {
@@ -132,7 +168,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                             })
                         }
                     </group>
-
+        **/
 
         case "LI":
             const listItemContents = filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords);

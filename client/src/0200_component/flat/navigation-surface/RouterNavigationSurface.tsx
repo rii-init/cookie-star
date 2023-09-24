@@ -18,6 +18,7 @@ export const RouterNavigationSurface = () => {
     return (
       <Sequence direction="x" polarity={1} 
                                 position={[-1.32,4,-1]} 
+                                rotation={[Math.PI / 8, 0, 0]}
                              itemPadding={-0.333}
                              staticLayout={true}>
           {

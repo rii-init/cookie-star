@@ -27,8 +27,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "generate": "./generate.sh",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "render":   "./re-render.sh",
+    "test":     "jest",
+    "eject":    "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
