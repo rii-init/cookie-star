@@ -18,7 +18,8 @@ export function Evaluator (props: { location: string, update: number }) {
                     
                     return EvalHTMLToReactElement(
                         node as HTMLElement, 
-                        node.nodeName !== "SEQUENCE" // currently the only custom container component
+                        node.nodeName !== "SEQUENCE", // currently the only custom container component
+                        true
                     );
                 })
 

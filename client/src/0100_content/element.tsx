@@ -15,7 +15,6 @@ import { WaterFall } from "../0300_entity/sky-island/water.fall"
 import { WaterStream } from "../0300_entity/sky-island/water.stream"
 import { htmlNodeFilter } from "./filter"
 import { Parser } from "./parser"
-import { Color } from "three"
 
 
 export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, 
@@ -42,20 +41,22 @@ export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>,
                         parent.appendChild(node);
                     }
 
-                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, layoutCoords)
+                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, false, layoutCoords)
                 })
 }
 
-function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect): [number, number, number] {
+function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boolean): [number, number, number] {
+    const verticalOffset = (0.5 * window.innerHeight);
+    
     return [
                                 ((boundingBox.left + boundingBox.width  / 2) - window.innerWidth  / 2) / 52,
-        (window.innerHeight / 2 -(boundingBox.top  + boundingBox.height / 2))                          / 52 - 6,
+       (((verticalOffset      - (boundingBox.top  + boundingBox.height / 2))                          / 52) - 6),
         0 // Now that layout is more generalised, 
           // Specifying the coordinate system needs to be reworked.
     ]
 }
 
-export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, relativeTo?: [number, number, number]): React.ReactNode {
+export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean, relativeTo?: [number, number, number]): React.ReactNode {
     
     if (node.nodeName === '#text') {
         return (
@@ -71,13 +72,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
     if (cssLayout) {
         const boundingBox = node.getBoundingClientRect();
 
-        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox);
-
-        if (relativeTo) {
-            layoutCoords[0] -= relativeTo[0];
-            layoutCoords[1] -= relativeTo[1];
-            layoutCoords[2] -= relativeTo[2];
-        }
+        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox, root);
     }
     
     // It's not uncommon for there to be attributes:
@@ -140,15 +135,11 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         case "UL":
             console.log("UL, position: ", layoutCoords, "relative to: ", relativeTo);
             //
-            return <group {...attrs} position={layoutCoords}>
-                        <mesh position={[0,0,0]}>
-                            <boxBufferGeometry attach="geometry" args={[1,1,1]} />
-                            <meshBasicMaterial attach="material" color={new Color(0xffc500)} wireframe={true} />
-                        </mesh>
+            return <>
                     {
                         filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords)
                     }
-                   </group>
+                   </>
         /**
         case "OL":
             return <group position={layoutCoords} {...attrs}>
@@ -171,13 +162,22 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         **/
 
         case "LI":
-            const listItemContents = filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords);
+            const listItemContents = 
+                    (
+                        node.childNodes.length == 1 
+                        &&
+                        node.childNodes[0].nodeName == "P"
+                        &&
+                        node.childNodes[0].childNodes.length == 1
+                    )
+                    ?   [ 
+                            EvalHTMLToReactElement(node.childNodes[0].childNodes[0] as HTMLElement, cssLayout, false, layoutCoords) 
+                        ]
+                    :   filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords);
 
             return listItemContents.length > 1
                 ? (
-                    <group position={layoutCoords}>
-                        { listItemContents }
-                    </group>
+                    <>{ listItemContents }</>
                 )
                 : listItemContents[0];
 
@@ -194,7 +194,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                                     return filterAndEvalNodes(childNode.childNodes, false)
                                 }
 
-                                return EvalHTMLToReactElement(childNode as HTMLElement, false)
+                                return EvalHTMLToReactElement(childNode as HTMLElement, false, false)
                             })
                         }
                    </Sequence>
