@@ -33,12 +33,11 @@ export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>,
                             return null
                         }
                 
-                        parent.removeChild(node);
-                
-                        node = document.createElement('span');
-                        node.textContent = text;
+                        const newNode = document.createElement('span');
+                        newNode.textContent = text;
                         
-                        parent.appendChild(node);
+                        parent.insertBefore(newNode, node);
+                        parent.removeChild(node);
                     }
 
                     return EvalHTMLToReactElement(node as HTMLElement, cssLayout, false, layoutCoords)
