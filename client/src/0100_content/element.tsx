@@ -62,7 +62,7 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boole
                                                     ?  boundingBox.width  / 2 
                                                     : 0
                                                ) 
-                                             - window.innerWidth  / 2)          / 52,
+                                             - window.innerWidth  / 2)          / 138,
        (((verticalOffset - (boundingBox.top  +         boundingBox.height / 2)) / 52) - 6),
         0 // Now that layout is more generalised, 
           // Specifying the coordinate system needs to be reworked, to accomodate for 3D space.
