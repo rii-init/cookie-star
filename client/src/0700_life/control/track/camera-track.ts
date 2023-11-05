@@ -30,7 +30,9 @@ export class CameraTrack {
 	}
 
    	public init() {
-		this.poses = this.defaultCameraPoses();
+		if (this.poses.length == 0) {
+			this.poses = this.defaultCameraPoses();
+		}
    	}
 
 	public setCameraPosesToDefault() {
@@ -38,8 +40,15 @@ export class CameraTrack {
 		this.calculateMaxScroll();
 	}
 
-	public setCameraPoses(poses: CameraPose[]) {
-		this.poses = poses;
+	public setCameraPoses = (poses: CameraPose<[number, number, number]>[]) => {
+
+		this.poses = poses.map(pose => {
+			return {
+				position: new Vector3(...pose.position),
+				target:   new Vector3(...pose.target)
+			}
+		});
+		
 		this.calculateMaxScroll();
 	}
 

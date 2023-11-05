@@ -1,6 +1,14 @@
 node_modules
 secrets
 ultr7a.com
+server/server
+compiler/compiler
+compiler/**/*.js
 client/build/buffer
+content/**
+content/**/*
+surface/*
+client/src/sitemap.json
 *.spec.js
+go.work
 .vscode

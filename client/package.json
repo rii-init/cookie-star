@@ -25,12 +25,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && ./linker.sh",
-    "serve": "react-scripts build && ./linker.sh && cd ../server && go build && ./ultr7a.com && cd ../client",
-    "up": "cd ../server && go build && ./ultr7a.com && cd ../client",
-    "down": "kill $(pidof ultr7a.com)",
-    "test": "jest",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build",
+    "generate": "./generate.sh",
+    "render":   "./re-render.sh",
+    "test":     "jest",
+    "eject":    "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

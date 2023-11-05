@@ -21,6 +21,7 @@ export interface ThreeCTXProps {
 }
 
 export let ThreeJSContext = function() {
+
     const ctx = useThree() as CTX3;
     Universe.ctx3 = ctx;              
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)

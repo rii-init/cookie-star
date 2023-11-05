@@ -1,10 +1,9 @@
-import THREE, { BackSide, Mesh, MeshBasicMaterial, SphereGeometry, Vector2 } from "three"
+import THREE, { BackSide, Mesh } from "three"
 import { Universe } from "../../0000_concept/universe"
 import { themeIdx } from "../../1000_aesthetic/visual-theme.manager"
 import { CloudFormation } from "./cloud.formation"
 import { Galaxy } from "./galaxy"
 import { useLayoutEffect, useRef } from "react"
-import { useFrame } from "@react-three/fiber"
 
 
 const fragmentShader = /* glsl */ `
@@ -69,6 +68,7 @@ export const SkySphereMaterial = (p: {
 }
 
 export const Atmosphere = () => {
+ 
     const skyRef = useRef<Mesh>(null);
 
      useLayoutEffect(() => {

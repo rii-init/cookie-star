@@ -1,5 +1,5 @@
 [Unit]
-Description=UwU Ultr7A
+Description=J. R. Evans
 
 [Service]
 ExecStart=INSTALL_DIR/server/service.sh
