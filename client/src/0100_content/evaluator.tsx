@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { EvalHTMLToReactElement } from './element';
 import { htmlNodeFilter } from './filter';
 
@@ -8,6 +9,8 @@ interface TextChildNode {
 }
 
 export function Evaluator (props: { location: string, update: number }) {
+    
+    console.log("input dom: ", document.querySelector("body main")?.childNodes ?? [])
 
     return (
         <>

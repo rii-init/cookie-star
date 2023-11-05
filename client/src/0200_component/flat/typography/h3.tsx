@@ -6,16 +6,23 @@ export interface TextH3Props {
     color?: string;
     scaling?: number;
     position?: [number, number, number];
+    
+    justify?: "left" | "center" | "right";
+
+    meshRef?: React.RefObject<THREE.Mesh>;
+
     onPointerOver?: () => void;
     onPointerOut?: () => void;
+
 }
 
 export const TextH3 = (p: TextH3Props) => {
     return (
-        <Text position={p.position || [0, 0, 0]}
+        <Text      ref={p.meshRef}
+              position={p.position || [0, 0, 0]}
                  scale={[0.25 * (p.scaling||1) , 0.25 * (p.scaling||1), 0.25 * (p.scaling||1)]}
                  color={p.color || Universe.colors._foreground} // default
-               anchorX="center" // default
+               anchorX={p.justify || "left"}
                anchorY="middle" // default
                onPointerOver={(event) => p.onPointerOver && p.onPointerOver()}
                 onPointerOut={(event) => p.onPointerOut && p.onPointerOut()}

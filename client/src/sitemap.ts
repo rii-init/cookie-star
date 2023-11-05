@@ -51,6 +51,12 @@ export const siteMap = {
         "path": "/test",
         "title": "Test"
       }
+    ],
+    "resume": [
+      {
+        "path": "",
+        "title": "Resume"
+      }
     ]
   }
 }

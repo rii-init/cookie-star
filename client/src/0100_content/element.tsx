@@ -15,65 +15,86 @@ import { WaterFall } from "../0300_entity/sky-island/water.fall"
 import { WaterStream } from "../0300_entity/sky-island/water.stream"
 import { htmlNodeFilter } from "./filter"
 import { Parser } from "./parser"
+import { TextNode } from "../0200_component/flat/typography/text-node"
 
 
-export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, 
-                              cssLayout?: boolean,
-                              layoutCoords?: [number, number, number]): ReactNode[] 
+export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, cssLayout?: boolean): ReactNode[] 
 {
     return Array.from(nodes)
                 .filter(htmlNodeFilter)
                 .map((node) => {
 
-                    if (nodes.length > 1 && node.nodeName === '#text') {
-                        const text    = (node as HTMLElement).textContent;
-                        const parent  = node.parentElement
+                    // if (nodes.length > 1 && node.nodeName === '#text') {
+                    //     const text    = (node as HTMLElement).textContent;
+                    //     const parent  = node.parentElement
                             
-                        if ( !parent) {
-                            return null
-                        }
+                    //     if ( !parent) {
+                    //         return null
+                    //     }<TextSpan position={layoutCoords}>{().textContent}</TextSpan>
                 
-                        const newNode = document.createElement('span');
-                        newNode.textContent = text;
-                        
-                        parent.insertBefore(newNode, node);
-                        parent.removeChild(node);
-                    }
+                    //     const newNode = document.createElement('span');
+                    //     newNode.textContent = text;
+                
+                    //     console.log("converting text node to span: ", text);
 
-                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, false, layoutCoords)
+                    //     parent.insertBefore(newNode, node);
+                    //     parent.removeChild(node);
+
+                    //     console.log("parent of text node", parent);
+                    // }
+
+                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, false)
                 })
 }
 
-function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boolean): [number, number, number] {
+const textBoundingRect = (textNode: HTMLElement): DOMRect => {
+    const  range = document.createRange();
+           range.selectNode(textNode);
+
+    return range.getBoundingClientRect();
+};
+
+function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boolean, convertHorizontalOrigin = true): [number, number, number] {
     const verticalOffset = (0.5 * window.innerHeight);
     
     return [
-                                ((boundingBox.left + boundingBox.width  / 2) - window.innerWidth  / 2) / 52,
-       (((verticalOffset      - (boundingBox.top  + boundingBox.height / 2))                          / 52) - 6),
+                           (boundingBox.left + (convertHorizontalOrigin 
+                                                    ?  boundingBox.width  / 2 
+                                                    : 0
+                                               ) 
+                                             - window.innerWidth  / 2)          / 52,
+       (((verticalOffset - (boundingBox.top  +         boundingBox.height / 2)) / 52) - 6),
         0 // Now that layout is more generalised, 
-          // Specifying the coordinate system needs to be reworked.
-    ]
+          // Specifying the coordinate system needs to be reworked, to accomodate for 3D space.
+    ];
 }
 
-export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean, relativeTo?: [number, number, number]): React.ReactNode {
+export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean): React.ReactNode {
     
-    if (node.nodeName === '#text') {
-        return (
-            <TextSpan position={relativeTo}>{(node as HTMLElement).textContent}</TextSpan>
-        )
-    }    
-    
-
+   
     // Some components handle their own layout:
     // For most most components, the browsers layout engine is used:
     let layoutCoords: [number, number, number] | undefined = undefined;
     
-    if (cssLayout) {
-        const boundingBox = node.getBoundingClientRect();
+ 
+    if (node.nodeName === '#text') {
+        const boundingBox = textBoundingRect(node);
 
-        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox, root);
-    }
+        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox, root, false);
+
+        return (
+            <TextNode position={layoutCoords}>{(node as HTMLElement).textContent}</TextNode>
+        )
+    } else {
+        if (cssLayout) {
+            const boundingBox = node.getBoundingClientRect();
     
+            layoutCoords = convertDOMCoordinatesToGLCoordinates(
+                                boundingBox, root, !(["SPAN", "A"].includes(node.nodeName)) 
+                            );
+        }
+    }    
+
     // It's not uncommon for there to be attributes:
     // They might be a data structure that has to be parsed:
     const attrs = Parser.parse(node as HTMLElement)
@@ -88,7 +109,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                                         
                                     ? node.childNodes[0].textContent
                                         
-                                    : filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) 
+                                    : filterAndEvalNodes(node.childNodes, cssLayout) 
                             }
                    </TextSpan>
                 
@@ -122,57 +143,42 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                             node.childNodes.length      == 1
                         &&  node.childNodes[0].nodeName == "#text"
                             ? node.childNodes[0].textContent
-                            : filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) 
+                            : filterAndEvalNodes(node.childNodes, cssLayout) 
                         }
                     </TextP>
                         
         case "DIV":
             return <TextDiv { ...attrs} position={layoutCoords}>
-                        { filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords) }
+                        { filterAndEvalNodes(node.childNodes, cssLayout) }
                    </TextDiv>
         case "OL":
         case "UL":
-            console.log("UL, position: ", layoutCoords, "relative to: ", relativeTo);
-            //
             return <>
-                    {
-                        filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords)
-                    }
+                    { filterAndEvalNodes(node.childNodes, cssLayout) }
                    </>
-        /**
-        case "OL":
-            return <group position={layoutCoords} {...attrs}>
-                    {
-                        Array.from(node.childNodes)
-                             .filter(htmlNodeFilter)
-                             .map((childNode, idx: number) => {
-                                const listItemContents = filterAndEvalNodes(childNode.childNodes, cssLayout, layoutCoords);
-
-                                return listItemContents.length > 1 
-                                    ? <group>
-                                        { <TextSpan>{ idx + 1 }</TextSpan> } 
-                                        { listItemContents                 }
-                                      </group>
-                                    : listItemContents[0]
-
-                            })
-                        }
-                    </group>
-        **/
-
+        
         case "LI":
             const listItemContents = 
-                    (
+                    ( 
                         node.childNodes.length == 1 
                         &&
-                        node.childNodes[0].nodeName == "P"
-                        &&
-                        node.childNodes[0].childNodes.length == 1
-                    )
-                    ?   [ 
-                            EvalHTMLToReactElement(node.childNodes[0].childNodes[0] as HTMLElement, cssLayout, false, layoutCoords) 
-                        ]
-                    :   filterAndEvalNodes(node.childNodes, cssLayout, layoutCoords);
+                        node.childNodes[0].nodeName == "#text"
+                    ) 
+                    ?  [ EvalHTMLToReactElement(node.childNodes[0] as HTMLElement, cssLayout, false) ] 
+                    
+                    : 
+                    (
+                        (
+                            node.childNodes.length == 1 
+                            &&
+                            node.childNodes[0].nodeName == "P"
+                            &&
+                            node.childNodes[0].childNodes.length == 1
+                        )
+                        ?   
+                            [ EvalHTMLToReactElement(node.childNodes[0].childNodes[0] as HTMLElement, cssLayout, false) ]
+                        :   filterAndEvalNodes(node.childNodes, cssLayout)
+                    );
 
             return listItemContents.length > 1
                 ? (

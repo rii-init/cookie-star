@@ -25,6 +25,8 @@ export const RouterNavigationSurface = () => {
             siteMap.pages.map( (page, index) =>
   	        <LinkSurface location={page.path}  
                          position={offset} 
+                          key={index}
+                          justify="center"
                      linkPosition={[0,0, -0.35]}>{ page.path != "/" 
                                                 ? page.title
                                                 : location=="/" 

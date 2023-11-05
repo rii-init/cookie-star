@@ -3,14 +3,14 @@ import { Universe } from "../../../0000_concept/universe";
 import { TextDebug } from "./text-debug";
 import { MutableRefObject, useState } from "react";
 
-export interface TextPProps {
+export interface TextNodeProps {
     children: React.ReactNode;
     color?: string;
     scaling?: number;
     position?: [number, number, number];
 }
 
-export const TextP = (p: TextPProps) => {
+export const TextNode = (p: TextNodeProps) => {
     const [ref, setRef] = useState<MutableRefObject<THREE.Mesh>>(null!);
 
     return (

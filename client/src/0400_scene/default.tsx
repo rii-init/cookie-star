@@ -21,6 +21,7 @@ export const DefaultScene = () => {
         
         // page url changed, for example /, or /cv, or /articles/designing-fursuit 
         SGS.loadContent(location).subscribe(() => {
+            console.log("content loaded (update Evaluator)");
             setUpdate(update + 1);
         });
 

@@ -5,6 +5,7 @@ import { Mesh } from "three";
 import { useLocation, Link } from "wouter";
 import { Universe } from "../../../0000_concept/universe";
 import { TextH3 } from "../typography/h3";
+import { TextDebug } from "../typography/text-debug";
 
 
 export interface LinkSurfaceProps {
@@ -12,6 +13,9 @@ export interface LinkSurfaceProps {
     position?:     [number, number, number];
     linkShape?:    [number, number, number];
     linkPosition?: [number, number, number];
+
+    justify?: "left" | "center" | "right";
+
     children:  React.ReactNode;
 }
 
@@ -49,7 +53,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                      onHover={(event: XRInteractionEvent) => { setHovered(true);   }}
                      onBlur={(event: XRInteractionEvent) => {  setHovered(false); }}
             >
-                <mesh ref={meshRef}
+                <mesh 
                     position={linkPosition} 
                     visible={location == props.location || hovered} >
                     <boxGeometry args={props.linkShape || [ 0.5, 0.5, hovered ? 0.1 : 0.5]} 
@@ -60,7 +64,9 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                         opacity={hovered ? 0.7 : 1.0}
                         color={Universe.colors.background2} />
                 </mesh>
-                <TextH3 onPointerOver={() => { 
+                <TextH3 meshRef={meshRef}
+                        justify={props.justify}
+                        onPointerOver={() => { 
                             setHovered(true);
                             Universe.user_controls.handlePointerOver(meshRef.current as any) } }
                         onPointerOut={() => {
@@ -68,6 +74,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                             Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
                     {props.children}
                 </TextH3>
+                <TextDebug meshRef={meshRef} /> 
             </Interactive>
         </group>
         
