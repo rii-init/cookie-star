@@ -74,7 +74,6 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                             Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
                     {props.children}
                 </TextH3>
-                <TextDebug meshRef={meshRef} /> 
             </Interactive>
         </group>
         
