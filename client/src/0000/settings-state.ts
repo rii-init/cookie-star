@@ -13,7 +13,7 @@ export class SettingsState {
     constructor() {
         let   str_version    = localStorage.getItem("version");
         let       version    = str_version === null ? null : parseInt(str_version);
-        const currentVersion = 7;
+        const currentVersion = 10;
 
         localStorage.setItem("version", currentVersion.toString());
 
@@ -23,7 +23,8 @@ export class SettingsState {
             if (localValue === null || version != currentVersion) {
                 this.controls[key as SettingsType].state 
               = this.controls[key as SettingsType].initial;
-                
+              
+                localStorage.setItem(key, this.controls[key as SettingsType].state.toString());
             } else {
                 this.controls[key as SettingsType].state = parseInt(localValue);
             }
@@ -33,7 +34,7 @@ export class SettingsState {
     public controls = {
         aa:          new Setting(1, 1, 2),
         animation:   new Setting(1, 1, 2),
-        visualTheme: new Setting(1, 0, 2),
+        visualTheme: new Setting(0, 0, 2),
     }
     
     nextValue(field: SettingsType) {

@@ -1,12 +1,6 @@
-import { useEffect } from 'react';
 import { EvalHTMLToReactElement } from './element';
 import { htmlNodeFilter } from './filter';
 
-
-interface TextChildNode {
-    nodeName: '#text';
-    nodeValue: string;
-}
 
 export function Evaluator (props: { location: string, update: number }) {
     
