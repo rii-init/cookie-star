@@ -10,8 +10,6 @@ interface TextChildNode {
 
 export function Evaluator (props: { location: string, update: number }) {
     
-    console.log("input dom: ", document.querySelector("body main")?.childNodes ?? [])
-
     return (
         <>
         {  

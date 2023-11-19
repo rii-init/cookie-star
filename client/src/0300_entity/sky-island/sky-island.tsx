@@ -2,41 +2,47 @@ import { ReactNode } from "react";
 import { Entity } from "..";
 import { MagneticField } from "../../0700_life/physical/magnetic-field";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
+import { Tree } from "./tree";
 
 export interface SkyIslandProps {
     children?: ReactNode
     position: [number, number, number]
+    spread?: number // How far apart the islands are
 }
 
 export const SkyIsland = (p: SkyIslandProps) => {
+    const spread = p.spread !== undefined ? p.spread : 1;
+
     return (
         <group position={p.position}>
             
             { p.children }
 
             <MagneticField>
-                <Entity editMode={true} position={[5, 2, -5]}>
-                    <boxGeometry    attach="geometry" args={[3,2,3]} />
+                <Entity editMode={true} position={[5*spread, 2, -5*spread]}>
+                    <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
                 </Entity>
             </MagneticField>
             
             <MagneticField>
-                <Entity                position={[-3.5,0,0]}>
-                    <boxGeometry   attach="geometry" args={[6,2,4]} />
+                <Entity                position={[-3.5*spread, 0, 0*spread]}>
+                    <boxGeometry         attach="geometry" args={[6,2,4]} />
                     <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
                 </Entity>
             </MagneticField>
 
             <MagneticField>
-                <Entity editMode={true} position={[-7, 0, -6.8]}>
-                    <boxGeometry    attach="geometry" args={[3,2,3]} />
+                <Entity editMode={true} position={[-7*spread, 0, -6.8*spread]}>
+                    <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
+                    
+                    <Tree   rotation={[0, -1.5/3*Math.PI, 0]} position={[0, 1.5, 0]} />
                 </Entity>
             </MagneticField>
             
-            <Entity     editMode={true} position={[3.25, 0, -6.5]}>
-                    <boxGeometry    attach="geometry" args={[3,2,3]} />
+            <Entity     editMode={true} position={[3.25*spread, 0, -6.5*spread]}>
+                    <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
             </Entity>
 

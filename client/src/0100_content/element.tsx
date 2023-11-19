@@ -58,12 +58,13 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boole
     const verticalOffset = (0.5 * window.innerHeight);
     
     return [
-                           (boundingBox.left + (convertHorizontalOrigin 
-                                                    ?  boundingBox.width  / 2 
-                                                    : 0
-                                               ) 
-                                             - window.innerWidth  / 2)          / 138,
-       (((verticalOffset - (boundingBox.top  +         boundingBox.height / 2)) / 52) - 6),
+               (boundingBox.left + (convertHorizontalOrigin 
+                                        ?  boundingBox.width  / 2 
+                                        : 0
+                                   ) 
+                                 - window.innerWidth  / 2)          / 138,
+       (((
+             - (boundingBox.top  +         boundingBox.height / 2)) / 52) + 3),
         0 // Now that layout is more generalised, 
           // Specifying the coordinate system needs to be reworked, to accomodate for 3D space.
     ];
@@ -209,8 +210,8 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
 
         case "SKYISLAND":
             return <SkyIsland position={attrs.position} {...attrs}>
-                { filterAndEvalNodes(node.childNodes, false) }
-            </SkyIsland>
+                       { filterAndEvalNodes(node.childNodes, false) }
+                   </SkyIsland>
 
         case "WATERSTREAM":
             return <WaterStream rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterStream>

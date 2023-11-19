@@ -11,40 +11,39 @@ export interface MagneticFieldProps {
     shape?: "box" | "sphere" | "cylinder";
 }
 
-function registerMesh(parent: any, mesh: any, magnetism: Magnetism) {
+// 
+function registerGeometries(mesh: any, magnetism: Magnetism) {
 	// get mesh position and rotation and geometry size and shape
-	let shape: "box" | "sphere" | "cylinder" = "box", size = [1,1,1];
-
+	
 	Children.map(mesh.props.children, (geometryOrMaterial) => {
 		if (!React.isValidElement(geometryOrMaterial)) { 
 			return geometryOrMaterial;
 		}
 
-		if (geometryOrMaterial.type === "boxGeometry") {
-			shape = "box";
-			size = (geometryOrMaterial as any).props.args;
+		const geometryType = (geometryOrMaterial as React.ReactElement).type;
+
+		if (typeof geometryType === "string" && 
+		    ["boxGeometry", "sphereGeometry", "cylinderGeometry"].includes(geometryType)) {
+				let shape: "box" | "sphere" | "cylinder" = "box";
+
+				if (geometryType === "sphereGeometry") {
+					shape = "sphere";
+				}
+
+				if (geometryType === "cylinderGeometry") {
+					shape = "cylinder";
+				}
+
+				magnetism.registerMagnet({
+					position: mesh.props.position,
+					rotation: mesh.props.rotation,
+					shape: shape as "box" | "sphere" | "cylinder",
+					dimensions: (geometryOrMaterial as any).props.args
+				})
 		}
-
-		if (geometryOrMaterial.type === "sphereGeometry") {
-			shape = "sphere";
-			size = (geometryOrMaterial as any).props.args;
-		}
-
-		if (geometryOrMaterial.type === "cylinderGeometry") {
-			shape = "cylinder";
-			size = (geometryOrMaterial as any).props.args;
-		}
-
-		magnetism.registerMagnet({
-			position: mesh.props.position,
-			rotation: mesh.props.rotation,
-			shape: shape as "box" | "sphere" | "cylinder",
-			dimensions: size
-		})
-
-		return geometryOrMaterial;
-
+		
 	})
+
 
 	return mesh;
 }
@@ -66,7 +65,7 @@ export const MagneticField = (p: MagneticFieldProps) => {
 
 						return (
 							<>
-								{ Children.map(child.props.children, (mesh) => registerMesh(child, mesh, magnetism)) }
+								{ Children.map(child.props.children, (mesh) => registerGeometries(mesh, magnetism)) }
 							</>
 						);
 					})
@@ -78,7 +77,7 @@ export const MagneticField = (p: MagneticFieldProps) => {
 
 		return (
 			<>
-				{ Children.map(p.children, (mesh) => registerMesh(p, mesh, magnetism)) }
+				{ Children.map(p.children, (mesh) => registerGeometries(mesh, magnetism)) }
 			</>
 		);
 	}
