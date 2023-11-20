@@ -22,29 +22,7 @@ export function filterAndEvalNodes(nodes: NodeListOf<ChildNode>, cssLayout?: boo
 {
     return Array.from(nodes)
                 .filter(htmlNodeFilter)
-                .map((node) => {
-
-                    // if (nodes.length > 1 && node.nodeName === '#text') {
-                    //     const text    = (node as HTMLElement).textContent;
-                    //     const parent  = node.parentElement
-                            
-                    //     if ( !parent) {
-                    //         return null
-                    //     }<TextSpan position={layoutCoords}>{().textContent}</TextSpan>
-                
-                    //     const newNode = document.createElement('span');
-                    //     newNode.textContent = text;
-                
-                    //     console.log("converting text node to span: ", text);
-
-                    //     parent.insertBefore(newNode, node);
-                    //     parent.removeChild(node);
-
-                    //     console.log("parent of text node", parent);
-                    // }
-
-                    return EvalHTMLToReactElement(node as HTMLElement, cssLayout, false)
-                })
+                .map((node) => EvalHTMLToReactElement(node as HTMLElement, cssLayout, false))
 }
 
 const textBoundingRect = (textNode: HTMLElement): DOMRect => {
@@ -54,20 +32,36 @@ const textBoundingRect = (textNode: HTMLElement): DOMRect => {
     return range.getBoundingClientRect();
 };
 
-function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, root?: boolean, convertHorizontalOrigin = true): [number, number, number] {
-    const verticalOffset = (0.5 * window.innerHeight);
+function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHorizontalOrigin = true): [number, number, number] {
     
     return [
-               (boundingBox.left + (convertHorizontalOrigin 
-                                        ?  boundingBox.width  / 2 
-                                        : 0
-                                   ) 
-                                 - window.innerWidth  / 2)          / 138,
-       (((
-             - (boundingBox.top  +         boundingBox.height / 2)) / 52) + 3),
-        0 // Now that layout is more generalised, 
-          // Specifying the coordinate system needs to be reworked, to accomodate for 3D space.
-    ];
+                ( // X
+                    boundingBox.left 
+                    + 
+                    (
+                        convertHorizontalOrigin 
+                            ? boundingBox.width  / 2 
+                            : 0
+                    ) 
+                    - 
+                    ( 0.5 * window.innerWidth )
+                )          
+                / 
+                138,
+
+                ( // Y
+                     (
+                         ( - (boundingBox.top + boundingBox.height / 2) * 10  ) 
+                         / 
+                         ( 0.5 * window.innerHeight )
+
+                     )
+                     + 
+                     4
+                ),
+
+                0 // Z
+            ];
 }
 
 export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean): React.ReactNode {
@@ -81,7 +75,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
     if (node.nodeName === '#text') {
         const boundingBox = textBoundingRect(node);
 
-        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox, root, false);
+        layoutCoords = convertDOMCoordinatesToGLCoordinates(boundingBox, false);
 
         return (
             <TextNode position={layoutCoords}>{(node as HTMLElement).textContent}</TextNode>
@@ -91,7 +85,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
             const boundingBox = node.getBoundingClientRect();
     
             layoutCoords = convertDOMCoordinatesToGLCoordinates(
-                                boundingBox, root, !(["SPAN", "A"].includes(node.nodeName)) 
+                                boundingBox, !(["SPAN", "A"].includes(node.nodeName)) 
                             );
         }
     }    
