@@ -53,7 +53,7 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
                 ( // Y
                      ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
                      + 
-                     2
+                     2.8
                 ),
 
                 0 // Z
