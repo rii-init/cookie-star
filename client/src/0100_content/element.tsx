@@ -32,6 +32,7 @@ const textBoundingRect = (textNode: HTMLElement): DOMRect => {
     return range.getBoundingClientRect();
 };
 
+
 function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHorizontalOrigin = true): [number, number, number] {
     
     return [
@@ -50,14 +51,9 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
                 138,
 
                 ( // Y
-                     (
-                         ( - (boundingBox.top + boundingBox.height / 2) * 10  ) 
-                         / 
-                         ( 0.5 * window.innerHeight )
-
-                     )
+                     ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
                      + 
-                     4
+                     2
                 ),
 
                 0 // Z

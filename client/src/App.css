@@ -46,66 +46,6 @@ main {
   }
 }
 
-.App-header {
-  pointer-events: all;
-
-  display: inline-block;
-  position: absolute;
-
-  left: 0;
-
-  width: 100vw;
-  height: 1.75em;
-
-  margin-top: 0;
-  padding-top: 0.5em;
-
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-
-  border-radius: 0.55em;
-
-  color: #7b7b7b; 
-
-}
-
-.navigation {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  margin: auto;
-  width: 60vw;
-  min-width: 22em;
-  height: 1.75em; 
-}
-
-.navigation-link{ 
-  font-size: 3.5vw !important;
-  color: #7b7b7b;
-  position: relative !important;
-  right: 2.5vw;
-}
-
-
-.App-link {
-  color: #ffffff;
-  box-shadow: 0.5em 0.5em 1.6em #d23fff77;
-  background:#ff21d620;
-  padding: 0.2em;
-  border-radius:0.2em;
-
-}
-
-h1 {
-  text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
-  font-size: 3.5vw;
-}
-
-p {
-  margin-bottom: 1em;
-}
-
 .fullScreen {
   width: 100vw;
   height: 100vh;
@@ -113,7 +53,6 @@ p {
   top: 0;
   left: 0;
 }
-
 
 .background {
   background:#ffffffb0;
