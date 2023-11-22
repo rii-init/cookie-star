@@ -1,7 +1,6 @@
 import { MouseScrollControl } from "./mouse.scroll.control";
 import { TouchControl } from "../touch.control";
 import { TouchScrollControl } from "./touch.scroll.control";
-import { settingsState } from "../../../0000/settings-state";
 
 export class ScrollControl {
     
@@ -19,10 +18,6 @@ export class ScrollControl {
         }
 
         this.firstScroll = false;
-
-        if (settingsState.controls.animation.state === 0) {
-            settingsState.nextValue("animation");
-        }
     }
 
     constructor(

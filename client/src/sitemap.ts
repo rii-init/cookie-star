@@ -38,18 +38,6 @@ export const siteMap = {
       {
         "path": "",
         "title": "Articles"
-      },
-      {
-        "path": "/test-list-2",
-        "title": "Test List 2"
-      },
-      {
-        "path": "/test-list",
-        "title": "Test List"
-      },
-      {
-        "path": "/test",
-        "title": "Test"
       }
     ],
     "resume": [
