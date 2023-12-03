@@ -1,49 +1,23 @@
 export const siteMap = {
   "pages": [
     {
-      "path": "/",
-      "title": "./"
+      "path": "/example",
+      "title": "Example"
     },
     {
-      "path": "/cv",
-      "title": "CV"
+      "path": "/idea",
+      "title": "Idea"
     },
     {
-      "path": "/tech",
-      "title": "Tech"
-    },
-    {
-      "path": "/chat",
-      "title": "Chat"
-    },
-    {
-      "path": "/meta",
-      "title": "Meta"
+      "path": "/items",
+      "title": "Items"
     }
-  ],
+  ] as {title: string, path: string}[],
   "lists": {
-    "articles": [
-      {
-        "path": "/designing-fursuit",
-        "title": "Designing Fursuit"
-      },
-      {
-        "path": "/headings",
-        "title": "Headings"
-      },
-      {
-        "path": "/hybrid_ssg_spa",
-        "title": "Hybrid Ssg Spa"
-      },
+    "posts": [
       {
         "path": "",
-        "title": "Articles"
-      }
-    ],
-    "resume": [
-      {
-        "path": "",
-        "title": "Resume"
+        "title": "Posts"
       }
     ]
   }

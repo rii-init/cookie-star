@@ -2,6 +2,7 @@ import { useState } from "react";
 import { VisualThemeManager } from "../../../1000_aesthetic/visual-theme.manager";
 import { AntialiasingButton } from "./antialiasing-button";
 import { AnimationButton } from "./animation-button";
+import { XRRenderScaleButton } from "./xr-render-scale-button";
 
 export function Settings() {
     
@@ -47,6 +48,17 @@ export function Settings() {
                     </div>
                     <div className="cell">
                         Animation
+                    </div>
+                    <div className="cell">
+
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="cell">
+                        <XRRenderScaleButton />
+                    </div>
+                    <div className="cell">
+                        XR Render Scale
                     </div>
                     <div className="cell">
 

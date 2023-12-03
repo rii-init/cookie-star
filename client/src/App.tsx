@@ -62,6 +62,16 @@ function App() {
               Universe.state.scrolling.$parent.next(Universe.ctx3.scene);
               Universe.state.scrolling.$position.next(Universe.ctx3.camera.position.toArray());
              
+              const scaleFactor = 0.75;
+
+              if (Universe.gl.xr.isPresenting) {
+                const session = Universe.gl.xr.getSession();
+                
+                session.updateRenderState({
+                  baseLayer: new XRWebGLLayer(session, Universe.gl, { framebufferScaleFactor: scaleFactor })
+                });
+              }
+           
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
               Universe.state.cursor.$parent.next(Universe.ctx3.camera);

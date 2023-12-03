@@ -1,4 +1,4 @@
-type SettingsType = "aa" | "animation" | "visualTheme";
+type SettingsType = "aa" | "animation" | "visualTheme" | "xrRenderScale";
 
 class Setting {
     constructor(
@@ -32,9 +32,10 @@ export class SettingsState {
     }
 
     public controls = {
-        aa:          new Setting(1, 1, 2),
-        animation:   new Setting(1, 1, 2),
-        visualTheme: new Setting(0, 0, 2),
+        xrRenderScale: new Setting(1, 0, 7),
+        aa:            new Setting(1, 1, 2),
+        animation:     new Setting(1, 1, 2),
+        visualTheme:   new Setting(0, 0, 2),
     }
     
     nextValue(field: SettingsType) {

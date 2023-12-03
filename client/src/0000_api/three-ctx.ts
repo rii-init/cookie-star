@@ -1,12 +1,10 @@
 import { useFrame, useThree } from "@react-three/fiber";
 
 
-import { Camera, Raycaster, Scene, Vector2 } from "three";
+import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
-import { useEffect } from "react";
-import { xRControllerState } from "../0700_life/control/climbing-controls";
-import { useController } from "@react-three/xr";
+import { useEffect, useState } from "react";
 
 
 export type CTX3 = { 
@@ -21,9 +19,10 @@ export interface ThreeCTXProps {
 }
 
 export let ThreeJSContext = function() {
-
     const ctx = useThree() as CTX3;
-    Universe.ctx3 = ctx;              
+    Universe.scene = ctx.scene;
+    Universe.ctx3  = ctx; 
+    Universe.gl    = ctx.gl;             
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
     Universe.user_controls = new UserControls(Universe.ctx3);
@@ -46,7 +45,7 @@ export let ThreeJSContext = function() {
         Universe.sky.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
       }
     })
-    
 
+    
     return null;
 }

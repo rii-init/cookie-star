@@ -3,6 +3,7 @@ import { interpolateAttributes } from './interpolate-attributes';
 
 export function renderPage (inputPath: string, outputPath: string): void {
     // init markdown-it:
+    
     var markdownItAttrs = require('markdown-it-attrs');
     var md              = require('markdown-it')({
         html:         true,        // Enable HTML tags in source
@@ -39,7 +40,7 @@ export function renderPage (inputPath: string, outputPath: string): void {
         // read `${sort_order}.${page_name}.json` into a string:
         config_js_object = fs.readFileSync('../content/'+page_name_components.join(".")+".json", 'utf8');
     }
-    
+
     html = "<!DOCTYPE html>\n" +
         "<html lang=\"en\">\n" +
         "<head>\n" +
@@ -55,7 +56,6 @@ export function renderPage (inputPath: string, outputPath: string): void {
         "<script id=\"page-config\">/*" + config_js_object + "*/</script>\n" +
         "</body>\n" +
         "</html>";
-
 
     // write the output:
     fs.writeFileSync(outputPath+"/index.html", html, 'utf8');

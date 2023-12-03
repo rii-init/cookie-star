@@ -1,4 +1,4 @@
-import { Group, Mesh, Object3D } from "three";
+import { Group, Mesh, Object3D, Scene } from "three";
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
@@ -22,6 +22,8 @@ export class Universe {
     public static xrMode:    boolean = false;
     public static xr:        any;
     
+    public static gl:        any;
+    public static scene:     Scene;
     public static ctx3:      any; 
     public static canvas:    any;
 

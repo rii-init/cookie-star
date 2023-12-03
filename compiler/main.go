@@ -56,6 +56,8 @@ func writeSiteMap(siteMap model.SiteMap, path string) {
 	// add export const siteMap = to the beginning of the string
 	jsonString = []byte("export const siteMap = " + string(jsonString))
 
+	jsonString = []byte(strings.Replace(string(jsonString), "],", "] as {title: string, path: string}[],", -1))
+
 	// write to file
 	fo.Write(jsonString)
 }
