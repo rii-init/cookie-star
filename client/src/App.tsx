@@ -26,6 +26,7 @@ import { XRControlls } from './0700_life/control/xr-controlls';
 import { Cursor } from './0200_component/hud/cursor';
 import { ScrollBar } from './0300_entity/scroll-bar';
 import { DefaultScene } from './0400_scene/default';
+import { XR_RENDER_SCALE } from './0000_concept/xr-render-scale';
 
 
 const R3FCanvas = Canvas as any;
@@ -62,13 +63,18 @@ function App() {
               Universe.state.scrolling.$parent.next(Universe.ctx3.scene);
               Universe.state.scrolling.$position.next(Universe.ctx3.camera.position.toArray());
              
-              const scaleFactor = 0.75;
+              
 
               if (Universe.gl.xr.isPresenting) {
                 const session = Universe.gl.xr.getSession();
+                const scaleFactor = XR_RENDER_SCALE[settingsState.controls.xrRenderScale.state];
                 
+                console.log("XR render scale: ", scaleFactor);
                 session.updateRenderState({
-                  baseLayer: new XRWebGLLayer(session, Universe.gl, { framebufferScaleFactor: scaleFactor })
+                  baseLayer: new XRWebGLLayer(session, Universe.gl, { 
+                                 antialias: !!settingsState.controls.aa.state,
+                    framebufferScaleFactor: scaleFactor 
+                  })
                 });
               }
            

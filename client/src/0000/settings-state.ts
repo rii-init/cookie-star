@@ -32,7 +32,7 @@ export class SettingsState {
     }
 
     public controls = {
-        xrRenderScale: new Setting(1, 0, 7),
+        xrRenderScale: new Setting(0, 0, 7),
         aa:            new Setting(1, 1, 2),
         animation:     new Setting(1, 1, 2),
         visualTheme:   new Setting(0, 0, 2),
