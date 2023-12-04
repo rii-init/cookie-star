@@ -71,12 +71,16 @@ function App() {
                 
                 diagnosticState.addMessage("XR session started. Render scale: " + scaleFactor);
                 
-                session.updateRenderState({
-                  baseLayer: new XRWebGLLayer(session, Universe.gl, { 
-                                 antialias: !!settingsState.controls.aa.state,
-                    framebufferScaleFactor: scaleFactor 
-                  })
-                });
+                const glLayer = session.renderState.baseLayer;
+                
+                glLayer.framebufferScaleFactor = scaleFactor;
+
+                // session.updateRenderState({
+                //   baseLayer: new XRWebGLLayer(session, Universe.gl, { 
+                //                  antialias: !!settingsState.controls.aa.state,
+                //     framebufferScaleFactor: scaleFactor 
+                //   })
+                // });
               }
            
             }}
