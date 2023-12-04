@@ -21,7 +21,7 @@ import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
-import { R3FDiagnosticText } from './0000/r3f-debug';
+import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
 import { Cursor } from './0200_component/hud/cursor';
 import { ScrollBar } from './0300_entity/scroll-bar';
@@ -69,7 +69,8 @@ function App() {
                 const session = Universe.gl.xr.getSession();
                 const scaleFactor = XR_RENDER_SCALE[settingsState.controls.xrRenderScale.state];
                 
-                console.log("XR render scale: ", scaleFactor);
+                diagnosticState.addMessage("XR session started. Render scale: " + scaleFactor);
+                
                 session.updateRenderState({
                   baseLayer: new XRWebGLLayer(session, Universe.gl, { 
                                  antialias: !!settingsState.controls.aa.state,
