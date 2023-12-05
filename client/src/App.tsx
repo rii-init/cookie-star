@@ -49,7 +49,7 @@ function App() {
         <R3FCanvas        id="r3f-canvas"
                    className="fullScreen"
                       resize={{ polyfill: ResizeObserver }} 
-                          gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state }}
+                          gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state ? true : false }}
                    frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
         >
           <color attach="background" 

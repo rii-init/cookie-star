@@ -5,6 +5,7 @@ import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 import { useEffect, useState } from "react";
+import { settingsState } from "../0000/settings-state";
 
 
 export type CTX3 = { 
@@ -23,7 +24,7 @@ export let ThreeJSContext = function() {
     Universe.scene = ctx.scene;
     Universe.ctx3  = ctx; 
     Universe.gl    = ctx.gl;             
-    ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
+    ctx.gl.setPixelRatio(settingsState.controls.xrRenderScale || window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
     Universe.user_controls = new UserControls(Universe.ctx3);
     Universe.magnetism.setCamera(Universe.ctx3.camera);
