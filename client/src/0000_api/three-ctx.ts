@@ -24,7 +24,7 @@ export let ThreeJSContext = function() {
     Universe.scene = ctx.scene;
     Universe.ctx3  = ctx; 
     Universe.gl    = ctx.gl;             
-    ctx.gl.setPixelRatio(settingsState.controls.xrRenderScale || window.devicePixelRatio || 1)
+    ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
     Universe.user_controls = new UserControls(Universe.ctx3);
     Universe.magnetism.setCamera(Universe.ctx3.camera);
