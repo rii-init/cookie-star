@@ -57,6 +57,7 @@ function App() {
           
           { !Universe.ctx3 ? <ThreeJSContext /> : null }
           <XR
+            foveation={1}
             onSessionStart={(event) => {
               Universe.xrMode = true;
               Universe.state.cursor.$parent.next(Universe.ctx3.scene);
