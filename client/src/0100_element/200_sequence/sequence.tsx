@@ -1,13 +1,11 @@
-import React, { JSXElementConstructor, ReactElement, ReactNode, useContext, useEffect } from "react";
-import { Box3, BoxHelper, Group, Mesh, Object3D, Vector3 } from "three";
-import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
-import { text } from "stream/consumers";
-import { DiagnosticState, diagnosticState } from "../../0000/r3f-debug";
+import React, { ReactElement, useEffect } from "react";
+
 import { TextDiv } from "../../0200_component/flat/typography/div";
 import { TextSpan } from "../../0200_component/flat/typography/span";
 import { wrapText } from "../../0000_concept/responsive-document";
 import { Universe } from "../../0000_concept/universe";
 import { useLocation } from "wouter";
+import { LinkSurface } from "../../0200_component/flat/navigation-surface/LinkSurface";
 
 // Structural Sequence:
 
@@ -63,11 +61,15 @@ function positionForDirection(xFunction = (x: number)=>0, yFunction=(y: number)=
 export const SequenceContext = React.createContext({});
 
 function getPosition(props: SequenceProps, index: number) { 
-    return positionForDirection(props.xFunction, props.yFunction, props.zFunction,
-        props.direction,
-        props.polarity    || 1,
-        props.itemPadding || 0, index);
-}
+    return positionForDirection(
+                props.direction==="x" 
+                    ? (x)=> (props.xFunction ? props.xFunction(x) : 0) 
+                    : (props.xFunction), 
+                props.yFunction, props.zFunction,
+                props.direction,
+                props.polarity    || 1,
+                props.itemPadding || 0, index);
+}       
 
 export const Sequence = (props: SequenceProps) => {
     const [orientation, setOrientation] = React.useState<"portrait" | "landscape">("portrait");
@@ -84,7 +86,6 @@ export const Sequence = (props: SequenceProps) => {
 
     let dynamicIndex = 0;
 
-    const [location] = useLocation();
     const groupRef = React.useRef<THREE.Group>(null);
 
     return (
@@ -95,7 +96,9 @@ export const Sequence = (props: SequenceProps) => {
                userData={{direction: props.direction}}
         >
         {
+            
             React.Children.map(props.children, (element, index) => {
+            
             let textLines = null;
             if (element &&        (element as ReactElement<any>).type
                         && typeof (element as ReactElement<any>).type === 'function') 
@@ -107,22 +110,22 @@ export const Sequence = (props: SequenceProps) => {
 
                     if (lines && lines.length > 1) {
                         textLines = lines.map((line: string, index: number) => {
-                        const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
+                            const lineElement = React.cloneElement(element as ReactElement<any>, {children: line});
                         
-                        return (
-                            <group key={dynamicIndex} 
-                                   position={props.staticLayout ? getPosition(props, dynamicIndex++) : [0,0,0]}
-                                   rotation={[
-                                       props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
-                                       props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,
-                                       0]}
-                            >
-                                { lineElement }
-                            </group>
-                        )
+                            return (
+                                <group key={dynamicIndex} 
+                                       position={props.staticLayout ? getPosition(props, dynamicIndex++) : [0,0,0]}
+                                       rotation={[
+                                           props.xRotationFunction ? props.xRotationFunction(dynamicIndex) : 0,
+                                           props.yRotationFunction ? props.yRotationFunction(dynamicIndex) : 0,
+                                           0]}
+                                >
+                                    { lineElement }
+                                </group>
+                            )
                         });
                     }
-                } 
+                }
             }
 
             if (textLines) {

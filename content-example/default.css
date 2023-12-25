@@ -1,0 +1,100 @@
+html{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color:#000000;
+}
+
+body.theme._0  {
+    background-color: #d2e8ff;
+    color: #003154
+}
+
+
+body.theme._1  {
+    background-color: #000000;
+    color: #ffd500
+}
+
+canvas {
+    touch-action: none;
+}
+
+main {
+    font-size: 22pt;
+    max-width: 66vw;
+    min-width: 320px;
+    height: 100vh;
+    min-height: 320px;
+    margin: auto;
+}
+
+
+.vr {
+    display: none;
+} 
+  
+.navigation {
+  height: 2.75em;
+  margin: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: inline-block;
+}
+  
+
+section {
+    display: inline-block;
+}
+
+section div.ds_combinations {
+    display: inline-block;
+    width: 33%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+p {
+ padding: 1em;   
+}
+
+h1 {
+    height: 1em;
+}
+
+h1.theme._0 {
+    text-shadow: 3px 15px 42px #00000044, 1px 3px 10px #00000074;
+    color: white;
+}
+
+
+h2 {
+    height: 1em;
+}
+
+h2.theme._0 {
+    color: #b2b2b2;
+    text-shadow: 0px 1px 1px #00000000;
+    background: white;
+    box-shadow: 7px 20px 47px 21px #00000022;
+}
+
+
+ul > li > ul > li {
+    display: inline-block;
+}

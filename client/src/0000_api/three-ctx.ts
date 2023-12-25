@@ -5,7 +5,6 @@ import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 import { useEffect, useState } from "react";
-import { settingsState } from "../0000/settings-state";
 
 
 export type CTX3 = { 
