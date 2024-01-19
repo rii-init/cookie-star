@@ -5,12 +5,12 @@ export const siteMap = {
       "title": "./"
     },
     {
-      "path": "/cv_longer",
-      "title": "Cv Longer"
+      "path": "/cv",
+      "title": "CV"
     },
     {
-      "path": "/tech_longer",
-      "title": "Tech Longer"
+      "path": "/tech",
+      "title": "Tech"
     },
     {
       "path": "/chat",

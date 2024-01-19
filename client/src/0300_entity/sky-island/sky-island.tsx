@@ -17,25 +17,40 @@ export const SkyIsland = (p: SkyIslandProps) => {
         <group position={p.position}>
             
             { p.children }
-
+            
             <MagneticField>
                 <Entity editMode={true} position={[5*spread, 2, -5*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-0" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-1" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-2" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-3" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-4" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-5" color={0xdfffa0} />
                 </Entity>
             </MagneticField>
             
             <MagneticField>
                 <Entity                position={[-3.5*spread, 0, 0*spread]}>
                     <boxGeometry         attach="geometry" args={[6,2,4]} />
-                    <meshLambertMaterial attach="material" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-0" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-1" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-2" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-3" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-4" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-5" color={0xdfffa0} />
                 </Entity>
             </MagneticField>
 
             <MagneticField>
                 <Entity editMode={true} position={[-7*spread, 0, -6.8*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-0" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-1" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-2" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-3" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-4" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-5" color={0xdfffa0} />
                     
                     <Tree   rotation={[0, -1.5/3*Math.PI, 0]} position={[0, 1.5, 0]} />
                 </Entity>
@@ -43,7 +58,12 @@ export const SkyIsland = (p: SkyIslandProps) => {
             
             <Entity     editMode={true} position={[3.25*spread, 0, -6.5*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
-                    <meshLambertMaterial  attach="material" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-0" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-1" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-2" color={SyntaxHighlight.Structure} />
+                    <meshLambertMaterial attach="material-3" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-4" color={0xdfffa0} />
+                    <meshLambertMaterial attach="material-5" color={0xdfffa0} />
             </Entity>
 
         </group>

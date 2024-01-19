@@ -35,7 +35,7 @@ export const RouterNavigationSurface = () => {
     let previousXOffset = 0,
                 xOffset = 0;
     
-    const groupXOffset = calculateXOffset(siteMap.pages) / 1.75;
+    const groupXOffset = calculateXOffset(siteMap.pages) / 1.45;
 
     return (
       <group position={[0,4,-1]} 
