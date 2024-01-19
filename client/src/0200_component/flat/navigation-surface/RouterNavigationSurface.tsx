@@ -10,33 +10,47 @@ export interface SiteMap {
   } 
 }
 
+function getTextWidth(text: string) {
+  return text.length * 0.12;
+}
+
+function calculateXOffset(
+  pages: {
+    title: string;
+    path: string;
+  }[]
+) {
+  let xOffset = 0;
+  pages.forEach((page) => {
+    xOffset += getTextWidth(page.title);
+  });
+  return xOffset;
+}
+
 
 export const RouterNavigationSurface = () => {
     const [location, setLocation] = useLocation();
     const offset = [0,-0.1, 0.4] as [number, number, number];
     
-    let xOffset = 0;
-    function xFunction(n: number) {
-      return n + xOffset;
-    }
-    function getTextWidth(text: string) {
-      return text.length * 0.2;
-    }
+    let previousXOffset = 0,
+                xOffset = 0;
+    
+    const groupXOffset = calculateXOffset(siteMap.pages) / 1.75;
+
     return (
-      <group position={[-1.32,4,-1]} 
+      <group position={[0,4,-1]} 
              rotation={[Math.PI / 8, 0, 0]}>
           
           {
             siteMap.pages.map( (page, index) => {
+              xOffset = previousXOffset;
+              previousXOffset += getTextWidth(page.title) + 0.25;
               
-              xOffset += getTextWidth(page.title) + 0.2;
-              console.log("index, xOffset", index, xOffset);
-
                 return <LinkSurface location={page.path}  
-                                    position={[offset[0] +xOffset, offset[1], offset[2]]} 
+                                    position={[offset[0] +xOffset - groupXOffset, offset[1], offset[2]]} 
                                          key={index}
-                                     justify="center"
-                                linkPosition={[0,0, -0.35]}>{ page.path != "/" 
+                                     justify="left"
+                                linkPosition={[getTextWidth(page.title)/2, 0, -0.35]}>{ page.path != "/" 
                                                   ? page.title
                                                   : location=="/" 
                                                       ? "./" 
