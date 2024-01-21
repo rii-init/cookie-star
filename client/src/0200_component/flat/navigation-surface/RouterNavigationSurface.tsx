@@ -11,7 +11,7 @@ export interface SiteMap {
 }
 
 function getTextWidth(text: string) {
-  return text.length * 0.12;
+  return Math.max(text.length * 0.12, 0.4);
 }
 
 function calculateXOffset(

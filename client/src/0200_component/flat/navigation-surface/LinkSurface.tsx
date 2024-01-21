@@ -33,12 +33,26 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     
     const meshRef = React.useRef<Mesh>(null);
     const [hovered, setHovered] = useState(false);
-
+    const [hover_animation_scale, setHoverAnimationScale] = useState(1.0);
 
     const linkPosition = props.linkPosition || [0,0, -0.35];
 
     if (hovered) {
         linkPosition[2] = -0.75;
+    }
+
+    function hoverAnimation() {
+
+        setHoverAnimationScale(hover_animation_scale + 0.01);
+
+        if (hover_animation_scale >= 2.0) {
+            clickLink(props.location);
+
+        } else if (hovered) {
+            setTimeout(() => {
+                hoverAnimation();
+            }, 9);
+        }
     }
 
     return (
@@ -50,13 +64,22 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                 }}
         >
             <Interactive onSelect={(event: XRInteractionEvent) => { clickLink(props.location); }}
-                     onHover={(event: XRInteractionEvent) => { setHovered(true);   }}
-                     onBlur={(event: XRInteractionEvent) => {  setHovered(false); }}
+                    onHover={(event: XRInteractionEvent) => {  
+                        if (!hovered) {   
+                            setHovered(true);                        
+                            hoverAnimation();
+                        } else {
+                            setHovered(true);
+                        }
+                    }}
+                     onBlur={(event: XRInteractionEvent) => {  
+                        setHovered(false); 
+                    }}
             >
                 <mesh 
                     position={linkPosition} 
                     visible={location == props.location || hovered} >
-                    <boxGeometry args={props.linkShape || [ 0.5, 0.5, hovered ? 0.1 : 0.5]} 
+                    <boxGeometry args={props.linkShape || [ 0.5 * hover_animation_scale, 0.5 * hover_animation_scale, hovered ? 0.1 : 0.5]} 
                                                           />
                     <meshLambertMaterial 
                         attach="material"
