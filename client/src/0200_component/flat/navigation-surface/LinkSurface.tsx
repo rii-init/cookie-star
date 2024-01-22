@@ -6,6 +6,7 @@ import { useLocation, Link } from "wouter";
 import { Universe } from "../../../0000_concept/universe";
 import { TextH3 } from "../typography/h3";
 import { TextDebug } from "../typography/text-debug";
+import { LinkSurfaceFeedback } from "./LinkSurfaceFeedback";
 
 
 export interface LinkSurfaceProps {
@@ -33,27 +34,26 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     
     const meshRef = React.useRef<Mesh>(null);
     const [hovered, setHovered] = useState(false);
-    const [hover_animation_scale, setHoverAnimationScale] = useState(1.0);
-
+    
     const linkPosition = props.linkPosition || [0,0, -0.35];
 
     if (hovered) {
         linkPosition[2] = -0.75;
     }
 
-    function hoverAnimation() {
+    // function hoverAnimation() {
 
-        setHoverAnimationScale(hover_animation_scale + 0.01);
+    //     setHoverAnimationScale(hover_animation_scale + 0.01);
 
-        if (hover_animation_scale >= 2.0) {
-            clickLink(props.location);
+    //     if (hover_animation_scale >= 2.0) {
+    //         clickLink(props.location);
 
-        } else if (hovered) {
-            setTimeout(() => {
-                hoverAnimation();
-            }, 9);
-        }
-    }
+    //     } else if (hovered) {
+    //         setTimeout(() => {
+    //             hoverAnimation();
+    //         }, 9);
+    //     }
+    // }
 
     return (
         
@@ -65,35 +65,33 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
         >
             <Interactive onSelect={(event: XRInteractionEvent) => { clickLink(props.location); }}
                     onHover={(event: XRInteractionEvent) => {  
-                        if (!hovered) {   
-                            setHovered(true);                        
-                            hoverAnimation();
-                        } else {
-                            setHovered(true);
-                        }
+                       setHovered(true);
                     }}
                      onBlur={(event: XRInteractionEvent) => {  
                         setHovered(false); 
+                        //setHoverAnimationScale(1.0);
                     }}
             >
-                <mesh 
-                    position={linkPosition} 
-                    visible={location == props.location || hovered} >
-                    <boxGeometry args={props.linkShape || [ 0.5 * hover_animation_scale, 0.5 * hover_animation_scale, hovered ? 0.1 : 0.5]} 
-                                                          />
-                    <meshLambertMaterial 
-                        attach="material"
-                        transparent={hovered}
-                        opacity={hovered ? 0.7 : 1.0}
-                        color={Universe.colors.background2} />
-                </mesh>
+                <LinkSurfaceFeedback 
+                    position={props.linkPosition || [0,0,0]}
+                    location={props.location}
+                    currentLocation={location}
+                    hovered={hovered}
+                    linkShape={props.linkShape}
+                    linkPosition={linkPosition}
+                >
+                </LinkSurfaceFeedback>
                 <TextH3 meshRef={meshRef}
                         justify={props.justify}
                         onPointerOver={() => { 
-                            setHovered(true);
+                            if (!hovered) {
+                                setHovered(true);
+                                //hoverAnimation();
+                            }
                             Universe.user_controls.handlePointerOver(meshRef.current as any) } }
                         onPointerOut={() => {
                             setHovered(false);
+                            // setHoverAnimationScale(1.0);
                             Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
                     {props.children}
                 </TextH3>

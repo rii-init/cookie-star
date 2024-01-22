@@ -27,9 +27,14 @@ void main( void ) {
         
 	//}
 
-	gl_FragColor = vec4( vec3( color * celestiaLight.x /2.0 + blendedSky.x*0.9, 
-                               color * celestiaLight.y /2.0 + blendedSky.y*0.9, 
-                               color * celestiaLight.z /2.0 + blendedSky.z*0.9), 1.0 );
+	gl_FragColor = vec4( max(
+                                vec3( color * celestiaLight.x /2.0 + blendedSky.x*0.9, 
+                                      color * celestiaLight.y /2.0 + blendedSky.y*0.9, 
+                                      color * celestiaLight.z /2.0 + blendedSky.z*0.9),
+                                vec3( skyColor ) 
+                            ),
+                         1.0
+    );
 
 }
 `;
