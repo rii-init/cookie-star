@@ -1,6 +1,6 @@
 import { Html, Text } from "@react-three/drei";
 import { Interactive, XRInteractionEvent } from "@react-three/xr";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Mesh } from "three";
 import { useLocation, Link } from "wouter";
 import { Universe } from "../../../0000_concept/universe";
@@ -36,24 +36,30 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
     const [hovered, setHovered] = useState(false);
     
     const linkPosition = props.linkPosition || [0,0, -0.35];
-
+    const [hoverAnimation, setHoverAnimation] = useState([0.5,0.5,0] as [number, number, number]); 
     if (hovered) {
         linkPosition[2] = -0.75;
     }
 
-    // function hoverAnimation() {
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
 
-    //     setHoverAnimationScale(hover_animation_scale + 0.01);
+        if (hovered) {
+            setHoverAnimation([hoverAnimation[0] + 0.1,
+                               hoverAnimation[0] + 0.1,
+                               hoverAnimation[0] + 0.1
+                              ]);
 
-    //     if (hover_animation_scale >= 2.0) {
-    //         clickLink(props.location);
+            timer = setTimeout(() => {
+                clickLink(props.location);
+            }, 1000);
+        }
 
-    //     } else if (hovered) {
-    //         setTimeout(() => {
-    //             hoverAnimation();
-    //         }, 9);
-    //     }
-    // }
+        return () => {
+            setHoverAnimation([0.5,0.5,0]);
+            clearTimeout(timer);
+        };
+    }, [hovered, props.location]);
 
     return (
         
@@ -69,7 +75,6 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     }}
                      onBlur={(event: XRInteractionEvent) => {  
                         setHovered(false); 
-                        //setHoverAnimationScale(1.0);
                     }}
             >
                 <LinkSurfaceFeedback 
@@ -77,7 +82,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     location={props.location}
                     currentLocation={location}
                     hovered={hovered}
-                    linkShape={props.linkShape}
+                    linkShape={hoverAnimation}
                     linkPosition={linkPosition}
                 >
                 </LinkSurfaceFeedback>
@@ -86,17 +91,15 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                         onPointerOver={() => { 
                             if (!hovered) {
                                 setHovered(true);
-                                //hoverAnimation();
                             }
                             Universe.user_controls.handlePointerOver(meshRef.current as any) } }
                         onPointerOut={() => {
                             setHovered(false);
-                            // setHoverAnimationScale(1.0);
                             Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
                     {props.children}
                 </TextH3>
             </Interactive>
         </group>
-        
     );
 }
+        

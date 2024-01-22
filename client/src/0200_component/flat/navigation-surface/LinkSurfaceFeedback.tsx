@@ -19,7 +19,10 @@ export const LinkSurfaceFeedback = (props: LinkSurfaceFeedbackProps) => {
             position={props.linkPosition} 
             visible={props.currentLocation == props.location || props.hovered} >
             
-                <boxGeometry args={props.linkShape || [ 0.5, 0.5, props.hovered ? 0.1 : 0.5]} 
+                <boxGeometry args={[ props.linkShape ? props.linkShape[0] : 0.5, 
+                                     props.linkShape ? props.linkShape[1] : 0.5, 
+                                     props.hovered ? 0.1 : 0.5
+                                   ]} 
                                                           />
                 <meshLambertMaterial 
                         attach="material"
