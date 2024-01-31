@@ -1,9 +1,9 @@
 package main
 
 import (
-	model "compiler/model"
 	"encoding/json"
 	"fmt"
+	model "generator/model"
 	"io"
 	"os"
 	"path/filepath"
@@ -126,7 +126,7 @@ func main() {
 
 	// make sure ./index.js exists
 	if _, err := os.Stat("./ts/index.js"); os.IsNotExist(err) {
-		fmt.Println("compiler/ts/index.js missing; run `npm install` in compiler directory")
+		fmt.Println("generator/ts/index.js missing; run `npm install` in generator directory")
 		os.Exit(1)
 	}
 

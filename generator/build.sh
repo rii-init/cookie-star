@@ -5,6 +5,7 @@ go build
 
 # build the typescript page renderer
 cd ts
+npm install
 tsc
 
 cd ..

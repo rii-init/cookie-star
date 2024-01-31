@@ -2,8 +2,8 @@ node_modules
 secrets
 ultr7a.com
 server/server
-compiler/compiler
-compiler/**/*.js
+generator/generator
+generator/**/*.js
 client/build/buffer
 content/**
 content/**/*

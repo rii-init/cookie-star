@@ -102,6 +102,12 @@ function App() {
             <UniverseContext.Provider value={Universe}>
               
               <XRControlls />
+              {/* <TeleportationPlane
+                  leftHand={false}
+                  rightHand={true}
+                  maxDistance={10}
+                  size={0.5}
+              /> */}
               <R3FDiagnosticText />
                 {
                   <HudPortal

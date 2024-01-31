@@ -23,7 +23,7 @@ export function renderPage (inputPath: string, outputPath: string): void {
 
 
     // read ../../content/head.html into a string:
-    const headContent = fs.readFileSync('../content/head.html', 'utf8');
+    let headContent = fs.readFileSync('../content/head.html', 'utf8');
     // get names of static assets from asset-manifest.json:
     const assetManifest = JSON.parse(fs.readFileSync('../client/build/asset-manifest.json', 'utf8')).files;
 
@@ -40,6 +40,9 @@ export function renderPage (inputPath: string, outputPath: string): void {
         // read `${sort_order}.${page_name}.json` into a string:
         config_js_object = fs.readFileSync('../content/'+page_name_components.join(".")+".json", 'utf8');
     }
+
+    const headContentParts = headContent.split("<!-- dev-bundle -->")
+    headContent = headContentParts[0] + headContentParts[1].replace("<!-- end-dev-bundle -->", "");
 
     html = "<!DOCTYPE html>\n" +
         "<html lang=\"en\">\n" +

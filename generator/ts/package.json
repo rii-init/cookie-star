@@ -1,8 +1,8 @@
 {
-  "name": "compiler.ultr7a.com",
-  "version": "1.0.0",
+  "name": "generator.ultr7a.com",
+  "version": "1.0.1",
   "description": "markdown post processor for ultr7a.com web framework",
-  "main": "bin/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
