@@ -2,50 +2,40 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    // other webpack configuration
     entry: './src/index.tsx',
-
+   
     output: {
-        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: '/dist/', // This is important. It tells webpack-dev-server to serve bundle.js from memory at this path
     },
-
+    
+    resolve: {
+        extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    },
+    
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
+                test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
+                use: 'ts-loader',
             },
             {
-                test: /\.css$/i,
+                test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
         ],
     },
-
-    resolve: {
-        extensions: ['.tsx', '.ts', '.jsx', '.js'],
-    },
-
-    plugins: [
-        {
-            apply: function (compiler) {
-                new CopyWebpackPlugin({
-                    patterns: [
-                        { from: path.resolve(__dirname, '../surface'), to: '' },
-                    ],
-                }).apply(compiler);
-            },
-        },
-    ],
-
+    
+    
     devServer: {
         static: {
-          directory: path.join(__dirname, 'dist'),
+            directory: path.join(__dirname, '../surface'), // This tells webpack-dev-server to serve static files from '../surface' directory
         },
-        compress: true,
+        devMiddleware: {
+            publicPath: '/dist/', // This should match the publicPath in output configuration
+        },
         port: 9000,
-        open: true,
     },
 };

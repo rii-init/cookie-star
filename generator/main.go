@@ -96,6 +96,9 @@ func getTitle(config *model.Config, file_without_extension string) string {
 
 func main() {
 
+	// print GENERATOR_MODE environment variable:
+	fmt.Println("GENERATOR_MODE: " + os.Getenv("GENERATOR_MODE"))
+
 	// Let's read the config.file, right away.
 	// The user might be a particular individual (Not a bad thing!)
 
