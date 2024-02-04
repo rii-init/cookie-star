@@ -92,7 +92,7 @@ function App() {
             <Controllers hideRaysOnBlur={true} />
             <Hands />
             
-            <pointLight   position={[0, 15, 10]} 
+            <pointLight   position={[-45, 45, 45]} 
                           intensity={Universe.colors.celestialLight.intensity}
                           distance={100000} 
                           color={Universe.colors.celestialLight.color} />
@@ -102,6 +102,12 @@ function App() {
             <UniverseContext.Provider value={Universe}>
               
               <XRControlls />
+              {/* <TeleportationPlane
+                  leftHand={false}
+                  rightHand={true}
+                  maxDistance={10}
+                  size={0.5}
+              /> */}
               <R3FDiagnosticText />
                 {
                   <HudPortal

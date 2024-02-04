@@ -1,9 +1,9 @@
 package main
 
 import (
-	model "compiler/model"
 	"encoding/json"
 	"fmt"
+	model "generator/model"
 	"io"
 	"os"
 	"path/filepath"
@@ -96,6 +96,9 @@ func getTitle(config *model.Config, file_without_extension string) string {
 
 func main() {
 
+	// print GENERATOR_MODE environment variable:
+	fmt.Println("GENERATOR_MODE: " + os.Getenv("GENERATOR_MODE"))
+
 	// Let's read the config.file, right away.
 	// The user might be a particular individual (Not a bad thing!)
 
@@ -126,7 +129,7 @@ func main() {
 
 	// make sure ./index.js exists
 	if _, err := os.Stat("./ts/index.js"); os.IsNotExist(err) {
-		fmt.Println("compiler/ts/index.js missing; run `npm install` in compiler directory")
+		fmt.Println("generator/ts/index.js missing; run `npm install` in generator directory")
 		os.Exit(1)
 	}
 

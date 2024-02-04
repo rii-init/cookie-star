@@ -1,7 +1,7 @@
 package main
 
 import (
-	model "compiler/model"
+	model "generator/model"
 )
 
 func renameIndex(config *model.Config, pageName string, listName *string) (string, string) {

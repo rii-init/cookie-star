@@ -1,4 +1,4 @@
-cd ../compiler
-./compiler render-pages
+cd ../generator
+./generator render-pages
 
 cd ../client

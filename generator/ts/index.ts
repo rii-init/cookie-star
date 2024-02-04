@@ -11,7 +11,7 @@ const [mode, input, output] = params;
 
 if (mode === 'render-page') {
     
-    validateCommand(params, 2, 'Usage: node compiler/index.ts <input> <output>')
+    validateCommand(params, 2, 'Usage: node generator/index.ts <input> <output>')
     renderPage(input, output);
 
 } else {

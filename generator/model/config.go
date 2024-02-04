@@ -1,6 +1,6 @@
 // Now YOU can be opinionated too!
 // This is the config file for the generation and organisation of your static site.
-// These options can be specified in the config.json file in the compiler directory.
+// These options can be specified in the config.json file in the generator directory.
 
 package model
 

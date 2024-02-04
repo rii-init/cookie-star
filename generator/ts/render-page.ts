@@ -52,7 +52,11 @@ export function renderPage (inputPath: string, outputPath: string): void {
         html +
         "</main>\n" +
         '<div id="root"></div>\n' +
-        "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" +
+        
+        (process.env.GENERATOR_MODE == "production"   
+            ? "<script src=\"" + assetManifest['main.js'] + "\"></script>\n" 
+            : "<script src=\"/dist/bundle.js\" ></script>\n") +
+        
         "<script id=\"page-config\">/*" + config_js_object + "*/</script>\n" +
         "</body>\n" +
         "</html>";
