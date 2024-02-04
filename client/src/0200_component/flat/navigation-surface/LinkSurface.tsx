@@ -21,6 +21,8 @@ export interface LinkSurfaceProps {
 export const LinkSurface = (props: LinkSurfaceProps) => {
     const [location, setLocation] = useLocation();
     
+    console.log("i'll have ot find out");
+
     const clickLink = (location: string) => {
         if (location.startsWith("http")) {
             // open in new tab
@@ -70,13 +72,13 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                     }}
             >
                 {
-                    <LinkSurfaceFeedback 
-                        position={props.linkPosition || [0,0,0]}
-                        location={props.location}
-                        currentLocation={location}
-                        hovered={hovered}
-                        linkPosition={linkPosition}
-                    />
+                    // <LinkSurfaceFeedback 
+                    //     position={props.linkPosition || [0,0,0]}
+                    //     location={props.location}
+                    //     currentLocation={location}
+                    //     hovered={hovered}
+                    //     linkPosition={linkPosition}
+                    // />
                 }
                 <TextH3 meshRef={meshRef}
                         justify={props.justify}

@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
@@ -29,6 +30,10 @@ module.exports = {
     },
     
     
+    plugins: [
+        new ReactRefreshWebpackPlugin(),
+    ],
+
     devServer: {
         static: {
             directory: path.join(__dirname, '../surface'), // This tells webpack-dev-server to serve static files from '../surface' directory
@@ -37,5 +42,6 @@ module.exports = {
             publicPath: '/dist/', // This should match the publicPath in output configuration
         },
         port: 9000,
+        hot: true
     },
 };

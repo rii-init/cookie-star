@@ -92,7 +92,7 @@ function App() {
             <Controllers hideRaysOnBlur={true} />
             <Hands />
             
-            <pointLight   position={[0, 15, 10]} 
+            <pointLight   position={[-45, 45, 45]} 
                           intensity={Universe.colors.celestialLight.intensity}
                           distance={100000} 
                           color={Universe.colors.celestialLight.color} />
