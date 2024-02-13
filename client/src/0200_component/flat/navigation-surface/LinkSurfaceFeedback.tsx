@@ -1,5 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { Universe } from "../../../0000_concept/universe";
+import { useEffect, useState } from "react";
 
 export interface  LinkSurfaceFeedbackProps {
     location:        string;
@@ -11,19 +12,28 @@ export interface  LinkSurfaceFeedbackProps {
     linkPosition?: [number, number, number];
 }
 
-       const animatedShape = [0.5, 0.5, 0.1];
+       
 
 export const LinkSurfaceFeedback = (props: LinkSurfaceFeedbackProps) => {
+    const [animatedShape, setAnimatedShape] = useState([0.5, 0.5, 0.1]);
     
-    useFrame((state, delta: number) => {
+    useFrame((state, delta) => {
         if (props.hovered) {
-            animatedShape[0] += 0.1 * delta;
-            animatedShape[1]  = animatedShape[0];
-        }
-    }, 2);
+            if (animatedShape[0] > 1) {
+                setAnimatedShape([1,1,0.1]);
+            } else {
+                setAnimatedShape([animatedShape[0] + 2 * delta, animatedShape[1] + 2 * delta, 0.1])
+            }
+        } 
+    });
+
+    useEffect(() => {
+        setAnimatedShape([0.5, 0.5, 0.1]);
+    }, [props.hovered])
 
     return (
         <mesh      
+            visible={props.hovered || props.currentLocation === props.location}
             position={props.linkPosition}>
             
                 <boxGeometry args={[ props.linkShape ? props.linkShape[0] : animatedShape[0], 
