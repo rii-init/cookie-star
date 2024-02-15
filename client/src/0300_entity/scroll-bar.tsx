@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { Universe } from "../0000_concept/universe";
 import { Vector3 } from "three";
+import Quad from "../0100_element/200_sequence/222_prism/quad.geometry";
+
+import { LineBasicMaterial } from "three";
 
 
 let drag = false;
@@ -67,19 +70,28 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
 
     return (
         <group position={[ position[0] + positionOffset[0], position[1] + positionOffset[1], position[2] - 5]}>
+            
+            // ...
+
             <mesh onClick={(e: {point: Vector3}) => onClick(scrollDomain, e)}
             onPointerMove={(e: {point: Vector3}) => onPointerMove(scrollDomain, e)}
             onPointerDown={() => onPointerDown()}
               onPointerUp={() => onPointerUp()}
             
             >
-                <boxGeometry args={[0.5, frameHeight, 0.25]} />
-                <meshLambertMaterial color="white"    />
+                <boxBufferGeometry args={[0.5, frameHeight, 0.5]} />
+                <meshBasicMaterial visible={false} color="white" />
             </mesh>
 
-            <mesh position={[0, buttonPosition, 0.25]}>
-                <boxGeometry args={[0.5, buttonHeight, 0.1]} />
-                <meshBasicMaterial color="white"    />
+            <lineSegments position={[0,0,0]}>
+                <Quad  height={frameHeight} width={0.2} />
+                <lineBasicMaterial color="white" opacity={0.5} transparent={true}  />
+            </lineSegments>
+
+
+            <mesh position={[0, buttonPosition, 0]}>
+                <boxGeometry args={[0.2, buttonHeight, 0.01]} />
+                <meshLambertMaterial  color="white"    />
             </mesh>
 
         </group>
