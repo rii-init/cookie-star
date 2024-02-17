@@ -17,9 +17,9 @@ export let CloudFormation = () => {
                                     ? zero3 
                                     : previousPosition).add(
 
-                                 new Vector3((-0.5 + Math.random()) * 1.3, 
+                                 new Vector3((-0.5 + Math.random()) * 1.6, 
                                               -0.5 + Math.random(),
-                                             (-0.5 + Math.random()) * 1.3)
+                                             (-0.75 + Math.random())      )
                                             .normalize()
                                             .multiplyScalar((radius + previousRadius) / 1.5 )
                                     );
