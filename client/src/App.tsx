@@ -21,7 +21,7 @@ import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
-import { diagnosticState, R3FDiagnosticText } from './0000/r3f-debug';
+import { R3FDiagnosticText } from './0000/r3f-debug';
 import { XRControlls } from './0700_life/control/xr-controlls';
 import { Cursor } from './0200_component/hud/cursor';
 import { ScrollBar } from './0300_entity/scroll-bar';
@@ -43,7 +43,7 @@ function App() {
 
       <div id="ui_2d__button_container">
           <Settings />
-          <VRButton className="ui_2d__button" />
+          <VRButton className="ui_2d__button vr-button" />
       </div>
 
         <R3FCanvas        id="r3f-canvas"

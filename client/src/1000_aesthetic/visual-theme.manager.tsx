@@ -18,14 +18,14 @@ export function currentTheme() {
 
 export function VisualThemeManager() {
     
-    
     const modeChanges = ['☀','☽']
     
     return (
-        <input  type='button' className={'ui_2d__button visual-theme _'+themeIdx}
+        <button className={'ui_2d__button visual-theme _'+themeIdx}
                 onClick={ () => settingsState.nextValue("visualTheme") } 
-                value={modeChanges[settingsState.previewNextValue("visualTheme")]}
-        />
+        >
+            {modeChanges[settingsState.previewNextValue("visualTheme")]}
+        </button>
     )
 
 }
