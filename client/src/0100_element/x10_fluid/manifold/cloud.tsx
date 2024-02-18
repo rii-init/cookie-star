@@ -13,7 +13,7 @@ export let Cloud = (p: CloudProps) => {
         <Entity editMode={true}>                
             <mesh position={p.position}
             >
-                <sphereGeometry args={[p.radius, 3, 4]} />
+                <sphereGeometry args={[p.radius, 6, 6]} />
                 <meshLambertMaterial color="white" transparent={true} opacity={0.6} />
                 </mesh>
         </Entity>

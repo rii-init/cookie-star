@@ -60,7 +60,7 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
             ];
 }
 
-export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean): React.ReactNode {
+export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean, index?: number): React.ReactNode {
     
    
     // Some components handle their own layout:
@@ -129,7 +129,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                 }
             }
             
-            return  <TextP {...attrs} position={layoutCoords}>
+            return  <TextP key={index} {...attrs} position={layoutCoords}>
                         { 
                             node.childNodes.length      == 1
                         &&  node.childNodes[0].nodeName == "#text"
@@ -139,7 +139,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                     </TextP>
                         
         case "DIV":
-            return <TextDiv { ...attrs} position={layoutCoords}>
+            return <TextDiv key={index} { ...attrs} position={layoutCoords}>
                         { filterAndEvalNodes(node.childNodes, cssLayout) }
                    </TextDiv>
         case "OL":
@@ -180,7 +180,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         // Cool and awesome components:   
         // Going to generate this part of the file, in v2:
         case "SEQUENCE":
-            return <Sequence direction={attrs.direction || "y"} position={layoutCoords} {...attrs}>
+            return <Sequence    key={index} direction={attrs.direction || "y"} position={layoutCoords} {...attrs}>
                         { 
                             Array.from(node.childNodes)
                             .filter(htmlNodeFilter)
@@ -196,21 +196,21 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                    </Sequence>
 
         case "ATMOSPHERE":
-            return <Atmosphere {...attrs}></Atmosphere>
+            return <Atmosphere  key={index} {...attrs}></Atmosphere>
 
         case "SKYISLAND":
-            return <SkyIsland position={attrs.position} {...attrs}>
+            return <SkyIsland   key={index} position={attrs.position} {...attrs}>
                        { filterAndEvalNodes(node.childNodes, false) }
                    </SkyIsland>
 
         case "WATERSTREAM":
-            return <WaterStream rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterStream>
+            return <WaterStream key={index} rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterStream>
         
         case "WATERFALL":
-            return <WaterFall rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterFall>
+            return <WaterFall   key={index} rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterFall>
 
         case "TREE":
-            return <Tree rotation={attrs.rotation} position={attrs.position} {...attrs}></Tree>
+            return <Tree        key={index}  rotation={attrs.rotation} position={attrs.position} {...attrs}></Tree>
 
 
         default:

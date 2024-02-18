@@ -1,21 +1,16 @@
+#root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 main {
   font-size: 22pt !important;
 }
 
-.theme._0 main {
-  color: #000000;
-}
-.theme._1 main {
-  color: #ffffff;
-}
-
-.visual-theme {
-  font-size: 1.85em !important;
-  vertical-align: bottom;
-}
-.visual-theme._0 {
-  padding-right: 0.3em;
-}
 
 #r3f-canvas canvas {
   position: fixed;
@@ -58,16 +53,89 @@ main {
   background:#ffffffb0;
 }
 
+
+.visual-theme {
+  font-size: 1.85em !important;
+  vertical-align: bottom;
+}
+.visual-theme._0 {
+  padding-right: 0.3em;
+}
+
+.theme._0 main {
+  color: #000000;
+}
+.theme._1 main {
+  color: #ffffff;
+}
+
+#ui_2d__button_container button {
+  background: none;
+}
+
+.theme._0 .ui_2d__button {
+  border: 0.07em solid #00d5ff;
+}
+
+.theme._0 .vr-button {
+  border: 0.07em solid #00d5ff !important;
+}
+
+.theme._1 .ui_2d__button  {
+  border: 0.07em solid #df0ca7;
+}
+
+.theme._1 .close-button  {
+  color: #df0ca7;
+}
+
+.theme._1 .vr-button {
+  border: 0.07em solid #df0ca7 !important;
+}
+
+
+.vr-button {
+  border-radius: 0.4em !important;
+  font-size: 0.9em;
+}
+
+.close-button {
+  color: white !important;
+  margin-left: 1em;
+  background: none;
+  border: none;
+  font-size: 2em;
+  transform: translate(0, -10px) !important;
+}
+
 #ui_2d__button_container {
   position: absolute;
-  bottom: 1em;
+  bottom: 0;
   right: 0;
   display: inline-block;
   margin-right: 0.5vw;
+  padding-bottom: 0.75em;
+}
+
+
+
+.ui_2d__button {
+  color: white;
+  vertical-align: top;
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+  
+  z-index: 9999 !important;
+  
+  border-radius: 0.2em !important;
+  cursor: pointer !important;
+
+  font-size: 2em;
 }
 
 .ui_2d__settings {
-  background-color: rgb(238 238 238);
+  color: white;
   z-index: 9999999999;
   position: relative;
   padding: 1em;
@@ -75,31 +143,17 @@ main {
   margin-bottom: 1em;
 }
 
-.ui_2d__button {
-  z-index: 9999 !important;
-  position: relative !important;
-  transform: none !important;
-  left: 0 !important;
-  top: 0 !important;
-  background-color: #eeeeee !important;
-  color: #444 !important;
-  border: 0.07em solid #ccc !important;
-  border-radius: 0.2em !important;
-  cursor: pointer !important;
-}
-
-input._2_glyph_icon {
+button._2_glyph_icon {
   border: 0;
   padding: 0.4vw;
   padding-top: 0.5vw;
   padding-bottom: 0.5vw;
+  font-size: 1.5em;
   cursor: pointer;
 } 
  
 #ui_2d__button_container .ui_2d__button {
-  
     margin-right: 0.5vw;
-    
 }
 
 .table {
@@ -110,6 +164,11 @@ input._2_glyph_icon {
 .row {
   display: flex;
   padding: 0.25em;
+}
+
+
+.ui_2d__settings .row .cell:first-child {
+  max-width: 3.5em;
 }
 
 .cell {

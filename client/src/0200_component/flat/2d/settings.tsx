@@ -15,7 +15,7 @@ export function Settings() {
         
         return (
             <div className="ui_2d__settings table"
-                style={{backgroundColor: '#ffffff'}}>
+                style={{backgroundColor: 'rgba(0,0,0, 0.2)'}}>
                 <div className="row">
                     <div className="cell">
                         <VisualThemeManager />
@@ -27,7 +27,7 @@ export function Settings() {
                         <input  type="button" 
                                 value="✕" 
                                 onClick={() => settingsOpenToggle()} 
-                                className="ui_2d__button"
+                                className="ui_2d__button close-button"
                                 style={{marginLeft: "1em"}}
                         />
                     </div>
@@ -70,10 +70,12 @@ export function Settings() {
 
 
     return (
-        <input  type='button' className={'ui_2d__button visual-theme _'}
-                onClick={() => settingsOpenToggle()} 
-                value={"⚙"}
-        />
+        <button className={'ui_2d__button'}
+                    style={{backgroundColor: 'rgba(0,0,0, 0.1)'}}
+                  onClick={() => settingsOpenToggle()} 
+        >
+            ⚙
+        </button>
     )
 
 

@@ -21,7 +21,6 @@ export interface LinkSurfaceProps {
 export const LinkSurface = (props: LinkSurfaceProps) => {
     const [location, setLocation] = useLocation();
     
-    console.log("i'll have ot find out");
 
     const clickLink = (location: string) => {
         if (location.startsWith("http")) {
@@ -47,7 +46,7 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
         if (hovered) {
             timer = setTimeout(() => {
                 clickLink(props.location);
-            }, 1000);
+            }, 500);
         }
 
         return () => {
@@ -71,15 +70,14 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                         setHovered(false); 
                     }}
             >
-                {
-                    // <LinkSurfaceFeedback 
-                    //     position={props.linkPosition || [0,0,0]}
-                    //     location={props.location}
-                    //     currentLocation={location}
-                    //     hovered={hovered}
-                    //     linkPosition={linkPosition}
-                    // />
-                }
+                <LinkSurfaceFeedback 
+                    position={props.linkPosition || [0,0,0]}
+                    location={props.location}
+                    currentLocation={location}
+                    hovered={hovered}
+                    linkPosition={linkPosition}
+                />
+                
                 <TextH3 meshRef={meshRef}
                         justify={props.justify}
                         onPointerOver={() => { 
