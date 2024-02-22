@@ -189,6 +189,9 @@ export class UserControls {
         // if (!this.enableFlying) {
         //     this.velocity.y -= 0.0025;
         // }
+
+        // air friction:
+        this.velocity.multiplyScalar(0.97);
     
         camera.updateMatrixWorld();
     }

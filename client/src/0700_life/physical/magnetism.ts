@@ -33,11 +33,11 @@ export class Magnetism {
     private handleCollision(magnet: Magnet): void {
         if (!this.camera) return;
 
-	if (magnet.shape == "box") {
+	    if (magnet.shape == "box") {
             if (magnet.rotation) {
                 // take rotation into account
                 // get local camera coordinates
-                
+
             } else {
                 this.handleBoxTopCollision([
                     this.camera.position.x - magnet.position[0],
@@ -50,15 +50,7 @@ export class Magnetism {
         }
     }
 
-    private handleSphereCollision(distance: number, magnet: Magnet) {
-        if (!this.camera) return;
-
-	if (distance < magnet.dimensions[0]) {
-            // handle collision
-            const bounceDirection = this.camera.position.clone().sub(new Vector3(...magnet.position)).normalize();
-            this.camera.position.add(bounceDirection.multiplyScalar(0.1));
-        }
-    }
+    
 
     private handleBoxTopCollision(localCameraCoordinates: [number, number], boxDimensions: number[]) {
         if (!this.camera) return;
@@ -71,6 +63,24 @@ export class Magnetism {
     }
 
     private handleBoxSideCollision(localCameraCoordinates: Vector3, boxDimensions: number[]) {
+        if (!this.camera) return;
 
-    } 
+        if (localCameraCoordinates.x > 0 && localCameraCoordinates.x < boxDimensions[0]
+            && localCameraCoordinates.y > 0 && localCameraCoordinates.y < boxDimensions[1]) {
+            // handle horizontal collision
+            this.camera.position.x = boxDimensions[0] + 0.5;
+        }
+    }
+    
+    
+
+    private handleSphereCollision(distance: number, magnet: Magnet) {
+        if (!this.camera) return;
+
+	if (distance < magnet.dimensions[0]) {
+            // handle collision
+            const bounceDirection = this.camera.position.clone().sub(new Vector3(...magnet.position)).normalize();
+            this.camera.position.add(bounceDirection.multiplyScalar(0.1));
+        }
+    }
 }
