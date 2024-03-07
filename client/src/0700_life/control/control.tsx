@@ -118,11 +118,10 @@ export class UserControls {
             // this.gyro?.update();
             this.calculatePosition(delta);
         } else {
-            let paws = "";
 
-            for (const hand in xRControllerState.handedness) {
+            for (const paw in xRControllerState.handedness) {
                 
-                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+                const controller = xRControllerState.handedness[paw as "left" | "right" | "none"];
 
                 if (controller.selecting && controller.group !== null) {
                     // current position minus previous position
@@ -193,6 +192,8 @@ export class UserControls {
         // air friction:
         this.velocity.multiplyScalar(0.97);
     
+        Universe.magnetism.update(delta);
+
         camera.updateMatrixWorld();
     }
 

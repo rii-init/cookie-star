@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Entity } from "..";
-import { MagneticField } from "../../0700_life/physical/magnetic-field";
+import { magnetServer } from "../../0700_life/system/magnet.server";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { Tree } from "./tree";
 
@@ -18,7 +18,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
             
             { p.children }
             
-            <MagneticField>
+            
                 <Entity editMode={true} position={[5*spread, 2, -5*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material-0" color={0xdfffa0} />
@@ -27,11 +27,12 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
+                    <magnetServer />
                 </Entity>
-            </MagneticField>
             
-            <MagneticField>
-                <Entity                position={[-3.5*spread, 0, 0*spread]}>
+            
+            
+                <Entity position={[-3.5*spread, 0, 0*spread]}>
                     <boxGeometry         attach="geometry" args={[6,2,4]} />
                     <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-1" color={0xdfffa0} />
@@ -39,10 +40,11 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
+                    <magnetServer />
                 </Entity>
-            </MagneticField>
+            
 
-            <MagneticField>
+            
                 <Entity editMode={true} position={[-7*spread, 0, -6.8*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material-0" color={0xdfffa0} />
@@ -51,12 +53,13 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
+                    <magnetServer />
                     
-                    <Tree   rotation={[0, -1.5/3*Math.PI, 0]} position={[0, 1.5, 0]} />
+                    <Tree rotation={[0, -1.5/3*Math.PI, 0]} position={[0, 1.5, 0]} />
                 </Entity>
-            </MagneticField>
             
-            <Entity     editMode={true} position={[3.25*spread, 0, -6.5*spread]}>
+            
+            <Entity editMode={true} position={[3.25*spread, 0, -6.5*spread]}>
                     <boxGeometry          attach="geometry" args={[3,2,3]} />
                     <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-1" color={0xdfffa0} />
@@ -64,6 +67,8 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
+                    <magnetServer />
+
             </Entity>
 
         </group>

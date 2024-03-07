@@ -1,11 +1,10 @@
-import { Group, Mesh, Object3D, Scene } from "three";
+import { Mesh, Scene } from "three";
 import { UserControls } from "../0700_life/control/control";
 import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
-import { Magnetism } from "../0700_life/physical/magnetism";
-import { BehaviorSubject, Observable, from, of } from "rxjs";
 import { stateManager } from "./state-manager";
+import { initSystems } from "../0700_life/system";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -27,7 +26,7 @@ export class Universe {
     public static ctx3:      any; 
     public static canvas:    any;
 
-    public static magnetism  = new Magnetism();
+    public static system = initSystems();
 
     public static net_transport: any;
     public static user_controls: UserControls;
