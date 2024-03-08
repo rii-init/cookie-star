@@ -32,7 +32,6 @@ import { XR_RENDER_SCALE } from './0000_concept/xr-render-scale';
 const R3FCanvas = Canvas as any;
 
 export const UniverseContext = createContext(Universe);
-export const MagnetismContext = createContext(Universe.magnetism);
 
 
 
@@ -121,8 +120,7 @@ function App() {
                     renderHudComponent={ () => <ScrollBar position={[5, 0, -5]} />}  />
                 }  
                 
-                <MagnetismContext.Provider value={Universe.magnetism}>
-                  <ScrollingBuffer>
+                <ScrollingBuffer>
                       <Router>
                           <RouterNavigationSurface />
                           <Switch>
@@ -132,8 +130,6 @@ function App() {
                           </Switch>
                       </Router>
                   </ScrollingBuffer>
-	          	  </MagnetismContext.Provider>
-              
             </UniverseContext.Provider>
 
           </XR>

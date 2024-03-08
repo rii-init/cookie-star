@@ -192,7 +192,7 @@ export class UserControls {
         // air friction:
         this.velocity.multiplyScalar(0.97);
     
-        Universe.magnetism.update(delta);
+        //Universe.magnetism.update(delta);
 
         camera.updateMatrixWorld();
     }

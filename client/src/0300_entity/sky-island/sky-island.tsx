@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Entity } from "..";
-import { magnetServer } from "../../0700_life/system/magnet.server";
+import { MagnetServer } from "../../0700_life/system/magnet.server";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { Tree } from "./tree";
 
@@ -27,7 +27,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
-                    <magnetServer />
+                    <MagnetServer />
                 </Entity>
             
             
@@ -40,7 +40,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
-                    <magnetServer />
+                    <MagnetServer />
                 </Entity>
             
 
@@ -53,7 +53,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
-                    <magnetServer />
+                    <MagnetServer />
                     
                     <Tree rotation={[0, -1.5/3*Math.PI, 0]} position={[0, 1.5, 0]} />
                 </Entity>
@@ -67,7 +67,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
                     <meshLambertMaterial attach="material-3" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-4" color={0xdfffa0} />
                     <meshLambertMaterial attach="material-5" color={0xdfffa0} />
-                    <magnetServer />
+                    <MagnetServer />
 
             </Entity>
 

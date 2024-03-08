@@ -1,6 +1,6 @@
-export const magnetServer = () => {
+export const MagnetServer = () => {
 
     return  (
-        null
+        <></>
     )
 }

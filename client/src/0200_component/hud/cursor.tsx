@@ -1,12 +1,11 @@
 
-import { useXR, useXREvent, XR } from "@react-three/xr";
-import { useEffect, useRef, useState } from "react";
-import { Group, Object3D } from "three";
+import { useEffect, useState } from "react";
+import { Object3D } from "three";
 import { Universe } from "../../0000_concept/universe";
-import { useFrame } from "@react-three/fiber";
+
 
 const WhiteSquare = (p: {
-        position: [number,number,number], children: React.ReactNode;
+        position: [number,number,number]
     }) => (
     <mesh position={p.position}>
         <boxGeometry args={[0.025, 0.025, 0.025]} />
@@ -42,14 +41,10 @@ export const Cursor = (p: CursorProps) => {
 
     return (
         <group rotation={[Math.PI / 2, 0, 0]} position={p.position}>
-            <WhiteSquare position={[-0.025- activated, 0,  0]}>
-            </WhiteSquare>
-            <WhiteSquare position={[ 0.025+ activated,  0,  0]} >
-            </WhiteSquare>       
-            <WhiteSquare position={[0.0,  0,  0.025+ activated]} >
-            </WhiteSquare>       
-            <WhiteSquare position={[0.0,  0, -0.025- activated]} >
-            </WhiteSquare>
+            <WhiteSquare position={[-0.025- activated, 0,  0]} />
+            <WhiteSquare position={[ 0.025+ activated,  0,  0]} />
+            <WhiteSquare position={[0.0,  0,  0.025+ activated]} />
+            <WhiteSquare position={[0.0,  0, -0.025- activated]} />
         </group>    
     );
 }

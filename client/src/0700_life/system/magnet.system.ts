@@ -53,7 +53,7 @@ export class MagnetSystem {
                 // this.handleBoxSideCollision();
             }
         } else if (magnet.shape == "sphere") {
-            this.handleSphereCollision(this.camera.position.distanceTo(new Vector3(...magnet.mesh.position)), magnet);
+            this.handleSphereCollision(this.camera.position.distanceTo(magnet.mesh.position), magnet);
         }
     }
 
@@ -95,7 +95,7 @@ export class MagnetSystem {
 
         if (distance < magnet.dimensions[0]) {
                 // handle collision
-                const bounceDirection = this.camera.position.clone().sub(new Vector3(...magnet.position)).normalize();
+                const bounceDirection = this.camera.position.clone().sub(magnet.mesh.position).normalize();
                 this.camera.position.add(bounceDirection.multiplyScalar(0.1));
         }
     }
