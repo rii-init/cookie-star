@@ -1,6 +1,5 @@
 import { Mesh, Scene } from "three";
 import { UserControls } from "../0700_life/control/control";
-import { LivingUwU } from "../0700_life/living_uwu";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 import { stateManager } from "./state-manager";
@@ -8,7 +7,7 @@ import { initSystems } from "../0700_life/system";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
- *  Universe  OwO  <3 <3 <3
+ *  Universe  OwO  <3 
  *⭐        🌟🧋
  */ 
 export class Universe { 
@@ -26,11 +25,10 @@ export class Universe {
     public static ctx3:      any; 
     public static canvas:    any;
 
-    public static system = initSystems();
-
     public static net_transport: any;
     public static user_controls: UserControls;
-    public static user:          LivingUwU;
 
+    public static system = initSystems();
+    
     public static state = stateManager
 }
