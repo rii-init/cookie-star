@@ -18,21 +18,23 @@ export const Tree = (props: TreeProps) => {
                 <cylinderGeometry args={[0.5,0.5,5.8]} />
                 <meshLambertMaterial color={SyntaxHighlight.Manifold} />
             </mesh>
+            
             {/* tree branches */}
-                <RotationOrigin key={0} rotation={[-Math.PI * 0.7,0,0]} origin={[0, -2, 0]}>
-                    <mesh position={[0,3,0]}>
-                        <cylinderGeometry args={[0.5, 0.5, 4]} />
-                        <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                    </mesh>
-                </RotationOrigin>
-                <RotationOrigin key={1} rotation={[Math.PI * 0.7, 0,0]} origin={[0, -2, 0]}>
-                    <mesh position={[0,3,0]}>
-                        <cylinderGeometry args={[0.5, 0.5, 4]} />
-                        <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                    </mesh>
-                </RotationOrigin>
+            <RotationOrigin key={0} rotation={[-Math.PI * 0.7,0,0]} origin={[0, -2, 0]}>
+                <mesh position={[0,3,0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 4]} />
+                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
+                </mesh>
+            </RotationOrigin>
+            <RotationOrigin key={1} rotation={[Math.PI * 0.7, 0,0]} origin={[0, -2, 0]}>
+                <mesh position={[0,3,0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 4]} />
+                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
+                </mesh>
+            </RotationOrigin>
+
+            {/* Canopy */}
             <group>
-                {/* Canopy */}
                 <mesh position={[-2,4,0]} rotation={[Math.PI/6, Math.PI/6,0]}>
                     <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
