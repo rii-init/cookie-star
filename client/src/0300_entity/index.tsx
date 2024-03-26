@@ -1,92 +1,115 @@
+import React, { useEffect } from "react";
+import { Children, ReactNode } from "react";
 import { RayGrab } from "@react-three/xr";
-import React from "react";
-import { Children, cloneElement, isValidElement, ReactNode } from "react";
-import { Components } from "../0700_life/components";
 
+import { System } from "../0700_life/system";
 
-// 
-function registerComponents(components: ReactNode, state: Record<string, any>) {
-	// get mesh position and rotation and geometry size and shape
-	
-	return Children.map(components, (geometryOrMaterial) => {
-		if (!React.isValidElement(geometryOrMaterial)) { 
-			return geometryOrMaterial;
-		}
-
-        // TODO: get geometryType from state object, for this entity
-        const geometryType = (geometryOrMaterial as React.ReactElement).type;
-
-		if (typeof geometryType === "string" && 
-		    ["boxGeometry", "sphereGeometry", "cylinderGeometry"].includes(geometryType)) {
-				let shape: "box" | "sphere" | "cylinder" = "box";
-
-				if (geometryType === "sphereGeometry") {
-					shape = "sphere";
-				}
-
-				if (geometryType === "cylinderGeometry") {
-					shape = "cylinder";
-				}
-
-                state.geometry = shape;
-
-		}
-
-        return geometryOrMaterial;
-		
-	})
-
-}
 
 export interface EntityProps {
-    id?:   string;
+    id?: string;
     name?: string;
 
     position?: [number, number, number];
     rotation?: [number, number, number];
-    matrix?:   [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number];
+    matrix?: [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number];
 
     children: ReactNode;
-
-    editMode?: boolean;
-    magnetic?: boolean;
-}
-
-const EditableEntiy = (p: EntityProps) => {
-
-    return (
-        <RayGrab>
-        <mesh position={p.position} rotation={p.rotation}>
-          { p.children }
-        </mesh>
-        </RayGrab>
-    )
 }
 
 
-export function initComponents(p: EntityProps): Components {
-    return {
-        position: p.position,
-        rotation: p.rotation
+// 
+function registerComponents(childrenOfMesh: ReactNode, parentState?: EntityState) {
+    // register components from children of entity (e.g. geometry, material, etc.)
+    // this is a recursive function that will register all components of the children of the entity
+    // Every three.js mesh is mapped to an Entity in the ECS model.
+    // Every child of this mesh is either a component or sub-entity (with its own children).
+
+    const entityState: EntityState = parentState || new EntityState();
+
+
+    return Children.map(childrenOfMesh, (component) => {
+        if (!React.isValidElement(component)) {
+            return component; // if it's something else, just return it
+        }
+
+        // check if component has children
+        if (component.props.children && typeof component.props.children === "object") {
+            // if so, register the children of the component
+            const subEntityState = new EntityState();
+
+            subEntityState.position = component.props.position || [0,0,0];
+            subEntityState.rotation = component.props.rotation || [0,0,0];
+
+            registerComponents(component.props.children, subEntityState);
+
+        } else {
+            const type = (component as any).type.name || (component as React.ReactElement).type;
+
+            if (typeof type === "string") {
+                
+                // check if there's an associated system for this component
+                if (System[type as string]) {
+                    // if so, register the component with the system
+                    System[type as string].registerComponent(component, entityState);
+                }
+            }
+        }
+
+
+        return component;
+    })
+}
+
+
+export class EntityState {
+    position: [number, number, number];
+    rotation: [number, number, number];
+    
+    geometry: any;
+    material: any;
+    
+    MagnetServer: any;
+    Editable: any;
+
+    constructor(){ 
+        this.position = [0,0,0];
+        this.rotation = [0,0,0];
+        this.geometry = null;
+        this.material = null;
+        this.MagnetServer = null;
+        this.Editable = null;
     }
 }
+
 
 export const Entity = (p: EntityProps) => {
-    const [state, setState] = React.useState(initComponents(p));
+    
+    useEffect(() => {
+        const state = new EntityState();
 
+        state.position = p.position || [0,0,0];
+        state.rotation = p.rotation || [0,0,0];
 
-    if (p.editMode) {
-        return (
-            <EditableEntiy position={p.position} rotation={p.rotation}>
-                { registerComponents(p.children, state) }
-            </EditableEntiy>
-          )
-    }
-
+        registerComponents(p.children, state);
+    }, []);
 
     return (
         <mesh position={p.position} rotation={p.rotation} >
-            { registerComponents(p.children, state) }
+            {p.children}
         </mesh>
     )
+}
+
+
+
+// keeping this here for a moment..
+function printChildren(children: ReactNode, depth = 0) {
+    React.Children.forEach(children, (child) => {
+        const typeName = (child as any).type.name || (child as any).type;
+
+        console.log("%c " +"    ".repeat(depth) + "├── " + typeName, 'background: '+['cyan', 'magenta', 'yellow'][depth % 3]+'; color: black');
+        if ((child as any).props.children) {
+            printChildren((child as any).props.children, depth + 1);
+        }
+    });
 }

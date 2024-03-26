@@ -70,8 +70,6 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
 
     return (
         <group position={[ position[0] + positionOffset[0], position[1] + positionOffset[1], position[2] - 5]}>
-            
-            // ...
 
             <mesh onClick={(e: {point: Vector3}) => onClick(scrollDomain, e)}
             onPointerMove={(e: {point: Vector3}) => onPointerMove(scrollDomain, e)}
@@ -79,7 +77,7 @@ export const ScrollBar = (props: {position: [number, number, number]}) => {
               onPointerUp={() => onPointerUp()}
             
             >
-                <boxBufferGeometry args={[0.5, frameHeight, 0.5]} />
+                <boxGeometry args={[0.5, frameHeight, 0.5]} />
                 <meshBasicMaterial visible={false} color="white" />
             </mesh>
 

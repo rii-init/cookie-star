@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Entity } from "..";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { RotationOrigin } from "../../0100_element/000_point/rotation-origin";
+import { Editable } from "../../0700_life/system/editable.system";
 
 export interface TreeProps {
     children?: ReactNode
@@ -12,7 +13,8 @@ export interface TreeProps {
 export const Tree = (props: TreeProps) => {
     
     return (
-        <Entity position={props.position} rotation={props.rotation} editMode={true}>
+        <Entity position={props.position} rotation={props.rotation}>
+            
             {/* tree trunk */}
             <mesh position={[0,0.5,0]}>
                 <cylinderGeometry args={[0.5,0.5,5.8]} />
@@ -56,6 +58,7 @@ export const Tree = (props: TreeProps) => {
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
             </group>
+            <Editable />
         </Entity>
     )
 }

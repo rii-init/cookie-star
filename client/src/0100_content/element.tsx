@@ -51,9 +51,9 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
                 138,
 
                 ( // Y
-                     ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
-                     + 
-                     2.8
+                    ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
+                    + 
+                    2.8
                 ),
 
                 0 // Z
@@ -200,7 +200,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
 
         case "SKYISLAND":
             return <SkyIsland   key={index} position={attrs.position} {...attrs}>
-                       { filterAndEvalNodes(node.childNodes, false) }
+                       {filterAndEvalNodes(node.childNodes, false)}
                    </SkyIsland>
 
         case "WATERSTREAM":

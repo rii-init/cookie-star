@@ -5,6 +5,7 @@ import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 import { useEffect, useState } from "react";
+import { System, SystemUpdateSequence } from "../0700_life/system";
 
 
 export type CTX3 = { 
@@ -34,6 +35,8 @@ export let ThreeJSContext = function() {
     }, [])
     
     useFrame((state, delta, xrFrame) => {
+      // bespoke entity behavior update:
+
       if (Universe.user_controls) {
         Universe.user_controls.update(delta);
       }
@@ -43,6 +46,13 @@ export let ThreeJSContext = function() {
         
         Universe.sky.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
       }
+      
+      
+      // update generic entities + systems:
+      for (let i = 0; i < SystemUpdateSequence.length; i++) {
+        SystemUpdateSequence[i].update(delta, System);
+      }
+      
     })
 
     

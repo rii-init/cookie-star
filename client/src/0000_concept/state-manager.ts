@@ -4,7 +4,7 @@ import { calculateResponsiveDocumentState } from "./responsive-document";
 
 export const stateManager = {
     cursor: {
-        $activation: new BehaviorSubject(0.025),
+        $activation: new BehaviorSubject(0.25),
         $parent:     new BehaviorSubject<Object3D | null>(null),
     },
     scrolling: {

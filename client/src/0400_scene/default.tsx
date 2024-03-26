@@ -6,6 +6,7 @@ import { SGS } from "../0100_content/static-generated-site";
 import { RunCommands } from "../0100_content/configure";
 import { Parser } from "../0100_content/parser";
 
+// The dynamic scene, which is generated from html generated from markdown
 export const DefaultScene = () => {
     const [location, setLocation] = useLocation();
     const [update, setUpdate] = useState(0);

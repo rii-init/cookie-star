@@ -1,6 +1,0 @@
-export const MagnetServer = () => {
-
-    return  (
-        <></>
-    )
-}

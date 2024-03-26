@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
 
-export interface Components {
+export interface ComponentState {
     "position"?: number[],
     "rotation"?: number[],
     

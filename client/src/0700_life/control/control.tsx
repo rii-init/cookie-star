@@ -95,11 +95,11 @@ export class UserControls {
     }
 
     public handlePointerOver = (mesh?: Mesh) => {
-        Universe.state.cursor.$activation.next(0.0);
+        Universe.state.cursor.$activation.next(0.15);
     }
 
     public handlePointerOut = (mesh?: Mesh) => {
-        Universe.state.cursor.$activation.next(0.025);
+        Universe.state.cursor.$activation.next(0.25);
     }
 
     

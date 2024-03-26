@@ -10,7 +10,7 @@ export interface CloudProps {
 export let Cloud = (p: CloudProps) => {
         
     return (
-        <Entity editMode={true}>                
+        <Entity>                
             <mesh position={p.position}
             >
                 <sphereGeometry args={[p.radius, 12, 12]} />
