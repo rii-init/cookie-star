@@ -124,17 +124,18 @@ export class MagnetSystem implements ISystem {
 
     private handleBoxTopCollision(cameraCoords: number[], globoBB: number[]) {
         if (!this.camera) return;
-        if (cameraCoords[0] > globoBB[0] && cameraCoords[0] < globoBB[3]
+        if (cameraCoords[0] > globoBB[0] && cameraCoords[0] < globoBB[3] // check x bounds
             && 
-            cameraCoords[1] > globoBB[1] && cameraCoords[1] < 1 - globoBB[4]
+            // above the bottom.... and below the top?
+            cameraCoords[1] > globoBB[1] && cameraCoords[1] < globoBB[4] + 1 // check y bounds
             &&
-            cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]
+            cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]     // check z bounds
         ) {
             // handle vertical collision
             console.log("bangin' on top of the box.");
             
             // set camera matrix to top of box
-            this.camera.matrix.elements[13] = globoBB[4];
+            this.camera.matrix.elements[13] = globoBB[4] + 1;
         }
     }
 

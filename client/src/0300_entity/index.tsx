@@ -50,7 +50,6 @@ function registerComponents(childrenOfMesh: ReactNode, state: EntityState, paren
                 // check if there's an associated system for this component
                 if (systems.byComponent[type as string]) {
                     // if so, register the component with the system
-                    console.log("system registerComponent", parentMesh);
                     systems.byComponent[type as string].registerComponent(component, state, parentMesh);
                 }
             }
