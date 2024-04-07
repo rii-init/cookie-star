@@ -3,7 +3,6 @@ import { UserControls } from "../0700_life/control/control";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 import { stateManager } from "./state-manager";
-import { initSystems } from "../0700_life/system";
 
 /***    ⭐       🪐✨
  * 🌟    ✨⭐
@@ -25,10 +24,9 @@ export class Universe {
     public static ctx3:      any; 
     public static canvas:    any;
 
+    // refactor these into UserSystem as next task
     public static net_transport: any;
     public static user_controls: UserControls;
-
-    public static system = initSystems();
     
     public static state = stateManager
 }

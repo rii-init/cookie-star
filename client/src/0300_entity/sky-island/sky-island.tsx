@@ -3,7 +3,6 @@ import { Entity } from "..";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
 import { Tree } from "./tree";
 import { MagnetServer } from "../../0700_life/system/magnet.system";
-import { Editable } from "../../0700_life/system/editable.system";
 
 export interface SkyIslandProps {
     children?: ReactNode
@@ -14,12 +13,14 @@ export interface SkyIslandProps {
 export const SkyIsland = (p: SkyIslandProps) => {
     const spread = p.spread !== undefined ? p.spread : 1;
 
+    console.log("init SkyIsland 🏝");
+
     return (
         <group position={p.position}>
             
             { p.children }
             
-            <Entity position={[5*spread, 2, -5*spread]}>
+            <Entity position={[5*spread, 2, -5*spread]} name="small-island 1">
                 <boxGeometry         attach="geometry"    args={[3,2,3]} />
                 <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                 <meshLambertMaterial attach="material-1" color={0xdfffa0} />
@@ -31,7 +32,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
                 
             </Entity>
             
-            <Entity position={[-3.5*spread, 0, 0*spread]}>
+            <Entity position={[-3.5*spread, 0, 0*spread]} name="BIG-island">
                 <boxGeometry         attach="geometry"    args={[6,2,4]} />
                 <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                 <meshLambertMaterial attach="material-1" color={0xdfffa0} />
@@ -43,7 +44,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
 
             </Entity>
             
-            <Entity position={[-7*spread, 0, -6.8*spread]}>
+            <Entity position={[-7*spread, 0, -6.8*spread]} name="small-island 2">
                 <boxGeometry         attach="geometry"    args={[3,2,3]} />
                 <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                 <meshLambertMaterial attach="material-1" color={0xdfffa0} />
@@ -57,7 +58,7 @@ export const SkyIsland = (p: SkyIslandProps) => {
             </Entity>
             
             
-            <Entity position={[3.25*spread, 0, -6.5*spread]}>
+            <Entity position={[3.25*spread, 0, -6.5*spread]} name="small-island 3">
                 <boxGeometry         attach="geometry"    args={[3,2,3]} />
                 <meshLambertMaterial attach="material-0" color={0xdfffa0} />
                 <meshLambertMaterial attach="material-1" color={0xdfffa0} />

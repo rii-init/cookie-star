@@ -11,9 +11,10 @@ export interface TreeProps {
 }
 
 export const Tree = (props: TreeProps) => {
+    console.log("init Tree 🌳");
     
     return (
-        <Entity position={props.position} rotation={props.rotation}>
+        <Entity position={props.position} rotation={props.rotation} name="tree-of-life">
             
             {/* tree trunk */}
             <mesh position={[0,0.5,0]}>

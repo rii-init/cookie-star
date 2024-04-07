@@ -3,40 +3,57 @@ import { GeometrySystem } from "./geometry.system";
 import { MagnetSystem } from "./magnet.system";
 import { EditableSystem } from "./editable.system";
 import { EntityState } from "../../0300_entity";
+import { Group, Mesh } from "three";
 
 
 export interface ISystem {
-    registerComponent: (component: ReactElement, state: EntityState) => void;
-    update: (delta: number, context: Record<string, any>) => void;
+    registerComponent: (component: ReactElement, state: EntityState, parentMesh?: Mesh | Group) => void;
+    update: (delta: number, context: System) => void;
+    
     removeComponent: (component: any) => void;
+    clear:           ()               => void;
+
     dependencies?: any;
 }
 
-export const System: Record<string, ISystem> = {
-  "MagnetClient":         null as any,
-  "MagnetServer":         null as any,
-  "boxGeometry":      null as any,
-  "sphereGeometry":   null as any,
-  "cylinderGeometry": null as any,
-}
 
-export const SystemUpdateSequence = [] as ISystem[];
+export class System {
+  
+  updateSequence: ISystem[]               = [];
+  byComponent:    Record<string, ISystem> = {};
+  
+  constructor() {
+    this.updateSequence = [];
+    this.byComponent = {};
 
-
-export function initSystems() {
+    // ecs systems:
     const magnetSystem   = new MagnetSystem();
     const geometrySystem = new GeometrySystem();
     const editSystem = new EditableSystem();
 
-    System.MagnetClient = magnetSystem;
-    System.MagnetServer = magnetSystem;
+    // custom components and their associated systems:
+    this.byComponent.MagnetClient = magnetSystem;
+    this.byComponent.MagnetServer = magnetSystem;
+    this.byComponent.Editable = editSystem;
 
-    System.boxGeometry = geometrySystem;
-    System.sphereGeometry = geometrySystem;
-    System.cylinderGeometry = geometrySystem;
-    System.Editable = editSystem;
+    // react-three/fiber components and their associated systems:
+    this.byComponent.boxGeometry      = geometrySystem;
+    this.byComponent.sphereGeometry   = geometrySystem;
+    this.byComponent.cylinderGeometry = geometrySystem;
+    
+    
+    // some of these need to do things in a certain order, at animation time
+    this.updateSequence.push(magnetSystem);
+  }
 
-    SystemUpdateSequence.push(magnetSystem);
-
-    return System;
+  clear() {
+    // Clear all ECS entities and ECS components from registry:
+    // (unless entity is exempted (like the user/camera, during scene change) )
+    console.log("clearing systems state");
+    for (const key in this.byComponent) {
+      this.byComponent[key].clear();
+    }
+  }
 }
+
+export const systems = new System();

@@ -1,5 +1,5 @@
 import { Camera, Vector3 } from "three";
-import { ISystem } from ".";
+import { ISystem, System } from ".";
 import { ReactElement } from "react";
 import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
@@ -28,20 +28,6 @@ export class MagnetSystem implements ISystem {
     private magnets: IMagnetServer[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
 
-    private setCamera(camera: THREE.Camera) {
-        this.camera = camera;
-    }
-
-    private getGlobalBoundingBox(state: EntityState): number[] {
-        const globoBB = [] as number[]; 
-            
-        // 😳 oh my
-        for (let i = 0; i < state.geometry.localBoundingBox.length; i++) {
-            globoBB.push(state.geometry.localBoundingBox[i] + state.position[i % 3]);
-        }
-
-        return globoBB;
-    }
 
     public registerComponent(component: ReactElement, state: EntityState) {
         const magnet =  { 
@@ -52,11 +38,25 @@ export class MagnetSystem implements ISystem {
                             shape:             state.geometry.type, 
                         } as IMagnetServer;
 
+        // get global position of mesh
+        console.log("is state.mesh? ", state.mesh);
+        const globalPosition = (
+            state.mesh?.getWorldPosition(new Vector3(0,0,0)).toArray() as [number, number, number] ||
+            [0,0,0]
+        )
+        
+        // is your chumk a chonk?
         if (magnet.shape == "boxGeometry") {           // hefty chonk 🐈
-            magnet.globalBoundingBox = this.getGlobalBoundingBox(state) as [number, number, number, number, number, number];
+            // log state.position vs globalPosition
+            console.log("state.position", state.position, "global position", globalPosition);
+            
+            magnet.globalBoundingBox = this.getGlobalBoundingBox(
+                state, 
+                globalPosition
+            ) as [number, number, number, number, number, number];
         
         } else if (magnet.shape == "sphereGeometry") { // oh lawd he comin' 🐱
-            magnet.vec3_position = new Vector3(state.position[0], state.position[1], state.position[2])
+            magnet.vec3_position = new Vector3(...globalPosition)
             magnet.radius = state.geometry.args[0];
 
         }
@@ -65,11 +65,8 @@ export class MagnetSystem implements ISystem {
         this.magnets.push(magnet);
     }
 
-    public removeComponent(magnet: IMagnetServer) {
-        this.magnets = this.magnets.filter(m => m !== magnet);
-    }
 
-    public update(delta: number, context: Record<string, any>) {
+    public update(delta: number, context: System) {
         if (!this.dependencies) return;
         
         for (let idx = this.magnets.length; idx--; idx >= 0) {
@@ -77,8 +74,30 @@ export class MagnetSystem implements ISystem {
         }   
     } 
 
+
+    public removeComponent(magnet: IMagnetServer) {
+        this.magnets = this.magnets.filter(m => m !== magnet);
+    }
+
+    public clear() {
+        this.magnets = [];
+    }
+
+
+
     get dependencies() {
         return this.camera ? this.camera : (this.camera = Universe?.ctx3?.camera);
+    }
+
+    private getGlobalBoundingBox(state: EntityState, globalPosition: [number, number, number]): number[] {
+        const globoBB = [] as number[]; 
+            
+        // 😳 oh my
+        for (let i = 0; i < state.geometry.localBoundingBox.length; i++) {
+            globoBB.push(state.geometry.localBoundingBox[i] + globalPosition[i % 3]);
+        }
+
+        return globoBB;
     }
 
     private handleCollision(magnet: IMagnetServer): void {
@@ -107,7 +126,7 @@ export class MagnetSystem implements ISystem {
         if (!this.camera) return;
         if (cameraCoords[0] > globoBB[0] && cameraCoords[0] < globoBB[3]
             && 
-            cameraCoords[1] > globoBB[1] && cameraCoords[1] < globoBB[4]
+            cameraCoords[1] > globoBB[1] && cameraCoords[1] < 1 - globoBB[4]
             &&
             cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]
         ) {

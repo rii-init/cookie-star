@@ -17,6 +17,10 @@ export class EditableSystem implements ISystem {
 
     }
 
+    public clear() {
+        
+    }
+
     public update(delta: number, context: Record<string, any>) {
 
     }

@@ -5,7 +5,7 @@ import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
 import { UserControls } from "../0700_life/control/control";
 import { useEffect, useState } from "react";
-import { System, SystemUpdateSequence } from "../0700_life/system";
+import { systems } from "../0700_life/system";
 
 
 export type CTX3 = { 
@@ -49,8 +49,8 @@ export let ThreeJSContext = function() {
       
       
       // update generic entities + systems:
-      for (let i = 0; i < SystemUpdateSequence.length; i++) {
-        SystemUpdateSequence[i].update(delta, System);
+      for (let i = 0; i < systems.updateSequence.length; i++) {
+        systems.updateSequence[i].update(delta, systems);
       }
       
     })

@@ -10,7 +10,8 @@ export interface WaterFallProps {
 export const WaterFall = (p: WaterFallProps) => {
     return (
         <Entity position={[ p.position[0], p.position[1] - 50, p.position[2] ]} 
-                rotation={p.rotation}>
+                rotation={p.rotation}
+                name="💧 waterfall">
             
             <boxGeometry args={[2,100,0.5]} />
             <meshLambertMaterial transparent={true} opacity={0.4} color={SyntaxHighlight.Sequence} />

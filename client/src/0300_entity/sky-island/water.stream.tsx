@@ -13,7 +13,7 @@ export const WaterStream = (p: WaterStreamProps) => {
     const scale = p.scale || [2,0.25,3];
     
     return (
-        <Entity position={p.position} rotation={p.rotation}>
+        <Entity position={p.position} rotation={p.rotation} name="🌊 water stream">
             <boxGeometry args={scale} />
             <meshLambertMaterial transparent={true} opacity={0.4} color={SyntaxHighlight.Sequence} />
         </Entity>

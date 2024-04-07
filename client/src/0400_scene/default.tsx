@@ -12,6 +12,8 @@ export const DefaultScene = () => {
     const [update, setUpdate] = useState(0);
 
     useEffect(() => {
+        console.log("scene::default:: RunCommands.invoke(config) ");
+
         // parse the config file:
         const config = Parser.parseConfig();
         // run the commands found in the html:
@@ -19,7 +21,7 @@ export const DefaultScene = () => {
     }, [])
 
     useEffect(() => {
-        
+        console.log("scene::default:: useEffect(, [location])", location)
         // page url changed, for example /, or /cv, or /articles/designing-fursuit 
         SGS.loadContent(location).subscribe(() => {
             setUpdate(update + 1);
@@ -27,9 +29,11 @@ export const DefaultScene = () => {
 
     }, [location]);
 
+    console.log("scene::default:: render/update: ", update, location);
+
     return (
         <group>
-            <Evaluator location={location} update={update}></Evaluator>
+            {update > 0 && <Evaluator location={location}></Evaluator> }
         </group>
     );
 }

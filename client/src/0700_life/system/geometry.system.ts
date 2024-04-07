@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { ISystem } from ".";
+import { ISystem, System } from ".";
 import { EntityState } from "../../0300_entity";
 
 export class GeometrySystem implements ISystem {
@@ -8,8 +8,6 @@ export class GeometrySystem implements ISystem {
         // take the "args" prop and store it in the state
         const localBoundingBox = [0,0,0, 0,0,0];
         
-        console.log("GeometrySystem.registerComponent component", component);
-
         if (component.props.args) {
 
             if ((component as any).type) {
@@ -38,15 +36,17 @@ export class GeometrySystem implements ISystem {
             args: (component as any)?.props?.args,
             localBoundingBox
         }
-
-        console.log("GeometrySystem.registerComponent state", state);
     }
 
     public removeComponent(component: any) {
         // noop
     }
 
-    public update(delta: number, context: Record<string, any>) {
+    public clear() {
+        // also noop (Nice!)
+    }
+
+    public update(delta: number, context: System) {
 
     }
 }
