@@ -28,7 +28,6 @@ export class MagnetSystem implements ISystem {
     private magnets: IMagnetServer[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
 
-
     public registerComponent(component: ReactElement, state: EntityState) {
         const magnet =  { 
                             vec3_position:     null,
@@ -39,7 +38,6 @@ export class MagnetSystem implements ISystem {
                         } as IMagnetServer;
 
         // get global position of mesh
-        console.log("is state.mesh? ", state.mesh);
         const globalPosition = (
             state.mesh?.getWorldPosition(new Vector3(0,0,0)).toArray() as [number, number, number] ||
             [0,0,0]
