@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
-import { ISystem, System } from ".";
+import { System, Systems, SystemComponentState } from ".";
 import { EntityState } from "../../0300_entity";
 
-export class GeometrySystem implements ISystem {
+export class GeometrySystem implements System {
 
     public registerComponent(component: ReactElement, state: EntityState) {
         // take the "args" prop and store it in the state
@@ -34,7 +34,7 @@ export class GeometrySystem implements ISystem {
         state["geometry"] = {
             type: (component as any).type,
             args: (component as any)?.props?.args,
-            localBoundingBox
+            localBoundingBox,
         }
     }
 
@@ -42,11 +42,7 @@ export class GeometrySystem implements ISystem {
         // noop
     }
 
-    public clear() {
-        // also noop (Nice!)
-    }
-
-    public update(delta: number, context: System) {
+    public update(delta: number, context: Systems) {
 
     }
 }

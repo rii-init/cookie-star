@@ -1,5 +1,5 @@
 import { Camera, Vector3 } from "three";
-import { ISystem, System } from ".";
+import { System, SystemComponentState, Systems } from ".";
 import { ReactElement } from "react";
 import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
@@ -22,20 +22,34 @@ export interface IMagnetServer {
 }
 
 
-export class MagnetSystem implements ISystem {
+class MagnetServerState implements IMagnetServer {
+    shape:             "boxGeometry" | "sphereGeometry";
+    globalBoundingBox: [number, number, number,
+                        number, number, number];
+    
+    radius:             number;
+    
+    position:      [number, number, number];
+    vec3_position: Vector3 | null;
+    rotation?:     [number, number, number];
+
+    constructor(state: EntityState) {
+        this.shape = state.geometry.type;
+        this.position = state.position;
+        this.vec3_position = null;
+        this.radius = 0;
+        this.globalBoundingBox = [0,0,0,0,0,0];
+    }
+}
+
+export class MagnetSystem implements System {
 
     private camera?: THREE.Camera;
     private magnets: IMagnetServer[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
 
-    public registerComponent(component: ReactElement, state: EntityState) {
-        const magnet =  { 
-                            vec3_position:     null,
-                            position:          state.position,
-                            globalBoundingBox: [] as number[], 
-                            radius:            0,
-                            shape:             state.geometry.type, 
-                        } as IMagnetServer;
+    public registerComponent(component: ReactElement, state: EntityState): void {
+        const magnet =  new MagnetServerState(state);
 
         // get global position of mesh
         const globalPosition = (
@@ -59,14 +73,19 @@ export class MagnetSystem implements ISystem {
 
         }
 
-        state["MagnetServer"] = { active: true };
+        console.log("setting system state for component: ", state, state.systemEntityState);
+
+        state.systemEntityState["MagnetServer"] = {
+            remove: () => this.removeComponent(magnet)
+        };
+
         this.magnets.push(magnet);
     }
 
 
-    public update(delta: number, context: System) {
+    public update(delta: number, context: Systems) {
         if (!this.dependencies) return;
-        
+        console.log("magnets ", this.magnets.length);
         for (let idx = this.magnets.length; idx--; idx >= 0) {
             this.handleCollision(this.magnets[idx]);
         }   

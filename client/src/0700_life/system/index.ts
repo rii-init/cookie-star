@@ -6,21 +6,36 @@ import { EntityState } from "../../0300_entity";
 import { Group, Mesh } from "three";
 
 
-export interface ISystem {
+// Entity-facing interface for a component + system
+export interface SystemComponentState {
+  // cleans up instance of an entity from the perspective of a system
+  remove(): void;
+  // various other things for the system in question
+  [key: string]: any;
+}
+
+// Entity-facing interface for an entity + system
+export class SystemEntityState {
+  constructor (
+      public MagnetServer?: SystemComponentState,
+      public Editable?:     SystemComponentState,
+  ) {}
+} 
+
+
+export interface System {
     registerComponent: (component: ReactElement, state: EntityState, parentMesh?: Mesh | Group) => void;
-    update: (delta: number, context: System) => void;
-    
-    removeComponent: (component: any) => void;
-    clear:           ()               => void;
+    update: (delta: number, context: Systems) => void;
+    removeComponent: (component: any)         => void;
 
     dependencies?: any;
 }
 
 
-export class System {
+export class Systems {
   
-  updateSequence: ISystem[]               = [];
-  byComponent:    Record<string, ISystem> = {};
+  updateSequence: System[]               = [];
+  byComponent:    Record<string, System> = {};
   
   constructor() {
     this.updateSequence = [];
@@ -45,15 +60,6 @@ export class System {
     // some of these need to do things in a certain order, at animation time
     this.updateSequence.push(magnetSystem);
   }
-
-  clear() {
-    // Clear all ECS entities and ECS components from registry:
-    // (unless entity is exempted (like the user/camera, during scene change) )
-    console.log("clearing systems state");
-    for (const key in this.byComponent) {
-      this.byComponent[key].clear();
-    }
-  }
 }
 
-export const systems = new System();
+export const systems = new Systems();

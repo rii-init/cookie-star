@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Children, ReactNode } from "react";
 
-import { systems } from "../0700_life/system";
+import { SystemComponentState, SystemEntityState, systems } from "../0700_life/system";
 
 
 export interface EntityProps {
@@ -61,26 +61,41 @@ function registerComponents(childrenOfMesh: ReactNode, state: EntityState, paren
 }
 
 
+function unRegisterEntityTree(state: EntityState) {
+    // unregister components at this entity node
+    for (const systemName in state.systemEntityState) {
+        console.log("trying to remove system state for: ", systemName, state.systemEntityState);
+
+        if ((state.systemEntityState as Record<string ,any>)[systemName]) {
+            (state.systemEntityState as Record<string ,any>)[systemName].remove();
+        }
+    }
+
+    // unregister components at child entity nodes
+    for (const subEntityState of state.subEntityState) {
+        unRegisterEntityTree(subEntityState);
+    }
+}
+
+
 export class EntityState {
+
     position: [number, number, number];
     rotation: [number, number, number];
-    
-    geometry: any;
-    material: any;
-    
-    MagnetServer: any;
-    Editable: any;
+    geometry: any = null;
+    material: any = null;
 
-    mesh: THREE.Mesh | THREE.Group | null;
+    mesh: THREE.Mesh | THREE.Group | null = null;
 
-    constructor(){ 
+    subEntityState:    EntityState[]      = [];
+    systemEntityState: SystemEntityState;
+
+    constructor() { 
+
         this.position = [0,0,0];
         this.rotation = [0,0,0];
-        this.geometry = null;
-        this.material = null;
-        this.MagnetServer = null;
-        this.Editable = null;
-        this.mesh = null;
+        
+        this.systemEntityState = new SystemEntityState();
     }
 }
 
@@ -98,6 +113,11 @@ export const Entity = (p: EntityProps) => {
         state.mesh = meshRef.current;
         
         registerComponents(p.children, state, meshRef.current);
+
+        return () => {
+            // when done, remove all component state from the system
+            unRegisterEntityTree(state);
+        }
     }, [meshRef.current]);
 
     return (
