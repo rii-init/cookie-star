@@ -1,2 +1,4 @@
 # ultr7a.com
-Personal metasite, CV, and playground, using react-three/fiber.
+WebXR game engine, blogging framework and static site generator.
+
+Create VR environments from markdown :)
