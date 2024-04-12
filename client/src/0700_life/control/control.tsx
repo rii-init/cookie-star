@@ -27,7 +27,7 @@ export class UserControls {
     
     public  moveVector   = new Vector3(0, 0, 0);
     public  velocity     = new Vector3(0, 0, 0);
-  
+
     public enableFlying        = false;
     public controllersAttached = false;
 
@@ -227,20 +227,20 @@ export class UserControls {
     private calculateNonVRCameraMovementStep3(camera: Camera, delta: number, m1T: [number, number, number]) {
         camera.matrix.multiply(this.movement);
 
-        const     m2T = camera.matrix.elements.slice(12,15);
+        const     m2T = camera.matrix.elements.slice(12, 15);
         const deltaMT = new Vector3(m2T[0]-m1T[0], m2T[1]-m1T[1], m2T[2]-m1T[2]);
 
         this.velocity.add(deltaMT.multiplyScalar(0.1));
 
-        const elements = camera.matrix.elements 
-              
-              elements[12] -= deltaMT.x;
-              elements[13] -= deltaMT.y;
-              elements[14] -= deltaMT.z;
+        const   elements = camera.matrix.elements; 
 
-              elements[12] += this.velocity.x;
-              elements[13] += this.velocity.y;
-              elements[14] += this.velocity.z;
+                elements[12] -= deltaMT.x;
+                elements[13] -= deltaMT.y;
+                elements[14] -= deltaMT.z;
+
+                elements[12] += this.velocity.x;
+                elements[13] += this.velocity.y;
+                elements[14] += this.velocity.z;
         
         camera.updateMatrixWorld(true);
     }

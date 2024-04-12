@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Children, ReactNode } from "react";
 
-import { SystemComponentState, SystemEntityState, systems } from "../0700_life/system";
+import { SystemEntityState, systems } from "../0700_life/system";
 
 
 export interface EntityProps {
@@ -64,7 +64,6 @@ function registerComponents(childrenOfMesh: ReactNode, state: EntityState, paren
 function unRegisterEntityTree(state: EntityState) {
     // unregister components at this entity node
     for (const systemName in state.systemEntityState) {
-        console.log("trying to remove system state for: ", systemName, state.systemEntityState);
 
         if ((state.systemEntityState as Record<string ,any>)[systemName]) {
             (state.systemEntityState as Record<string ,any>)[systemName].remove();

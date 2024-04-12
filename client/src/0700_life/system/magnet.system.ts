@@ -3,6 +3,7 @@ import { System, SystemComponentState, Systems } from ".";
 import { ReactElement } from "react";
 import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
+import { UserControls } from "../control/control";
 
 
 export const MagnetServer = () => null;
@@ -44,7 +45,9 @@ class MagnetServerState implements IMagnetServer {
 
 export class MagnetSystem implements System {
 
-    private camera?: THREE.Camera;
+    private camera?:       THREE.Camera; // required; loaded async
+    private userControls?: UserControls; 
+
     private magnets: IMagnetServer[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
 
@@ -59,8 +62,6 @@ export class MagnetSystem implements System {
         
         // is your chumk a chonk?
         if (magnet.shape == "boxGeometry") {           // hefty chonk 🐈
-            // log state.position vs globalPosition
-            console.log("state.position", state.position, "global position", globalPosition);
             
             magnet.globalBoundingBox = this.getGlobalBoundingBox(
                 state, 
@@ -73,8 +74,6 @@ export class MagnetSystem implements System {
 
         }
 
-        console.log("setting system state for component: ", state, state.systemEntityState);
-
         state.systemEntityState["MagnetServer"] = {
             remove: () => this.removeComponent(magnet)
         };
@@ -85,7 +84,7 @@ export class MagnetSystem implements System {
 
     public update(delta: number, context: Systems) {
         if (!this.dependencies) return;
-        console.log("magnets ", this.magnets.length);
+        
         for (let idx = this.magnets.length; idx--; idx >= 0) {
             this.handleCollision(this.magnets[idx]);
         }   
@@ -103,7 +102,14 @@ export class MagnetSystem implements System {
 
 
     get dependencies() {
-        return this.camera ? this.camera : (this.camera = Universe?.ctx3?.camera);
+        if (this.camera && this.userControls) {
+            return true;
+        } 
+        
+        this.camera = Universe?.ctx3?.camera;
+        this.userControls = Universe?.user_controls; 
+        
+        return this.camera && this.userControls
     }
 
     private getGlobalBoundingBox(state: EntityState, globalPosition: [number, number, number]): number[] {
@@ -149,10 +155,14 @@ export class MagnetSystem implements System {
             cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]     // check z bounds
         ) {
             // handle vertical collision
-            console.log("bangin' on top of the box.");
             
             // set camera matrix to top of box
             this.camera.matrix.elements[13] = globoBB[4] + 1;
+
+            // invert the y velocity of the user
+            if (this.userControls) {
+                this.userControls.velocity.y *= -0.9; // check how bouncy the object is.. and the user too :3
+            }
         }
     }
 
