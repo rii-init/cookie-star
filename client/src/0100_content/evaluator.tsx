@@ -2,8 +2,9 @@ import { EvalHTMLToReactElement } from './element';
 import { htmlNodeFilter } from './filter';
 
 
-export function Evaluator (props: { location: string, update: number }) {
-    
+export function Evaluator (props: { location: string }) {
+    console.log("evaluator render/update: ", props.location);
+
     return (
         <>
         {  

@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Entity } from "..";
 import { SyntaxHighlight } from "../../1000_aesthetic/syntax-highlight";
+import { RotationOrigin } from "../../0100_element/000_point/rotation-origin";
+import { Editable } from "../../0700_life/system/editable.system";
 
 export interface TreeProps {
     children?: ReactNode
@@ -9,56 +11,55 @@ export interface TreeProps {
 }
 
 export const Tree = (props: TreeProps) => {
+    console.log("init Tree 🌳");
     
     return (
-        <Entity position={props.position} rotation={props.rotation} editMode={true}>
+        <Entity position={props.position} rotation={props.rotation} name="tree-of-life">
+            
             {/* tree trunk */}
             <mesh position={[0,0.5,0]}>
-                <boxGeometry args={[1,5.8,1]} />
+                <cylinderGeometry args={[0.5,0.5,5.8]} />
                 <meshLambertMaterial color={SyntaxHighlight.Manifold} />
             </mesh>
-            {/* tree top */}
+            
+            {/* tree branches */}
+            <RotationOrigin key={0} rotation={[-Math.PI * 0.7,0,0]} origin={[0, -2, 0]}>
+                <mesh position={[0,3,0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 4]} />
+                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
+                </mesh>
+            </RotationOrigin>
+            <RotationOrigin key={1} rotation={[Math.PI * 0.7, 0,0]} origin={[0, -2, 0]}>
+                <mesh position={[0,3,0]}>
+                    <cylinderGeometry args={[0.5, 0.5, 4]} />
+                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
+                </mesh>
+            </RotationOrigin>
+
+            {/* Canopy */}
             <group>
-                {/* <mesh position={[0,4,0]} rotation={[Math.PI/-3, Math.PI/-3,0]}>
-                    <boxGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh> */}
-                <mesh position={[0.5,5,0.75]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <boxGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh>
-                <mesh position={[-0.5,5,-0.75]} rotation={[Math.PI/-6, Math.PI/-6,0]}>
-                    <boxGeometry args={[1,4,1]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Manifold} />
-                </mesh>
-            </group>
-            <group>
-                {/* Canopy */}
                 <mesh position={[-2,4,0]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
-                    <meshLambertMaterial color={SyntaxHighlight.Structure} />
-                </mesh>
-                <mesh position={[-2,4,0]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
+                    <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
                 <mesh position={[1,5,-2]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
+                    <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
                 <mesh position={[1,5,2]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
+                    <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
                 <mesh position={[-0.5,6,0]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
+                    <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
                 <mesh position={[0.4,6,0]} rotation={[Math.PI/6, Math.PI/6,0]}>
-                    <sphereGeometry args={[2,4,4]} />
+                    <sphereGeometry args={[2, 12, 12]} />
                     <meshLambertMaterial color={SyntaxHighlight.Structure} />
                 </mesh>
             </group>
+            <Editable />
         </Entity>
     )
 }

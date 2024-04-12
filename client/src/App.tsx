@@ -2,22 +2,21 @@ import React, { createContext, useEffect, useRef } from 'react';
 
 import { Route, Router, Switch } from "wouter";
 
-import './App.css';
-
+import { NoToneMapping } from 'three';
 import { Controllers, Hands, useController, useXR, VRButton, XR, XREvent, XRManagerEvent } from '@react-three/xr';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 
 import { ResizeObserver } from '@juggle/resize-observer';
+
+import './App.css';
 
 import { ThreeJSContext } from './0000_api/three-ctx';
 import { Universe } from './0000_concept/universe';
 import { ResizeCanvas } from './0000_concept/resize-canvas';
-import { themeIdx, VisualThemeManager } from './1000_aesthetic/visual-theme.manager';
+import { themeIdx } from './1000_aesthetic/visual-theme.manager';
 
 import { RouterNavigationSurface } from './0200_component/flat/navigation-surface/RouterNavigationSurface';
 
-import { NoToneMapping } from 'three';
-import { ScrollingBuffer } from './0200_component/meta/scrolling-buffer';
 import { Settings } from './0200_component/flat/2d/settings';
 import { settingsState } from './0000/settings-state';
 import { HudPortal } from './0200_component/hud/hud.portal';
@@ -32,7 +31,6 @@ import { XR_RENDER_SCALE } from './0000_concept/xr-render-scale';
 const R3FCanvas = Canvas as any;
 
 export const UniverseContext = createContext(Universe);
-export const MagnetismContext = createContext(Universe.magnetism);
 
 
 
@@ -46,14 +44,14 @@ function App() {
           <VRButton className="ui_2d__button vr-button" />
       </div>
 
-        <R3FCanvas        id="r3f-canvas"
-                   className="fullScreen"
-                      resize={{ polyfill: ResizeObserver }} 
-                          gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state ? true : false }}
-                   frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
+        <R3FCanvas  id="r3f-canvas"
+                    className="fullScreen"
+                    resize={{ polyfill: ResizeObserver }} 
+                    gl={{ alpha: false, toneMapping: NoToneMapping, antialias: settingsState.controls.aa.state ? true : false }}
+                    frameloop={ settingsState.controls.animation.state ? "always" : "demand" }
         >
           <color attach="background" 
-                   args={Universe.colors.background} />
+                  args={Universe.colors.background} />
           
           { !Universe.ctx3 ? <ThreeJSContext /> : null }
           <XR
@@ -62,14 +60,12 @@ function App() {
               Universe.state.cursor.$parent.next(Universe.ctx3.scene);
               Universe.state.scrolling.$parent.next(Universe.ctx3.scene);
               Universe.state.scrolling.$position.next(Universe.ctx3.camera.position.toArray());
-             
+            
               
-
               if (Universe.gl.xr.isPresenting) {
                 const session = Universe.gl.xr.getSession();
                 const scaleFactor = XR_RENDER_SCALE[settingsState.controls.xrRenderScale.state];
                 
-
                 let layer = new XRWebGLLayer(session, Universe.gl, {
                                     framebufferScaleFactor: scaleFactor 
                                 });
@@ -78,7 +74,7 @@ function App() {
                 session.updateRenderState({ baseLayer: layer });
 
               }
-           
+          
             }}
             onSessionEnd={(event: XREvent<XRManagerEvent>) => {
               Universe.state.cursor.$parent.next(Universe.ctx3.camera);
@@ -121,19 +117,15 @@ function App() {
                     renderHudComponent={ () => <ScrollBar position={[5, 0, -5]} />}  />
                 }  
                 
-                <MagnetismContext.Provider value={Universe.magnetism}>
-                  <ScrollingBuffer>
-                      <Router>
-                          <RouterNavigationSurface />
-                          <Switch>
-                            <Route path="/"             component={DefaultScene} />
-                            <Route path="/:thing"       component={DefaultScene} />
-                            <Route path="/:list/:thing" component={DefaultScene} />
-                          </Switch>
-                      </Router>
-                  </ScrollingBuffer>
-	          	  </MagnetismContext.Provider>
-              
+                <Router>
+                  <RouterNavigationSurface />
+                  <Switch>
+                    <Route path="/"             component={DefaultScene} />
+                    <Route path="/:thing"       component={DefaultScene} />
+                    <Route path="/:list/:thing" component={DefaultScene} />
+                  </Switch>
+                </Router>
+                  
             </UniverseContext.Provider>
 
           </XR>

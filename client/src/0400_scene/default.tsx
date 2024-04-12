@@ -6,6 +6,7 @@ import { SGS } from "../0100_content/static-generated-site";
 import { RunCommands } from "../0100_content/configure";
 import { Parser } from "../0100_content/parser";
 
+// The dynamic scene, which is generated from html generated from markdown
 export const DefaultScene = () => {
     const [location, setLocation] = useLocation();
     const [update, setUpdate] = useState(0);
@@ -18,7 +19,6 @@ export const DefaultScene = () => {
     }, [])
 
     useEffect(() => {
-        
         // page url changed, for example /, or /cv, or /articles/designing-fursuit 
         SGS.loadContent(location).subscribe(() => {
             setUpdate(update + 1);
@@ -26,9 +26,11 @@ export const DefaultScene = () => {
 
     }, [location]);
 
+    console.log("scene::default:: render/update: ", update, location);
+
     return (
         <group>
-            <Evaluator location={location} update={update}></Evaluator>
+            {update > 0 && <Evaluator location={location}></Evaluator> }
         </group>
     );
 }

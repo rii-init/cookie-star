@@ -83,7 +83,7 @@ export const Atmosphere = () => {
      }, [skyRef])
 
     return (
-        <group>
+        <>
             <mesh ref={skyRef}>
                 <SkySphereMaterial       skyColor={Universe.skyColor} 
                                          skyColor2={Universe.skyColor2}
@@ -100,6 +100,6 @@ export const Atmosphere = () => {
             </mesh>
             
             <CloudFormation />
-        </group>
+        </>
     )
 }

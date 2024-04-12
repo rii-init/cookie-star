@@ -10,16 +10,16 @@ export let CloudFormation = () => {
 
     return (
         <>
-           {
+        {
             new Array(7).fill(0).map((_, i) => {
                 const radius = 4+Math.random()*4;
                 const position = (previousPosition === undefined 
                                     ? zero3 
                                     : previousPosition).add(
 
-                                 new Vector3((-0.5 + Math.random()) * 1.6, 
-                                              -0.5 + Math.random(),
-                                             (-0.75 + Math.random())      )
+                                new Vector3((-0.5 + Math.random()) * 1.6, 
+                                            (-0.5 + Math.random()),
+                                            (-0.75 + Math.random())      )
                                             .normalize()
                                             .multiplyScalar((radius + previousRadius) / 1.5 )
                                     );
@@ -32,14 +32,14 @@ export let CloudFormation = () => {
                 previousPosition = position;
 
                 return (
-                    <Cloud key={i} radius={radius} 
-                      position={     new Vector3(coords[0], coords[1], coords[2])
+                    <Cloud   key={i} radius={radius} 
+                        position={   new Vector3(coords[0], coords[1], coords[2])
                                             .add(position).toArray()
-                               }>
+                                }>
                     </Cloud>
                 )
             })
-           }
+        }
         </>
     )
 }

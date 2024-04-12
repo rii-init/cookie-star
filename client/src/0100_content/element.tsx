@@ -51,9 +51,9 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
                 138,
 
                 ( // Y
-                     ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
-                     + 
-                     2.8
+                    ( - (boundingBox.top + boundingBox.height / 2) * 0.01  )
+                    + 
+                    2.8
                 ),
 
                 0 // Z
@@ -62,12 +62,12 @@ function convertDOMCoordinatesToGLCoordinates(boundingBox: DOMRect, convertHoriz
 
 export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, root?: boolean, index?: number): React.ReactNode {
     
-   
+
     // Some components handle their own layout:
     // For most most components, the browsers layout engine is used:
     let layoutCoords: [number, number, number] | undefined = undefined;
     
- 
+
     if (node.nodeName === '#text') {
         const boundingBox = textBoundingRect(node);
 
@@ -86,14 +86,14 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         }
     }    
 
-    // It's not uncommon for there to be attributes:
+    // There can be attributes on html or jsx elements within the 'markdown' source:
     // They might be a data structure that has to be parsed:
     const attrs = Parser.parse(node as HTMLElement)
 
     
     switch (node.nodeName) {
         case "SPAN":
-            return <TextSpan {...attrs} position={layoutCoords}>
+            return  <TextSpan {...attrs} position={layoutCoords}>
                             { 
                                     node.childNodes.length      == 1        
                                 &&  node.childNodes[0].nodeName == "#text"
@@ -102,7 +102,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                                         
                                     : filterAndEvalNodes(node.childNodes, cssLayout) 
                             }
-                   </TextSpan>
+                    </TextSpan>
                 
         case "H1":
             return <TextH1 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH1>
@@ -114,11 +114,11 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
             return <TextH4 {...attrs} position={layoutCoords}>{(node as HTMLElement).textContent}</TextH4>
 
         case "A":
-            return <LinkSurface location={attrs.href || (node as HTMLElement).textContent}
+            return  <LinkSurface location={attrs.href || (node as HTMLElement).textContent}
                                 position={layoutCoords}
-                   >
+                    >
                 {(node as HTMLElement).textContent}
-                   </LinkSurface>
+                    </LinkSurface>
 
         // If someone has the audacity to use a p tag or a div, they might be doing something complicated,
         // so we're going to check if there's more elements inside of it:
@@ -139,14 +139,14 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                     </TextP>
                         
         case "DIV":
-            return <TextDiv key={index} { ...attrs} position={layoutCoords}>
+            return  <TextDiv key={index} { ...attrs} position={layoutCoords}>
                         { filterAndEvalNodes(node.childNodes, cssLayout) }
-                   </TextDiv>
+                    </TextDiv>
         case "OL":
         case "UL":
-            return <>
+            return  <>
                     { filterAndEvalNodes(node.childNodes, cssLayout) }
-                   </>
+                    </>
         
         case "LI":
             const listItemContents = 
@@ -180,7 +180,7 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
         // Cool and awesome components:   
         // Going to generate this part of the file, in v2:
         case "SEQUENCE":
-            return <Sequence    key={index} direction={attrs.direction || "y"} position={layoutCoords} {...attrs}>
+            return  <Sequence    key={index} direction={attrs.direction || "y"} position={layoutCoords} {...attrs}>
                         { 
                             Array.from(node.childNodes)
                             .filter(htmlNodeFilter)
@@ -193,15 +193,15 @@ export function EvalHTMLToReactElement(node: HTMLElement, cssLayout?: boolean, r
                                 return EvalHTMLToReactElement(childNode as HTMLElement, false, false)
                             })
                         }
-                   </Sequence>
+                    </Sequence>
 
         case "ATMOSPHERE":
             return <Atmosphere  key={index} {...attrs}></Atmosphere>
 
         case "SKYISLAND":
-            return <SkyIsland   key={index} position={attrs.position} {...attrs}>
-                       { filterAndEvalNodes(node.childNodes, false) }
-                   </SkyIsland>
+            return  <SkyIsland   key={index} position={attrs.position} {...attrs}>
+                        {filterAndEvalNodes(node.childNodes, false)}
+                    </SkyIsland>
 
         case "WATERSTREAM":
             return <WaterStream key={index} rotation={attrs.rotation} position={attrs.position} {...attrs}></WaterStream>

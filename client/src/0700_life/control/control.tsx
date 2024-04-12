@@ -27,7 +27,7 @@ export class UserControls {
     
     public  moveVector   = new Vector3(0, 0, 0);
     public  velocity     = new Vector3(0, 0, 0);
-  
+
     public enableFlying        = false;
     public controllersAttached = false;
 
@@ -95,11 +95,11 @@ export class UserControls {
     }
 
     public handlePointerOver = (mesh?: Mesh) => {
-        Universe.state.cursor.$activation.next(0.0);
+        Universe.state.cursor.$activation.next(0.15);
     }
 
     public handlePointerOut = (mesh?: Mesh) => {
-        Universe.state.cursor.$activation.next(0.025);
+        Universe.state.cursor.$activation.next(0.25);
     }
 
     
@@ -118,11 +118,10 @@ export class UserControls {
             // this.gyro?.update();
             this.calculatePosition(delta);
         } else {
-            let paws = "";
 
-            for (const hand in xRControllerState.handedness) {
+            for (const paw in xRControllerState.handedness) {
                 
-                const controller = xRControllerState.handedness[hand as "left" | "right" | "none"];
+                const controller = xRControllerState.handedness[paw as "left" | "right" | "none"];
 
                 if (controller.selecting && controller.group !== null) {
                     // current position minus previous position
@@ -189,7 +188,12 @@ export class UserControls {
         // if (!this.enableFlying) {
         //     this.velocity.y -= 0.0025;
         // }
+
+        // air friction:
+        this.velocity.multiplyScalar(0.97);
     
+        //Universe.magnetism.update(delta);
+
         camera.updateMatrixWorld();
     }
 
@@ -223,20 +227,20 @@ export class UserControls {
     private calculateNonVRCameraMovementStep3(camera: Camera, delta: number, m1T: [number, number, number]) {
         camera.matrix.multiply(this.movement);
 
-        const     m2T = camera.matrix.elements.slice(12,15);
+        const     m2T = camera.matrix.elements.slice(12, 15);
         const deltaMT = new Vector3(m2T[0]-m1T[0], m2T[1]-m1T[1], m2T[2]-m1T[2]);
 
         this.velocity.add(deltaMT.multiplyScalar(0.1));
 
-        const elements = camera.matrix.elements 
-              
-              elements[12] -= deltaMT.x;
-              elements[13] -= deltaMT.y;
-              elements[14] -= deltaMT.z;
+        const   elements = camera.matrix.elements; 
 
-              elements[12] += this.velocity.x;
-              elements[13] += this.velocity.y;
-              elements[14] += this.velocity.z;
+                elements[12] -= deltaMT.x;
+                elements[13] -= deltaMT.y;
+                elements[14] -= deltaMT.z;
+
+                elements[12] += this.velocity.x;
+                elements[13] += this.velocity.y;
+                elements[14] += this.velocity.z;
         
         camera.updateMatrixWorld(true);
     }
