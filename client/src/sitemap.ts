@@ -15,10 +15,6 @@ export const siteMap = {
     {
       "path": "/chat",
       "title": "Chat"
-    },
-    {
-      "path": "/meta",
-      "title": "Meta"
     }
   ] as {title: string, path: string}[],
   "lists": {

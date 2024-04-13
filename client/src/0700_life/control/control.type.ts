@@ -5,3 +5,9 @@ export enum ControlType {
 	Touch__And__Gyroscope            = 3,
 	VR_Tracking                      = 4,
 }
+
+
+export enum XR_MOVEMENT_TYPE {
+	TELEPORT = 0,
+	CLIMB	 = 1,
+}

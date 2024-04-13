@@ -1,6 +1,10 @@
 import { Camera, Euler, Group, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
 import { CTX3 } from "../../0000_api/three-ctx";
+
 import { Universe } from "../../0000_concept/universe";
+
+import { ControlType } from "./control.type";
+
 import { GamepadControl } from "./gamepad.control";
 import { KeyboardState } from "./keyboard.control";
 import { MouseState } from "./mouse.control";
@@ -8,11 +12,10 @@ import { MouseScrollControl } from "./scroll/mouse.scroll.control";
 import { ScrollControl } from "./scroll/scroll.control";
 import { TouchControl } from "./touch.control";
 import { TouchScrollControl } from "./scroll/touch.scroll.control";
-import { DeviceOrientationControls } from './device-orientation.control'
-import { ControlType } from "./control.type";
 import { CameraTrack } from "./track/camera-track";
-import { xRControllerState } from "./climbing-controls";
+
 import { XRController } from "@react-three/xr";
+import { XRControllerState } from "./xr-controlls";
 
 
 export class UserControls {
@@ -31,17 +34,17 @@ export class UserControls {
     public enableFlying        = false;
     public controllersAttached = false;
 
-    private xrControllerMovement = new Vector3(0, 0, 0);
     public xrControllers = [] as XRController[];
     public xr_player     = null as null | Group;
+
     public mode          = ControlType.Scrolling;
 
-    public track    = new CameraTrack();
-    public gamepad  = new GamepadControl(this);
-    public touch    = new TouchControl();
-    public mouse    = new MouseState(this);
-    public keys     = new KeyboardState(this);
-    public gyro?:  DeviceOrientationControls;
+    public track      = new CameraTrack();
+    public gamepad    = new GamepadControl(this);
+    public touch      = new TouchControl();
+    public mouse      = new MouseState(this);
+    public keys       = new KeyboardState(this);
+    public xrControls = new XRControllerState();
 
     public cursorHidden = false;
     public cursorActivated = 0;
@@ -63,8 +66,7 @@ export class UserControls {
         this.track.init();
         this.keys.init();
         this.mouse.init();
-        this.gyro = new DeviceOrientationControls( ctx3.camera );
-        //this.gyro.connect();
+        
 
         this.keys.addKeyUpHandler((key) => {
             if (key.key === "Escape") {
@@ -119,26 +121,7 @@ export class UserControls {
             this.calculatePosition(delta);
         } else {
 
-            for (const paw in xRControllerState.handedness) {
-                
-                const controller = xRControllerState.handedness[paw as "left" | "right" | "none"];
-
-                if (controller.selecting && controller.group !== null) {
-                    // current position minus previous position
-                    this.xrControllerMovement.subVectors(
-                        controller.previous,  
-                        controller.group.position,
-                    );
-                    
-                    if (Universe.user_controls.xr_player) {
-                        Universe.user_controls.xr_player.position.add(this.xrControllerMovement);
-                        
-                    }
-
-                    controller.previous.copy(controller.group.position)
-                }
-                    
-            }
+            this.xrControls.update(delta);
 
         }
     }
