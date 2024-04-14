@@ -1,7 +1,8 @@
 import { ReactElement } from "react";
 import { System, Systems } from "./index";
+import { named } from "../../0000_concept/named";
 
-export const Editable = () => null;
+export const Editable = named(function(){ return null }, "Editable");
 
 export class EditableSystem implements System {
 
