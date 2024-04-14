@@ -43,7 +43,7 @@ function registerComponents(childrenOfMesh: ReactNode, state: EntityState, paren
             registerComponents(component.props.children, subEntityState, subMesh);
 
         } else {
-            const type = (component as any).type.name || (component as React.ReactElement).type;
+            const type = (component as any).type.typeName || (component as React.ReactElement).type;
 
             if (typeof type === "string") {
                 

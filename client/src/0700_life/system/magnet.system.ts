@@ -4,10 +4,13 @@ import { ReactElement } from "react";
 import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
 import { UserControls } from "../control/control";
+import { named } from "../../0000_concept/named";
 
 
-export const MagnetServer = function MagnetServer() { return null; }
-export const MagnetClient = function MagnetClient() { return null; }
+
+export const MagnetServer = named(function(){ return null}, "MagnetServer");
+export const MagnetClient = named(function(){ return null}, "MagnetClient");
+
 
 export interface IMagnetServer {
     shape:             "boxGeometry" | "sphereGeometry";
