@@ -1,5 +1,5 @@
 import { Mesh, Scene } from "three";
-import { UserControls } from "../0700_life/control/control";
+import { UserControlsSystem } from "../0700_life/system/control/control";
 import { VisualTheme }      from "../1000_aesthetic/visual-theme";
 import { currentTheme } from "../1000_aesthetic/visual-theme.manager";
 import { stateManager } from "./state-manager";
@@ -26,7 +26,7 @@ export class Universe {
 
     // refactor these into UserSystem as next task
     public static net_transport: any;
-    public static user_controls: UserControls;
+    public static user_controls: UserControlsSystem;
     
     public static state = stateManager
 }

@@ -1,4 +1,4 @@
-import { UserControls } from "./control";
+import { UserControlsSystem } from "./control";
 import { ControlType } from "./control.type";
 
 export class KeyboardState {
@@ -24,7 +24,7 @@ export class KeyboardState {
     private keyUpCallbacks: ((evt: KeyboardEvent) => void)[]   = [];
     private keyDownCallbacks: ((evt: KeyboardEvent) => void)[] = [];
 
-    constructor (public controller: UserControls) {}
+    constructor (public controller: UserControlsSystem) {}
 
     init() {
         document.addEventListener("keydown", (evt) => this.onKeyDown(evt))

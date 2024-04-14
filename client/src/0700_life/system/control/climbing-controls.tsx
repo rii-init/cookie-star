@@ -1,6 +1,6 @@
 import { XRControllerEvent, useXREvent } from "@react-three/xr";
 
-import { Universe } from "../../0000_concept/universe";
+import { systems } from "..";
 
 
 
@@ -12,10 +12,13 @@ export interface ClimbingControlsProps {
 export const ClimbingControls = (props: ClimbingControlsProps) => {
 
     (useXREvent as any)('selectstart', (event: XRControllerEvent) => {
+      if (!systems.byComponent.UserControls?.xrControls) return
+
+      
       const hand = event.target.inputSource.handedness;
       const grip = event.target.grip;
 
-      const controllerState = Universe.user_controls.xrControls.handedness[hand];
+      const controllerState = systems.byComponent.UserControls.xrControls.handedness[hand];
 
       controllerState.selecting = true;
       controllerState.group = grip;
@@ -23,7 +26,9 @@ export const ClimbingControls = (props: ClimbingControlsProps) => {
     });
 
     (useXREvent as any)('selectend', (event: XRControllerEvent) => {
-      const controllerState = Universe.user_controls
+      if (!systems.byComponent.UserControls?.xrControls) return
+
+      const controllerState = systems.byComponent.UserControls
                                       .xrControls
                                       .handedness[event.target.inputSource.handedness];
 

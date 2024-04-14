@@ -4,6 +4,7 @@ import { MagnetSystem } from "./magnet.system";
 import { EditableSystem } from "./editable.system";
 import { EntityState } from "../../0300_entity";
 import { Group, Mesh } from "three";
+import { UserControlsSystem } from "./control/control";
 
 
 // Entity-facing interface for a component + system
@@ -32,14 +33,29 @@ export interface System {
 }
 
 
+export interface SystemsByComponent {
+
+  MagnetClient?: MagnetSystem
+  MagnetServer?: MagnetSystem
+  Editable?:     EditableSystem
+  UserControls?: UserControlsSystem
+
+  boxGeometry?:      GeometrySystem
+  sphereGeometry?:   GeometrySystem
+  cylinderGeometry?: GeometrySystem
+}
+
 export class Systems {
   
   updateSequence: System[]               = [];
-  byComponent:    Record<string, System> = {};
+  byComponent:    SystemsByComponent     = {};
   
   constructor() {
     this.updateSequence = [];
     this.byComponent = {};
+
+    // hid system:
+    const userControlsSystem = new UserControlsSystem();
 
     // ecs systems:
     const magnetSystem   = new MagnetSystem();
@@ -50,6 +66,7 @@ export class Systems {
     this.byComponent.MagnetClient = magnetSystem;
     this.byComponent.MagnetServer = magnetSystem;
     this.byComponent.Editable = editSystem;
+    this.byComponent.UserControls = userControlsSystem;
 
     // react-three/fiber components and their associated systems:
     this.byComponent.boxGeometry      = geometrySystem;
@@ -59,6 +76,7 @@ export class Systems {
     
     // some of these need to do things in a certain order, at animation time
     this.updateSequence.push(magnetSystem);
+    this.updateSequence.push(userControlsSystem);
   }
 }
 

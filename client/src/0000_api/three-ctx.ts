@@ -3,8 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 
 import { Camera, Scene } from "three";
 import { Universe } from "../0000_concept/universe";
-import { UserControls } from "../0700_life/control/control";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { systems } from "../0700_life/system";
 
 
@@ -26,7 +25,7 @@ export let ThreeJSContext = function() {
     Universe.gl    = ctx.gl;             
     ctx.gl.setPixelRatio(window.devicePixelRatio || 1)
     Universe.canvas = document.querySelector("#r3f-canvas");
-    Universe.user_controls = new UserControls(Universe.ctx3);
+    systems.byComponent.UserControls?.mouse.setCanvas(Universe.canvas);
 
     useEffect(() => {
       Universe.state.cursor.$parent.next(Universe.ctx3.camera);
@@ -35,18 +34,12 @@ export let ThreeJSContext = function() {
     }, [])
     
     useFrame((state, delta, xrFrame) => {
-      // bespoke entity behavior update:
-
-      if (Universe.user_controls) {
-        Universe.user_controls.update(delta);
-      }
-
+      // bespoke entity behavior updates:
       if (Universe.sky) {
         const cameraPosition = Universe.ctx3.camera.matrix.elements.slice(12, 15);
         
         Universe.sky.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
       }
-      
       
       // update generic entities + systems:
       for (let i = 0; i < systems.updateSequence.length; i++) {

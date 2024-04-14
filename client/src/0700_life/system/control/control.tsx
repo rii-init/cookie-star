@@ -1,7 +1,7 @@
-import { Camera, Euler, Group, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
-import { CTX3 } from "../../0000_api/three-ctx";
+import { BufferGeometry, Camera, Euler, Group, Material, Matrix4, Mesh, Raycaster, Vector2, Vector3 } from "three";
+import { CTX3 } from "../../../0000_api/three-ctx";
 
-import { Universe } from "../../0000_concept/universe";
+import { Universe } from "../../../0000_concept/universe";
 
 import { ControlType } from "./control.type";
 
@@ -17,10 +17,14 @@ import { CameraTrack } from "./track/camera-track";
 import { XRController } from "@react-three/xr";
 import { XRControllerState } from "./xr-controlls";
 
+import { Systems, System } from "..";
+import { ReactElement, JSXElementConstructor } from "react";
+import { EntityState } from "../../../0300_entity";
 
-export class UserControls {
+
+export class UserControlsSystem implements System {
     
-    private ctx3: CTX3;
+    private ctx3: CTX3 | null = null;
     
     private movement     = new Matrix4();
     private rotation     = new Matrix4();
@@ -60,8 +64,7 @@ export class UserControls {
     )
 
 
-    constructor(ctx3: CTX3) {
-        this.ctx3 = ctx3;
+    constructor() {
 
         this.track.init();
         this.keys.init();
@@ -85,6 +88,60 @@ export class UserControls {
             this.scrollDomain = domain;
         });
 
+    }
+    
+    // ecs system component API
+    public registerComponent(component: ReactElement<any, string | JSXElementConstructor<any>>, state: EntityState) {
+        // requries some working with control subjects in a collection instead of just one camera / subject
+        // not top priority
+    }
+
+    public update(delta: number, context: Systems) {
+        if (!this.dependencies) return;
+
+        this.mouse.dx /= 1.15;
+        this.mouse.dy /= 1.15;
+
+        if (!Universe.xrMode) {
+            this.calculateMoveVector();
+            this.calculateRotationVector();
+            // this.gyro?.update();
+            this.calculatePosition(delta, this.dependencies.camera);
+        } else {
+
+            this.xrControls.update(delta);
+
+        }
+    }
+
+    public removeComponent(component: any) {
+        
+    }
+
+    public get dependencies() {
+        return this.ctx3 || ((this.ctx3 = Universe.ctx3), this.ctx3);
+    }
+
+
+    // bespoke API
+    public toggleManualCameraControl(mode?: ControlType) { 
+        if (!this.dependencies) return
+
+        if (     mode === ControlType.Touch__And__Keyboard__And__Mouse || 
+            this.mode === ControlType.Scrolling) {
+
+            this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
+            this.dependencies.camera.matrixAutoUpdate = false;
+            Universe.state.scrolling.$parent.next(this.dependencies.scene);
+            Universe.state.scrolling.$position.next(this.dependencies.camera.position.toArray());
+
+            this.velocity.y = 0;
+        } else {
+            this.mode = ControlType.Scrolling;
+            this.dependencies.camera.matrixAutoUpdate = true;
+            Universe.state.scrolling.$parent.next(this.dependencies.camera);
+            Universe.state.scrolling.$position.next([0 ,0, 0]);
+        }
     }
 
     public scroll(to: number) {
@@ -110,51 +167,11 @@ export class UserControls {
         return baseMatrix.slice(12, 15);
     }
 
-    public update(delta: number, xrFrame?: XRFrame) {
-        this.mouse.dx /= 1.15;
-        this.mouse.dy /= 1.15;
+    private calculatePosition(delta: number, camera: Camera) {
 
-        if (!Universe.xrMode) {
-            this.calculateMoveVector();
-            this.calculateRotationVector();
-            // this.gyro?.update();
-            this.calculatePosition(delta);
-        } else {
-
-            this.xrControls.update(delta);
-
-        }
-    }
-
-
-    public toggleManualCameraControl(mode?: ControlType) { 
-        if (     mode === ControlType.Touch__And__Keyboard__And__Mouse || 
-            this.mode === ControlType.Scrolling) {
-
-            this.mode = ControlType.Touch__And__Keyboard__And__Mouse;
-            this.ctx3.camera.matrixAutoUpdate = false;
-            Universe.state.scrolling.$parent.next(this.ctx3.scene);
-            Universe.state.scrolling.$position.next(this.ctx3.camera.position.toArray());
-
-            this.velocity.y = 0;
-        } else {
-            this.mode = ControlType.Scrolling;
-            this.ctx3.camera.matrixAutoUpdate = true;
-            Universe.state.scrolling.$parent.next(this.ctx3.camera);
-            Universe.state.scrolling.$position.next([0 ,0, 0]);
-        }
-    }
-
-
-    private calculatePosition(delta: number) {
-        const camera = this.ctx3.camera;
-
-	    
-            
         // Scrolling Mode
         if (this.mode === ControlType.Scrolling) {           
-            const m1T = this.calculateNonVRCameraMovementStep1(camera, delta); 
-            
+
             this.track.interpolate(camera, this.scrollDistance);
 
         // Manual camera control Mode:
@@ -177,7 +194,7 @@ export class UserControls {
         const  m1T = this.calculateNonVRCameraMovementStep1(camera, delta);
 
         this.rotation.identity(); 
-        this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-310, this.mouse.dx/-310, this.roll.z/35))
+        this.rotation.makeRotationFromEuler(new Euler(this.mouse.dy/-620, this.mouse.dx/-620, this.roll.z/35))
         camera.matrix.multiply(this.rotation);
 
         this.handleKeyboardCameraRotation(camera);
@@ -231,13 +248,15 @@ export class UserControls {
         this.keyRotationVelocity.y = Math.max(-0.025, Math.min(0.025, this.keyRotationVelocity.y*0.92));
 
         this.rotation.makeRotationFromEuler(
-            new Euler(this.keyRotationVelocity.x, 
-                      this.keyRotationVelocity.y, this.roll.z/35))
+            new Euler(  this.keyRotationVelocity.x, 
+                        this.keyRotationVelocity.y, this.roll.z/35))
 
         camera.matrix.multiply(this.rotation);
     }
 
     private calculateMoveVector() {
+        if (!this.dependencies) return;
+        
         this.moveVector.set(0,0,0);
 
         if (this.keys.w) {
@@ -264,7 +283,7 @@ export class UserControls {
         if (this.keys.space) {
             this.moveVector.y = 3;
 
-            if (this.ctx3.camera.matrix.elements[13] > 2) {
+            if (this.dependencies.camera.matrix.elements[13] > 2) {
                 this.enableFlying = true;
             }
         }

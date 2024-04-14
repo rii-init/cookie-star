@@ -1,12 +1,12 @@
-import { UserControls } from "./control";
+import { UserControlsSystem } from "./control";
 
 export class GamepadControl {
 
     public gamepads: Gamepad[] = [];
     
-    private controls: UserControls; 
+    private controls: UserControlsSystem; 
     
-    constructor (userControl: UserControls) {
+    constructor (userControl: UserControlsSystem) {
         this.controls = userControl;
         this.init();
     }

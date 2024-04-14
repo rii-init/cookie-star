@@ -1,6 +1,6 @@
 import { Camera, Vector3 } from 'three';
 import { CameraPose } from './camera-pose';
-import { Universe } from '../../../0000_concept/universe';
+import { Universe } from '../../../../0000_concept/universe';
 
 export class CameraTrack {
     public poses = [] as CameraPose[];

@@ -1,9 +1,9 @@
 import { Camera, Vector3 } from "three";
-import { System, SystemComponentState, Systems } from ".";
+import { System, SystemComponentState, Systems, systems } from ".";
 import { ReactElement } from "react";
 import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
-import { UserControls } from "../control/control";
+import { UserControlsSystem } from "./control/control";
 import { named } from "../../0000_concept/named";
 
 
@@ -51,7 +51,7 @@ export class MagnetSystem implements System {
     name = "MagnetSystem";
 
     private camera?:       THREE.Camera; // required; loaded async
-    private userControls?: UserControls; 
+    private userControls?: UserControlsSystem; 
 
     private magnets: IMagnetServer[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
@@ -112,7 +112,7 @@ export class MagnetSystem implements System {
         } 
         
         this.camera = Universe?.ctx3?.camera;
-        this.userControls = Universe?.user_controls; 
+        this.userControls = systems.byComponent.UserControls as UserControlsSystem; 
         
         return this.camera && this.userControls
     }
@@ -130,7 +130,7 @@ export class MagnetSystem implements System {
 
     private handleCollision(magnet: IMagnetServer): void {
 
-	    if (magnet.shape == "boxGeometry") {
+        if (magnet.shape == "boxGeometry") {
             if (magnet.rotation) {
                 // take rotation into account
                 // get local camera coordinates
