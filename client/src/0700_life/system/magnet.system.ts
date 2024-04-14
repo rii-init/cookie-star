@@ -6,8 +6,8 @@ import { EntityState } from "../../0300_entity";
 import { UserControls } from "../control/control";
 
 
-export const MagnetServer = () => null;
-export const MagnetClient = () => null;
+export const MagnetServer = function MagnetServer() { return null; }
+export const MagnetClient = function MagnetClient() { return null; }
 
 export interface IMagnetServer {
     shape:             "boxGeometry" | "sphereGeometry";
@@ -45,6 +45,8 @@ class MagnetServerState implements IMagnetServer {
 
 export class MagnetSystem implements System {
 
+    name = "MagnetSystem";
+
     private camera?:       THREE.Camera; // required; loaded async
     private userControls?: UserControls; 
 
@@ -74,7 +76,7 @@ export class MagnetSystem implements System {
 
         }
 
-        state.systemEntityState["MagnetServer"] = {
+        state.systemEntityState.MagnetServer = {
             remove: () => this.removeComponent(magnet)
         };
 

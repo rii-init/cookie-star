@@ -1,5 +1,4 @@
-import { useThree } from "@react-three/fiber";
-import { XR, XRController, XRControllerEvent, useController, useXR, useXREvent } from "@react-three/xr";
+import { XRControllerEvent, useXREvent } from "@react-three/xr";
 
 import { Universe } from "../../0000_concept/universe";
 

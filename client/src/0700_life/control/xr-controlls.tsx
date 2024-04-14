@@ -5,9 +5,12 @@ import { Universe } from "../../0000_concept/universe";
 import { ClimbingControls } from "./climbing-controls";
 
 import { XRHardwareState } from "./xr-hardware-state";
+import { XR_MOVEMENT_TYPE } from "./control.type";
 
 
 export class XRControllerState {
+
+    movementType: XR_MOVEMENT_TYPE = XR_MOVEMENT_TYPE.CLIMB;
 
     handedness = {
         left:  { selecting: false, previous: new Vector3(0,0,0), group: null as null | Group },

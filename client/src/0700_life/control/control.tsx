@@ -164,18 +164,9 @@ export class UserControls {
 
         }
 
-        // Collision Detection
         
-
-        // Terrestrial Movement:
-        // if (!this.enableFlying) {
-        //     this.velocity.y -= 0.0025;
-        // }
-
         // air friction:
         this.velocity.multiplyScalar(0.97);
-    
-        //Universe.magnetism.update(delta);
 
         camera.updateMatrixWorld();
     }
