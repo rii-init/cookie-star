@@ -6,7 +6,15 @@ Create VR environments from markdown :)
 ### Getting Started
 + Your markdown files will be read from the `./content` folder.
 + To set a sort order, prefix each file with a number, like this `1.blog-page.md` `2.contact-page.md` etc
-+ To specify run-commands for the game engine, for a specific markdown page, create a file with matching name, like this `1.blog-page.json`
+```
+# Hello XR
+<Sequence axis="x">
++ foo
+    + bar
+    + baz
+[thing](https://example.link)
+</Sequence>
+```
 + Once your content is in place, the generator, the server and the client need to be compiled.. 
 
 #### Setting up the 3 components:
@@ -31,4 +39,23 @@ npm run generate
 
 # dev mode
 npm start
+```
+
+#### Run-commands (custom scripts for each page)
++ Define your custom markdown js API at `./client/src/0100_content/configure.ts`
++ To specify run-commands for the game engine, for a specific markdown page, create a json file with matching name, like this `1.blog-page.json`
+```json
+{
+    "call": [
+        [
+            "systems.byComponent.UserControls.track.setCameraPoses",
+            [
+                { "position": [ 0,    2, 4], "target": [0,  2,  -22] },
+                { "position": [ 0.25, 1, 3], "target": [0,  2,  -22] },
+                { "position": [-0.25,-2, 3], "target": [0,  2,  -22] },
+                { "position": [ 0.25,-3, 3], "target": [0,  2,  -22] }
+            ]
+        ]
+    ]
+}
 ```
