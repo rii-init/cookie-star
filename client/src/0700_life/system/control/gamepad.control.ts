@@ -1,12 +1,12 @@
-import { UserControls } from "./control";
+import { UserControlsSystem } from "./control";
 
 export class GamepadControl {
 
     public gamepads: Gamepad[] = [];
     
-    private controls: UserControls; 
+    private controls: UserControlsSystem; 
     
-    constructor (userControl: UserControls) {
+    constructor (userControl: UserControlsSystem) {
         this.controls = userControl;
         this.init();
     }
@@ -19,6 +19,7 @@ export class GamepadControl {
     private initGamepadConnected() {
         window.addEventListener('gamepadconnected', (event) => {
             console.log('gamepadconnected', event);
+
             this.controls.controllersAttached = true;
         })
     }
@@ -26,6 +27,8 @@ export class GamepadControl {
     private initGamepadDisconnected() {
         window.addEventListener('gamepaddisconnected', (event) => {
             console.log('gamepaddisconnected', event);
+        
+            this.controls.controllersAttached = false;
         })
     }
 

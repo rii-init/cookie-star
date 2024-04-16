@@ -1,7 +1,8 @@
-import { UserControls } from "./control";
+import { UserControlsSystem } from "./control";
 import { ControlType } from "./control.type";
 
 export class MouseState {
+    
     public leftButton  = false;
     public rightButton = false;
 
@@ -13,9 +14,7 @@ export class MouseState {
     private handlers: any = { };
 
 
-
-
-    constructor(public controller: UserControls) { }
+    constructor(public controller: UserControlsSystem) { }
 
     public addHandler(
         name: string, 
@@ -37,6 +36,8 @@ export class MouseState {
     }
 
     public setCanvas(canvas: HTMLCanvasElement) {
+        if (!canvas) return console.warn("canvas not available");
+
         this.canvas = canvas;
         canvas.addEventListener("click", (e: MouseEvent) => {
 

@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { Universe } from "../0000_concept/universe";
+import { useEffect, useState } from "react";
 import { Vector3 } from "three";
 import Quad from "../0100_element/200_sequence/222_prism/quad.geometry";
 
-import { LineBasicMaterial } from "three";
+import { Universe } from "../0000_concept/universe";
+import { systems } from "../0700_life/system";
 
 
 let drag = false;
@@ -18,7 +18,7 @@ function handleManualScroll(scrollDomain: number, e: {point: Vector3}) {
     
     const distance = (invertedPosition  / frameHeight) * scrollDomain; //((frameHeight - (e.point.y - cameraY) - frameHeight / 2) / frameHeight) * scrollDomain;
  
-    Universe.user_controls?.scroll(distance);
+    systems.byComponent.UserControls?.scroll(distance);
 }
 
 function onClick(scrollDomain: number, e: {point: Vector3}) {

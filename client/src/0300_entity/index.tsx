@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Children, ReactNode } from "react";
 
-import { SystemEntityState, systems } from "../0700_life/system";
+import { System, SystemEntityState, systems } from "../0700_life/system";
 
 
 export interface EntityProps {
@@ -43,14 +43,16 @@ function registerComponents(childrenOfMesh: ReactNode, state: EntityState, paren
             registerComponents(component.props.children, subEntityState, subMesh);
 
         } else {
-            const type = (component as any).type.typeName || (component as React.ReactElement).type;
 
+            const type = ((component as any).type.typeName || (component as React.ReactElement).type)
+                    
             if (typeof type === "string") {
                 
                 // check if there's an associated system for this component
-                if (systems.byComponent[type as string]) {
+                if ((systems.byComponent as any)[type as string]) {
                     // if so, register the component with the system
-                    systems.byComponent[type as string].registerComponent(component, state, parentMesh);
+                    (   ( systems.byComponent as any)[type as string] as System     )
+                                .registerComponent(component, state, parentMesh);
                 }
             }
         }

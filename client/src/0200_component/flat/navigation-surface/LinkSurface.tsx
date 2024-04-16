@@ -2,9 +2,9 @@ import { Interactive, XRInteractionEvent } from "@react-three/xr";
 import React, { useState, useEffect } from "react";
 import { Mesh } from "three";
 import { useLocation } from "wouter";
-import { Universe } from "../../../0000_concept/universe";
 import { TextH3 } from "../typography/h3";
 import { LinkSurfaceFeedback } from "./LinkSurfaceFeedback";
+import { systems } from "../../../0700_life/system";
 
 
 export interface LinkSurfaceProps {
@@ -84,10 +84,10 @@ export const LinkSurface = (props: LinkSurfaceProps) => {
                             if (!hovered) {
                                 setHovered(true);
                             }
-                            Universe.user_controls.handlePointerOver(meshRef.current as any) } }
+                            systems.byComponent.UserControls?.handlePointerOver(meshRef.current as any) } }
                         onPointerOut={() => {
                             setHovered(false);
-                            Universe.user_controls.handlePointerOut(meshRef.current as any) } } >
+                            systems.byComponent.UserControls?.handlePointerOut(meshRef.current as any) } } >
                     {props.children}
                 </TextH3>
             </Interactive>

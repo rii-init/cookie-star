@@ -1,4 +1,4 @@
-import { diagnosticState } from "../../../0000/r3f-debug";
+import { diagnosticState } from "../../../../0000/r3f-debug";
 import { TouchControl } from "../touch.control";
 
 export class TouchScrollControl {

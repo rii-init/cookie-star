@@ -1,4 +1,4 @@
-import { Universe } from "../0000_concept/universe";
+import { systems } from "../0700_life/system";
 import { SpaceConfig } from "./parser";
 
 export class RunCommands {
@@ -6,11 +6,11 @@ export class RunCommands {
         if (config.call !== undefined && config.call.length > 0) {
             config.call.forEach((call) => {
                 switch (call[0]) {
-                    case "Universe.user_controls.track.setCameraPosesToDefault":
-                        Universe.user_controls.track.setCameraPosesToDefault();
+                    case "systems.byComponent.UserControls.track.setCameraPosesToDefault":
+                        systems.byComponent.UserControls?.track.setCameraPosesToDefault();
                     break;
-                    case "Universe.user_controls.track.setCameraPoses":
-                        Universe.user_controls.track.setCameraPoses(call[1]);
+                    case "systems.byComponent.UserControls.track.setCameraPoses":
+                        systems.byComponent.UserControls?.track.setCameraPoses(call[1]);
                     break;
     
                     default:
