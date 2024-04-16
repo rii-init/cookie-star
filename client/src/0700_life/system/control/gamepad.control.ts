@@ -19,6 +19,7 @@ export class GamepadControl {
     private initGamepadConnected() {
         window.addEventListener('gamepadconnected', (event) => {
             console.log('gamepadconnected', event);
+
             this.controls.controllersAttached = true;
         })
     }
@@ -26,6 +27,8 @@ export class GamepadControl {
     private initGamepadDisconnected() {
         window.addEventListener('gamepaddisconnected', (event) => {
             console.log('gamepaddisconnected', event);
+        
+            this.controls.controllersAttached = false;
         })
     }
 

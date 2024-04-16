@@ -136,49 +136,84 @@ export class MagnetSystem implements System {
                 // get local camera coordinates
 
             } else {
-                this.handleBoxTopCollision(
-                    (this.camera as Camera).matrix.elements.slice(12, 15),
-                    magnet.globalBoundingBox
-                );
-                // we can do a cool optimisation here and only check for side collisions if the top collision is false, and so on, for the other types of collisions
-                // || this.handleBoxSideCollision();
+                if (this.XZBoundsCheck((this.camera as Camera).matrix.elements.slice(12, 15), 
+                                        magnet.globalBoundingBox
+                )) {
+
+                    this.handleBoxTopCollision(
+                        (this.camera as Camera).matrix.elements.slice(12, 15),
+                        magnet.globalBoundingBox
+                    )
+                    || 
+                    this.handleBoxSideCollision(
+                        (this.camera as Camera).matrix.elements.slice(12, 15),
+                        magnet.globalBoundingBox
+                    )
+                    || 
+                    this.handleBoxBottomCollision(
+                        (this.camera as Camera).matrix.elements.slice(12, 15),
+                        magnet.globalBoundingBox
+                    );
+                }
             }
         } else if (magnet.shape == "sphereGeometry") {
             this.handleSphereCollision((this.camera as Camera).position.distanceTo(magnet.vec3_position as Vector3), magnet);
         }
     }
 
-    
+    private XZBoundsCheck(cameraCoords: number[], globoBB: number[]) {
+        return (
+            cameraCoords[0] > globoBB[0] && cameraCoords[0] < globoBB[3] &&
+            cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]
+        );
+    }
 
     private handleBoxTopCollision(cameraCoords: number[], globoBB: number[]) {
         if (!this.camera) return;
-        if (cameraCoords[0] > globoBB[0] && cameraCoords[0] < globoBB[3] // check x bounds
-            && 
-            // above the bottom.... and below the top?
-            cameraCoords[1] > globoBB[1] && cameraCoords[1] < globoBB[4] + 1 // check y bounds
-            &&
-            cameraCoords[2] > globoBB[2] && cameraCoords[2] < globoBB[5]     // check z bounds
+        
+        if (// above the (bottom of the top).... and below the top?
+            cameraCoords[1] > (globoBB[4] - 1) && cameraCoords[1] < globoBB[4] + 1 // check y bounds
         ) {
-            // handle vertical collision
-            
             // set camera matrix to top of box
             this.camera.matrix.elements[13] = globoBB[4] + 1;
 
             // invert the y velocity of the user
             if (this.userControls) {
-                this.userControls.velocity.y *= -0.9; // check how bouncy the object is.. and the user too :3
+                
+                if (this.userControls.velocity.y < 0) {
+                    this.userControls.velocity.y *= -0.9; // check how bouncy the object is.. and the user too :3
+                }
             }
+
+            return true;
         }
     }
 
-    private handleBoxSideCollision(localCameraCoordinates: Vector3, boxDimensions: number[]) {
+    private handleBoxBottomCollision(cameraCoords: number[], globoBB: number[]) {
         if (!this.camera) return;
+        
+        if (// above the (bottom of the bottom).... and below the (top of the bottom)?
+            cameraCoords[1] > (globoBB[1] - 1) && cameraCoords[1] < globoBB[1] + 1 // check y bounds
+        ) {
+            // set camera matrix to top of box
+            this.camera.matrix.elements[13] = globoBB[1] - 1;
 
-        if (localCameraCoordinates.x > 0 && localCameraCoordinates.x < boxDimensions[0]
-            && localCameraCoordinates.y > 0 && localCameraCoordinates.y < boxDimensions[1]) {
-            // handle horizontal collision
-            // this.camera.matrix.elements[13] = boxDimensions[1] - 3.5;
+            // invert the y velocity of the user
+            if (this.userControls) {
+                
+                if (this.userControls.velocity.y > 0) {
+                    this.userControls.velocity.y *= -0.9;
+                }
+            }
+
+            return true;
         }
+    }
+
+    private handleBoxSideCollision(cameraCoords: number[], globoBB: number[]) {
+        if (!this.camera) return;
+        
+        return true;
     }
     
     private handleSphereCollision(distance: number, magnet: IMagnetServer) {

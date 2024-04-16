@@ -1,4 +1,3 @@
-import { Universe } from "../0000_concept/universe";
 import { systems } from "../0700_life/system";
 import { SpaceConfig } from "./parser";
 

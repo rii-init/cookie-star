@@ -11,11 +11,6 @@ import { stateManager } from "./state-manager";
  */ 
 export class Universe { 
 
-    public static colors: VisualTheme = currentTheme();
-    public static skyColor  = Universe.colors.background;
-    public static skyColor2 = Universe.colors.background2;
-    public static sky: Mesh | null = null;
-
     public static xrMode:    boolean = false;
     public static xr:        any;
     
@@ -24,9 +19,14 @@ export class Universe {
     public static ctx3:      any; 
     public static canvas:    any;
 
-    // refactor these into UserSystem as next task
+    // refactor this into NetworkSystem
     public static net_transport: any;
-    public static user_controls: UserControlsSystem;
     
-    public static state = stateManager
+    public static state = stateManager;
+    public static colors: VisualTheme = currentTheme();
+
+    // refactor this into a SkySystem
+    public static skyColor  = Universe.colors.background;
+    public static skyColor2 = Universe.colors.background2;
+    public static sky: Mesh | null = null;
 }
