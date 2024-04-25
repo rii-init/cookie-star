@@ -12,22 +12,11 @@ export const MagnetServer = named(function(){ return null}, "MagnetServer");
 export const MagnetClient = named(function(){ return null}, "MagnetClient");
 
 
-export interface IMagnetServer {
+
+class MagnetServerState {
     shape:             "boxGeometry" | "sphereGeometry";
-    globalBoundingBox: [number, number, number,
+    localBoundingBox:  [number, number, number, 
                         number, number, number];
-    
-    radius:             number;
-    
-    position:      [number, number, number];
-    vec3_position: Vector3 | null;
-
-    rotation?:     [number, number, number];
-}
-
-
-class MagnetServerState implements IMagnetServer {
-    shape:             "boxGeometry" | "sphereGeometry";
     globalBoundingBox: [number, number, number,
                         number, number, number];
     
@@ -42,6 +31,7 @@ class MagnetServerState implements IMagnetServer {
         this.position = state.position;
         this.vec3_position = null;
         this.radius = 0;
+        this.localBoundingBox = state.geometry.localBoundingBox;
         this.globalBoundingBox = [0,0,0,0,0,0];
     }
 }
@@ -53,7 +43,7 @@ export class MagnetSystem implements System {
     private camera?:       THREE.Camera; // required; loaded async
     private userControls?: UserControlsSystem; 
 
-    private magnets: IMagnetServer[] = []; 
+    private magnets: MagnetServerState[] = []; 
     private clients: any[] = []; // The user is implicitly a client. Other rigid bodies may be clients also
 
     public registerComponent(component: ReactElement, state: EntityState): void {
@@ -92,11 +82,14 @@ export class MagnetSystem implements System {
         
         for (let idx = this.magnets.length; idx--; idx >= 0) {
             this.handleCollision(this.magnets[idx]);
-        }   
+        } 
+        
+        // if (!this.magnets[0]) return;
+        // this.handleCollision(this.magnets[0]);
     } 
 
 
-    public removeComponent(magnet: IMagnetServer) {
+    public removeComponent(magnet: MagnetServerState) {
         this.magnets = this.magnets.filter(m => m !== magnet);
     }
 
@@ -128,7 +121,8 @@ export class MagnetSystem implements System {
         return globoBB;
     }
 
-    private handleCollision(magnet: IMagnetServer): void {
+
+    private handleCollision(magnet: MagnetServerState): void {
 
         if (magnet.shape == "boxGeometry") {
             if (magnet.rotation) {
@@ -147,7 +141,8 @@ export class MagnetSystem implements System {
                     || 
                     this.handleBoxSideCollision(
                         (this.camera as Camera).matrix.elements.slice(12, 15),
-                        magnet.globalBoundingBox
+                        magnet.globalBoundingBox,
+                        magnet.localBoundingBox
                     )
                     || 
                     this.handleBoxBottomCollision(
@@ -161,6 +156,12 @@ export class MagnetSystem implements System {
         }
     }
 
+
+    //////////////////////////////
+    //                          //
+    //   Box collision model    //
+    //                          //
+    //////////////////////////////
     private XZBoundsCheck(cameraCoords: number[], globoBB: number[], cornerWidth = 1.0) {
         return (
             cameraCoords[0] > globoBB[0] - cornerWidth && cameraCoords[0] < globoBB[3] + cornerWidth &&
@@ -168,31 +169,78 @@ export class MagnetSystem implements System {
         );
     }
 
+    //////////////////////////////
+    //                          //
+    // Box collision responses  //
+    //                          //
+    //////////////////////////////
+    private applyBoxTopCollisionResponse(   camera: Camera,  userControls: UserControlsSystem, 
+                                            globoBB: number[], cornerWidth: number ) {
+        
+        // set camera matrix to top of box
+        camera.matrix.elements[13] = globoBB[4] + cornerWidth / 2;
+
+        // invert the y velocity of the user
+        if (userControls.velocity.y < 0) {
+            userControls.velocity.y *= -0.9; 
+        }
+    }
+
+    private applyBoxFrontCollisionResponse( camera: Camera,  userControls: UserControlsSystem, 
+                                            globoBB: number[], cornerWidth: number ) {
+        
+        camera.matrix.elements[14] = globoBB[2] - 1;
+        
+        if (userControls.velocity.z > 0) {
+            userControls.velocity.z *= -0.9; 
+        }
+    }
+
+    private applyBoxBackCollisionResponse(   camera:  Camera,  userControls: UserControlsSystem, 
+                                        globoBB: number[], cornerWidth: number) {
+
+        camera.matrix.elements[14] = globoBB[5] + 1;
+
+        if (userControls.velocity.z < 0) {
+            userControls.velocity.z *= -0.9; 
+        }
+    }
+
+    private applyBoxLeftCollisionResponse(  camera:  Camera,  userControls: UserControlsSystem, 
+                                            globoBB: number[], cornerWidth: number) {
+        
+        camera.matrix.elements[12] = globoBB[0] - 1;
+        
+        if (userControls.velocity.x > 0) {
+            userControls.velocity.x *= -0.9; 
+        }
+    }
+
+    private applyBoxRightCollisionResponse( camera:  Camera,  userControls: UserControlsSystem, 
+                                            globoBB: number[], cornerWidth: number) {
+
+        camera.matrix.elements[12] = globoBB[3] + 1;
+
+        if (userControls.velocity.x > 0) {
+            userControls.velocity.x *= -0.9; 
+        }
+    }
+
+    /////////////////////////////////
+    //                             //
+    // Box sides collision helpers //
+    //                             //
+    /////////////////////////////////
     private handleBoxTopCollision(cameraCoords: number[], globoBB: number[], cornerWidth = 1.0) {
-        if (!this.camera) return;
+        if (!this.camera || !this.userControls) return;
         
         if (// above the (bottom of the top).... and below the top?
             cameraCoords[1] > (globoBB[4] - cornerWidth / 2) && 
             cameraCoords[1] < (globoBB[4] + cornerWidth / 2) // check y bounds
         ) {
-            this.applyBoxTopCollisionResponse(globoBB, cornerWidth);
+            this.applyBoxTopCollisionResponse(this.camera,  this.userControls, globoBB, cornerWidth);
 
             return true;
-        }
-    }
-
-    private applyBoxTopCollisionResponse(globoBB: number[], cornerWidth: number) {
-        if (!this.camera) return;
-
-        // set camera matrix to top of box
-        this.camera.matrix.elements[13] = globoBB[4] + cornerWidth / 2;
-
-        // invert the y velocity of the user
-        if (this.userControls) {
-                
-            if (this.userControls.velocity.y < 0) {
-                this.userControls.velocity.y *= -0.9; // check how bouncy the object is.. and the user too :3
-            }
         }
     }
 
@@ -217,7 +265,8 @@ export class MagnetSystem implements System {
         }
     }
 
-    private handleBoxSideCollision(cameraCoords: number[], globoBB: number[]) {
+
+    private handleBoxSideCollision(cameraCoords: number[], globoBB: number[], localBB: number[]) {
         if (!this.camera || ! this.userControls) return;
         
         const cornerWidth = 1;
@@ -230,50 +279,42 @@ export class MagnetSystem implements System {
         if (region[1] == 1) {        // Z middle
             if (region[0] == 0) {           // X left
                 // simple axis aligned boundary
-                this.camera.matrix.elements[12] = globoBB[0] - 1;
-                if (this.userControls.velocity.x > 0) {
-                    this.userControls.velocity.x *= -0.9; // check how bouncy the object is.. and the user too :3
-                }
+                this.applyBoxLeftCollisionResponse(this.camera, this.userControls, globoBB, cornerWidth);
 
             } else if (region[0] == 2) {    // X right
                 // simple axis aligned boundary
-                this.camera.matrix.elements[12] = globoBB[3] + 1;
-                if (this.userControls.velocity.x > 0) {
-                    this.userControls.velocity.x *= -0.9; // check how bouncy the object is.. and the user too :3
-                }
+                this.applyBoxRightCollisionResponse(this.camera, this.userControls, globoBB, cornerWidth);
 
             } else {                        // X middle (just treat as top collision 🤷‍♀️)
-                this.applyBoxTopCollisionResponse(globoBB, cornerWidth);
+                this.applyBoxTopCollisionResponse(this.camera, this.userControls, globoBB, cornerWidth);
                 
             }
 
         } else if (region[1] == 0) { // Z front
             if (region[0] == 0) {           // X left
                 // corner boundary FTB (front to back diagonal boundary)
+                this.handleFTBDiagonalBoundary(cameraCoords, globoBB, localBB, cornerWidth, region);
 
             } else if (region[0] == 2) {    // X right
                 // corner boundary BTF (back to front diagonal boundary)
+                this.handleBTFDiagonalBoundary(cameraCoords, globoBB, localBB, cornerWidth, region);
 
-            } else {                        // X middle
-                // simple axis aligned boundary
-                this.camera.matrix.elements[14] = globoBB[2] - 1;
-                if (this.userControls.velocity.z > 0) {
-                    this.userControls.velocity.z *= -0.9; // check how bouncy the object is.. and the user too :3
-                }
+            } else {                        // X middle 
+                //                     (front)
+                this.applyBoxFrontCollisionResponse(this.camera, this.userControls, globoBB, cornerWidth);
             }
         } else {                     // Z back
             if (region[0] == 0) {           // X left
                 // corner boundary BTF (back to front diagonal boundary) 
+                this.handleBTFDiagonalBoundary(cameraCoords, globoBB, localBB, cornerWidth, region);
 
             } else if (region[0] == 2) {    // X right
                 // corner boundary FTB (front to back diagonal boundary)
+                this.handleFTBDiagonalBoundary(cameraCoords, globoBB, localBB, cornerWidth, region);
 
             } else {                        // X middle
                 // simple axis aligned boundary
-                this.camera.matrix.elements[14] = globoBB[5] + 1;
-                if (this.userControls.velocity.z < 0) {
-                    this.userControls.velocity.z *= -0.9; // check how bouncy the object is.. and the user too :3
-                }
+                this.applyBoxBackCollisionResponse(this.camera, this.userControls, globoBB, cornerWidth);
             }
         }
 
@@ -308,8 +349,57 @@ export class MagnetSystem implements System {
             return [x_region, 1];
         }
     }
-    
-    private handleSphereCollision(distance: number, magnet: IMagnetServer) {
+
+    private handleFTBDiagonalBoundary(  cameraCoords:     number[], globoBB:     number[], 
+                                        localBoundingBox: number[], cornerWidth: number, region: number[]) {
+        // take into account the X-Z region to determine the line equation of the boundary
+        
+        // get the local coordinates of the camera, relative to the collidable object
+        const boundingBoxLocalCoordinates = [
+            cameraCoords[0] - globoBB[0],
+            cameraCoords[2] - globoBB[2]
+        ]
+
+        // get the width and depth from the object's bounding box (all its regions)
+        const dimensions = [
+            localBoundingBox[3] - localBoundingBox[0],
+            localBoundingBox[5] - localBoundingBox[2]
+        ]
+
+        console.log("FTB relative position to example magnet: ", boundingBoxLocalCoordinates);
+
+        // need to know which 2 edges (cornerWidth away from boundingbox), the camera is closest to
+        // knowing this, we can get the relative position of the camera inside of this region of the bounding box
+        
+        // Region parameter is the X-Z region of the bounding box,
+        // which technically contains this information
+
+    }
+
+    private handleBTFDiagonalBoundary(  cameraCoords:     number[], globoBB:     number[], 
+                                        localBoundingBox: number[], cornerWidth: number, region: number[]) {
+        // probably a lot of repeated code from the above function, once that's implemented
+        // get the local coordinates of the camera, relative to the collidable object
+        const boundingBoxLocalCoordinates = [
+            cameraCoords[0] - globoBB[0],
+            cameraCoords[2] - globoBB[2]
+        ]
+
+        // get the width and depth from the object's bounding box (all its regions)
+        const dimensions = [
+            localBoundingBox[3] - localBoundingBox[0],
+            localBoundingBox[5] - localBoundingBox[2]
+        ]
+
+        console.log("BTF relative position to example magnet: ", boundingBoxLocalCoordinates);
+    }
+
+    ////////////////////////////
+    //                        //
+    // Sphere collision model //
+    //                        //
+    ////////////////////////////
+    private handleSphereCollision(distance: number, magnet: MagnetServerState) {
         if (!this.camera) return;
 
         if (distance < magnet.radius) {
