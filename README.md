@@ -29,6 +29,12 @@ go build
 ../generator
 ./build.sh
 ```
+
+#### Installing example content (optional)
+```bash
+cd generator;
+./init-example.sh
+```
 #### Generating a webxr site from markdown:
 ```bash
 ### Usage
