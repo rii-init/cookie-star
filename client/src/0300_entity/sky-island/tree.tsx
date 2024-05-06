@@ -7,7 +7,7 @@ import { Editable } from "../../0700_life/system/editable.system";
 export interface TreeProps {
     children?: ReactNode
     position: [number, number, number],
-    rotation: [number, number, number]
+    rotation?: [number, number, number]
 }
 
 export const Tree = (props: TreeProps) => {
