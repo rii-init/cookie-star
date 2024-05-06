@@ -273,11 +273,6 @@ export class MagnetSystem implements System {
         const cornerWidth = 1;
         const region = this.getBoxCollisionRegion(cameraCoords, globoBB, cornerWidth);
 
-        // console.log("box collision region:", 
-            // ["left", "middle", "right"][region[0]], 
-            // ["back", "middle", "front"][region[1]]
-        // )
-
         // abort if not within vertical bounding box
         if (cameraCoords[1] < globoBB[1] - cornerWidth / 2 || 
             cameraCoords[1] > globoBB[4] + cornerWidth / 2) return;
@@ -383,30 +378,29 @@ export class MagnetSystem implements System {
                     boundingBoxLocalCoordinates[1]
                 ],
                     () => { // "above" (in front) of diagonal boundary
-                        console.log("left collision response");
+                        
                         this.applyBoxLeftCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     },
                     () => { // "below" (behind) (/ more negative of) diagonal boundary
-                        console.log("back collision response");
+                        
                         this.applyBoxBackCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     }
                 );
 
             } else if (region[0] == 2) {
                 // back right corner (need to get the horizontal offset)
-                const horizontalOffset = dimensions[0] // - cornerWidth; // subtract this from the x coordinate
+                const horizontalOffset = dimensions[0] // subtract this from the x coordinate
                 
-
                 this.handleFTBDiagonalBoundaryFromLocal([
                     boundingBoxLocalCoordinates[0] - horizontalOffset, 
                     boundingBoxLocalCoordinates[1]
                 ],
                     () => { // "above" (in front) of diagonal boundary
-                        console.log("right collision resp")
+                        
                         this.applyBoxRightCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     },
                     () => { // "below" (behind) (/ more negative of) diagonal boundary
-                        console.log("back collision resp")
+                        
                         this.applyBoxBackCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     }
                 );
@@ -415,28 +409,25 @@ export class MagnetSystem implements System {
         } else if (region[1] == 2) { // front
             if (       region[0] == 0) {
                 // front left corner (need to get depth offset)
-                
-                const depthOffset = dimensions[1] // - cornerWidth;      // subtract this from the z coordinate
+                const depthOffset = dimensions[1];  // subtract this from the z coordinate
 
-                
                 this.handleFTBDiagonalBoundaryFromLocal([
                         boundingBoxLocalCoordinates[0], 
                         boundingBoxLocalCoordinates[1] - depthOffset
                     ],
                     () => { // "above" (in front) of diagonal boundary
-                        console.log("front collision resp");
+                        
                         this.applyBoxFrontCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     },
                     () => { // "below" (behind) (/ more negative of) diagonal boundary
-                        console.log("left collision resp")
+                        
                         this.applyBoxLeftCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     }
                 );
             } else if (region[0] == 2) {
                 // front right corner (need to get horizontal and depth offset)
-                
-                const horizontalOffset = dimensions[0] // - cornerWidth; // subtract this from the x coordinate
-                const depthOffset      = dimensions[1] // - cornerWidth; // subtract this from the z coordinate
+                const horizontalOffset = dimensions[0] // subtract this from the x coordinate
+                const depthOffset      = dimensions[1] // subtract this from the z coordinate
             
                 
                 this.handleBTFDiagonalBoundaryFromLocal([
@@ -444,11 +435,11 @@ export class MagnetSystem implements System {
                     boundingBoxLocalCoordinates[1] - depthOffset
                     ],
                     () => { // "above" (in front) of diagonal boundary
-                        console.log("front collision resp");
+                        
                         this.applyBoxFrontCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     },
                     () => { // "below" (behind) (/ more negative of) diagonal boundary
-                        console.log("right collision resp")
+                        
                         this.applyBoxRightCollisionResponse(this.camera as Camera, this.userControls as UserControlsSystem, globoBB, cornerWidth);
                     }    
                 );
@@ -463,12 +454,10 @@ export class MagnetSystem implements System {
         // z = -x
 
         if (localCameraCoords[1] > -localCameraCoords[0]) {
-            spatialVisualInstrumentState.add(
-                new Vector3(...this.camera.matrix.elements.slice(12, 15) as [number, number, number]), 0xccff00);
+            
             aboveResponse();
         } else {
-            spatialVisualInstrumentState.add(
-                new Vector3(...this.camera.matrix.elements.slice(12, 15) as [number, number, number]), 0xffcc00);
+            
             belowResponse();
         }
     }
@@ -479,13 +468,9 @@ export class MagnetSystem implements System {
         // z = x
 
         if (localCameraCoords[1] > localCameraCoords[0]) {
-            spatialVisualInstrumentState.add(
-                new Vector3(...this.camera.matrix.elements.slice(12, 15) as [number, number, number]), 0x00ffcc);
             
             aboveResponse();
         } else {
-            spatialVisualInstrumentState.add(
-                new Vector3(...this.camera.matrix.elements.slice(12, 15) as [number, number, number]), 0x00ccff);
             
             belowResponse();
         }
