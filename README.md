@@ -1,4 +1,4 @@
-# ultr7a.com (blog+game)
+# 🌠 Cookie Star ✨🍪🐈
 WebXR game engine, blogging framework and static site generator.
 
 Create VR environments from markdown :)
