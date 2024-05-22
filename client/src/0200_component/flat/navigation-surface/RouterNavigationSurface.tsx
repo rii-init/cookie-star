@@ -47,14 +47,15 @@ export const RouterNavigationSurface = () => {
               previousXOffset += getTextWidth(page.title) + 0.25;
               
                 return  <LinkSurface location={page.path}  
-                                    position={[offset[0] +xOffset - groupXOffset, offset[1], offset[2]]} 
+                                     position={[offset[0] +xOffset - groupXOffset, offset[1], offset[2]]} 
                                           key={index}
                                       justify="left"
-                                linkPosition={[getTextWidth(page.title)/2, 0, -0.35]}>{ page.path != "/" 
-                                                  ? page.title
-                                                  : location=="/" 
-                                                      ? "./" 
-                                                      : "../" }
+                                 linkPosition={[getTextWidth(page.title)/2, 0, -0.35]}>
+                          { page.path != "/" 
+                              ? page.title
+                              : location=="/" 
+                                ? "./" 
+                                : "../" }
                         </LinkSurface>
             })
           }

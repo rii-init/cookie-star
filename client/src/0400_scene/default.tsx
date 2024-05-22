@@ -20,13 +20,12 @@ export const DefaultScene = () => {
 
     useEffect(() => {
         // page url changed, for example /, or /cv, or /articles/designing-fursuit 
-        SGS.loadContent(location).subscribe(() => {
+        SGS.loadContent(location).subscribe((content: string) => {
+            SGS.updateClient(content);
             setUpdate(update + 1);
         });
 
     }, [location]);
-
-    console.log("scene::default:: render/update: ", update, location);
 
     return (
         <group>

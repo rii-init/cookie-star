@@ -44,12 +44,15 @@ export const Cursor = (p: CursorProps) => {
 
     return (
         <group rotation={[0, 0, 0]} position={p.position}>
+            
             <WhiteSquare position={[Math.sin(angles[0])* 0.25 * activated, Math.cos(angles[0])* 0.25 * activated, 0]} 
-                            rotation={[0, 0, 0]} />
+                         rotation={[0, 0, 0]} />
+            
             <WhiteSquare position={[Math.sin(angles[1])* 0.25 * activated, Math.cos(angles[1])* 0.25 * activated, 0]} 
-                            rotation={[0, 0, angles[1]]} />
+                         rotation={[0, 0, angles[1]]} />
+            
             <WhiteSquare position={[Math.sin(angles[2])* 0.25 * activated, Math.cos(angles[2])* 0.25 * activated, 0]} 
-                            rotation={[0, 0, angles[2]]} />
+                         rotation={[0, 0, angles[2]]} />
         </group>    
     );
 }

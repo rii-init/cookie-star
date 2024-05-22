@@ -29,9 +29,9 @@ export class SGS {
         main:   (root: HTMLElement) => root.querySelectorAll("main"),
         config: (root: HTMLElement) => root.querySelectorAll("script#page-config"),
     }
-    public static loadContent(domainResource: string): Observable<void> {
+    public static loadContent(domainResource: string): Observable<string> {
 
-        return new Observable<void>((observer) => {
+        return new Observable<string>((observer) => {
             if (SGS.firstLoad) {
                 SGS.firstLoad = false; 
                 observer.next(); // it's magic ✅
@@ -42,8 +42,7 @@ export class SGS {
             xhr.open('GET', domainResource);
             xhr.onload = () => {
                 if (xhr.status === 200) {
-                    SGS.updateClient(xhr.response);
-                    observer.next();
+                    observer.next(xhr.response);
                     observer.complete();
                 } else {
                     observer.error(xhr.statusText);
@@ -52,6 +51,10 @@ export class SGS {
 
             xhr.send();
         })
+    }
+
+    public static appendContentUpdateClient(domainResource: string): void {
+    
     }
 
     /**

@@ -5,6 +5,7 @@ import { EditableSystem } from "./editable.system";
 import { EntityState } from "../../0300_entity";
 import { Group, Mesh } from "three";
 import { UserControlsSystem } from "./control/control";
+import { ContentSystem } from "./content.system";
 
 
 // Entity-facing interface for a component + system
@@ -38,6 +39,9 @@ export interface SystemsByComponent {
   MagnetClient?: MagnetSystem
   MagnetServer?: MagnetSystem
   Editable?:     EditableSystem
+
+  Content?:      ContentSystem
+
   UserControls?: UserControlsSystem
 
   boxGeometry?:      GeometrySystem

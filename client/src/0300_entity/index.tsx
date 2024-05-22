@@ -100,7 +100,10 @@ export class EntityState {
     }
 }
 
-
+/**
+ * 
+ * Base class for all visual objects
+ */
 export const Entity = (p: EntityProps) => {
     const meshRef = React.useRef<THREE.Mesh>(null);
 

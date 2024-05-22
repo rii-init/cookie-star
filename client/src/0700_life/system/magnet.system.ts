@@ -5,9 +5,6 @@ import { Universe } from "../../0000_concept/universe";
 import { EntityState } from "../../0300_entity";
 import { UserControlsSystem } from "./control/control";
 import { named } from "../../0000_concept/named";
-import { spatialVisualInstrumentState } from "../../0300_entity/instrument/spatial.visual.instrument";
-
-
 
 export const MagnetServer = named(function(){ return null}, "MagnetServer");
 export const MagnetClient = named(function(){ return null}, "MagnetClient");
