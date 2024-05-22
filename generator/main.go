@@ -15,7 +15,7 @@ func initConfig(config *model.Config) {
 	jsonFile, err := os.Open("config.json")
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		fmt.Println("If you'd like to change how pages and environments are rendered and organised, you can create a config.json file in the compiler directory.")
+		fmt.Println("If you'd like to change how pages and environments are rendered and organised, you can create a config.json file in the generator directory.")
 		fmt.Println(err)
 	}
 
@@ -75,7 +75,7 @@ func getTitle(config *model.Config, file_without_extension string) string {
 		titleElements = []string{file_without_extension}
 	}
 
-	if &config.CapitaliseSmolTitles != nil && config.CapitaliseSmolTitles {
+	if config.CapitaliseSmolTitles {
 		// You might wanna capitalise short abbreviations, automatically. This can be changed in compiler/config.json. I'm not going to tell you how to name things. You do you, unelss it comes down to sorting orders, and in that case, you'll need to prefix the sort order and a dot to the filename, like this: 0.index.md
 		if len(titleElements) == 1 && len(titleElements[0]) < config.CapitaliseSmolTitlesUnderNCharacters {
 			return strings.ToUpper(titleElements[0])
@@ -108,19 +108,27 @@ func main() {
 
 	initConfig(&config) // Let's gooOwO!!!
 
-	file_root := "../"
-	input_root := file_root + "content"
-	output_root := file_root + "surface"
-
 	mode := "create-sitemap"
 	// check command line params:
-	if len(os.Args) > 1 {
-		mode = os.Args[1]
-		fmt.Println("mode: " + mode)
-		fmt.Println("[rendering markdown]")
+	if len(os.Args) < 3 {
+
+		fmt.Println("Usage: generator --in <input_root> --out <output_root> [mode]")
+		os.Exit(1)
+
 	} else {
-		fmt.Println("[creating sitemap]")
+		mode = os.Args[1]
+
+		if mode == "render-pages" {
+
+			fmt.Println("[rendering pages]")
+		} else {
+
+			fmt.Println("[creating sitemap]")
+		}
 	}
+
+	input_root := os.Args[2]
+	output_root := os.Args[4]
 
 	siteMap := model.SiteMap{
 		Pages: make([]model.Page, 0),
@@ -178,7 +186,7 @@ func main() {
 	}
 
 	if mode == "render-pages" {
-		prepareIndexHTML(file_root, output_root)
+		prepareIndexHTML(input_root, output_root)
 		os.Exit(0)
 	}
 
