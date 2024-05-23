@@ -125,7 +125,7 @@ func main() {
 		os.Exit(1)
 
 	} else if len(os.Args) == 6 {
-		mode = os.Args[6]
+		mode = os.Args[5]
 		// validate mode {create-sitemap|render-pages}
 		if mode != "create-sitemap" && mode != "render-pages" {
 			fmt.Println("Invalid mode: " + mode)
