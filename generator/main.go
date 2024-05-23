@@ -94,6 +94,15 @@ func getTitle(config *model.Config, file_without_extension string) string {
 	return strings.Join(titleElements, " ")
 }
 
+func print_usage() {
+	fmt.Println(`Usage: generator --in <input_root> --out <output_root> [--mode {create-sitemap|render-pages}]
+
+Options:
+  --in <input_root>          Specify the input root directory (required)
+  --out <output_root>        Specify the output root directory (required)
+  --mode {create-sitemap|render-pages}  Specify the mode of operation (optional, default: render-pages)`)
+}
+
 func main() {
 
 	// print GENERATOR_MODE environment variable:
@@ -110,20 +119,18 @@ func main() {
 
 	mode := "create-sitemap"
 	// check command line params:
-	if len(os.Args) < 3 {
+	if len(os.Args) < 5 { // mode is optional,
 
-		fmt.Println("Usage: generator --in <input_root> --out <output_root> [mode]")
+		print_usage()
 		os.Exit(1)
 
-	} else {
-		mode = os.Args[1]
-
-		if mode == "render-pages" {
-
-			fmt.Println("[rendering pages]")
-		} else {
-
-			fmt.Println("[creating sitemap]")
+	} else if len(os.Args) == 6 {
+		mode = os.Args[6]
+		// validate mode {create-sitemap|render-pages}
+		if mode != "create-sitemap" && mode != "render-pages" {
+			fmt.Println("Invalid mode: " + mode)
+			print_usage()
+			os.Exit(1)
 		}
 	}
 
@@ -157,7 +164,7 @@ func main() {
 				fmt.Printf("File: %s", path)
 				elements := strings.Split(path, "/")
 
-				// check if the last element contains 3 dots,
+				// check if the last element contains 3 elements separated by a dot
 				// for example: 0.index.md  (first component is the sort order)
 
 				filename_components := strings.Split(elements[len(elements)-1], ".")

@@ -41,7 +41,7 @@ cd generator;
 cd ./client
 
 # render markdown, compile front-end, and create static files to serve:
-npm run generate
+npm run generate --in ../path/to/content --out ../path/to/web-server/html
 
 # dev mode
 npm start
