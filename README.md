@@ -4,7 +4,8 @@ WebXR game engine, blogging framework and static site generator.
 Create VR environments from markdown :)
 
 ### Getting Started
-+ Your markdown files will be read from the `./content` folder.
++ Your markdown files will be read from the directory specified by "--in"
+    + when you run `npm run generate --in ../somewhere/relative/to/cookie-star --out ../dist`
 + To set a sort order, prefix each file with a number, like this `1.blog-page.md` `2.contact-page.md` etc
 ```
 # Hello XR
@@ -29,11 +30,6 @@ go build
 ../generator
 ./build.sh
 ```
-
-#### Installing example content (optional)
-```bash
-cd generator;
-./init-example.sh
 ```
 #### Generating a webxr site from markdown:
 ```bash
