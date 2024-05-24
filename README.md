@@ -3,12 +3,15 @@ WebXR game engine, blogging framework and static site generator.
 
 Create VR environments from markdown :)
 
-### Getting Started
+### Getting Started:
++ To jump right into the sugary abyss, see [cookie-starter example](https://github.com/ultr7A/cookie-starter)
+
+### Getting Artisinal (Advanced): 
 + Your markdown files will be read from the directory specified by "--in"
     + when you run `npm run generate --in ../somewhere/relative/to/cookie-star --out ../dist`
 + To set a sort order, prefix each file with a number, like this `1.blog-page.md` `2.contact-page.md` etc
-```
-# Hello XR
+
+#### Hello markdown metaverse
 <Sequence axis="x">
 + foo
     + bar

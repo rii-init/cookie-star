@@ -134,8 +134,8 @@ func main() {
 		}
 	}
 
-	input_root := os.Args[2]
-	output_root := os.Args[4]
+	input_root := "../" + os.Args[2]
+	output_root := "../" + os.Args[4]
 
 	siteMap := model.SiteMap{
 		Pages: make([]model.Page, 0),
