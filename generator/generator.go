@@ -16,14 +16,14 @@ func RenderPage(input_root string, output_root string, path string, elements []s
 	// create directory if it doesn't exist
 	os.MkdirAll(output_path, os.ModePerm)
 
-	command := "node ./ts/index.js render-page '" + path + "' '" + output_path + "'"
-	resp, err := util.RunShellCommand(command)
+	fmt.Println("Rendering page: ", "input_root", input_root, "output_root", output_root, path, elements)
+
+	command := "node ./ts/index.js render-page '" + input_root + "' '" + path + "' '" + output_path + "'"
+	err := util.RunShellCommand(command)
 	if err != nil {
 		fmt.Printf("Error executing the command: %v\n", err)
 		os.Exit(1)
 	}
-
-	fmt.Println(resp)
 }
 
 func prepareIndexHTML(input_root string, output_root string) {

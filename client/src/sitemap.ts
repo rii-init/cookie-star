@@ -1,57 +1,39 @@
 export const siteMap = {
   "pages": [
     {
+      "path": "/first",
+      "title": "First"
+    },
+    {
+      "path": "/second",
+      "title": "Second"
+    },
+    {
+      "path": "/third",
+      "title": "Third"
+    },
+    {
       "path": "/",
       "title": "./"
-    },
-    {
-      "path": "/cv",
-      "title": "CV"
-    },
-    {
-      "path": "/tech",
-      "title": "Tech"
-    },
-    {
-      "path": "/chat",
-      "title": "Chat"
     }
   ] as {title: string, path: string}[],
   "lists": {
     "articles": [
       {
-        "path": "/designing-fursuit",
-        "title": "Designing Fursuit"
-      },
-      {
-        "path": "/headings",
-        "title": "Headings"
-      },
-      {
-        "path": "/hybrid_ssg_spa",
-        "title": "Hybrid Ssg Spa"
+        "path": "/cheez",
+        "title": "Cheez"
       },
       {
         "path": "",
         "title": "Articles"
       },
       {
-        "path": "/test-list-2",
-        "title": "Test List 2"
+        "path": "/meow.",
+        "title": "Meow."
       },
       {
-        "path": "/test-list",
-        "title": "Test List"
-      },
-      {
-        "path": "/test",
-        "title": "Test"
-      }
-    ] as {title: string, path: string}[],
-    "resume": [
-      {
-        "path": "",
-        "title": "Resume"
+        "path": "/uwuni",
+        "title": "Uwuni"
       }
     ]
   }

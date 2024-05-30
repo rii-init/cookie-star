@@ -1,12 +1,20 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+
+// get output path from environment variable
+const DIST_PATH = 
+        path.resolve(__dirname,
+            process.env.DIST_PATH 
+                ? "../"+process.env.DIST_PATH
+                : '../dist'
+        ); 
 
 module.exports = {
     entry: './src/index.tsx',
    
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: DIST_PATH,
         filename: 'bundle.js',
         publicPath: '/dist/', // This is important. It tells webpack-dev-server to serve bundle.js from memory at this path
     },
@@ -36,7 +44,7 @@ module.exports = {
 
     devServer: {
         static: {
-            directory: path.join(__dirname, '../surface'), // This tells webpack-dev-server to serve static files from '../surface' directory
+            directory: DIST_PATH, // This tells webpack-dev-server to serve static files from '../surface' directory
         },
         devMiddleware: {
             publicPath: '/dist/', // This should match the publicPath in output configuration

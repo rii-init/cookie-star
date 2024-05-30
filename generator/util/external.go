@@ -1,12 +1,19 @@
 package util
 
-import "os/exec"
+import (
+	"os"
+	"os/exec"
+)
 
-func RunShellCommand(command string) (string, error) {
+func RunShellCommand(command string) error {
 	cmd := exec.Command("sh", "-c", command)
-	output, err := cmd.CombinedOutput()
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
 	if err != nil {
-		return "", err
+		return err
 	}
-	return string(output), nil
+	return nil
 }

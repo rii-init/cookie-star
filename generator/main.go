@@ -124,8 +124,9 @@ func main() {
 		print_usage()
 		os.Exit(1)
 
-	} else if len(os.Args) == 6 {
-		mode = os.Args[5]
+	} else if len(os.Args) == 7 {
+		mode = os.Args[6]
+		fmt.Println("Args[6] mode = ", mode)
 		// validate mode {create-sitemap|render-pages}
 		if mode != "create-sitemap" && mode != "render-pages" {
 			fmt.Println("Invalid mode: " + mode)
@@ -148,6 +149,12 @@ func main() {
 		os.Exit(1)
 	}
 
+	fmt.Println("mode = ", mode)
+	fmt.Println("input_root = ", input_root)
+
+	// input_root number of elements:
+	input_root_elements := len(strings.Split(input_root, "/"))
+
 	err := filepath.WalkDir(input_root, func(path string, info os.DirEntry, err error) error {
 		// Inijsonialize an empty dynamic list of strings
 
@@ -161,7 +168,7 @@ func main() {
 			// only process markdown files that are not hidden
 			if path[len(input_root)+1] != byte('.') && filepath.Ext(path) == ".md" {
 
-				fmt.Printf("File: %s", path)
+				fmt.Println("a File: ", path)
 				elements := strings.Split(path, "/")
 
 				// check if the last element contains 3 elements separated by a dot
@@ -175,7 +182,7 @@ func main() {
 				}
 
 				if mode == "create-sitemap" {
-					CreateSitemap(&config, elements, &siteMap)
+					CreateSitemap(&config, input_root_elements, elements, &siteMap)
 				}
 
 				if mode == "render-pages" {

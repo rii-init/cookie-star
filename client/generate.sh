@@ -60,7 +60,7 @@ npm run build
 
 # Move back to generator directory to render pages
 cd ../generator
-./generator render-pages --in "$INPUT_PATH" --out "$OUTPUT_PATH"
+./generator --in "$INPUT_PATH" --out "$OUTPUT_PATH" --mode render-pages
 
 # Move back to client directory
 cd ../client

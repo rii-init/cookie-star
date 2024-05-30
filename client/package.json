@@ -23,8 +23,8 @@
     "web-vitals": "^2.1.4",
     "wouter": "^2.9.0"
   },
-  "scripts": {
-    "start": "DEVELOPMENT_MODE=true ./generate.sh; webpack serve --open --config webpack.conf.js --mode development",
+  "scripts": { 
+    "start": "./npm-start.sh",
     "build": "react-scripts build",
     "generate": "./generate.sh",
     "render": "./re-render.sh",

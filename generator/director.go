@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	model "generator/model"
 )
 
+// Makes index render as "/" or as "../"
 func renameIndex(config *model.Config, pageName string, listName *string) (string, string) {
 	if pageName == "index" {
 
@@ -17,11 +19,15 @@ func renameIndex(config *model.Config, pageName string, listName *string) (strin
 	}
 }
 
-func CreateSitemap(config *model.Config, elements []string, siteMap *model.SiteMap) {
+func CreateSitemap(config *model.Config, input_root_elements_count int, elements []string, siteMap *model.SiteMap) {
 
-	if len(elements) == 3 {
+	fmt.Println("Creating sitemap for", elements)
 
-		file_without_extension := elements[2][0 : len(elements[2])-3]
+	if len(elements)-input_root_elements_count == 1 {
+
+		file_name := elements[input_root_elements_count]
+		// assume file extension like .md is always 3 characters:
+		file_without_extension := file_name[0 : len(file_name)-3]
 
 		path, title := renameIndex(config, file_without_extension, nil)
 
@@ -29,17 +35,21 @@ func CreateSitemap(config *model.Config, elements []string, siteMap *model.SiteM
 			Path:  path,
 			Title: title,
 		})
-	} else if len(elements) == 4 {
+	} else if len(elements)-input_root_elements_count == 2 {
 
-		if _, ok := siteMap.Lists[elements[2]]; !ok {
-			siteMap.Lists[elements[2]] = make([]model.Page, 0)
+		list_name := elements[input_root_elements_count]
+
+		if _, ok := siteMap.Lists[list_name]; !ok {
+			siteMap.Lists[list_name] = make([]model.Page, 0)
 		}
 
-		file_without_extension := elements[3][0 : len(elements[3])-3]
+		file_name := elements[input_root_elements_count+1]
+		// assume file extension like .md is always 3 characters:
+		file_without_extension := file_name[0 : len(elements[3])-3]
 
-		contentName, title := renameIndex(config, file_without_extension, &elements[2])
+		contentName, title := renameIndex(config, file_without_extension, &list_name)
 
-		siteMap.Lists[elements[2]] = append(siteMap.Lists[elements[2]], model.Page{
+		siteMap.Lists[list_name] = append(siteMap.Lists[list_name], model.Page{
 			Path:  contentName,
 			Title: title,
 		})

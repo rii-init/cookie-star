@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { interpolateAttributes } from './interpolate-attributes';
 
-export function renderPage (inputPath: string, outputPath: string): void {
+export function renderPage (inputRoot: string, inputPath: string, outputPath: string): void {
     // init markdown-it:
     
     var markdownItAttrs = require('markdown-it-attrs');
@@ -17,15 +17,17 @@ export function renderPage (inputPath: string, outputPath: string): void {
     const page = fs.readFileSync(inputPath, 'utf8');
     //  🐣
     let html = md.render(page);
-
+    console.log("are the html okay? ", html);
     //  🐥
         html = interpolateAttributes(html);
 
 
-    // read ../../content/head.html into a string:
-    const headContent = fs.readFileSync('../content/head.html', 'utf8');
+    // read inputRoot+"/head.html" into a string:
+    const headContent = fs.readFileSync(inputRoot+'/head.html', 'utf8');
+    
     // get names of static assets from asset-manifest.json:
-    const assetManifest = JSON.parse(fs.readFileSync('../client/build/asset-manifest.json', 'utf8')).files;
+    console.log("reading asset-manifest.json from", process.cwd() + '/../client/build/asset-manifest.json')
+    const assetManifest = JSON.parse(fs.readFileSync(process.cwd() + '/../client/build/asset-manifest.json', 'utf8')).files;
 
     // get page_name from inputPath:
     const page_name_components = inputPath.split("/").pop()?.split(".") ?? [];
@@ -36,9 +38,9 @@ export function renderPage (inputPath: string, outputPath: string): void {
 
     let config_js_object = "";
 
-    if (fs.existsSync('../content/'+page_name_components.join(".")+".json")) {
+    if (fs.existsSync(inputRoot+'/'+page_name_components.join(".")+".json")) {
         // read `${sort_order}.${page_name}.json` into a string:
-        config_js_object = fs.readFileSync('../content/'+page_name_components.join(".")+".json", 'utf8');
+        config_js_object = fs.readFileSync(inputRoot+'/'+page_name_components.join(".")+".json", 'utf8');
     }
 
     html = "<!DOCTYPE html>\n" +
@@ -60,6 +62,11 @@ export function renderPage (inputPath: string, outputPath: string): void {
         "<script id=\"page-config\">/*" + config_js_object + "*/</script>\n" +
         "</body>\n" +
         "</html>";
+
+    // print directory script is running from:
+    console.log("Current directory: " + __dirname);
+    console.log("index.html written to: " + outputPath+"/index.html");
+    console.log(" ");    
 
     // write the output:
     fs.writeFileSync(outputPath+"/index.html", html, 'utf8');
