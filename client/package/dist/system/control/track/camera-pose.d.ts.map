@@ -1,0 +1,1 @@
+{"version":3,"file":"camera-pose.d.ts","sourceRoot":"","sources":["../../../../src/system/control/track/camera-pose.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,OAAO,CAAC;AAEhC,MAAM,WAAW,UAAU,CAAC,CAAC,GAAG,OAAO;IACnC,QAAQ,EAAE,CAAC,CAAC;IACZ,MAAM,EAAI,CAAC,CAAC;CACf"}

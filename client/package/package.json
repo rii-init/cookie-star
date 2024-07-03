@@ -1,0 +1,50 @@
+{
+  "name": "cookie-star",
+  "version": "0.1.0",
+  "description": "ecs components and systems for three / react-three/fiber",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    "./system/*": "./dist/system/*",
+    "./component/*": "./dist/component/*",
+    "./entity/*": "./dist/entity/*",
+    "./etc/*": "./dist/etc/*"
+  },
+  "scripts": {
+    "build": "tsc --jsx react",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ultr7A/cookie-star.git"
+  },
+  "keywords": [
+    "react",
+    "three",
+    "ecs",
+    "game",
+    "engine",
+    "component",
+    "system"
+  ],
+  "author": "Jaidyn Evans <ultr7a@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ultr7A/cookie-star/issues"
+  },
+  "homepage": "https://github.com/ultr7A/cookie-star#readme",
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "rxjs": "^7.8.1",
+    "three": "^0.148.0",
+    "@react-three/xr": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/three": "^0.148.0",
+    "@react-three/xr": "^5.1.2",
+    "react": "^18.2.0",
+    "three": "^0.148.0",
+    "typescript": "^4.5.0"
+  }
+}

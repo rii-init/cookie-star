@@ -1,0 +1,1 @@
+{"version":3,"file":"gamepad.control.d.ts","sourceRoot":"","sources":["../../../src/system/control/gamepad.control.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,WAAW,CAAC;AAE/C,qBAAa,cAAc;IAEhB,QAAQ,EAAE,OAAO,EAAE,CAAM;IAEhC,OAAO,CAAC,QAAQ,CAAqB;gBAExB,WAAW,EAAE,kBAAkB;IAK5C,OAAO,CAAC,IAAI;IAKZ,OAAO,CAAC,oBAAoB;IAQ5B,OAAO,CAAC,uBAAuB;CASlC"}

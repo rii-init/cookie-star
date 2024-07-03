@@ -1,0 +1,1 @@
+{"version":3,"file":"touch.scroll.control.d.ts","sourceRoot":"","sources":["../../../../src/system/control/scroll/touch.scroll.control.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,kBAAkB,CAAC;AAEhD,qBAAa,kBAAkB;IAEvB,OAAO,CAAC,OAAO;gBAAP,OAAO,EAAE,YAAY;IAK1B,gBAAgB,CAAC,aAAa,EAAE,CAAC,KAAK,EAAE,MAAM,KAAK,IAAI;CAKjE"}

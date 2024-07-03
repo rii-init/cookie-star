@@ -1,5 +1,5 @@
 {
-  "name": "ultr7a.com",
+  "name": "cookie-star-stack",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,8 @@
     "three": "^0.148.0",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4",
-    "wouter": "^2.9.0"
+    "wouter": "^2.9.0",
+    "cookie-star": "*"
   },
   "scripts": {
     "start": "DEVELOPMENT_MODE=true ./generate.sh; webpack serve --open --config webpack.conf.js --mode development",

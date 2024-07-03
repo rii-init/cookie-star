@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "target": "es6",                     // Target ECMAScript version
+      "module": "esnext",                  // Use 'esnext' for ESM output
+      "jsx": "react",
+      
+      "lib": ["es6", "dom"],               // List of library files to include
+      
+      "declaration": true,                 // Generate declaration files (.d.ts)
+      "declarationMap": true,              // Generate sourcemaps for .d.ts files
+      "sourceMap": true,                   // Generate source maps
+      
+      "outDir": "dist",                    // Output directory for compiled files
+      
+      "esModuleInterop": true,             // Enable interoperability between ESM and CommonJS
+      "moduleResolution": "node",          // Use Node.js style module resolution
+      
+      "rootDir": "src",                    // Root directory of input files
+      
+      "strict": true,                      // Enable strict type-checking
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,                // Skip type checking of declaration files
+      "isolatedModules": true              // Ensure each file is treated as a separate module
+    },
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+}

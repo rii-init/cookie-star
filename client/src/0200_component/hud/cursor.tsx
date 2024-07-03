@@ -29,7 +29,7 @@ export const Cursor = (p: CursorProps) => {
 
     useEffect(() => {
         const subscription = Universe.state.cursor.$activation
-                                                  .subscribe((v) => {
+                                                  .subscribe((v: number) => {
             setActivated(v);
         });
 
