@@ -1,4 +1,4 @@
-# 🌠 Cookie Star ✨🍪🐈
+# 🌠 ultr7a (legacy / deprecated) ✨🍪🐈
 WebXR game engine, blogging framework and static site generator.
 
 Create VR environments from markdown :)
